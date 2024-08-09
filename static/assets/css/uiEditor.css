@@ -1,0 +1,92 @@
+/*!===========================================================================
+ * fonts.less
+ * ===========================================================================!*/
+@font-face {
+    font-family: "SF UI Text";
+    font-style: normal;
+    font-weight: normal;
+    font-display: swap;
+    src: local("SF UI Text"),
+    url("../fonts/sf-font/sfuitext-regular.woff2") format("woff2"),
+    url("../fonts/sf-font/sfuitext-regular.woff") format("woff");
+}
+
+@font-face {
+    font-family: "SF UI Text";
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: local("SF UI Text"),
+    url("../fonts/sf-font/sfuitext-medium.woff2") format("woff2"),
+    url("../fonts/sf-font/sfuitext-medium.woff") format("woff");
+}
+
+@font-face {
+    font-family: "SF UI Text";
+    font-style: normal;
+    font-weight: bold;
+    font-display: swap;
+    src: local("SF UI Text"),
+    url("../fonts/sf-font/sfuitext-bold.woff2") format("woff2"),
+    url("../fonts/sf-font/sfuitext-bold.woff") format("woff");
+}
+
+@font-face {
+    font-family: "SF UI Text";
+    font-style: italic;
+    font-weight: normal;
+    font-display: swap;
+    src: local("SF UI Text"),
+    url("../fonts/sf-font/sfuitext-regularitalic.woff2") format("woff2"),
+    url("../fonts/sf-font/sfuitext-regularitalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "SF UI Text";
+    font-style: italic;
+    font-weight: 500;
+    font-display: swap;
+    src: local("SF UI Text"),
+    url("../fonts/sf-font/sfuitext-mediumitalic.woff2") format("woff2"),
+    url("../fonts/sf-font/sfuitext-mediumitalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "SF UI Text";
+    font-style: italic;
+    font-weight: bold;
+    font-display: swap;
+    src: local("SF UI Text"),
+    url("../fonts/sf-font/sfuitext-bolditalic.woff2") format("woff2"),
+    url("../fonts/sf-font/sfuitext-bolditalic.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Google Sans";
+    font-style: normal;
+    font-weight: normal;
+    font-display: swap;
+    src: local("Google Sans"),
+    url("../fonts/google-sans/GoogleSans-Regular.woff2") format('woff2'),
+    url("../fonts/google-sans/GoogleSans-Regular.woff") format('woff');
+}
+
+@font-face {
+    font-family: "Google Sans";
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: local("Google Sans"),
+    url("../fonts/google-sans/GoogleSans-Medium.woff") format('woff'),
+    url("../fonts/google-sans/GoogleSans-Medium.woff2") format('woff2');
+}
+
+@font-face {
+    font-family: "Google Sans";
+    font-style: normal;
+    font-weight: bold;
+    font-display: swap;
+    src: local("Google Sans"),
+    url("../fonts/google-sans/GoogleSans-Bold.woff") format('woff'),
+    url("../fonts/google-sans/GoogleSans-Bold.woff2") format('woff2');
+}
