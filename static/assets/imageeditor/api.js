@@ -1,6 +1,7 @@
 import {AssetsUtils} from '../../app/tools/AssetsUtils';
 import {NotificationUtils} from "../../app/store/facades/notifications/notification-utils";
 import {message} from '@services/localization/Message';
+import copy from 'fast-copy';
 
 export const ESDEV_POPUP_PIXIE_EDITOR = 'esdev-popup-pixie-editor';
 
@@ -64,6 +65,19 @@ export function openEditor(imgId, imgSrc, config, saveCallback, closeCallback, o
 
     const shadowRoot = document.querySelector('ui-editor').shadowRoot;
     shadowRoot.querySelector(`.${ESDEV_POPUP_PIXIE_EDITOR}`).style.display = 'none';
+
+    const emotIconsConfig = config?.imageEditor?.stickers?.emotIcons;
+    if (emotIconsConfig) {
+        const stickers = copy(EditorPixie.prototype.getDefaultConfig("tools.stickers"));
+        const emotIcons = stickers.items.find(s => s.name === 'emoticons');
+        if (emotIconsConfig.exclude && emotIconsConfig.exclude.length) {
+            emotIcons.list = emotIcons.list.filter(icon => !emotIconsConfig.exclude.includes(icon));
+        }
+        if (emotIconsConfig.include && emotIconsConfig.include.length) {
+            emotIcons.list = emotIcons.list.filter(icon => emotIconsConfig.include.includes(icon));
+        }
+        pixieEditor.tools = {stickers};
+    }
 
     // Disable stickers if config.imageEditor.stickersEnable is false
     if (config?.imageEditor?.stickersEnable === false) {
