@@ -1,5 +1,5 @@
 import {AssetsUtils} from '../../app/tools/AssetsUtils';
-import {NotificationUtils} from "../../app/store/facades/notifications/notification-utils";
+import {NotificationUtils} from '../../app/store/facades/notifications/notification-utils';
 import {message} from '@services/localization/Message';
 import copy from 'fast-copy';
 
@@ -57,7 +57,7 @@ export function openEditor(imgId, imgSrc, config, saveCallback, closeCallback, o
         closeCallback && closeCallback();
     }.bind(this));
     pixieEditor.setConfig('onImageLoadError', function () {
-        NotificationUtils.showError(message.IMAGE_EDIT_LOAD_ERROR);
+        NotificationUtils.showError({value: message.IMAGE_EDIT_LOAD_ERROR});
     }.bind(this));
 
     const fileFormat = imgSrc && (imgSrc.endsWith('.jpg') || imgSrc.endsWith('.jpeg')) ? 'jpeg' : 'png';

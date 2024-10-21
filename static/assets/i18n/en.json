@@ -103,8 +103,11 @@
 	"Labels Letter Case": "Labels Letter Case",
 	"Digital Labels": "Digital Labels",
 	"Timer Background Color": "Timer Background Color",
+	"Separator Font Color": "Separator Font Color",
+	"Separator Font": "Separator Font",
 	"Labels Font": "Labels Font",
 	"Labels Font Color": "Labels Font Color",
+	"Labels Language": "Labels Language",
 	"Labels Color Days": "Labels Color Days",
 	"Labels Color Hours": "Labels Color Hours",
 	"Labels Color Minutes": "Labels Color Minutes",
@@ -647,9 +650,12 @@
 	"on Pexels.com and Pixabay.com": "on Pexels.com and Pixabay.com",
 	"place, holiday, mood...": "Place, holiday, mood...",
 	"Search for stock images by photos": "Search for stock images by photos",
+	"GIFs": "GIFs",
 	"on IconFinder.com": "on IconFinder.com",
+	"on giphy.com": "on giphy.com",
 	"search in English only": "search in English only",
 	"Search for stock images by icons": "Search for stock images by icons",
+	"Search gifs": "Search gifs",
 	"It is not possible to upload more than 50 files simultaneously. If possible, please try to complete this over a few iterations.": "It is not possible to upload more than 50 files simultaneously. If possible, please try to complete this over a few iterations.",
 	"Line Height": "Line Height",
 	"Decrease Line Height by {step}": "Decrease Line Height by {step}",
@@ -1648,5 +1654,6 @@
 	"Sending report": "Sending report",
 	"Report has been sent": "Report has been sent",
 	"Personalization": "Personalization",
-	"Search by name or value": "Search by name or value"
+	"Search by name or value": "Search by name or value",
+	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes."
 }

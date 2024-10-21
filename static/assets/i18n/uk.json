@@ -103,8 +103,11 @@
 	"Labels Letter Case": "Регістр літер міток",
 	"Digital Labels": "Цифрові мітки",
 	"Timer Background Color": "Колір фону таймера",
+	"Separator Font Color": "Колір розділювача",
+	"Separator Font": "Шрифт розділювача",
 	"Labels Font": "Шрифт міток",
 	"Labels Font Color": "Колір шрифту міток",
+	"Labels Language": "Мова підписів",
 	"Labels Color Days": "Колір міток днів",
 	"Labels Color Hours": "Колір міток годин",
 	"Labels Color Minutes": "Колір міток хвилин",
@@ -647,9 +650,12 @@
 	"on Pexels.com and Pixabay.com": "на Pexels.com та Pixabay.com",
 	"place, holiday, mood...": "Місце, свято, настрій...",
 	"Search for stock images by photos": "Пошук стокових зображень за фотографіями",
+	"GIFs": "Гіфки",
 	"on IconFinder.com": "на IconFinder.com",
+	"on giphy.com": "на giphy.com",
 	"search in English only": "пошук тільки англійською",
 	"Search for stock images by icons": "Пошук стокових зображень за іконками",
+	"Search gifs": "Шукати гіфки",
 	"It is not possible to upload more than 50 files simultaneously. If possible, please try to complete this over a few iterations.": "Не можна завантажувати більше 50 файлів одночасно.Якщо можливо, спробуйте виконати це за дікілька ітерацій.",
 	"Line Height": "Інтервал",
 	"Decrease Line Height by {step}": "Зменшити інтервал на {step}",
@@ -1648,5 +1654,6 @@
 	"Sending report": "Відправляємо звіт",
 	"Report has been sent": "Звіт відправлено",
 	"Personalization": "Персоналізація",
-	"Search by name or value": "Пошук за назвою чи значенням"
+	"Search by name or value": "Пошук за назвою чи значенням",
+	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "Виявлено помилку в коді листа. Виправте помилки і натисніть \"Застосувати код\", щоб зберегти зміни."
 }
