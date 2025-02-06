@@ -1262,6 +1262,7 @@
 	"Connect Public Feed": "Povezava z javnim virom",
 	"You will be redirected to Settings to create a new connection": "Za ustvarjanje nove povezave boste preusmerjeni na Nastavitve",
 	"Get": "Pridobi",
+	"Get Data": "Get Data",
 	"Tooltip Text": "Besedilo opisa orodja",
 	"Source Path": "Pot vira",
 	"URL": "URL",
@@ -1392,6 +1393,7 @@
 	"history_module_updated": "Modul je bil posodobljen",
 	"history_module_restored": "Modul je bil obnovljen",
 	"history_module_deleted": "Modul je bil izbrisan",
+	"history_module_changed": "history_module_changed",
 	"history_video_play_button_attached": "Priložen je bil gumb za predvajanje",
 	"history_code_editor_css_update": "Urejevalnik kode. Koda CSS je bila posodobljena",
 	"history_code_editor_html_update": "Urejevalnik kode. Koda HTML je bila posodobljena",
@@ -1703,5 +1705,10 @@
 	"Report has been sent": "Poročilo poslano",
 	"Personalization": "Prilagajanje",
 	"Search by name or value": "Iskanje po imenu ali vrednosti",
-	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "V kodi e-pošte je bila zaznana napaka. Odpravite težave in pritisnite »Uporabi kodo«, da shranite spremembe."
+	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "V kodi e-pošte je bila zaznana napaka. Odpravite težave in pritisnite »Uporabi kodo«, da shranite spremembe.",
+	"Slide {slideIdx}": "Slide {slideIdx}",
+	"Autoplay": "Autoplay",
+	"Delay Time, sec": "Delay Time, sec",
+	"Loop": "Loop",
+	"General Link": "General Link"
 }

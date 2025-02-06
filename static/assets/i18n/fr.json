@@ -1262,6 +1262,7 @@
 	"Connect Public Feed": "Connexion à un flux public",
 	"You will be redirected to Settings to create a new connection": "Vous allez être redirigé vers les Paramètres pour créer une nouvelle connexion",
 	"Get": "Obtenir",
+	"Get Data": "Get Data",
 	"Tooltip Text": "Texte de l'infobulle",
 	"Source Path": "Chemin source",
 	"URL": "URL",
@@ -1392,6 +1393,7 @@
 	"history_module_updated": "Le module a été mis à jour",
 	"history_module_restored": "Le module a été restauré",
 	"history_module_deleted": "Le module a été supprimé",
+	"history_module_changed": "history_module_changed",
 	"history_video_play_button_attached": "Le bouton de lecture de la vidéo a été joint",
 	"history_code_editor_css_update": "Éditeur de code. Le code CSS a été mis à jour",
 	"history_code_editor_html_update": "Éditeur de code. Le code HTML a été mis à jour",
@@ -1703,5 +1705,10 @@
 	"Report has been sent": "Le signalement a été envoyé",
 	"Personalization": "Personnalisation",
 	"Search by name or value": "Rechercher par nom ou valeur",
-	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "Erreur détectée dans le code de l'e-mail. Corrigez les problèmes et appuyez sur « Appliquer le code » pour enregistrer les modifications."
+	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "Erreur détectée dans le code de l'e-mail. Corrigez les problèmes et appuyez sur « Appliquer le code » pour enregistrer les modifications.",
+	"Slide {slideIdx}": "Slide {slideIdx}",
+	"Autoplay": "Autoplay",
+	"Delay Time, sec": "Delay Time, sec",
+	"Loop": "Loop",
+	"General Link": "General Link"
 }

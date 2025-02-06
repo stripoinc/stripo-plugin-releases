@@ -1262,6 +1262,7 @@
 	"Connect Public Feed": "Openbare feed koppelen",
 	"You will be redirected to Settings to create a new connection": "U wordt doorgestuurd naar Instellingen om een nieuwe koppeling te maken",
 	"Get": "Ophalen",
+	"Get Data": "Get Data",
 	"Tooltip Text": "Tooltiptekst",
 	"Source Path": "Bronpad",
 	"URL": "URL",
@@ -1392,6 +1393,7 @@
 	"history_module_updated": "Module is bijgewerkt",
 	"history_module_restored": "Module is hersteld",
 	"history_module_deleted": "Module is verwijderd",
+	"history_module_changed": "history_module_changed",
 	"history_video_play_button_attached": "Knop voor het afspelen van video is toegevoegd",
 	"history_code_editor_css_update": "Code-editor. De CSS-code is bijgewerkt.",
 	"history_code_editor_html_update": "Code-editor. De HTML-code is bijgewerkt.",
@@ -1703,5 +1705,10 @@
 	"Report has been sent": "Rapport is verzonden",
 	"Personalization": "Personalisatie",
 	"Search by name or value": "Zoek op naam of waarde",
-	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "Fout gedetecteerd in de e-mailcode. Herstel de fouten op en druk op \"Code toepassen\" om de wijzigingen op te slaan."
+	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "Fout gedetecteerd in de e-mailcode. Herstel de fouten op en druk op \"Code toepassen\" om de wijzigingen op te slaan.",
+	"Slide {slideIdx}": "Slide {slideIdx}",
+	"Autoplay": "Autoplay",
+	"Delay Time, sec": "Delay Time, sec",
+	"Loop": "Loop",
+	"General Link": "General Link"
 }

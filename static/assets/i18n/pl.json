@@ -1262,6 +1262,7 @@
 	"Connect Public Feed": "Podłącz kanał publiczny",
 	"You will be redirected to Settings to create a new connection": "Aby utworzyć nowe połączenie, nastąpi przekierowanie do Ustawień",
 	"Get": "Uzyskaj",
+	"Get Data": "Get Data",
 	"Tooltip Text": "Tekst podpowiedzi",
 	"Source Path": "Ścieżka źródłowa",
 	"URL": "URL",
@@ -1392,6 +1393,7 @@
 	"history_module_updated": "Zaktualizowano moduł",
 	"history_module_restored": "Przywrócono moduł",
 	"history_module_deleted": "Usunięto moduł",
+	"history_module_changed": "history_module_changed",
 	"history_video_play_button_attached": "Dołączono przycisk odtwarzania wideo",
 	"history_code_editor_css_update": "Edytor kodu. Zaktualizowano kod CSS",
 	"history_code_editor_html_update": "Edytor kodu. Zaktualizowano kod HTML",
@@ -1703,5 +1705,10 @@
 	"Report has been sent": "Wysłano raport",
 	"Personalization": "Personalizacja",
 	"Search by name or value": "Szukaj wg nazwy lub wartości",
-	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "Wykryto błąd w kodzie wiadomości e-mail. Aby zapisać zmiany, napraw problemy i naciśnij „Zastosuj kod”."
+	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "Wykryto błąd w kodzie wiadomości e-mail. Aby zapisać zmiany, napraw problemy i naciśnij „Zastosuj kod”.",
+	"Slide {slideIdx}": "Slide {slideIdx}",
+	"Autoplay": "Autoplay",
+	"Delay Time, sec": "Delay Time, sec",
+	"Loop": "Loop",
+	"General Link": "General Link"
 }

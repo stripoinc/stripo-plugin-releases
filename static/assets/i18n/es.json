@@ -1262,6 +1262,7 @@
 	"Connect Public Feed": "Conectar actividad pública",
 	"You will be redirected to Settings to create a new connection": "Se le redirigirá a Ajustes para crear una nueva conexión",
 	"Get": "Obtener",
+	"Get Data": "Get Data",
 	"Tooltip Text": "Texto de la descripción emergente",
 	"Source Path": "Ruta de fuente",
 	"URL": "URL",
@@ -1392,6 +1393,7 @@
 	"history_module_updated": "Se ha actualizado el módulo",
 	"history_module_restored": "Se ha restaurado el módulo",
 	"history_module_deleted": "Se ha eliminado el módulo",
+	"history_module_changed": "history_module_changed",
 	"history_video_play_button_attached": "Se ha fijado el botón de reproducción de vídeo",
 	"history_code_editor_css_update": "Editor de código. Se ha actualizado el código CSS",
 	"history_code_editor_html_update": "Editor de código. Se ha actualizado el código HTML",
@@ -1703,5 +1705,10 @@
 	"Report has been sent": "Se ha enviado el informe",
 	"Personalization": "Personalización",
 	"Search by name or value": "Buscar por nombre o valor",
-	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "No se ha podido detectar en el código del correo electrónico. Corrija los problemas y pulse «Aplicar el código» para guardar los cambios."
+	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "No se ha podido detectar en el código del correo electrónico. Corrija los problemas y pulse «Aplicar el código» para guardar los cambios.",
+	"Slide {slideIdx}": "Slide {slideIdx}",
+	"Autoplay": "Autoplay",
+	"Delay Time, sec": "Delay Time, sec",
+	"Loop": "Loop",
+	"General Link": "General Link"
 }

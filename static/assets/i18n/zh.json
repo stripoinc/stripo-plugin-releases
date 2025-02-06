@@ -1262,6 +1262,7 @@
 	"Connect Public Feed": "連接公開動態",
 	"You will be redirected to Settings to create a new connection": "您將被重新導向至「設定」以建立新連線",
 	"Get": "擷取",
+	"Get Data": "Get Data",
 	"Tooltip Text": "工具提示文字",
 	"Source Path": "來源路徑",
 	"URL": "URL",
@@ -1392,6 +1393,7 @@
 	"history_module_updated": "已更新模組",
 	"history_module_restored": "已還原模組",
 	"history_module_deleted": "已刪除模組",
+	"history_module_changed": "history_module_changed",
 	"history_video_play_button_attached": "已附加影片播放按鈕",
 	"history_code_editor_css_update": "程式碼編輯器。已更新 CSS 程式碼",
 	"history_code_editor_html_update": "程式碼編輯器。已更新 HTML 程式碼",
@@ -1703,5 +1705,10 @@
 	"Report has been sent": "已傳送回報",
 	"Personalization": "個人化",
 	"Search by name or value": "按名稱或值搜尋",
-	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "在電子郵件代碼中偵測到錯誤。修正問題並按下「套用代碼」儲存變更。"
+	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "在電子郵件代碼中偵測到錯誤。修正問題並按下「套用代碼」儲存變更。",
+	"Slide {slideIdx}": "Slide {slideIdx}",
+	"Autoplay": "Autoplay",
+	"Delay Time, sec": "Delay Time, sec",
+	"Loop": "Loop",
+	"General Link": "General Link"
 }

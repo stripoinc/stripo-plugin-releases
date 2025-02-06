@@ -1262,6 +1262,7 @@
 	"Connect Public Feed": "Připojit k veřejnému feedu",
 	"You will be redirected to Settings to create a new connection": "Budete přesměrováni do nastavení, kde vytvoříte nové připojení",
 	"Get": "Získat",
+	"Get Data": "Get Data",
 	"Tooltip Text": "Text nápovědy",
 	"Source Path": "Zdrojová cesta",
 	"URL": "URL",
@@ -1392,6 +1393,7 @@
 	"history_module_updated": "Modul nebyl aktualizován",
 	"history_module_restored": "Modul byl obnoven",
 	"history_module_deleted": "Modul byl odstraněn",
+	"history_module_changed": "history_module_changed",
 	"history_video_play_button_attached": "Tlačítko „Přehrát video“ bylo připojeno",
 	"history_code_editor_css_update": "Editor kódu. CSS kód byl aktualizován",
 	"history_code_editor_html_update": "Editor kódu. HTML kód byl aktualizován",
@@ -1703,5 +1705,10 @@
 	"Report has been sent": "Hlášení bylo úspěšně odesláno",
 	"Personalization": "Přizpůsobení",
 	"Search by name or value": "Hledat podle názvu nebo hodnoty",
-	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "V kódu e-mailu byla zjištěna chyba. Opravte chyby a stisknutím tlačítka „Použít kód“ změny uložte."
+	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "V kódu e-mailu byla zjištěna chyba. Opravte chyby a stisknutím tlačítka „Použít kód“ změny uložte.",
+	"Slide {slideIdx}": "Slide {slideIdx}",
+	"Autoplay": "Autoplay",
+	"Delay Time, sec": "Delay Time, sec",
+	"Loop": "Loop",
+	"General Link": "General Link"
 }
