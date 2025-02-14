@@ -1,0 +1,13 @@
+<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <filter x="-2.8%" y="-3.6%" width="105.6%" height="114.3%" filterUnits="objectBoundingBox" id="8sno7xy8ba">
+            <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0" in="shadowOffsetOuter1"/>
+        </filter>
+        <path d="M16 3H4a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3zm0 2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h12z" id="r42t4yus9b"/>
+    </defs>
+    <g transform="rotate(90 10 10)" fill-rule="nonzero" fill="none">
+        <use fill="#000" filter="url(#8sno7xy8ba)" xlink:href="#r42t4yus9b"/>
+        <use fill="#6D6D6D" xlink:href="#r42t4yus9b"/>
+    </g>
+</svg>
