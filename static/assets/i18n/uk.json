@@ -1743,6 +1743,9 @@
 	"Personalization": "Персоналізація",
 	"Search by name or value": "Пошук за назвою чи значенням",
 	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "Виявлено помилку в коді листа. Виправте помилки і натисніть \"Застосувати код\", щоб зберегти зміни.",
+	"Animated Opening": "Анімація розгортання",
+	"Auto-collapsing": "Автоматичне згортання",
+	"This forces the accordion to only allow one expanded section at any given time. Expanding one section will cause any other open sections to close.": "Це налаштування гарантує, що акордеон дозволяє розгортати лише один розділ одночасно. Коли розділ розгортається, всі інші відкриті розділи автоматично закриваються.",
 	"Slide {slideIdx}": "Слайд {slideIdx}",
 	"Autoplay": "Автоперегортання",
 	"Delay Time, sec": "Час затримки, сек",
@@ -1761,5 +1764,6 @@
 	"Thumbnail Type": "Тип предперегляду",
 	"Thumbnail Color": "Колір прев'ю",
 	"Active Thumbnail Border Style": "Стиль рамки активної мініатюри",
-	"Inactive Thumbnail Border Style": "Стиль рамки неактивної мініатюри"
+	"Inactive Thumbnail Border Style": "Стиль рамки неактивної мініатюри",
+	"Interactive preview is paused. Contact your team to unblock it.": "Інтерактивне превью призупинено. Зверніться до своєї команди, щоб розблокувати його."
 }

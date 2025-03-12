@@ -1743,6 +1743,9 @@
 	"Personalization": "Personalization",
 	"Search by name or value": "Search by name or value",
 	"Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.": "Error detected in the email code. Fix issues and press \"Apply the Code\" to save changes.",
+	"Animated Opening": "Animated Opening",
+	"Auto-collapsing": "Auto-collapsing",
+	"This forces the accordion to only allow one expanded section at any given time. Expanding one section will cause any other open sections to close.": "This setting ensures that the accordion allows only one section to be expanded at a time. When a section is expanded, any other open sections will automatically close.",
 	"Slide {slideIdx}": "Slide {slideIdx}",
 	"Autoplay": "Autoplay",
 	"Delay Time, sec": "Delay Time, sec",
@@ -1761,5 +1764,6 @@
 	"Thumbnail Type": "Thumbnail Type",
 	"Thumbnail Color": "Thumbnail Color",
 	"Active Thumbnail Border Style": "Active Thumbnail Border Style",
-	"Inactive Thumbnail Border Style": "Inactive Thumbnail Border Style"
+	"Inactive Thumbnail Border Style": "Inactive Thumbnail Border Style",
+	"Interactive preview is paused. Contact your team to unblock it.": "Interactive preview is paused. Contact your team to unblock it."
 }
