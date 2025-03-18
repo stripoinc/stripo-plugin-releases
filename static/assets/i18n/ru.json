@@ -1765,5 +1765,6 @@
 	"Thumbnail Color": "Цвет превью",
 	"Active Thumbnail Border Style": "Стиль рамки активной миниатюры",
 	"Inactive Thumbnail Border Style": "Стиль рамки неактивной миниатюры",
-	"Interactive preview is paused. Contact your team to unblock it.": "Интерактивное превью приостановлено. Свяжитесь с вашей командой, чтобы разблокировать его."
+	"Interactive preview is paused. Contact your team to unblock it.": "Интерактивное превью приостановлено. Свяжитесь с вашей командой, чтобы разблокировать его.",
+	"Titles Background Color": "Titles Background Color"
 }
