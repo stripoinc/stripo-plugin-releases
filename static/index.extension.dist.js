@@ -191,12 +191,12 @@ function requireExtension() {
   var Extension$1 = (
     /** @class */
     function() {
-      function Extension2(i18n, styles2, uiElements, uiElementTagRegistry, controls, settingsPanelRegistry, contextActions, blocks, externalSmartElementsLibrary2, externalImageLibrary, previewStyles2, externalAiAssistant2, externalDisplayConditionsLibrary, externalVideoLibrary, blocksPanel) {
+      function Extension2(i18n, styles2, uiElements, uiElementTagRegistry, controls2, settingsPanelRegistry, contextActions, blocks, externalSmartElementsLibrary2, externalImageLibrary, previewStyles2, externalAiAssistant2, externalDisplayConditionsLibrary, externalVideoLibrary, blocksPanel) {
         if (uiElements === void 0) {
           uiElements = [];
         }
-        if (controls === void 0) {
-          controls = [];
+        if (controls2 === void 0) {
+          controls2 = [];
         }
         if (contextActions === void 0) {
           contextActions = [];
@@ -213,7 +213,7 @@ function requireExtension() {
         this.previewStyles = previewStyles2;
         this.uiElements = uiElements;
         this.uiElementTagRegistry = uiElementTagRegistry;
-        this.controls = controls;
+        this.controls = controls2;
         this.settingsPanelRegistry = settingsPanelRegistry;
         this.contextActions = contextActions;
         this.blocks = blocks;
@@ -1407,9 +1407,9 @@ function requireButtonFontColorBuiltInControl() {
   }();
   Object.defineProperty(ButtonFontColorBuiltInControl, "__esModule", { value: true });
   ButtonFontColorBuiltInControl.ButtonFontColorBuiltInControl = void 0;
+  var BlockType_1 = requireBlockType();
   var BuiltInControlTypes_1 = requireBuiltInControlTypes();
   var TextColorBuiltInControl_1 = requireTextColorBuiltInControl();
-  var BlockType_1 = requireBlockType();
   var ButtonFontColorBuiltInControl$1 = (
     /** @class */
     function(_super) {
@@ -1420,7 +1420,16 @@ function requireButtonFontColorBuiltInControl() {
       ButtonFontColorBuiltInControl2.prototype.getParentControlId = function() {
         return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].FONT_COLOR;
       };
-      ButtonFontColorBuiltInControl2.prototype.getTargetNodes = function(root) {
+      ButtonFontColorBuiltInControl2.prototype.setRoot = function(_root) {
+        return void 0;
+      };
+      ButtonFontColorBuiltInControl2.prototype.getLabels = function() {
+        return void 0;
+      };
+      ButtonFontColorBuiltInControl2.prototype.getTargetNodes = function(_root) {
+        return void 0;
+      };
+      ButtonFontColorBuiltInControl2.prototype.getHoverLinkSelector = function(_generateClass) {
         return void 0;
       };
       return ButtonFontColorBuiltInControl2;
@@ -1468,7 +1477,7 @@ function requireButtonColorBuiltInControl() {
       ButtonColorBuiltInControl2.prototype.getParentControlId = function() {
         return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].COLOR;
       };
-      ButtonColorBuiltInControl2.prototype.getTargetNodes = function(root) {
+      ButtonColorBuiltInControl2.prototype.getTargetNodes = function(_root) {
         return void 0;
       };
       ButtonColorBuiltInControl2.prototype.getLabels = function() {
@@ -1820,6 +1829,123 @@ function requireButtonBorderBuiltInControl() {
   ButtonBorderBuiltInControl.ButtonBorderBuiltInControl = ButtonBorderBuiltInControl$1;
   return ButtonBorderBuiltInControl;
 }
+var ButtonHoverTextColorBuiltInControl = {};
+var hasRequiredButtonHoverTextColorBuiltInControl;
+function requireButtonHoverTextColorBuiltInControl() {
+  if (hasRequiredButtonHoverTextColorBuiltInControl) return ButtonHoverTextColorBuiltInControl;
+  hasRequiredButtonHoverTextColorBuiltInControl = 1;
+  var __extends = ButtonHoverTextColorBuiltInControl && ButtonHoverTextColorBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+      };
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(ButtonHoverTextColorBuiltInControl, "__esModule", { value: true });
+  ButtonHoverTextColorBuiltInControl.ButtonHoverTextColorBuiltInControl = void 0;
+  var BuiltInControl_1 = requireBuiltInControl();
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var BlockType_1 = requireBlockType();
+  var ButtonHoverTextColorBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(ButtonHoverTextColorBuiltInControl2, _super);
+      function ButtonHoverTextColorBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      ButtonHoverTextColorBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].HOVERED_TEXT_COLOR;
+      };
+      ButtonHoverTextColorBuiltInControl2.prototype.setRoot = function(_root) {
+        return void 0;
+      };
+      ButtonHoverTextColorBuiltInControl2.prototype.getTargetNodes = function(_root) {
+        return void 0;
+      };
+      ButtonHoverTextColorBuiltInControl2.prototype.getLabels = function() {
+        return void 0;
+      };
+      ButtonHoverTextColorBuiltInControl2.prototype.getHoverLinkSelector = function(_generateClass) {
+        return void 0;
+      };
+      return ButtonHoverTextColorBuiltInControl2;
+    }(BuiltInControl_1.BuiltInControl)
+  );
+  ButtonHoverTextColorBuiltInControl.ButtonHoverTextColorBuiltInControl = ButtonHoverTextColorBuiltInControl$1;
+  return ButtonHoverTextColorBuiltInControl;
+}
+var ButtonHoverBorderColorBuiltInControl = {};
+var hasRequiredButtonHoverBorderColorBuiltInControl;
+function requireButtonHoverBorderColorBuiltInControl() {
+  if (hasRequiredButtonHoverBorderColorBuiltInControl) return ButtonHoverBorderColorBuiltInControl;
+  hasRequiredButtonHoverBorderColorBuiltInControl = 1;
+  var __extends = ButtonHoverBorderColorBuiltInControl && ButtonHoverBorderColorBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+      };
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(ButtonHoverBorderColorBuiltInControl, "__esModule", { value: true });
+  ButtonHoverBorderColorBuiltInControl.ButtonHoverBorderColorBuiltInControl = void 0;
+  var BuiltInControl_1 = requireBuiltInControl();
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var BlockType_1 = requireBlockType();
+  var ButtonHoverBorderColorBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(ButtonHoverBorderColorBuiltInControl2, _super);
+      function ButtonHoverBorderColorBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      ButtonHoverBorderColorBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].HOVERED_BORDER_COLOR;
+      };
+      ButtonHoverBorderColorBuiltInControl2.prototype.setRoot = function(_root) {
+        return void 0;
+      };
+      ButtonHoverBorderColorBuiltInControl2.prototype.getTargetNodes = function(_root) {
+        return void 0;
+      };
+      ButtonHoverBorderColorBuiltInControl2.prototype.getLabels = function() {
+        return void 0;
+      };
+      ButtonHoverBorderColorBuiltInControl2.prototype.getHoverBorderSelector = function(_generateClass) {
+        return void 0;
+      };
+      ButtonHoverBorderColorBuiltInControl2.prototype.getHoverLinkSelector = function(_generateClass) {
+        return void 0;
+      };
+      return ButtonHoverBorderColorBuiltInControl2;
+    }(BuiltInControl_1.BuiltInControl)
+  );
+  ButtonHoverBorderColorBuiltInControl.ButtonHoverBorderColorBuiltInControl = ButtonHoverBorderColorBuiltInControl$1;
+  return ButtonHoverBorderColorBuiltInControl;
+}
 var TextLineSpacingBuiltInControl = {};
 var hasRequiredTextLineSpacingBuiltInControl;
 function requireTextLineSpacingBuiltInControl() {
@@ -1923,6 +2049,66 @@ function requirePanelPosition() {
   })(PanelPosition$1 || (PanelPosition.PanelPosition = PanelPosition$1 = {}));
   return PanelPosition;
 }
+var ButtonHoverColorBuiltInControl = {};
+var hasRequiredButtonHoverColorBuiltInControl;
+function requireButtonHoverColorBuiltInControl() {
+  if (hasRequiredButtonHoverColorBuiltInControl) return ButtonHoverColorBuiltInControl;
+  hasRequiredButtonHoverColorBuiltInControl = 1;
+  var __extends = ButtonHoverColorBuiltInControl && ButtonHoverColorBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+      };
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(ButtonHoverColorBuiltInControl, "__esModule", { value: true });
+  ButtonHoverColorBuiltInControl.ButtonHoverColorBuiltInControl = void 0;
+  var BuiltInControl_1 = requireBuiltInControl();
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var BlockType_1 = requireBlockType();
+  var ButtonHoverColorBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(ButtonHoverColorBuiltInControl2, _super);
+      function ButtonHoverColorBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      ButtonHoverColorBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].HOVERED_COLOR;
+      };
+      ButtonHoverColorBuiltInControl2.prototype.setRoot = function(_root) {
+        return void 0;
+      };
+      ButtonHoverColorBuiltInControl2.prototype.getTargetNodes = function(root) {
+        return _super.prototype.getTargetNodes.call(this, root);
+      };
+      ButtonHoverColorBuiltInControl2.prototype.getLabels = function() {
+        return void 0;
+      };
+      ButtonHoverColorBuiltInControl2.prototype.getHoverBorderSelector = function(_generateClass) {
+        return void 0;
+      };
+      ButtonHoverColorBuiltInControl2.prototype.getHoverLinkSelector = function(_generateClass) {
+        return void 0;
+      };
+      return ButtonHoverColorBuiltInControl2;
+    }(BuiltInControl_1.BuiltInControl)
+  );
+  ButtonHoverColorBuiltInControl.ButtonHoverColorBuiltInControl = ButtonHoverColorBuiltInControl$1;
+  return ButtonHoverColorBuiltInControl;
+}
 var hasRequiredDist;
 function requireDist() {
   if (hasRequiredDist) return dist;
@@ -1930,7 +2116,7 @@ function requireDist() {
   (function(exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ButtonTextBuiltInControl = exports.LinkColorBuiltInControl = exports.BackgroundImageBuiltInControl = exports.BackgroundColorBuiltInControl = exports.FontFamilyBuiltInControl = exports.BuiltInControl = exports.ADD_CUSTOM_FONT_OPTION = exports.BlockAttr = exports.AiAssistantValueType = exports.BlockCompositionType = exports.AmpFormControls = exports.GeneralControls = exports.GeneralStylesControls = exports.MessageSettingsControls = exports.ContainerControls = exports.StructureControls = exports.StripeControls = exports.CarouselControls = exports.AccordionControls = exports.MenuControls = exports.SocialControls = exports.CustomTextControls = exports.CustomImageControls = exports.CustomLinkControls = exports.HTMLControls = exports.ImageControls = exports.SpacerControls = exports.TimerControls = exports.VideoControls = exports.TextControls = exports.ButtonControls = exports.BannerChildControls = exports.BannerControls = exports.BlockType = exports.SettingsTab = exports.BuiltInControlTypes = exports.ContextActionType = exports.UEAttr = exports.UIElementType = exports.ModificationDescription = exports.Extension = exports.ExtensionBuilder = exports.SettingsPanelTab = exports.Block = exports.BlockRenderer = exports.ContextAction = exports.SettingsPanelRegistry = exports.Control = exports.UIElementTagRegistry = exports.UIElement = void 0;
-    exports.TextLineSpacingBuiltInControl = exports.ButtonBorderBuiltInControl = exports.PanelPosition = exports.BlocksPanel = exports.StructureBorderBuiltInControl = exports.TextStyleBuiltInControl = exports.TextSizeBuiltInControl = exports.PreviewDeviceMode = exports.EditorStatePropertyType = exports.ButtonColorBuiltInControl = exports.ButtonFontColorBuiltInControl = exports.TextColorBuiltInControl = exports.ButtonInternalIndentsBuiltInControl = exports.StructurePaddingsBuiltInControl = exports.BlockPaddingsBuiltInControl = void 0;
+    exports.ButtonHoverColorBuiltInControl = exports.ButtonHoverBorderColorBuiltInControl = exports.ButtonHoverTextColorBuiltInControl = exports.TextLineSpacingBuiltInControl = exports.ButtonBorderBuiltInControl = exports.PanelPosition = exports.BlocksPanel = exports.StructureBorderBuiltInControl = exports.TextStyleBuiltInControl = exports.TextSizeBuiltInControl = exports.PreviewDeviceMode = exports.EditorStatePropertyType = exports.ButtonColorBuiltInControl = exports.ButtonFontColorBuiltInControl = exports.TextColorBuiltInControl = exports.ButtonInternalIndentsBuiltInControl = exports.StructurePaddingsBuiltInControl = exports.BlockPaddingsBuiltInControl = void 0;
     var UIElement_1 = requireUIElement();
     Object.defineProperty(exports, "UIElement", { enumerable: true, get: function() {
       return UIElement_1.UIElement;
@@ -2156,6 +2342,14 @@ function requireDist() {
     Object.defineProperty(exports, "ButtonBorderBuiltInControl", { enumerable: true, get: function() {
       return ButtonBorderBuiltInControl_1.ButtonBorderBuiltInControl;
     } });
+    var ButtonHoverTextColorBuiltInControl_1 = requireButtonHoverTextColorBuiltInControl();
+    Object.defineProperty(exports, "ButtonHoverTextColorBuiltInControl", { enumerable: true, get: function() {
+      return ButtonHoverTextColorBuiltInControl_1.ButtonHoverTextColorBuiltInControl;
+    } });
+    var ButtonHoverBorderColorBuiltInControl_1 = requireButtonHoverBorderColorBuiltInControl();
+    Object.defineProperty(exports, "ButtonHoverBorderColorBuiltInControl", { enumerable: true, get: function() {
+      return ButtonHoverBorderColorBuiltInControl_1.ButtonHoverBorderColorBuiltInControl;
+    } });
     var TextLineSpacingBuiltInControl_1 = requireTextLineSpacingBuiltInControl();
     Object.defineProperty(exports, "TextLineSpacingBuiltInControl", { enumerable: true, get: function() {
       return TextLineSpacingBuiltInControl_1.TextLineSpacingBuiltInControl;
@@ -2167,6 +2361,10 @@ function requireDist() {
     var PanelPosition_1 = requirePanelPosition();
     Object.defineProperty(exports, "PanelPosition", { enumerable: true, get: function() {
       return PanelPosition_1.PanelPosition;
+    } });
+    var ButtonHoverColorBuiltInControl_1 = requireButtonHoverColorBuiltInControl();
+    Object.defineProperty(exports, "ButtonHoverColorBuiltInControl", { enumerable: true, get: function() {
+      return ButtonHoverColorBuiltInControl_1.ButtonHoverColorBuiltInControl;
     } });
   })(dist);
   return dist;
@@ -2821,8 +3019,8 @@ const COUNTER_ELEMENT$1 = "counter";
 const TEXT_ELEMENT$1 = "text";
 const TEXT_AREA_ELEMENT$1 = "textArea";
 class TestUIElementsDemoPanelRegistry extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_BUTTON] = [new distExports.SettingsPanelTab(distExports.SettingsTab.SETTINGS, [CONTROL_ID$1])];
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_BUTTON] = [new distExports.SettingsPanelTab(distExports.SettingsTab.SETTINGS, [CONTROL_ID$1])];
   }
 }
 class TestUIElementsDemoControl extends distExports.Control {
@@ -3372,8 +3570,8 @@ let CustomFontFamilySelect$1 = class CustomFontFamilySelect extends distExports.
 const fontFamilyExtension = new distExports.ExtensionBuilder().addUiElement(CustomFontFamilySelect$1).withUiElementTagRegistry(TagRegistry$1).build();
 const ID$j = "extendedFontFamily";
 let PanelRegistry$h = class PanelRegistry extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$j, 0);
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$j, 0);
   }
 };
 class ExtendedFontFamilyControl extends distExports.FontFamilyBuiltInControl {
@@ -3400,8 +3598,8 @@ class ExtendedFontFamilyControl extends distExports.FontFamilyBuiltInControl {
 const fontFamilyControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedFontFamilyControl).withSettingsPanelRegistry(PanelRegistry$h).build();
 const ID$i = "extendedBackground";
 let PanelRegistry$g = class PanelRegistry2 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$i, 0);
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$i, 0);
   }
 };
 class ExtendedBackgroundControl extends distExports.BackgroundColorBuiltInControl {
@@ -3420,8 +3618,8 @@ class ExtendedBackgroundControl extends distExports.BackgroundColorBuiltInContro
 const backgroundControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedBackgroundControl).withSettingsPanelRegistry(PanelRegistry$g).build();
 const ID$h = "extendedTextColor";
 let PanelRegistry$f = class PanelRegistry3 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$h, 0);
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$h, 0);
   }
 };
 class ExtendedTextColorControl extends distExports.TextColorBuiltInControl {
@@ -3445,8 +3643,8 @@ class ExtendedTextColorControl extends distExports.TextColorBuiltInControl {
 const textColorControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedTextColorControl).withSettingsPanelRegistry(PanelRegistry$f).build();
 const ID$g = "extendedTextStyle";
 let PanelRegistry$e = class PanelRegistry4 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$g, 0);
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$g, 0);
   }
 };
 class ExtendedTextStyleControl extends distExports.TextStyleBuiltInControl {
@@ -3470,8 +3668,8 @@ class ExtendedTextStyleControl extends distExports.TextStyleBuiltInControl {
 const textStyleControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedTextStyleControl).withSettingsPanelRegistry(PanelRegistry$e).build();
 const ID$f = "extendedTextSize";
 let PanelRegistry$d = class PanelRegistry5 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$f, 0);
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$f, 0);
   }
 };
 class ExtendedTextSizeControl extends distExports.TextSizeBuiltInControl {
@@ -3501,8 +3699,8 @@ const ID$e = "nestedControlExtension";
 const BACKGROUND_CONTROL = "backgroundControl";
 const BACKGROUND_SWITCHER = "backgroundSwitcher";
 let PanelRegistry$c = class PanelRegistry6 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$e, 0);
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$e, 0);
   }
 };
 class NestedControlExtension extends distExports.Control {
@@ -3537,8 +3735,8 @@ const ID$d = "stateChangeSubscriberExtension";
 const LABEL_NAME = "label";
 const SWITCHER_NAME$1 = "switcher";
 let PanelRegistry$b = class PanelRegistry7 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$d, 0);
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$d, 0);
   }
 };
 class StateChangeSubscriberExtension extends distExports.Control {
@@ -3583,8 +3781,8 @@ class StateChangeSubscriberExtension extends distExports.Control {
 const stateChangeSubscriber = new distExports.ExtensionBuilder().addControl(StateChangeSubscriberExtension).withSettingsPanelRegistry(PanelRegistry$b).build();
 const ID$c = "variableModeExtendedControl";
 let PanelRegistry$a = class PanelRegistry8 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$c, 0);
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$c, 0);
   }
 };
 class VariableModeExtendedControl extends distExports.BackgroundColorBuiltInControl {
@@ -3608,8 +3806,8 @@ const CONTROL_ID = "reinitializedControlExtension";
 const ELEMENT_ID = "reinitializedElementExtension";
 const SWITCHER_NAME = "switcher";
 let PanelRegistry$9 = class PanelRegistry9 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_BUTTON][0].addControl(CONTROL_ID, 0);
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(CONTROL_ID, 0);
   }
 };
 class ReinitializedElement extends distExports.UIElement {
@@ -4166,8 +4364,8 @@ let ExternalDisplayConditions$2 = class ExternalDisplayConditions2 {
 const externalDisplayConditionsContextMenu = new distExports.ExtensionBuilder().withExternalDisplayCondition(ExternalDisplayConditions$2).build();
 const ID$b = "extendedBlockPaddings_text";
 let PanelRegistry$8 = class PanelRegistry10 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$b, 0);
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$b, 0);
   }
 };
 class ExtendedBlockPaddingsControl extends distExports.BlockPaddingsBuiltInControl {
@@ -4202,8 +4400,8 @@ const extendedBlockPaddingsControl = new distExports.ExtensionBuilder().addContr
 }).withSettingsPanelRegistry(PanelRegistry$8).build();
 const ID$a = "extendedStructurePaddings";
 let PanelRegistry$7 = class PanelRegistry11 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.STRIPE][0].addControl(ID$a, 0);
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.STRIPE][0].addControl(ID$a, 0);
   }
 };
 class ExtendedStructurePaddingsControl extends distExports.StructurePaddingsBuiltInControl {
@@ -4233,8 +4431,8 @@ const extendedStructurePaddingsControl = new distExports.ExtensionBuilder().addC
 } }).withSettingsPanelRegistry(PanelRegistry$7).build();
 const ID$9 = "extendedButtonInternalIndentsControl";
 let PanelRegistry$6 = class PanelRegistry12 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.STRIPE][0].addControl(ID$9, 0);
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.STRIPE][0].addControl(ID$9, 0);
   }
 };
 class ExtendedButtonInternalIndents extends distExports.ButtonInternalIndentsBuiltInControl {
@@ -4312,8 +4510,8 @@ let ExternalVideoLibrary$1 = class ExternalVideoLibrary {
 const externalVideosLibrary = new distExports.ExtensionBuilder().withExternalVideosLibrary(ExternalVideoLibrary$1).build();
 const ID$8 = "extendedButtonColor";
 let PanelRegistry$5 = class PanelRegistry13 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$8, 0);
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$8, 0);
   }
 };
 class ExtendedButtonColorControl extends distExports.ButtonColorBuiltInControl {
@@ -4338,8 +4536,8 @@ class ExtendedButtonColorControl extends distExports.ButtonColorBuiltInControl {
 const buttonColorControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedButtonColorControl).withSettingsPanelRegistry(PanelRegistry$5).build();
 const ID$7 = "extendedButtonBorder";
 let PanelRegistry$4 = class PanelRegistry14 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_BUTTON] = [
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_BUTTON] = [
       new distExports.SettingsPanelTab(distExports.SettingsTab.STYLES, [ID$7])
     ];
   }
@@ -4369,8 +4567,8 @@ class ExtendedButtonBorderControl extends distExports.ButtonBorderBuiltInControl
 const buttonBorderControlExtension = new distExports.ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$4).addControl(ExtendedButtonBorderControl).build();
 const ID$6 = "extendedLinkColor";
 let PanelRegistry$3 = class PanelRegistry15 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$6, 0);
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$6, 0);
   }
 };
 class ExtendedLinkColorControl extends distExports.LinkColorBuiltInControl {
@@ -4391,13 +4589,33 @@ class ExtendedLinkColorControl extends distExports.LinkColorBuiltInControl {
 }
 const linkColorControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedLinkColorControl).withSettingsPanelRegistry(PanelRegistry$3).build();
 const GENERAL_BACKGROUND_IMAGE_ID = "extendedGeneralBackgroundImage";
-const ID$5 = "extendedGeneralBackgroundImage";
-let PanelRegistry$2 = class PanelRegistry16 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls.GENERAL_STYLES[0] = new distExports.SettingsPanelTab("GENERAL_SETTINGS", [GENERAL_BACKGROUND_IMAGE_ID]);
+let ExtendedBackgroundImageControl$1 = class ExtendedBackgroundImageControl extends distExports.BackgroundImageBuiltInControl {
+  getId() {
+    return GENERAL_BACKGROUND_IMAGE_ID;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Custom Background Image"),
+      titleHint: this.api.translate("Custom Background Image titleHint"),
+      repeat: this.api.translate("Custom Background Image Repeat"),
+      repeatHint: this.api.translate("Custom Background Image repeatHint"),
+      horizontalPosition: this.api.translate("Custom Horizontal Position"),
+      verticalPosition: this.api.translate("Custom Vertical Position"),
+      backgroundWidth: this.api.translate("Custom Background Width"),
+      backgroundHeight: this.api.translate("Custom Background Height")
+    };
+  }
+  getAdditionalModifications(block) {
+    return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-background-applied");
   }
 };
-class ExtendedBackgroundImageControl extends distExports.BackgroundImageBuiltInControl {
+const ID$5 = "extendedGeneralBackgroundImage";
+let PanelRegistry$2 = class PanelRegistry16 extends distExports.SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2.GENERAL_STYLES[0] = new distExports.SettingsPanelTab("GENERAL_SETTINGS", [GENERAL_BACKGROUND_IMAGE_ID]);
+  }
+};
+class ExtendedBackgroundImageControl2 extends distExports.BackgroundImageBuiltInControl {
   getId() {
     return ID$5;
   }
@@ -4417,11 +4635,11 @@ class ExtendedBackgroundImageControl extends distExports.BackgroundImageBuiltInC
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-background-applied");
   }
 }
-const generalBackgroundImageControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$2).build();
+const generalBackgroundImageControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedBackgroundImageControl2).withSettingsPanelRegistry(PanelRegistry$2).build();
 const ID$4 = "extendedButtonText";
 class ButtonPanelRegistry extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_BUTTON] = [
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_BUTTON] = [
       new distExports.SettingsPanelTab(
         distExports.SettingsTab.SETTINGS,
         [
@@ -4450,8 +4668,8 @@ class ExtendedButtonTextControl extends distExports.ButtonTextBuiltInControl {
 const buttonTextControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedButtonTextControl).withSettingsPanelRegistry(ButtonPanelRegistry).build();
 const ID$3 = "extendedStructureBorder";
 let PanelRegistry$1 = class PanelRegistry17 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.STRUCTURE][0].addControl(ID$3, 0);
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.STRUCTURE][0].addControl(ID$3, 0);
   }
 };
 class ExtendedStructureBorderControl extends distExports.StructureBorderBuiltInControl {
@@ -4480,8 +4698,8 @@ class ExtendedStructureBorderControl extends distExports.StructureBorderBuiltInC
 const structureBorderControlExtension = new distExports.ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$1).addControl(ExtendedStructureBorderControl).build();
 const ID$2 = "extendedTextLineSpacing";
 class PanelRegistry18 extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls) {
-    controls[distExports.BlockType.BLOCK_TEXT] = [
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_TEXT] = [
       new distExports.SettingsPanelTab(distExports.SettingsTab.SETTINGS, [ID$2])
     ];
   }
@@ -5178,8 +5396,8 @@ class SimpleBlockSettingsPanelRegistry extends distExports.SettingsPanelRegistry
    *                                                             and values are arrays of SettingsPanelTab instances defining the tabs and controls for that block.
    *                                                             This map is modified in place.
    */
-  registerBlockControls(controls) {
-    controls[BLOCK_SIMPLE_ID] = [
+  registerBlockControls(controls2) {
+    controls2[BLOCK_SIMPLE_ID] = [
       new distExports.SettingsPanelTab(
         "custom",
         [
@@ -5187,7 +5405,7 @@ class SimpleBlockSettingsPanelRegistry extends distExports.SettingsPanelRegistry
         ]
       ).withLabel(this.api.translate("Simple block settings advanced"))
     ];
-    controls[distExports.BlockType.BLOCK_BUTTON] = [
+    controls2[distExports.BlockType.BLOCK_BUTTON] = [
       new distExports.SettingsPanelTab(
         distExports.SettingsTab.SETTINGS,
         [
@@ -5398,6 +5616,9 @@ class MergeTagsUiElementExtension extends distExports.UIElement {
     this.mergeTagsButton.removeEventListener("click", this.listener);
   }
   _onClick(event) {
+    this.openMergeTagLibrary();
+  }
+  openMergeTagLibrary() {
     var _a;
     if (!this.mergeTagsLibrary) {
       this.mergeTagsLibrary = new ExternalMergeTagsLibrary2();
@@ -5409,6 +5630,7 @@ class MergeTagsUiElementExtension extends distExports.UIElement {
   onAttributeUpdated(name, value) {
     if (name === "mergeTag") {
       this.selectedMergeTag = value;
+      this.selectedMergeTag && this.openMergeTagLibrary();
     }
   }
   getTemplate() {
@@ -5858,54 +6080,6 @@ let ExternalDisplayConditions$1 = class ExternalDisplayConditions3 {
   }
 };
 const gitSample_08_External_Display_Conditions = new distExports.ExtensionBuilder().withExternalDisplayCondition(ExternalDisplayConditions$1).build();
-class ExternalVideoLibrary2 {
-  constructor() {
-    __publicField(this, "externalLibrary");
-    __publicField(this, "videoSelectCallback", () => {
-    });
-    __publicField(this, "cancelCallback", () => {
-    });
-    let div = document.createElement("div");
-    div.style.visibility = "hidden";
-    div.innerHTML = '            <div id="externalVideoLibrary" style="background-color: rgba(0,0,0,.5); overflow: hidden; position: fixed; top: 0; right: 0;  bottom: 0; left: 0; z-index: 1050; font-family: sans-serif; ">                <div style="margin: 10px;">                <div style="background-color: #f6f6f6; border-radius: 17px 17px 30px 30px; max-width: 900px; margin: 0 auto;">                    <div style="padding: 15px; border-bottom: 1px solid #e5e5e5;">                        <div>                           <button class="close" type="button" style="cursor: pointer; background: transparent; border: 0; float: right; font-size: 21px; font-weight: bold; opacity: .2;">                                <span>×</span>                            </button>                            <h4 style="margin: 0; font-size: 18px; color: rgb(85, 85, 85);">External Videos Library</h4>                        </div>                    </div>                    <div style="padding: 15px;">                        <div class="thumbnail" style="display: inline-block; width: 154px; cursor: pointer; padding: 4px; background-color: #ffffff; border: 1px solid #b80000; border-radius: 10px; margin-right: 10px">                            <img style="height: 100px; margin-left: auto; margin-right: auto; max-width: 100%; display: block; vertical-align: middle;"                                 src="https://psyrh.stripocdn.email/content/guids/videoImgGuid/images/23121555584914821.png"                                 title="Create Easy & Quick Event Reminder Using Template for Food Industry"                                 urlVideo="https://www.youtube.com/watch?v=rNmAdmOMp0Y"                                 hasButton="true"                            />                        </div>                        <div class="thumbnail" style="display: inline-block; width: 154px; cursor: pointer; padding: 4px; background-color: #ffffff; border: 1px solid #b80000; border-radius: 10px; margin-right: 10px">                            <img style="height: 100px; margin-left: auto; margin-right: auto; max-width: 100%; display: block; vertical-align: middle;"                                 src="https://psyrh.stripocdn.email/content/guids/videoImgGuid/images/1641555585106902.png"                                 title="How to Get Email Mobile & Browser Preview with Stripo"                                 urlVideo="https://www.youtube.com/watch?v=R4NXtC3h598"                                 hasButton="true"                            />                        </div>                        <div class="thumbnail" style="display: inline-block; width: 154px; cursor: pointer; padding: 4px; background-color: #ffffff; border: 1px solid #b80000; border-radius: 10px; margin-right: 10px">                            <img style="height: 100px; margin-left: auto; margin-right: auto; max-width: 100%; display: block; vertical-align: middle;"                                 src="https://psyrh.stripocdn.email/content/guids/videoImgGuid/images/1881555585513981"                                 title="Stripo.email editor"                                 urlVideo="https://www.youtube.com/watch?v=ryqOEPk51Lg"                            />                        </div>                        <div class="thumbnail" style="display: inline-block; width: 154px; cursor: pointer; padding: 4px; background-color: #ffffff; border: 1px solid #b80000; border-radius: 10px; margin-right: 10px">                            <img style="height: 100px; margin-left: auto; margin-right: auto; max-width: 100%; display: block; vertical-align: middle;"                                 src="https://psyrh.stripocdn.email/content/guids/videoImgGuid/images/24481555585355917"                                 title="How to Add Menu in Email with Stripo"                                 urlVideo="https://www.youtube.com/watch?v=XPFWthaa35Q"                            />                        </div>                    </div>                </div>            </div>';
-    document.body.appendChild(div);
-    this.externalLibrary = document.getElementById("externalVideoLibrary");
-    this.externalLibrary.querySelector(".close").addEventListener("click", this.cancelAndClose.bind(this));
-    this.externalLibrary.addEventListener("click", this.onSelectImage.bind(this));
-  }
-  onSelectImage(e) {
-    if (!e.target.matches("img")) {
-      return;
-    }
-    let image = e.target;
-    let urlImage = image.getAttribute("src");
-    let urlVideo = image.getAttribute("urlVideo");
-    let hasCustomButton = image.getAttribute("hasButton");
-    let originalName = image.getAttribute("title");
-    let exampleOfCallbackVideoObject = {
-      originalVideoName: originalName,
-      originalImageName: originalName,
-      urlImage,
-      urlVideo,
-      hasCustomButton
-    };
-    this.videoSelectCallback(exampleOfCallbackVideoObject);
-    this.close();
-  }
-  close() {
-    this.externalLibrary.style.visibility = "hidden";
-  }
-  cancelAndClose() {
-    this.close();
-    this.cancelCallback();
-  }
-  openExternalVideosLibraryDialog(currentImageUrl, onVideoSelectCallback, onCancelCallback) {
-    this.externalLibrary.style.visibility = "visible";
-    this.videoSelectCallback = onVideoSelectCallback;
-    this.cancelCallback = onCancelCallback;
-  }
-}
-const gitSample_09_External_Videos_Library = new distExports.ExtensionBuilder().withExternalVideosLibrary(ExternalVideoLibrary2).build();
 const AVAILABLE_CONDITION_NAMES = [
   { label: "Email Address", value: "$EMAIL" },
   { label: "Phone number", value: "$PHONE" }
@@ -6138,8 +6312,63 @@ class ExternalDisplayConditions4 {
     return option.value;
   }
 }
-const gitSample_11_External_Display_Conditions_Context_Menu = new distExports.ExtensionBuilder().withExternalDisplayCondition(ExternalDisplayConditions4).build();
+const gitSample_09_External_Display_Conditions_With_Context_Menu = new distExports.ExtensionBuilder().withExternalDisplayCondition(ExternalDisplayConditions4).build();
+class ExternalVideoLibrary2 {
+  constructor() {
+    __publicField(this, "externalLibrary");
+    __publicField(this, "videoSelectCallback", () => {
+    });
+    __publicField(this, "cancelCallback", () => {
+    });
+    let div = document.createElement("div");
+    div.style.visibility = "hidden";
+    div.innerHTML = '            <div id="externalVideoLibrary" style="background-color: rgba(0,0,0,.5); overflow: hidden; position: fixed; top: 0; right: 0;  bottom: 0; left: 0; z-index: 1050; font-family: sans-serif; ">                <div style="margin: 10px;">                <div style="background-color: #f6f6f6; border-radius: 17px 17px 30px 30px; max-width: 900px; margin: 0 auto;">                    <div style="padding: 15px; border-bottom: 1px solid #e5e5e5;">                        <div>                           <button class="close" type="button" style="cursor: pointer; background: transparent; border: 0; float: right; font-size: 21px; font-weight: bold; opacity: .2;">                                <span>×</span>                            </button>                            <h4 style="margin: 0; font-size: 18px; color: rgb(85, 85, 85);">External Videos Library</h4>                        </div>                    </div>                    <div style="padding: 15px;">                        <div class="thumbnail" style="display: inline-block; width: 154px; cursor: pointer; padding: 4px; background-color: #ffffff; border: 1px solid #b80000; border-radius: 10px; margin-right: 10px">                            <img style="height: 100px; margin-left: auto; margin-right: auto; max-width: 100%; display: block; vertical-align: middle;"                                 src="https://psyrh.stripocdn.email/content/guids/videoImgGuid/images/23121555584914821.png"                                 title="Create Easy & Quick Event Reminder Using Template for Food Industry"                                 urlVideo="https://www.youtube.com/watch?v=rNmAdmOMp0Y"                                 hasButton="true"                            />                        </div>                        <div class="thumbnail" style="display: inline-block; width: 154px; cursor: pointer; padding: 4px; background-color: #ffffff; border: 1px solid #b80000; border-radius: 10px; margin-right: 10px">                            <img style="height: 100px; margin-left: auto; margin-right: auto; max-width: 100%; display: block; vertical-align: middle;"                                 src="https://psyrh.stripocdn.email/content/guids/videoImgGuid/images/1641555585106902.png"                                 title="How to Get Email Mobile & Browser Preview with Stripo"                                 urlVideo="https://www.youtube.com/watch?v=R4NXtC3h598"                                 hasButton="true"                            />                        </div>                        <div class="thumbnail" style="display: inline-block; width: 154px; cursor: pointer; padding: 4px; background-color: #ffffff; border: 1px solid #b80000; border-radius: 10px; margin-right: 10px">                            <img style="height: 100px; margin-left: auto; margin-right: auto; max-width: 100%; display: block; vertical-align: middle;"                                 src="https://psyrh.stripocdn.email/content/guids/videoImgGuid/images/1881555585513981"                                 title="Stripo.email editor"                                 urlVideo="https://www.youtube.com/watch?v=ryqOEPk51Lg"                            />                        </div>                        <div class="thumbnail" style="display: inline-block; width: 154px; cursor: pointer; padding: 4px; background-color: #ffffff; border: 1px solid #b80000; border-radius: 10px; margin-right: 10px">                            <img style="height: 100px; margin-left: auto; margin-right: auto; max-width: 100%; display: block; vertical-align: middle;"                                 src="https://psyrh.stripocdn.email/content/guids/videoImgGuid/images/24481555585355917"                                 title="How to Add Menu in Email with Stripo"                                 urlVideo="https://www.youtube.com/watch?v=XPFWthaa35Q"                            />                        </div>                    </div>                </div>            </div>';
+    document.body.appendChild(div);
+    this.externalLibrary = document.getElementById("externalVideoLibrary");
+    this.externalLibrary.querySelector(".close").addEventListener("click", this.cancelAndClose.bind(this));
+    this.externalLibrary.addEventListener("click", this.onSelectImage.bind(this));
+  }
+  onSelectImage(e) {
+    if (!e.target.matches("img")) {
+      return;
+    }
+    let image = e.target;
+    let urlImage = image.getAttribute("src");
+    let urlVideo = image.getAttribute("urlVideo");
+    let hasCustomButton = image.getAttribute("hasButton");
+    let originalName = image.getAttribute("title");
+    let exampleOfCallbackVideoObject = {
+      originalVideoName: originalName,
+      originalImageName: originalName,
+      urlImage,
+      urlVideo,
+      hasCustomButton
+    };
+    this.videoSelectCallback(exampleOfCallbackVideoObject);
+    this.close();
+  }
+  close() {
+    this.externalLibrary.style.visibility = "hidden";
+  }
+  cancelAndClose() {
+    this.close();
+    this.cancelCallback();
+  }
+  openExternalVideosLibraryDialog(currentImageUrl, onVideoSelectCallback, onCancelCallback) {
+    this.externalLibrary.style.visibility = "visible";
+    this.videoSelectCallback = onVideoSelectCallback;
+    this.cancelCallback = onCancelCallback;
+  }
+}
+const gitSample_10_External_Videos_Library = new distExports.ExtensionBuilder().withExternalVideosLibrary(ExternalVideoLibrary2).build();
 class BlocksPanelExtension extends distExports.BlocksPanel {
+  /**
+   * Generates HTML representation for a block item in the blocks panel.
+   * This method allows customization of how individual blocks are displayed.
+   * 
+   * @param {BlockItem} block - The block item containing properties like name, title, iconSrc, description, and disabled
+   * @returns {string} HTML string representing the block item
+   */
   getBlockItemHtml(block) {
     return `
         <div class="block-thumb" ${block.disabled ? "disabled" : ""}>
@@ -6148,17 +6377,36 @@ class BlocksPanelExtension extends distExports.BlocksPanel {
             <ue-icon src="reorder" class="rotate90 icon icon-button"></ue-icon>
         </div>`;
   }
+  /**
+   * Determines whether a hint should be displayed for the specified block.
+   * This method controls the visibility of tooltips or help text for blocks.
+   * 
+   * @param {BlockItem} block - The block item to check
+   * @returns {boolean} true if the hint should be visible, false otherwise
+   */
   isBlockHintVisible(block) {
     if (block.name === "BLOCK_IMAGE") {
       return false;
     }
     return true;
   }
+  /**
+   * Generates HTML representation for the blocks panel header.
+   * This method allows customization of the header section of the blocks panel.
+   * 
+   * @returns {string} HTML string for the blocks panel header
+   */
   getBlocksPanelHeaderHtml() {
     return `<div class="blocks-panel-title">
                 <h2>Blocks</h2>
             </div>`;
   }
+  /**
+   * Generates HTML representation for the modules panel in collapsed state.
+   * This method customizes how the collapsed modules panel appears to users.
+   * 
+   * @returns {string} HTML string for the collapsed modules panel
+   */
   getModulesPanelCollapsedHtml() {
     if (this.api.getEditorState().panelPosition === "BLOCKS_SETTINGS") {
       return `<div class="modules-panel-collapsed">
@@ -6172,12 +6420,30 @@ class BlocksPanelExtension extends distExports.BlocksPanel {
             </div>`;
     }
   }
+  /**
+   * Gets the custom delay for showing hints in milliseconds.
+   * This method controls how long users must hover before hints appear.
+   * 
+   * @returns {number} Delay in milliseconds before hints are shown
+   */
   getHintDelay() {
     return 1e3;
   }
+  /**
+   * Determines whether a hint should be displayed for the collapsed modules panel.
+   * This method controls the visibility of tooltips for the collapsed modules panel.
+   * 
+   * @returns {boolean} true if the modules panel collapsed hint should be visible, false otherwise
+   */
   isModulesPanelCollapsedHintVisible() {
     return true;
   }
+  /**
+   * Gets the hint information for the modules panel.
+   * This method provides tooltip content for the modules panel.
+   * 
+   * @returns {BlockHint} Object containing title and description for the modules panel hint
+   */
   getModulesPanelHint() {
     return {
       title: this.api.translate("Modules and structures"),
@@ -6186,7 +6452,7 @@ class BlocksPanelExtension extends distExports.BlocksPanel {
   }
 }
 const styles = ".block-thumb {\n    display: flex;\n    align-items: center;\n    gap: 10px;\n    width: 100%;\n    max-width: 100%;\n    box-sizing: border-box;\n}\n.block-thumb-label {\n    flex: 1;\n    min-width: 0;\n    white-space: nowrap;\n    overflow: hidden;\n    text-overflow: ellipsis;\n}\n\n.blocks-panel-title {\n    border-bottom: var(--ue-border-width-1, 1px) solid var(--ue-panels-border-color, rgba(0, 0, 0, 0.07));\n    display: flex;\n    justify-content: center;\n}\n.modules-panel-collapsed {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    cursor: pointer;\n    padding: 10px;\n    gap: 15px;\n}\n.rotate270 {\n    transform: rotate(-270deg);\n}\n.movable-panel.e2e-blocks-panel {\n    width: clamp(150px, calc(12.5vw - 0.5px), 200px);\n}\n";
-const gitSample_12_Blocks_Panel = new distExports.ExtensionBuilder().withBlocksPanel(BlocksPanelExtension).withStyles(styles).withLocalization({
+const gitSample_11_Blocks_Panel = new distExports.ExtensionBuilder().withBlocksPanel(BlocksPanelExtension).withStyles(styles).withLocalization({
   "en": {
     "Modules and structures": "Modules and structures",
     "Click to open the modules and structures panel.": "Click to open the modules and structures panel."
@@ -6196,6 +6462,608 @@ const gitSample_12_Blocks_Panel = new distExports.ExtensionBuilder().withBlocksP
     "Click to open the modules and structures panel.": "Натисніть, щоб відкрити панель модулів і структур."
   }
 }).build();
+const BUTTON_BACKGROUND_COLOR_ID = "extendedButtonColor";
+class ButtonBackgroundColorControl extends distExports.ButtonColorBuiltInControl {
+  getId() {
+    return BUTTON_BACKGROUND_COLOR_ID;
+  }
+  getLabels() {
+    return {
+      title: "Button built in background color"
+    };
+  }
+  getTargetNodes(block) {
+    return {
+      targetNodes: [block.querySelector("a"), block.querySelector("span")],
+      msoBorderAltNode: block.querySelector("a")
+    };
+  }
+}
+const STRUCTURE_BORDER_ID = "extendedStructureBorder";
+class StructureBorderControl extends distExports.StructureBorderBuiltInControl {
+  constructor() {
+    super();
+    window.localStorage.setItem("structureWrapperEnabled", "true");
+  }
+  getId() {
+    return STRUCTURE_BORDER_ID;
+  }
+  getTargetNodes(block) {
+    return {
+      targetNodes: [block]
+    };
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Border built in"),
+      borderColorTitle: this.api.translate("Custom color label"),
+      borderStyleHint: this.api.translate("Custom style hint"),
+      borderStyleTitle: this.api.translate("Custom style label")
+    };
+  }
+  getAdditionalModifications(root) {
+    const modifier = this.api.getDocumentModifier();
+    const closestTable = root.closest("table");
+    return modifier.modifyHtml(closestTable).setClass("custom-structure-border-applied");
+  }
+}
+const BUTTON_TEXT_CONTROL_ID = "buttonTextBuiltInControl";
+class ButtonTextControl extends distExports.ButtonTextBuiltInControl {
+  /**
+   * Gets the unique identifier for this control
+   * @returns {string} The control ID
+   */
+  getId() {
+    return BUTTON_TEXT_CONTROL_ID;
+  }
+  /**
+   * Gets the display labels for this control
+   * @returns {Object} Object containing title label
+   */
+  getLabels() {
+    return {
+      title: this.api.translate("Button text built in control")
+    };
+  }
+  /**
+   * Gets the target nodes to apply button text modifications to
+   * @param {ImmutableHtmlNode} block - The block containing button elements
+   * @returns {Object} Object containing target button nodes and root button node
+   */
+  getTargetNodes(block) {
+    return {
+      targetNodes: [block.querySelector(".es-button > *")],
+      buttonRootNode: block
+    };
+  }
+}
+const BUTTON_BORDER_ID = "extendedButtonBorder";
+class ButtonBorderControl extends distExports.ButtonBorderBuiltInControl {
+  getId() {
+    return BUTTON_BORDER_ID;
+  }
+  getTargetNodes(block) {
+    return {
+      targetNodes: [block.querySelector(".es-custom-border-selector") ?? block.querySelector(".es-button-border")]
+    };
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Border built in"),
+      titleHint: this.api.translate("Border built in hint"),
+      borderColorTitle: this.api.translate("Custom color label"),
+      borderStyleHint: this.api.translate("Custom style hint"),
+      borderStyleTitle: this.api.translate("Custom style label")
+    };
+  }
+  getAdditionalModifications(root) {
+    const modifier = this.api.getDocumentModifier();
+    modifier.modifyHtml(root).setClass("custom-button-border-applied");
+    return modifier;
+  }
+}
+const CLASSIC_BLOCK_ID = "classic-block";
+class ClassicBlock extends distExports.Block {
+  getId() {
+    return CLASSIC_BLOCK_ID;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Classic block");
+  }
+  getDescription() {
+    return this.api.translate("Classic block description");
+  }
+  getTemplate() {
+    return `
+            <td align="left">
+                <p>
+                    Hello, User!
+                </p>
+            </td>
+        `;
+  }
+}
+const CLASSIC_STRUCTURE_ID = "classic-structure";
+class ClassicStructureBlock extends distExports.Block {
+  getId() {
+    return CLASSIC_STRUCTURE_ID;
+  }
+  getBlockCompositionType() {
+    return distExports.BlockCompositionType.STRUCTURE;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Classic Structure");
+  }
+  getDescription() {
+    return this.api.translate("Classic Structure description");
+  }
+  allowInnerBlocksSelection() {
+    return false;
+  }
+  allowInnerBlocksDND() {
+    return false;
+  }
+  getTemplate() {
+    return `
+            <td>
+                <${distExports.BlockType.CONTAINER} ${distExports.BlockAttr.CONTAINER.widthPercent}="30">
+                    <${distExports.BlockType.BLOCK_TEXT}>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </p>
+                    </${distExports.BlockType.BLOCK_TEXT}>    
+                    <${distExports.BlockType.BLOCK_BUTTON} ${distExports.BlockAttr.BLOCK_BUTTON.href}="https://google.com">
+                        Search
+                    </${distExports.BlockType.BLOCK_BUTTON}>
+                </${distExports.BlockType.CONTAINER}>
+                
+                <${distExports.BlockType.CONTAINER} ${distExports.BlockAttr.CONTAINER.widthPercent}="65">
+                    <${distExports.BlockType.BLOCK_BUTTON} ${distExports.BlockAttr.BLOCK_BUTTON.href}="https://stripo.email">
+                        Visit Stripo
+                    </${distExports.BlockType.BLOCK_BUTTON}>
+                    <${distExports.BlockType.BLOCK_IMAGE} 
+                        ${distExports.BlockAttr.BLOCK_IMAGE.src}="https://ext.stripocdn.email/content/guids/CABINET_aaba655ea1750215d7f8634c98324dd3/images/89211627300127242.png" 
+                        ${distExports.BlockAttr.BLOCK_IMAGE.alt}="Stripo" 
+                        ${distExports.BlockAttr.BLOCK_IMAGE.href}="https://stripo.email">
+                    </${distExports.BlockType.BLOCK_IMAGE}> 
+                </${distExports.BlockType.CONTAINER}>
+            </td>`;
+  }
+}
+const PRODUCT_STRUCTURE_ID = "product-structure";
+class ProductStructureBlock extends distExports.Block {
+  getId() {
+    return PRODUCT_STRUCTURE_ID;
+  }
+  getBlockCompositionType() {
+    return distExports.BlockCompositionType.STRUCTURE;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Product");
+  }
+  getDescription() {
+    return this.api.translate("Product description");
+  }
+  allowInnerBlocksSelection() {
+    return false;
+  }
+  allowInnerBlocksDND() {
+    return false;
+  }
+  getTemplate() {
+    return `
+            <td>
+                <${distExports.BlockType.CONTAINER} ${distExports.BlockAttr.CONTAINER.widthPercent}="50">
+                    <${distExports.BlockType.BLOCK_IMAGE} 
+                        ${distExports.BlockAttr.BLOCK_IMAGE.src}="https://zwkxy.stripocdn.email/content/guids/CABINET_afa9e4cdc44a36489ab8a25bf18acd36/images/madibadeafricaninspirationaxe4ufe3iv4unsplash_1_sJE.png" 
+                        ${distExports.BlockAttr.BLOCK_IMAGE.alt}="Stripo" 
+                        ${distExports.BlockAttr.BLOCK_IMAGE.href}="https://stripo.email">
+                    </${distExports.BlockType.BLOCK_IMAGE}>
+                    <${distExports.BlockType.BLOCK_TEXT}>
+                        <p style="color: #555555; line-height: 200%; font-size: 16px; font-weight: bold;">
+                            IPhone X
+                        </p>
+                    </${distExports.BlockType.BLOCK_TEXT}>    
+                    <${distExports.BlockType.BLOCK_TEXT}>
+                        <p style="color: #555555; line-height: 200%; font-size: 14px;">
+                            999.95
+                        </p>
+                    </${distExports.BlockType.BLOCK_TEXT}>
+                    <${distExports.BlockType.BLOCK_BUTTON} ${distExports.BlockAttr.BLOCK_BUTTON.href}="https://google.com">
+                        Buy
+                    </${distExports.BlockType.BLOCK_TEXT}>
+                </${distExports.BlockType.CONTAINER}>
+                <${distExports.BlockType.CONTAINER} ${distExports.BlockAttr.CONTAINER.widthPercent}="50">
+                    <${distExports.BlockType.BLOCK_IMAGE} 
+                        ${distExports.BlockAttr.BLOCK_IMAGE.src}="https://zwkxy.stripocdn.email/content/guids/CABINET_afa9e4cdc44a36489ab8a25bf18acd36/images/madibadeafricaninspirationaxe4ufe3iv4unsplash_1_sJE.png" 
+                        ${distExports.BlockAttr.BLOCK_IMAGE.alt}="Stripo" 
+                        ${distExports.BlockAttr.BLOCK_IMAGE.href}="https://stripo.email">
+                    </${distExports.BlockType.BLOCK_IMAGE}>
+                    <${distExports.BlockType.BLOCK_TEXT}>
+                        <p style="color: #555555; line-height: 200%; font-size: 16px; font-weight: bold;">
+                            IPhone X
+                        </p>
+                    </${distExports.BlockType.BLOCK_TEXT}>    
+                    <${distExports.BlockType.BLOCK_TEXT}>
+                        <p style="color: #555555; line-height: 200%; font-size: 14px;">
+                            999.95
+                        </p>
+                    </${distExports.BlockType.BLOCK_TEXT}>
+                    <${distExports.BlockType.BLOCK_BUTTON} ${distExports.BlockAttr.BLOCK_BUTTON.href}="https://google.com">
+                        Buy
+                    </${distExports.BlockType.BLOCK_TEXT}>
+                </${distExports.BlockType.CONTAINER}>
+            </td>`;
+  }
+}
+class SampleSettingsPanelRegistry extends distExports.SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[CLASSIC_BLOCK_ID] = [
+      new distExports.SettingsPanelTab(
+        distExports.SettingsTab.STYLES,
+        [
+          // LINK_COLOR_CONTROL_ID,
+          // TEXT_SIZE_CONTROL_ID,
+          // TEXT_STYLE_CONTROL_ID,
+          // TEXT_LINE_SPACING_ID,
+        ]
+      )
+    ];
+    controls2[CLASSIC_STRUCTURE_ID] = [
+      new distExports.SettingsPanelTab(
+        "Structure",
+        [
+          STRUCTURE_BORDER_ID
+        ]
+      ).withLabel(this.api.translate("Structure")),
+      new distExports.SettingsPanelTab(
+        "Button",
+        [
+          BUTTON_TEXT_CONTROL_ID,
+          BUTTON_BORDER_ID
+        ]
+      ).withLabel(this.api.translate("Button"))
+    ];
+    controls2[PRODUCT_STRUCTURE_ID] = [
+      new distExports.SettingsPanelTab(
+        "Product",
+        [
+          STRUCTURE_BORDER_ID
+        ]
+      ).withLabel(this.api.translate("Product")),
+      new distExports.SettingsPanelTab(
+        "Card",
+        [
+          BUTTON_TEXT_CONTROL_ID,
+          BUTTON_BACKGROUND_COLOR_ID,
+          BUTTON_BORDER_ID
+        ]
+      ).withLabel(this.api.translate("Card"))
+    ];
+  }
+}
+const LINK_COLOR_CONTROL_ID = "linkColorBuiltInControl";
+class LinkColorControl extends distExports.LinkColorBuiltInControl {
+  /**
+   * Gets the unique identifier for this control
+   * @returns {string} The control ID
+   */
+  getId() {
+    return LINK_COLOR_CONTROL_ID;
+  }
+  /**
+   * Gets the display labels for this control
+   * @returns {Object} Object containing title label
+   */
+  getLabels() {
+    return {
+      title: this.api.translate("Link color built in control")
+    };
+  }
+  /**
+   * Gets the target nodes to apply link color modifications to
+   * @param {ImmutableHtmlNode} block - The block containing link elements
+   * @returns {Object} Object containing target link nodes and root text node
+   */
+  getTargetNodes(block) {
+    return {
+      targetNodes: block.querySelectorAll("a"),
+      textRootNode: block
+    };
+  }
+}
+const TEXT_SIZE_CONTROL_ID = "extendedTextSize";
+class TextSizeControl extends distExports.TextSizeBuiltInControl {
+  getId() {
+    return TEXT_SIZE_CONTROL_ID;
+  }
+  getLabels() {
+    return {
+      title: "Extended text size control"
+    };
+  }
+  getTargetNodes(block) {
+    return {
+      targetNodes: block.querySelectorAll("span"),
+      mobileClassTargetNodes: [block]
+    };
+  }
+  getMobileClassSpecificSelector() {
+    return " span";
+  }
+}
+const TEXT_STYLE_CONTROL_ID = "extendedTextStyle";
+class TextStyleControl extends distExports.TextStyleBuiltInControl {
+  getId() {
+    return TEXT_STYLE_CONTROL_ID;
+  }
+  getLabels() {
+    return {
+      title: "Text style control"
+    };
+  }
+  getTargetNodes(block) {
+    return {
+      targetNodes: block.querySelectorAll("span")
+    };
+  }
+}
+const TEXT_LINE_SPACING_ID = "extendedTextLineSpacing";
+class TextLineSpacingControl extends distExports.TextLineSpacingBuiltInControl {
+  getId() {
+    return TEXT_LINE_SPACING_ID;
+  }
+  getTargetNodes(block) {
+    return {
+      targetNodes: block.querySelectorAll("span")
+    };
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Extended line spacing")
+    };
+  }
+  getAdditionalModifications(root) {
+    const modifier = this.api.getDocumentModifier();
+    const h2 = root.querySelector("h2");
+    const allPSelectors = root.querySelectorAll("p");
+    if (allPSelectors.length > 0) {
+      allPSelectors.find((p) => {
+        modifier.modifyHtml(p).setStyle("color", "#bf0bdd");
+      });
+    }
+    if (h2) {
+      modifier.modifyHtml(h2).setClass("custom-line-spacing-applied-h2");
+    }
+    return modifier.modifyHtml(root).setClass("custom-line-spacing-applied");
+  }
+}
+const BUTTON_HOVER_TEXT_COLOR_ID = "extendedButtonHoverTextColor";
+class ButtonHoverTextColorControl extends distExports.ButtonHoverTextColorBuiltInControl {
+  constructor() {
+    super(...arguments);
+    __publicField(this, "root");
+  }
+  setRoot(root) {
+    this.root = root;
+  }
+  getId() {
+    return BUTTON_HOVER_TEXT_COLOR_ID;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Button built in hover text color")
+    };
+  }
+  getTargetNodes(_root) {
+    return {
+      targetNodes: [_root.querySelector(".es-custom-link-selector") ?? _root.querySelector(".es-button")]
+    };
+  }
+  getHoverLinkSelector(_generateClass) {
+    const customLinkNode = this.root.querySelector(".es-custom-link-selector");
+    const customBorderNode = this.root.querySelector(".es-custom-border-selector");
+    let selector = "";
+    if (customBorderNode) {
+      selector += ".es-custom-border-selector:hover ";
+    } else {
+      selector += ".es-button-border:hover ";
+    }
+    if (customLinkNode) {
+      selector += `.es-custom-link-selector.${_generateClass}`;
+    } else {
+      selector += `a.${_generateClass}`;
+    }
+    return selector;
+  }
+  getAdditionalModifications(root) {
+    const modifier = this.api.getDocumentModifier();
+    return modifier.modifyHtml(root).setClass("custom-button-hover-text-color-applied");
+  }
+}
+const BUTTON_HOVER_BORDER_COLOR_ID = "extendedButtonHoverBorderColor";
+class ButtonHoverBorderColorControl extends distExports.ButtonHoverBorderColorBuiltInControl {
+  constructor() {
+    super(...arguments);
+    __publicField(this, "root");
+  }
+  setRoot(root) {
+    this.root = root;
+  }
+  getId() {
+    return BUTTON_HOVER_BORDER_COLOR_ID;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Button built in hover border color")
+    };
+  }
+  getTargetNodes(_root) {
+    return {
+      targetNodes: [],
+      borderNode: _root.querySelector(".es-custom-border-selector") ?? _root.querySelector(".es-button-border"),
+      borderLinkNode: _root.querySelector(".es-custom-link-selector") ?? _root.querySelector(".es-button")
+    };
+  }
+  getHoverBorderSelector(_generateClass) {
+    const customNode = this.root.querySelector(".es-custom-border-selector");
+    let selector = "";
+    if (customNode) {
+      selector += `.es-custom-border-selector.${_generateClass}:hover`;
+    } else {
+      selector += `.${_generateClass}:hover`;
+    }
+    return selector;
+  }
+  getHoverLinkSelector(_generateClass) {
+    const customLinkNode = this.root.querySelector(".es-custom-link-selector");
+    const customBorderNode = this.root.querySelector(".es-custom-border-selector");
+    let selector = "";
+    if (customBorderNode) {
+      selector += ".es-custom-border-selector:hover ";
+    } else {
+      selector += ".es-button-border:hover ";
+    }
+    if (customLinkNode) {
+      selector += `.es-custom-link-selector.${_generateClass}`;
+    } else {
+      selector += `a.${_generateClass}`;
+    }
+    return selector;
+  }
+  getAdditionalModifications(root) {
+    const modifier = this.api.getDocumentModifier();
+    return modifier.modifyHtml(root).setClass("custom-button-hover-border-color-applied");
+  }
+}
+const BUTTON_HOVER_COLOR_ID = "extendedButtonHoverColor";
+class ButtonHoverColorControl extends distExports.ButtonHoverColorBuiltInControl {
+  constructor() {
+    super(...arguments);
+    __publicField(this, "root");
+  }
+  setRoot(root) {
+    this.root = root;
+  }
+  getId() {
+    return BUTTON_HOVER_COLOR_ID;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Button built in hover color")
+    };
+  }
+  getTargetNodes(_root) {
+    return {
+      targetNodes: [],
+      borderNode: _root.querySelector(".es-custom-border-selector") ?? _root.querySelector(".es-button-border"),
+      borderLinkNode: _root.querySelector(".es-custom-link-selector") ?? _root.querySelector(".es-button")
+    };
+  }
+  getHoverBorderSelector(_generateClass) {
+    const customNode = this.root.querySelector(".es-custom-border-selector");
+    let selector = "";
+    if (customNode) {
+      selector += `.es-custom-border-selector.${_generateClass}:hover`;
+    } else {
+      selector += `.${_generateClass}:hover`;
+    }
+    return selector;
+  }
+  getHoverLinkSelector(_generateClass) {
+    const customLinkNode = this.root.querySelector(".es-custom-link-selector");
+    const customBorderNode = this.root.querySelector(".es-custom-border-selector");
+    let selector = "";
+    if (customBorderNode) {
+      selector += ".es-custom-border-selector:hover ";
+    } else {
+      selector += ".es-button-border:hover ";
+    }
+    if (customLinkNode) {
+      selector += `.es-custom-link-selector.${_generateClass}`;
+    } else {
+      selector += `a.${_generateClass}`;
+    }
+    return selector;
+  }
+  getAdditionalModifications(root) {
+    const modifier = this.api.getDocumentModifier();
+    return modifier.modifyHtml(root).setClass("custom-button-hover-color-applied");
+  }
+}
+const BUTTON_TEXT_COLOR_ID = "extendedButtonTextColor";
+class ButtonTextColorControl extends distExports.ButtonFontColorBuiltInControl {
+  constructor() {
+    super(...arguments);
+    __publicField(this, "root");
+  }
+  getId() {
+    return BUTTON_TEXT_COLOR_ID;
+  }
+  setRoot(root) {
+    this.root = root;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Button built in text color")
+    };
+  }
+  getTargetNodes(_root) {
+    return {
+      targetNodes: [_root.querySelector(".es-custom-link-selector") ?? _root.querySelector(".es-button")],
+      contrastRefenceNode: _root.querySelector(".es-custom-border-selector") ?? _root.querySelector(".es-button-border")
+    };
+  }
+  getHoverLinkSelector(_generateClass) {
+    const customLinkNode = this.root.querySelector(".es-custom-link-selector");
+    const customBorderNode = this.root.querySelector(".es-custom-border-selector");
+    let selector = "";
+    if (customBorderNode) {
+      selector += ".es-custom-border-selector:hover ";
+    } else {
+      selector += ".es-button-border:hover ";
+    }
+    if (customLinkNode) {
+      selector += `.es-custom-link-selector.${_generateClass}`;
+    } else {
+      selector += `a.${_generateClass}`;
+    }
+    return selector;
+  }
+  getAdditionalModifications(root) {
+    const modifier = this.api.getDocumentModifier();
+    return modifier.modifyHtml(root).setClass("custom-button-text-color-applied");
+  }
+}
+const controls = [
+  ButtonBackgroundColorControl,
+  ButtonTextControl,
+  StructureBorderControl,
+  LinkColorControl,
+  TextSizeControl,
+  TextStyleControl,
+  ButtonBorderControl,
+  ButtonHoverTextColorControl,
+  ButtonHoverBorderColorControl,
+  ButtonHoverColorControl,
+  ExtendedBackgroundImageControl$1,
+  TextLineSpacingControl,
+  ButtonTextColorControl
+];
+const builder = new distExports.ExtensionBuilder().addBlock(ClassicBlock).addBlock(ClassicStructureBlock).addBlock(ProductStructureBlock).withSettingsPanelRegistry(SampleSettingsPanelRegistry);
+for (const control of controls) {
+  builder.addControl(control);
+}
+const gitSample_10_built_in_controls = builder.build();
 const extensionsMap = {
   textBlockWithCustomControls,
   textBlockWithExtendedControls,
@@ -6248,9 +7116,10 @@ const extensionsMap = {
   gitSample_06_External_AI_Assistant,
   gitSample_07_External_Custom_Font,
   gitSample_08_External_Display_Conditions,
-  gitSample_09_External_Videos_Library,
-  gitSample_11_External_Display_Conditions_Context_Menu,
-  gitSample_12_Blocks_Panel
+  gitSample_09_External_Display_Conditions_With_Context_Menu,
+  gitSample_10_External_Videos_Library,
+  gitSample_11_Blocks_Panel,
+  gitSample_10_built_in_controls
 };
 export {
   extensionsMap as default
