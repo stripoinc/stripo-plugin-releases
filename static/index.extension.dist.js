@@ -2,108 +2,6 @@ var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 var dist = {};
-var UIElement = {};
-var hasRequiredUIElement;
-function requireUIElement() {
-  if (hasRequiredUIElement) return UIElement;
-  hasRequiredUIElement = 1;
-  Object.defineProperty(UIElement, "__esModule", { value: true });
-  UIElement.UIElement = void 0;
-  var UIElement$1 = (
-    /** @class */
-    function() {
-      function UIElement2() {
-      }
-      UIElement2.prototype.onDestroy = function() {
-      };
-      UIElement2.prototype.getValue = function() {
-      };
-      UIElement2.prototype.setValue = function(value) {
-      };
-      UIElement2.prototype.onAttributeUpdated = function(name, value) {
-      };
-      return UIElement2;
-    }()
-  );
-  UIElement.UIElement = UIElement$1;
-  return UIElement;
-}
-var Control = {};
-var hasRequiredControl;
-function requireControl() {
-  if (hasRequiredControl) return Control;
-  hasRequiredControl = 1;
-  Object.defineProperty(Control, "__esModule", { value: true });
-  Control.Control = void 0;
-  var Control$1 = (
-    /** @class */
-    function() {
-      function Control2() {
-      }
-      Control2.prototype.onRender = function() {
-      };
-      Control2.prototype.onDestroy = function() {
-      };
-      return Control2;
-    }()
-  );
-  Control.Control = Control$1;
-  return Control;
-}
-var SettingsPanelRegistry = {};
-var hasRequiredSettingsPanelRegistry;
-function requireSettingsPanelRegistry() {
-  if (hasRequiredSettingsPanelRegistry) return SettingsPanelRegistry;
-  hasRequiredSettingsPanelRegistry = 1;
-  Object.defineProperty(SettingsPanelRegistry, "__esModule", { value: true });
-  SettingsPanelRegistry.SettingsPanelRegistry = void 0;
-  var SettingsPanelRegistry$1 = (
-    /** @class */
-    /* @__PURE__ */ function() {
-      function SettingsPanelRegistry2() {
-      }
-      return SettingsPanelRegistry2;
-    }()
-  );
-  SettingsPanelRegistry.SettingsPanelRegistry = SettingsPanelRegistry$1;
-  return SettingsPanelRegistry;
-}
-var ContextAction = {};
-var hasRequiredContextAction;
-function requireContextAction() {
-  if (hasRequiredContextAction) return ContextAction;
-  hasRequiredContextAction = 1;
-  Object.defineProperty(ContextAction, "__esModule", { value: true });
-  ContextAction.ContextAction = void 0;
-  var ContextAction$1 = (
-    /** @class */
-    /* @__PURE__ */ function() {
-      function ContextAction2() {
-      }
-      return ContextAction2;
-    }()
-  );
-  ContextAction.ContextAction = ContextAction$1;
-  return ContextAction;
-}
-var BlockRenderer = {};
-var hasRequiredBlockRenderer;
-function requireBlockRenderer() {
-  if (hasRequiredBlockRenderer) return BlockRenderer;
-  hasRequiredBlockRenderer = 1;
-  Object.defineProperty(BlockRenderer, "__esModule", { value: true });
-  BlockRenderer.BlockRenderer = void 0;
-  var BlockRenderer$1 = (
-    /** @class */
-    /* @__PURE__ */ function() {
-      function BlockRenderer2() {
-      }
-      return BlockRenderer2;
-    }()
-  );
-  BlockRenderer.BlockRenderer = BlockRenderer$1;
-  return BlockRenderer;
-}
 var Block = {};
 var BlockCompositionType = {};
 var hasRequiredBlockCompositionType;
@@ -180,319 +78,150 @@ function requireBlock() {
   Block.Block = Block$1;
   return Block;
 }
-var ExtensionBuilder = {};
-var Extension = {};
-var hasRequiredExtension;
-function requireExtension() {
-  if (hasRequiredExtension) return Extension;
-  hasRequiredExtension = 1;
-  Object.defineProperty(Extension, "__esModule", { value: true });
-  Extension.Extension = void 0;
-  var Extension$1 = (
-    /** @class */
-    function() {
-      function Extension2(i18n, styles2, uiElements, uiElementTagRegistry, controls2, settingsPanelRegistry, contextActions, blocks, externalSmartElementsLibrary2, externalImageLibrary, previewStyles2, externalAiAssistant2, externalDisplayConditionsLibrary, externalVideoLibrary, blocksPanel) {
-        if (uiElements === void 0) {
-          uiElements = [];
-        }
-        if (controls2 === void 0) {
-          controls2 = [];
-        }
-        if (contextActions === void 0) {
-          contextActions = [];
-        }
-        if (blocks === void 0) {
-          blocks = [];
-        }
-        this.uiElements = [];
-        this.controls = [];
-        this.contextActions = [];
-        this.blocks = [];
-        this.i18n = i18n;
-        this.styles = styles2;
-        this.previewStyles = previewStyles2;
-        this.uiElements = uiElements;
-        this.uiElementTagRegistry = uiElementTagRegistry;
-        this.controls = controls2;
-        this.settingsPanelRegistry = settingsPanelRegistry;
-        this.contextActions = contextActions;
-        this.blocks = blocks;
-        this.externalSmartElementsLibrary = externalSmartElementsLibrary2;
-        this.externalImageLibrary = externalImageLibrary;
-        this.externalAiAssistant = externalAiAssistant2;
-        this.externalDisplayConditionsLibrary = externalDisplayConditionsLibrary;
-        this.externalVideoLibrary = externalVideoLibrary;
-        this.blocksPanel = blocksPanel;
-        this.id = Math.random().toString(36).substring(2);
-      }
-      Extension2.prototype.getI18n = function() {
-        return this.i18n;
-      };
-      Extension2.prototype.getStyles = function() {
-        return this.styles;
-      };
-      Extension2.prototype.getPreviewStyles = function() {
-        return this.previewStyles;
-      };
-      Extension2.prototype.getUiElements = function() {
-        return this.uiElements;
-      };
-      Extension2.prototype.getUiElementTagRegistry = function() {
-        return this.uiElementTagRegistry;
-      };
-      Extension2.prototype.getControls = function() {
-        return this.controls;
-      };
-      Extension2.prototype.getSettingsPanelRegistry = function() {
-        return this.settingsPanelRegistry;
-      };
-      Extension2.prototype.getContextActions = function() {
-        return this.contextActions;
-      };
-      Extension2.prototype.getBlocks = function() {
-        return this.blocks;
-      };
-      Extension2.prototype.getId = function() {
-        return this.id;
-      };
-      Extension2.prototype.getExternalSmartElementsLibrary = function() {
-        return this.externalSmartElementsLibrary;
-      };
-      Extension2.prototype.getExternalImageLibrary = function() {
-        return this.externalImageLibrary;
-      };
-      Extension2.prototype.getExternalAiAssistant = function() {
-        return this.externalAiAssistant;
-      };
-      Extension2.prototype.getExternalDisplayConditionsLibrary = function() {
-        return this.externalDisplayConditionsLibrary;
-      };
-      Extension2.prototype.getExternalVideoLibrary = function() {
-        return this.externalVideoLibrary;
-      };
-      Extension2.prototype.getBlocksPanel = function() {
-        return this.blocksPanel;
-      };
-      return Extension2;
-    }()
-  );
-  Extension.Extension = Extension$1;
-  return Extension;
-}
-var hasRequiredExtensionBuilder;
-function requireExtensionBuilder() {
-  if (hasRequiredExtensionBuilder) return ExtensionBuilder;
-  hasRequiredExtensionBuilder = 1;
-  Object.defineProperty(ExtensionBuilder, "__esModule", { value: true });
-  ExtensionBuilder.ExtensionBuilder = void 0;
-  var Extension_1 = requireExtension();
-  var ExtensionBuilder$1 = (
-    /** @class */
-    function() {
-      function ExtensionBuilder2() {
-        this.uiElements = [];
-        this.controls = [];
-        this.contextActions = [];
-        this.blocks = [];
-      }
-      ExtensionBuilder2.prototype.withLocalization = function(i18n) {
-        this.i18n = i18n;
-        return this;
-      };
-      ExtensionBuilder2.prototype.withStyles = function(styles2) {
-        this.styles = styles2;
-        return this;
-      };
-      ExtensionBuilder2.prototype.withPreviewStyles = function(styles2) {
-        this.previewStyles = styles2;
-        return this;
-      };
-      ExtensionBuilder2.prototype.addContextAction = function(contextAction) {
-        this.contextActions.push(contextAction);
-        return this;
-      };
-      ExtensionBuilder2.prototype.addUiElement = function(uiElement) {
-        this.uiElements.push(uiElement);
-        return this;
-      };
-      ExtensionBuilder2.prototype.withUiElementTagRegistry = function(uiElementTagRegistry) {
-        this.uiElementTagRegistry = uiElementTagRegistry;
-        return this;
-      };
-      ExtensionBuilder2.prototype.addControl = function(control) {
-        this.controls.push(control);
-        return this;
-      };
-      ExtensionBuilder2.prototype.withSettingsPanelRegistry = function(settingsPanelRegistry) {
-        this.settingsPanelRegistry = settingsPanelRegistry;
-        return this;
-      };
-      ExtensionBuilder2.prototype.withExternalSmartElementsLibrary = function(externalSmartElementsLibrary2) {
-        this.externalSmartElementsLibrary = externalSmartElementsLibrary2;
-        return this;
-      };
-      ExtensionBuilder2.prototype.withExternalImageLibrary = function(externalImageLibrary) {
-        this.externalImageLibrary = externalImageLibrary;
-        return this;
-      };
-      ExtensionBuilder2.prototype.withExternalAiAssistant = function(externalAiAssistant2) {
-        this.externalAiAssistant = externalAiAssistant2;
-        return this;
-      };
-      ExtensionBuilder2.prototype.withExternalDisplayCondition = function(externalDisplayCondition) {
-        this.externalDisplayConditionsLibrary = externalDisplayCondition;
-        return this;
-      };
-      ExtensionBuilder2.prototype.withExternalVideosLibrary = function(externalVideoLibrary) {
-        this.externalVideoLibrary = externalVideoLibrary;
-        return this;
-      };
-      ExtensionBuilder2.prototype.withBlocksPanel = function(blocksPanel) {
-        this.blocksPanel = blocksPanel;
-        return this;
-      };
-      ExtensionBuilder2.prototype.addBlock = function(block) {
-        this.blocks.push(block);
-        return this;
-      };
-      ExtensionBuilder2.prototype.build = function() {
-        return new Extension_1.Extension(this.i18n, this.styles, this.uiElements, this.uiElementTagRegistry, this.controls, this.settingsPanelRegistry, this.contextActions, this.blocks, this.externalSmartElementsLibrary, this.externalImageLibrary, this.previewStyles, this.externalAiAssistant, this.externalDisplayConditionsLibrary, this.externalVideoLibrary, this.blocksPanel);
-      };
-      return ExtensionBuilder2;
-    }()
-  );
-  ExtensionBuilder.ExtensionBuilder = ExtensionBuilder$1;
-  return ExtensionBuilder;
-}
-var UIElementTagRegistry = {};
-var hasRequiredUIElementTagRegistry;
-function requireUIElementTagRegistry() {
-  if (hasRequiredUIElementTagRegistry) return UIElementTagRegistry;
-  hasRequiredUIElementTagRegistry = 1;
-  Object.defineProperty(UIElementTagRegistry, "__esModule", { value: true });
-  UIElementTagRegistry.UIElementTagRegistry = void 0;
-  var UIElementTagRegistry$1 = (
+var BlockRenderer = {};
+var hasRequiredBlockRenderer;
+function requireBlockRenderer() {
+  if (hasRequiredBlockRenderer) return BlockRenderer;
+  hasRequiredBlockRenderer = 1;
+  Object.defineProperty(BlockRenderer, "__esModule", { value: true });
+  BlockRenderer.BlockRenderer = void 0;
+  var BlockRenderer$1 = (
     /** @class */
     /* @__PURE__ */ function() {
-      function UIElementTagRegistry2() {
+      function BlockRenderer2() {
       }
-      return UIElementTagRegistry2;
+      return BlockRenderer2;
     }()
   );
-  UIElementTagRegistry.UIElementTagRegistry = UIElementTagRegistry$1;
-  return UIElementTagRegistry;
+  BlockRenderer.BlockRenderer = BlockRenderer$1;
+  return BlockRenderer;
 }
-var ModificationDescription = {};
-var hasRequiredModificationDescription;
-function requireModificationDescription() {
-  if (hasRequiredModificationDescription) return ModificationDescription;
-  hasRequiredModificationDescription = 1;
-  Object.defineProperty(ModificationDescription, "__esModule", { value: true });
-  ModificationDescription.ModificationDescription = void 0;
-  var ModificationDescription$1 = (
+var BlocksPanel = {};
+var hasRequiredBlocksPanel;
+function requireBlocksPanel() {
+  if (hasRequiredBlocksPanel) return BlocksPanel;
+  hasRequiredBlocksPanel = 1;
+  Object.defineProperty(BlocksPanel, "__esModule", { value: true });
+  BlocksPanel.BlocksPanel = void 0;
+  var BlocksPanel$1 = (
     /** @class */
     function() {
-      function ModificationDescription2(key) {
-        this.key = key;
+      function BlocksPanel2() {
       }
-      ModificationDescription2.prototype.withParams = function(params) {
-        this.params = params;
-        return this;
+      BlocksPanel2.prototype.getBlockItemHtml = function(block) {
+        return void 0;
       };
-      ModificationDescription2.prototype.getValue = function() {
+      BlocksPanel2.prototype.isBlockHintVisible = function(block) {
+        return true;
+      };
+      BlocksPanel2.prototype.getBlockHint = function(block) {
         return {
-          key: this.key,
-          params: this.params
+          title: block.title,
+          description: block.description
         };
       };
-      return ModificationDescription2;
+      BlocksPanel2.prototype.getBlocksPanelHeaderHtml = function() {
+        return void 0;
+      };
+      BlocksPanel2.prototype.getModulesPanelCollapsedHtml = function() {
+        return void 0;
+      };
+      BlocksPanel2.prototype.isModulesPanelCollapsedHintVisible = function() {
+        return true;
+      };
+      BlocksPanel2.prototype.getHintDelay = function() {
+        return void 0;
+      };
+      BlocksPanel2.prototype.getModulesPanelHint = function() {
+        return void 0;
+      };
+      return BlocksPanel2;
     }()
   );
-  ModificationDescription.ModificationDescription = ModificationDescription$1;
-  return ModificationDescription;
+  BlocksPanel.BlocksPanel = BlocksPanel$1;
+  return BlocksPanel;
 }
-var SettingsPanelTab = {};
-var hasRequiredSettingsPanelTab;
-function requireSettingsPanelTab() {
-  if (hasRequiredSettingsPanelTab) return SettingsPanelTab;
-  hasRequiredSettingsPanelTab = 1;
-  Object.defineProperty(SettingsPanelTab, "__esModule", { value: true });
-  SettingsPanelTab.SettingsPanelTab = void 0;
-  var SettingsPanelTab$1 = (
+var ContextAction = {};
+var hasRequiredContextAction;
+function requireContextAction() {
+  if (hasRequiredContextAction) return ContextAction;
+  hasRequiredContextAction = 1;
+  Object.defineProperty(ContextAction, "__esModule", { value: true });
+  ContextAction.ContextAction = void 0;
+  var ContextAction$1 = (
     /** @class */
-    function() {
-      function SettingsPanelTab2(tabId, controlsIds) {
-        this.tabId = tabId;
-        this.controlsIds = controlsIds;
+    /* @__PURE__ */ function() {
+      function ContextAction2() {
       }
-      SettingsPanelTab2.prototype.getTabId = function() {
-        return this.tabId;
-      };
-      SettingsPanelTab2.prototype.getLabel = function() {
-        return this.label;
-      };
-      SettingsPanelTab2.prototype.getControlsIds = function() {
-        return this.controlsIds;
-      };
-      SettingsPanelTab2.prototype.withLabel = function(label) {
-        this.label = label;
-        return this;
-      };
-      SettingsPanelTab2.prototype.addControl = function(controlId, position) {
-        if (position < 0) {
-          this.controlsIds.unshift(controlId);
-        } else if (position > this.controlsIds.length) {
-          this.controlsIds.push(controlId);
-        } else {
-          this.controlsIds.splice(position, 0, controlId);
-        }
-        return this;
-      };
-      SettingsPanelTab2.prototype.deleteControl = function(controlId) {
-        var index = this.controlsIds.indexOf(controlId);
-        if (index !== -1) {
-          this.controlsIds.splice(index, 1);
-        }
-      };
-      return SettingsPanelTab2;
+      return ContextAction2;
     }()
   );
-  SettingsPanelTab.SettingsPanelTab = SettingsPanelTab$1;
-  return SettingsPanelTab;
+  ContextAction.ContextAction = ContextAction$1;
+  return ContextAction;
 }
-var UIElementType = {};
-var hasRequiredUIElementType;
-function requireUIElementType() {
-  if (hasRequiredUIElementType) return UIElementType;
-  hasRequiredUIElementType = 1;
-  Object.defineProperty(UIElementType, "__esModule", { value: true });
-  UIElementType.UIElementType = void 0;
-  var UIElementType$1;
-  (function(UIElementType2) {
-    UIElementType2["BUTTON"] = "UE-BUTTON";
-    UIElementType2["CHECKBOX"] = "UE-CHECKBOX";
-    UIElementType2["CHECK_BUTTONS"] = "UE-CHECK-BUTTONS";
-    UIElementType2["COLOR"] = "UE-COLOR";
-    UIElementType2["COUNTER"] = "UE-COUNTER";
-    UIElementType2["DATEPICKER"] = "UE-DATEPICKER";
-    UIElementType2["LABEL"] = "UE-LABEL";
-    UIElementType2["MESSAGE"] = "UE-MESSAGE";
-    UIElementType2["RADIO_BUTTONS"] = "UE-RADIO-BUTTONS";
-    UIElementType2["SELECTPICKER"] = "UE-SELECT";
-    UIElementType2["SWITCHER"] = "UE-SWITCHER";
-    UIElementType2["TEXT"] = "UE-TEXT";
-    UIElementType2["TEXTAREA"] = "UE-TEXTAREA";
-    UIElementType2["CHECK_ITEM"] = "UE-CHECK-ITEM";
-    UIElementType2["RADIO_ITEM"] = "UE-RADIO-ITEM";
-    UIElementType2["SELECT_ITEM"] = "UE-SELECT-ITEM";
-    UIElementType2["ICON"] = "UE-ICON";
-    UIElementType2["MERGETAGS"] = "UE-MERGETAGS";
-    UIElementType2["FONT_FAMILY_SELECT"] = "UE-FONT-FAMILY-SELECT";
-    UIElementType2["NESTED_CONTROL"] = "UE-NESTED-CONTROL";
-  })(UIElementType$1 || (UIElementType.UIElementType = UIElementType$1 = {}));
-  return UIElementType;
+var AddCustomFont = {};
+var hasRequiredAddCustomFont;
+function requireAddCustomFont() {
+  if (hasRequiredAddCustomFont) return AddCustomFont;
+  hasRequiredAddCustomFont = 1;
+  Object.defineProperty(AddCustomFont, "__esModule", { value: true });
+  AddCustomFont.ADD_CUSTOM_FONT_OPTION = void 0;
+  AddCustomFont.ADD_CUSTOM_FONT_OPTION = "ADD_CUSTOM_FONT_OPTION";
+  return AddCustomFont;
 }
-var BuiltInControlTypes = {};
+var AiAssistantValueType = {};
+var hasRequiredAiAssistantValueType;
+function requireAiAssistantValueType() {
+  if (hasRequiredAiAssistantValueType) return AiAssistantValueType;
+  hasRequiredAiAssistantValueType = 1;
+  Object.defineProperty(AiAssistantValueType, "__esModule", { value: true });
+  AiAssistantValueType.AiAssistantValueType = void 0;
+  var AiAssistantValueType$1;
+  (function(AiAssistantValueType2) {
+    AiAssistantValueType2["SUBJECT"] = "subject";
+    AiAssistantValueType2["HIDDEN_PREHEADER"] = "hiddenPreheader";
+    AiAssistantValueType2["TEXT_BLOCK"] = "textBlock";
+  })(AiAssistantValueType$1 || (AiAssistantValueType.AiAssistantValueType = AiAssistantValueType$1 = {}));
+  return AiAssistantValueType;
+}
+var BlockAttributes = {};
+var hasRequiredBlockAttributes;
+function requireBlockAttributes() {
+  if (hasRequiredBlockAttributes) return BlockAttributes;
+  hasRequiredBlockAttributes = 1;
+  var __assign = BlockAttributes && BlockAttributes.__assign || function() {
+    __assign = Object.assign || function(t) {
+      for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+          t[p] = s[p];
+      }
+      return t;
+    };
+    return __assign.apply(this, arguments);
+  };
+  Object.defineProperty(BlockAttributes, "__esModule", { value: true });
+  BlockAttributes.BlockAttr = void 0;
+  var containerAttributes = {
+    widthPercent: "width-percent"
+  };
+  var emptyContainerAttributes = __assign(__assign({}, containerAttributes), { blocks: "blocks" });
+  var imageAttributes = {
+    src: "src",
+    alt: "alt",
+    href: "href"
+  };
+  var buttonAttributes = {
+    href: "href"
+  };
+  BlockAttributes.BlockAttr = {
+    EMPTY_CONTAINER: emptyContainerAttributes,
+    CONTAINER: containerAttributes,
+    BLOCK_IMAGE: imageAttributes,
+    BLOCK_BUTTON: buttonAttributes
+  };
+  return BlockAttributes;
+}
 var BlockType = {};
 var hasRequiredBlockType;
 function requireBlockType() {
@@ -527,6 +256,7 @@ function requireBlockType() {
   })(BlockType$1 || (BlockType.BlockType = BlockType$1 = {}));
   return BlockType;
 }
+var BuiltInControlTypes = {};
 var hasRequiredBuiltInControlTypes;
 function requireBuiltInControlTypes() {
   if (hasRequiredBuiltInControlTypes) return BuiltInControlTypes;
@@ -886,6 +616,68 @@ function requireBuiltInControlTypes() {
   BuiltInControlTypes.BuiltInControlTypes = (_a = {}, _a[BlockType_1.BlockType.BLOCK_BANNER] = BannerControls, _a[BlockType_1.BlockType.BLOCK_BUTTON] = ButtonControls, _a[BlockType_1.BlockType.BLOCK_TEXT] = TextControls, _a[BlockType_1.BlockType.BLOCK_VIDEO] = VideoControls, _a[BlockType_1.BlockType.BLOCK_TIMER] = TimerControls, _a[BlockType_1.BlockType.BLOCK_SPACER] = SpacerControls, _a[BlockType_1.BlockType.BLOCK_IMAGE] = ImageControls, _a[BlockType_1.BlockType.BLOCK_HTML] = HTMLControls, _a[BlockType_1.BlockType.BLOCK_SOCIAL] = SocialControls, _a[BlockType_1.BlockType.BLOCK_MENU] = MenuControls, _a[BlockType_1.BlockType.BLOCK_AMP_FORM] = AmpFormControls, _a[BlockType_1.BlockType.BLOCK_AMP_ACCORDION] = AccordionControls, _a[BlockType_1.BlockType.BLOCK_AMP_CAROUSEL] = CarouselControls, _a[BlockType_1.BlockType.STRIPE] = StripeControls, _a[BlockType_1.BlockType.STRUCTURE] = StructureControls, _a[BlockType_1.BlockType.CONTAINER] = ContainerControls, _a[BlockType_1.BlockType.CUSTOM_BLOCK_LINK] = CustomLinkControls, _a[BlockType_1.BlockType.CUSTOM_BLOCK_IMAGE] = CustomImageControls, _a[BlockType_1.BlockType.CUSTOM_BLOCK_TEXT] = CustomTextControls, _a.BANNER_CHILD = BannerChildControls, _a.MESSAGE_SETTINGS = MessageSettingsControls, _a.GENERAL_STYLES = GeneralStylesControls, _a.GENERAL = GeneralControls, _a);
   return BuiltInControlTypes;
 }
+var ContextActionType = {};
+var hasRequiredContextActionType;
+function requireContextActionType() {
+  if (hasRequiredContextActionType) return ContextActionType;
+  hasRequiredContextActionType = 1;
+  Object.defineProperty(ContextActionType, "__esModule", { value: true });
+  ContextActionType.ContextActionType = void 0;
+  var ContextActionType$1;
+  (function(ContextActionType2) {
+    ContextActionType2["SAVE_AS_MODULE"] = "saveAsModule";
+    ContextActionType2["UPDATE_MODULE"] = "updateModule";
+    ContextActionType2["IMPROVE_WITH_AI"] = "improveWithAI";
+    ContextActionType2["MOVE"] = "move";
+    ContextActionType2["COPY"] = "copy";
+    ContextActionType2["REMOVE"] = "remove";
+    ContextActionType2["CLEAR_CONTAINER"] = "clearContainer";
+    ContextActionType2["REMOVE_CONTAINER"] = "removeContainer";
+    ContextActionType2["EXTERNAL_DISPLAY_CONDITION"] = "externalDisplayCondition";
+  })(ContextActionType$1 || (ContextActionType.ContextActionType = ContextActionType$1 = {}));
+  return ContextActionType;
+}
+var EditorStatePropertyType = {};
+var hasRequiredEditorStatePropertyType;
+function requireEditorStatePropertyType() {
+  if (hasRequiredEditorStatePropertyType) return EditorStatePropertyType;
+  hasRequiredEditorStatePropertyType = 1;
+  Object.defineProperty(EditorStatePropertyType, "__esModule", { value: true });
+  EditorStatePropertyType.EditorStatePropertyType = void 0;
+  var EditorStatePropertyType$1;
+  (function(EditorStatePropertyType2) {
+    EditorStatePropertyType2["previewDeviceMode"] = "previewDeviceMode";
+  })(EditorStatePropertyType$1 || (EditorStatePropertyType.EditorStatePropertyType = EditorStatePropertyType$1 = {}));
+  return EditorStatePropertyType;
+}
+var PanelPosition = {};
+var hasRequiredPanelPosition;
+function requirePanelPosition() {
+  if (hasRequiredPanelPosition) return PanelPosition;
+  hasRequiredPanelPosition = 1;
+  Object.defineProperty(PanelPosition, "__esModule", { value: true });
+  PanelPosition.PanelPosition = void 0;
+  var PanelPosition$1;
+  (function(PanelPosition2) {
+    PanelPosition2["BLOCKS_SETTINGS"] = "BLOCKS_SETTINGS";
+    PanelPosition2["SETTINGS_BLOCKS"] = "SETTINGS_BLOCKS";
+  })(PanelPosition$1 || (PanelPosition.PanelPosition = PanelPosition$1 = {}));
+  return PanelPosition;
+}
+var PreviewDeviceMode = {};
+var hasRequiredPreviewDeviceMode;
+function requirePreviewDeviceMode() {
+  if (hasRequiredPreviewDeviceMode) return PreviewDeviceMode;
+  hasRequiredPreviewDeviceMode = 1;
+  Object.defineProperty(PreviewDeviceMode, "__esModule", { value: true });
+  PreviewDeviceMode.PreviewDeviceMode = void 0;
+  var PreviewDeviceMode$1;
+  (function(PreviewDeviceMode2) {
+    PreviewDeviceMode2["DESKTOP"] = "DESKTOP";
+    PreviewDeviceMode2["MOBILE"] = "MOBILE";
+  })(PreviewDeviceMode$1 || (PreviewDeviceMode.PreviewDeviceMode = PreviewDeviceMode$1 = {}));
+  return PreviewDeviceMode;
+}
 var SettingsTab = {};
 var hasRequiredSettingsTab;
 function requireSettingsTab() {
@@ -964,90 +756,39 @@ function requireUIElementsAttributes() {
   };
   return UIElementsAttributes;
 }
-var ContextActionType = {};
-var hasRequiredContextActionType;
-function requireContextActionType() {
-  if (hasRequiredContextActionType) return ContextActionType;
-  hasRequiredContextActionType = 1;
-  Object.defineProperty(ContextActionType, "__esModule", { value: true });
-  ContextActionType.ContextActionType = void 0;
-  var ContextActionType$1;
-  (function(ContextActionType2) {
-    ContextActionType2["SAVE_AS_MODULE"] = "saveAsModule";
-    ContextActionType2["UPDATE_MODULE"] = "updateModule";
-    ContextActionType2["IMPROVE_WITH_AI"] = "improveWithAI";
-    ContextActionType2["MOVE"] = "move";
-    ContextActionType2["COPY"] = "copy";
-    ContextActionType2["REMOVE"] = "remove";
-    ContextActionType2["CLEAR_CONTAINER"] = "clearContainer";
-    ContextActionType2["REMOVE_CONTAINER"] = "removeContainer";
-    ContextActionType2["EXTERNAL_DISPLAY_CONDITION"] = "externalDisplayCondition";
-  })(ContextActionType$1 || (ContextActionType.ContextActionType = ContextActionType$1 = {}));
-  return ContextActionType;
+var UIElementType = {};
+var hasRequiredUIElementType;
+function requireUIElementType() {
+  if (hasRequiredUIElementType) return UIElementType;
+  hasRequiredUIElementType = 1;
+  Object.defineProperty(UIElementType, "__esModule", { value: true });
+  UIElementType.UIElementType = void 0;
+  var UIElementType$1;
+  (function(UIElementType2) {
+    UIElementType2["BUTTON"] = "UE-BUTTON";
+    UIElementType2["CHECKBOX"] = "UE-CHECKBOX";
+    UIElementType2["CHECK_BUTTONS"] = "UE-CHECK-BUTTONS";
+    UIElementType2["COLOR"] = "UE-COLOR";
+    UIElementType2["COUNTER"] = "UE-COUNTER";
+    UIElementType2["DATEPICKER"] = "UE-DATEPICKER";
+    UIElementType2["LABEL"] = "UE-LABEL";
+    UIElementType2["MESSAGE"] = "UE-MESSAGE";
+    UIElementType2["RADIO_BUTTONS"] = "UE-RADIO-BUTTONS";
+    UIElementType2["SELECTPICKER"] = "UE-SELECT";
+    UIElementType2["SWITCHER"] = "UE-SWITCHER";
+    UIElementType2["TEXT"] = "UE-TEXT";
+    UIElementType2["TEXTAREA"] = "UE-TEXTAREA";
+    UIElementType2["CHECK_ITEM"] = "UE-CHECK-ITEM";
+    UIElementType2["RADIO_ITEM"] = "UE-RADIO-ITEM";
+    UIElementType2["SELECT_ITEM"] = "UE-SELECT-ITEM";
+    UIElementType2["ICON"] = "UE-ICON";
+    UIElementType2["MERGETAGS"] = "UE-MERGETAGS";
+    UIElementType2["FONT_FAMILY_SELECT"] = "UE-FONT-FAMILY-SELECT";
+    UIElementType2["NESTED_CONTROL"] = "UE-NESTED-CONTROL";
+  })(UIElementType$1 || (UIElementType.UIElementType = UIElementType$1 = {}));
+  return UIElementType;
 }
-var BlockAttributes = {};
-var hasRequiredBlockAttributes;
-function requireBlockAttributes() {
-  if (hasRequiredBlockAttributes) return BlockAttributes;
-  hasRequiredBlockAttributes = 1;
-  var __assign = BlockAttributes && BlockAttributes.__assign || function() {
-    __assign = Object.assign || function(t) {
-      for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-          t[p] = s[p];
-      }
-      return t;
-    };
-    return __assign.apply(this, arguments);
-  };
-  Object.defineProperty(BlockAttributes, "__esModule", { value: true });
-  BlockAttributes.BlockAttr = void 0;
-  var containerAttributes = {
-    widthPercent: "width-percent"
-  };
-  var emptyContainerAttributes = __assign(__assign({}, containerAttributes), { blocks: "blocks" });
-  var imageAttributes = {
-    src: "src",
-    alt: "alt",
-    href: "href"
-  };
-  var buttonAttributes = {
-    href: "href"
-  };
-  BlockAttributes.BlockAttr = {
-    EMPTY_CONTAINER: emptyContainerAttributes,
-    CONTAINER: containerAttributes,
-    BLOCK_IMAGE: imageAttributes,
-    BLOCK_BUTTON: buttonAttributes
-  };
-  return BlockAttributes;
-}
-var AiAssistantValueType = {};
-var hasRequiredAiAssistantValueType;
-function requireAiAssistantValueType() {
-  if (hasRequiredAiAssistantValueType) return AiAssistantValueType;
-  hasRequiredAiAssistantValueType = 1;
-  Object.defineProperty(AiAssistantValueType, "__esModule", { value: true });
-  AiAssistantValueType.AiAssistantValueType = void 0;
-  var AiAssistantValueType$1;
-  (function(AiAssistantValueType2) {
-    AiAssistantValueType2["SUBJECT"] = "subject";
-    AiAssistantValueType2["HIDDEN_PREHEADER"] = "hiddenPreheader";
-    AiAssistantValueType2["TEXT_BLOCK"] = "textBlock";
-  })(AiAssistantValueType$1 || (AiAssistantValueType.AiAssistantValueType = AiAssistantValueType$1 = {}));
-  return AiAssistantValueType;
-}
-var AddCustomFont = {};
-var hasRequiredAddCustomFont;
-function requireAddCustomFont() {
-  if (hasRequiredAddCustomFont) return AddCustomFont;
-  hasRequiredAddCustomFont = 1;
-  Object.defineProperty(AddCustomFont, "__esModule", { value: true });
-  AddCustomFont.ADD_CUSTOM_FONT_OPTION = void 0;
-  AddCustomFont.ADD_CUSTOM_FONT_OPTION = "ADD_CUSTOM_FONT_OPTION";
-  return AddCustomFont;
-}
+var BackgroundColorBuiltInControl = {};
 var BuiltInControl = {};
 var hasRequiredBuiltInControl;
 function requireBuiltInControl() {
@@ -1061,7 +802,7 @@ function requireBuiltInControl() {
       function BuiltInControl2() {
       }
       BuiltInControl2.prototype.getTargetNodes = function(root) {
-        return void 0;
+        return [root];
       };
       BuiltInControl2.prototype.getLabels = function() {
         return void 0;
@@ -1069,7 +810,7 @@ function requireBuiltInControl() {
       BuiltInControl2.prototype.getModificationDescription = function() {
         return void 0;
       };
-      BuiltInControl2.prototype.getAdditionalModifications = function(root) {
+      BuiltInControl2.prototype.getAdditionalModifications = function(_root) {
         return void 0;
       };
       return BuiltInControl2;
@@ -1078,51 +819,6 @@ function requireBuiltInControl() {
   BuiltInControl.BuiltInControl = BuiltInControl$1;
   return BuiltInControl;
 }
-var FontFamilyBuiltInControl = {};
-var hasRequiredFontFamilyBuiltInControl;
-function requireFontFamilyBuiltInControl() {
-  if (hasRequiredFontFamilyBuiltInControl) return FontFamilyBuiltInControl;
-  hasRequiredFontFamilyBuiltInControl = 1;
-  var __extends = FontFamilyBuiltInControl && FontFamilyBuiltInControl.__extends || /* @__PURE__ */ function() {
-    var extendStatics = function(d, b) {
-      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
-        d2.__proto__ = b2;
-      } || function(d2, b2) {
-        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
-      };
-      return extendStatics(d, b);
-    };
-    return function(d, b) {
-      if (typeof b !== "function" && b !== null)
-        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-      extendStatics(d, b);
-      function __() {
-        this.constructor = d;
-      }
-      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-  }();
-  Object.defineProperty(FontFamilyBuiltInControl, "__esModule", { value: true });
-  FontFamilyBuiltInControl.FontFamilyBuiltInControl = void 0;
-  var BuiltInControl_1 = requireBuiltInControl();
-  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
-  var FontFamilyBuiltInControl$1 = (
-    /** @class */
-    function(_super) {
-      __extends(FontFamilyBuiltInControl2, _super);
-      function FontFamilyBuiltInControl2() {
-        return _super !== null && _super.apply(this, arguments) || this;
-      }
-      FontFamilyBuiltInControl2.prototype.getParentControlId = function() {
-        return BuiltInControlTypes_1.BuiltInControlTypes.GENERAL.FONT_FAMILY;
-      };
-      return FontFamilyBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
-  );
-  FontFamilyBuiltInControl.FontFamilyBuiltInControl = FontFamilyBuiltInControl$1;
-  return FontFamilyBuiltInControl;
-}
-var BackgroundColorBuiltInControl = {};
 var hasRequiredBackgroundColorBuiltInControl;
 function requireBackgroundColorBuiltInControl() {
   if (hasRequiredBackgroundColorBuiltInControl) return BackgroundColorBuiltInControl;
@@ -1165,6 +861,56 @@ function requireBackgroundColorBuiltInControl() {
   );
   BackgroundColorBuiltInControl.BackgroundColorBuiltInControl = BackgroundColorBuiltInControl$1;
   return BackgroundColorBuiltInControl;
+}
+var BackgroundImageBuiltInControl = {};
+var hasRequiredBackgroundImageBuiltInControl;
+function requireBackgroundImageBuiltInControl() {
+  if (hasRequiredBackgroundImageBuiltInControl) return BackgroundImageBuiltInControl;
+  hasRequiredBackgroundImageBuiltInControl = 1;
+  var __extends = BackgroundImageBuiltInControl && BackgroundImageBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+      };
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(BackgroundImageBuiltInControl, "__esModule", { value: true });
+  BackgroundImageBuiltInControl.BackgroundImageBuiltInControl = void 0;
+  var BuiltInControl_1 = requireBuiltInControl();
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var BackgroundImageBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(BackgroundImageBuiltInControl2, _super);
+      function BackgroundImageBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      BackgroundImageBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes.GENERAL.BACKGROUND_IMAGE;
+      };
+      BackgroundImageBuiltInControl2.prototype.getTargetNodes = function(root) {
+        return [root];
+      };
+      BackgroundImageBuiltInControl2.prototype.getLabels = function() {
+        return void 0;
+      };
+      return BackgroundImageBuiltInControl2;
+    }(BuiltInControl_1.BuiltInControl)
+  );
+  BackgroundImageBuiltInControl.BackgroundImageBuiltInControl = BackgroundImageBuiltInControl$1;
+  return BackgroundImageBuiltInControl;
 }
 var BlockPaddingsBuiltInControl = {};
 var hasRequiredBlockPaddingsBuiltInControl;
@@ -1213,12 +959,26 @@ function requireBlockPaddingsBuiltInControl() {
   BlockPaddingsBuiltInControl.BlockPaddingsBuiltInControl = BlockPaddingsBuiltInControl$1;
   return BlockPaddingsBuiltInControl;
 }
-var BackgroundImageBuiltInControl = {};
-var hasRequiredBackgroundImageBuiltInControl;
-function requireBackgroundImageBuiltInControl() {
-  if (hasRequiredBackgroundImageBuiltInControl) return BackgroundImageBuiltInControl;
-  hasRequiredBackgroundImageBuiltInControl = 1;
-  var __extends = BackgroundImageBuiltInControl && BackgroundImageBuiltInControl.__extends || /* @__PURE__ */ function() {
+var ButtonBorderRadiusBuiltInControl = {};
+var ButtonBuiltInControl = {};
+var BlockName = {};
+var hasRequiredBlockName;
+function requireBlockName() {
+  if (hasRequiredBlockName) return BlockName;
+  hasRequiredBlockName = 1;
+  Object.defineProperty(BlockName, "__esModule", { value: true });
+  BlockName.ESD_BLOCK_STRUCTURE = BlockName.ESD_BLOCK_IMAGE = BlockName.ESD_BLOCK_TEXT = BlockName.ESD_BLOCK_BUTTON = void 0;
+  BlockName.ESD_BLOCK_BUTTON = "esd-block-button";
+  BlockName.ESD_BLOCK_TEXT = "esd-block-text";
+  BlockName.ESD_BLOCK_IMAGE = "esd-block-image";
+  BlockName.ESD_BLOCK_STRUCTURE = "esd-structure";
+  return BlockName;
+}
+var hasRequiredButtonBuiltInControl;
+function requireButtonBuiltInControl() {
+  if (hasRequiredButtonBuiltInControl) return ButtonBuiltInControl;
+  hasRequiredButtonBuiltInControl = 1;
+  var __extends = ButtonBuiltInControl && ButtonBuiltInControl.__extends || /* @__PURE__ */ function() {
     var extendStatics = function(d, b) {
       extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
         d2.__proto__ = b2;
@@ -1237,65 +997,80 @@ function requireBackgroundImageBuiltInControl() {
       d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
   }();
-  Object.defineProperty(BackgroundImageBuiltInControl, "__esModule", { value: true });
-  BackgroundImageBuiltInControl.BackgroundImageBuiltInControl = void 0;
+  Object.defineProperty(ButtonBuiltInControl, "__esModule", { value: true });
+  ButtonBuiltInControl.ButtonBuiltInControl = void 0;
+  var BlockName_1 = requireBlockName();
   var BuiltInControl_1 = requireBuiltInControl();
-  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
-  var BackgroundImageBuiltInControl$1 = (
+  var ButtonBuiltInControl$1 = (
     /** @class */
     function(_super) {
-      __extends(BackgroundImageBuiltInControl2, _super);
-      function BackgroundImageBuiltInControl2() {
+      __extends(ButtonBuiltInControl2, _super);
+      function ButtonBuiltInControl2() {
         return _super !== null && _super.apply(this, arguments) || this;
       }
-      BackgroundImageBuiltInControl2.prototype.getParentControlId = function() {
-        return BuiltInControlTypes_1.BuiltInControlTypes.GENERAL.BACKGROUND_IMAGE;
+      ButtonBuiltInControl2.prototype.getTargetNodes = function(root) {
+        var buttons = root.querySelectorAll(".".concat(BlockName_1.ESD_BLOCK_BUTTON));
+        return buttons.length ? buttons : [root];
       };
-      BackgroundImageBuiltInControl2.prototype.getTargetNodes = function(root) {
-        return { targetNodes: [this.api.getDocumentRootHtmlNode().querySelector(".es-wrapper-color>table")] };
+      return ButtonBuiltInControl2;
+    }(BuiltInControl_1.BuiltInControl)
+  );
+  ButtonBuiltInControl.ButtonBuiltInControl = ButtonBuiltInControl$1;
+  return ButtonBuiltInControl;
+}
+var hasRequiredButtonBorderRadiusBuiltInControl;
+function requireButtonBorderRadiusBuiltInControl() {
+  if (hasRequiredButtonBorderRadiusBuiltInControl) return ButtonBorderRadiusBuiltInControl;
+  hasRequiredButtonBorderRadiusBuiltInControl = 1;
+  var __extends = ButtonBorderRadiusBuiltInControl && ButtonBorderRadiusBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
       };
-      BackgroundImageBuiltInControl2.prototype.getLabels = function() {
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(ButtonBorderRadiusBuiltInControl, "__esModule", { value: true });
+  ButtonBorderRadiusBuiltInControl.ButtonBorderRadiusBuiltInControl = void 0;
+  var BlockType_1 = requireBlockType();
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var ButtonBuiltInControl_1 = requireButtonBuiltInControl();
+  var ButtonBorderRadiusBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(ButtonBorderRadiusBuiltInControl2, _super);
+      function ButtonBorderRadiusBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      ButtonBorderRadiusBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].BORDER_RADIUS;
+      };
+      ButtonBorderRadiusBuiltInControl2.prototype.getLabels = function() {
         return void 0;
       };
-      return BackgroundImageBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
+      return ButtonBorderRadiusBuiltInControl2;
+    }(ButtonBuiltInControl_1.ButtonBuiltInControl)
   );
-  BackgroundImageBuiltInControl.BackgroundImageBuiltInControl = BackgroundImageBuiltInControl$1;
-  return BackgroundImageBuiltInControl;
+  ButtonBorderRadiusBuiltInControl.ButtonBorderRadiusBuiltInControl = ButtonBorderRadiusBuiltInControl$1;
+  return ButtonBorderRadiusBuiltInControl;
 }
-var EditorStatePropertyType = {};
-var hasRequiredEditorStatePropertyType;
-function requireEditorStatePropertyType() {
-  if (hasRequiredEditorStatePropertyType) return EditorStatePropertyType;
-  hasRequiredEditorStatePropertyType = 1;
-  Object.defineProperty(EditorStatePropertyType, "__esModule", { value: true });
-  EditorStatePropertyType.EditorStatePropertyType = void 0;
-  var EditorStatePropertyType$1;
-  (function(EditorStatePropertyType2) {
-    EditorStatePropertyType2["previewDeviceMode"] = "previewDeviceMode";
-  })(EditorStatePropertyType$1 || (EditorStatePropertyType.EditorStatePropertyType = EditorStatePropertyType$1 = {}));
-  return EditorStatePropertyType;
-}
-var PreviewDeviceMode = {};
-var hasRequiredPreviewDeviceMode;
-function requirePreviewDeviceMode() {
-  if (hasRequiredPreviewDeviceMode) return PreviewDeviceMode;
-  hasRequiredPreviewDeviceMode = 1;
-  Object.defineProperty(PreviewDeviceMode, "__esModule", { value: true });
-  PreviewDeviceMode.PreviewDeviceMode = void 0;
-  var PreviewDeviceMode$1;
-  (function(PreviewDeviceMode2) {
-    PreviewDeviceMode2["DESKTOP"] = "DESKTOP";
-    PreviewDeviceMode2["MOBILE"] = "MOBILE";
-  })(PreviewDeviceMode$1 || (PreviewDeviceMode.PreviewDeviceMode = PreviewDeviceMode$1 = {}));
-  return PreviewDeviceMode;
-}
-var StructurePaddingsBuiltInControl = {};
-var hasRequiredStructurePaddingsBuiltInControl;
-function requireStructurePaddingsBuiltInControl() {
-  if (hasRequiredStructurePaddingsBuiltInControl) return StructurePaddingsBuiltInControl;
-  hasRequiredStructurePaddingsBuiltInControl = 1;
-  var __extends = StructurePaddingsBuiltInControl && StructurePaddingsBuiltInControl.__extends || /* @__PURE__ */ function() {
+var ButtonAlignBuiltInControl = {};
+var hasRequiredButtonAlignBuiltInControl;
+function requireButtonAlignBuiltInControl() {
+  if (hasRequiredButtonAlignBuiltInControl) return ButtonAlignBuiltInControl;
+  hasRequiredButtonAlignBuiltInControl = 1;
+  var __extends = ButtonAlignBuiltInControl && ButtonAlignBuiltInControl.__extends || /* @__PURE__ */ function() {
     var extendStatics = function(d, b) {
       extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
         d2.__proto__ = b2;
@@ -1314,35 +1089,36 @@ function requireStructurePaddingsBuiltInControl() {
       d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
   }();
-  Object.defineProperty(StructurePaddingsBuiltInControl, "__esModule", { value: true });
-  StructurePaddingsBuiltInControl.StructurePaddingsBuiltInControl = void 0;
-  var BuiltInControl_1 = requireBuiltInControl();
+  Object.defineProperty(ButtonAlignBuiltInControl, "__esModule", { value: true });
+  ButtonAlignBuiltInControl.ButtonAlignBuiltInControl = void 0;
+  var BlockType_1 = requireBlockType();
   var BuiltInControlTypes_1 = requireBuiltInControlTypes();
-  var StructurePaddingsBuiltInControl$1 = (
+  var ButtonBuiltInControl_1 = requireButtonBuiltInControl();
+  var ButtonAlignBuiltInControl$1 = (
     /** @class */
     function(_super) {
-      __extends(StructurePaddingsBuiltInControl2, _super);
-      function StructurePaddingsBuiltInControl2() {
+      __extends(ButtonAlignBuiltInControl2, _super);
+      function ButtonAlignBuiltInControl2() {
         return _super !== null && _super.apply(this, arguments) || this;
       }
-      StructurePaddingsBuiltInControl2.prototype.getParentControlId = function() {
-        return BuiltInControlTypes_1.BuiltInControlTypes.GENERAL.STRUCTURE_PADDINGS;
+      ButtonAlignBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].ALIGNMENT;
       };
-      StructurePaddingsBuiltInControl2.prototype.getLabels = function() {
+      ButtonAlignBuiltInControl2.prototype.getLabels = function() {
         return void 0;
       };
-      return StructurePaddingsBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
+      return ButtonAlignBuiltInControl2;
+    }(ButtonBuiltInControl_1.ButtonBuiltInControl)
   );
-  StructurePaddingsBuiltInControl.StructurePaddingsBuiltInControl = StructurePaddingsBuiltInControl$1;
-  return StructurePaddingsBuiltInControl;
+  ButtonAlignBuiltInControl.ButtonAlignBuiltInControl = ButtonAlignBuiltInControl$1;
+  return ButtonAlignBuiltInControl;
 }
-var TextColorBuiltInControl = {};
-var hasRequiredTextColorBuiltInControl;
-function requireTextColorBuiltInControl() {
-  if (hasRequiredTextColorBuiltInControl) return TextColorBuiltInControl;
-  hasRequiredTextColorBuiltInControl = 1;
-  var __extends = TextColorBuiltInControl && TextColorBuiltInControl.__extends || /* @__PURE__ */ function() {
+var ButtonBorderBuiltInControl = {};
+var hasRequiredButtonBorderBuiltInControl;
+function requireButtonBorderBuiltInControl() {
+  if (hasRequiredButtonBorderBuiltInControl) return ButtonBorderBuiltInControl;
+  hasRequiredButtonBorderBuiltInControl = 1;
+  var __extends = ButtonBorderBuiltInControl && ButtonBorderBuiltInControl.__extends || /* @__PURE__ */ function() {
     var extendStatics = function(d, b) {
       extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
         d2.__proto__ = b2;
@@ -1361,25 +1137,74 @@ function requireTextColorBuiltInControl() {
       d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
   }();
-  Object.defineProperty(TextColorBuiltInControl, "__esModule", { value: true });
-  TextColorBuiltInControl.TextColorBuiltInControl = void 0;
-  var BuiltInControl_1 = requireBuiltInControl();
+  Object.defineProperty(ButtonBorderBuiltInControl, "__esModule", { value: true });
+  ButtonBorderBuiltInControl.ButtonBorderBuiltInControl = void 0;
+  var BlockType_1 = requireBlockType();
   var BuiltInControlTypes_1 = requireBuiltInControlTypes();
-  var TextColorBuiltInControl$1 = (
+  var ButtonBuiltInControl_1 = requireButtonBuiltInControl();
+  var ButtonBorderBuiltInControl$1 = (
     /** @class */
     function(_super) {
-      __extends(TextColorBuiltInControl2, _super);
-      function TextColorBuiltInControl2() {
+      __extends(ButtonBorderBuiltInControl2, _super);
+      function ButtonBorderBuiltInControl2() {
         return _super !== null && _super.apply(this, arguments) || this;
       }
-      TextColorBuiltInControl2.prototype.getParentControlId = function() {
-        return BuiltInControlTypes_1.BuiltInControlTypes.GENERAL.TEXT_COLOR;
+      ButtonBorderBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].BORDER;
       };
-      return TextColorBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
+      ButtonBorderBuiltInControl2.prototype.getLabels = function() {
+        return void 0;
+      };
+      return ButtonBorderBuiltInControl2;
+    }(ButtonBuiltInControl_1.ButtonBuiltInControl)
   );
-  TextColorBuiltInControl.TextColorBuiltInControl = TextColorBuiltInControl$1;
-  return TextColorBuiltInControl;
+  ButtonBorderBuiltInControl.ButtonBorderBuiltInControl = ButtonBorderBuiltInControl$1;
+  return ButtonBorderBuiltInControl;
+}
+var ButtonColorBuiltInControl = {};
+var hasRequiredButtonColorBuiltInControl;
+function requireButtonColorBuiltInControl() {
+  if (hasRequiredButtonColorBuiltInControl) return ButtonColorBuiltInControl;
+  hasRequiredButtonColorBuiltInControl = 1;
+  var __extends = ButtonColorBuiltInControl && ButtonColorBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+      };
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(ButtonColorBuiltInControl, "__esModule", { value: true });
+  ButtonColorBuiltInControl.ButtonColorBuiltInControl = void 0;
+  var BlockType_1 = requireBlockType();
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var ButtonBuiltInControl_1 = requireButtonBuiltInControl();
+  var ButtonColorBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(ButtonColorBuiltInControl2, _super);
+      function ButtonColorBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      ButtonColorBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].COLOR;
+      };
+      return ButtonColorBuiltInControl2;
+    }(ButtonBuiltInControl_1.ButtonBuiltInControl)
+  );
+  ButtonColorBuiltInControl.ButtonColorBuiltInControl = ButtonColorBuiltInControl$1;
+  return ButtonColorBuiltInControl;
 }
 var ButtonFontColorBuiltInControl = {};
 var hasRequiredButtonFontColorBuiltInControl;
@@ -1409,7 +1234,7 @@ function requireButtonFontColorBuiltInControl() {
   ButtonFontColorBuiltInControl.ButtonFontColorBuiltInControl = void 0;
   var BlockType_1 = requireBlockType();
   var BuiltInControlTypes_1 = requireBuiltInControlTypes();
-  var TextColorBuiltInControl_1 = requireTextColorBuiltInControl();
+  var ButtonBuiltInControl_1 = requireButtonBuiltInControl();
   var ButtonFontColorBuiltInControl$1 = (
     /** @class */
     function(_super) {
@@ -1420,30 +1245,18 @@ function requireButtonFontColorBuiltInControl() {
       ButtonFontColorBuiltInControl2.prototype.getParentControlId = function() {
         return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].FONT_COLOR;
       };
-      ButtonFontColorBuiltInControl2.prototype.setRoot = function(_root) {
-        return void 0;
-      };
-      ButtonFontColorBuiltInControl2.prototype.getLabels = function() {
-        return void 0;
-      };
-      ButtonFontColorBuiltInControl2.prototype.getTargetNodes = function(_root) {
-        return void 0;
-      };
-      ButtonFontColorBuiltInControl2.prototype.getHoverLinkSelector = function(_generateClass) {
-        return void 0;
-      };
       return ButtonFontColorBuiltInControl2;
-    }(TextColorBuiltInControl_1.TextColorBuiltInControl)
+    }(ButtonBuiltInControl_1.ButtonBuiltInControl)
   );
   ButtonFontColorBuiltInControl.ButtonFontColorBuiltInControl = ButtonFontColorBuiltInControl$1;
   return ButtonFontColorBuiltInControl;
 }
-var ButtonColorBuiltInControl = {};
-var hasRequiredButtonColorBuiltInControl;
-function requireButtonColorBuiltInControl() {
-  if (hasRequiredButtonColorBuiltInControl) return ButtonColorBuiltInControl;
-  hasRequiredButtonColorBuiltInControl = 1;
-  var __extends = ButtonColorBuiltInControl && ButtonColorBuiltInControl.__extends || /* @__PURE__ */ function() {
+var ButtonHoverBorderColorBuiltInControl = {};
+var hasRequiredButtonHoverBorderColorBuiltInControl;
+function requireButtonHoverBorderColorBuiltInControl() {
+  if (hasRequiredButtonHoverBorderColorBuiltInControl) return ButtonHoverBorderColorBuiltInControl;
+  hasRequiredButtonHoverBorderColorBuiltInControl = 1;
+  var __extends = ButtonHoverBorderColorBuiltInControl && ButtonHoverBorderColorBuiltInControl.__extends || /* @__PURE__ */ function() {
     var extendStatics = function(d, b) {
       extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
         d2.__proto__ = b2;
@@ -1462,32 +1275,119 @@ function requireButtonColorBuiltInControl() {
       d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
   }();
-  Object.defineProperty(ButtonColorBuiltInControl, "__esModule", { value: true });
-  ButtonColorBuiltInControl.ButtonColorBuiltInControl = void 0;
-  var BuiltInControl_1 = requireBuiltInControl();
-  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  Object.defineProperty(ButtonHoverBorderColorBuiltInControl, "__esModule", { value: true });
+  ButtonHoverBorderColorBuiltInControl.ButtonHoverBorderColorBuiltInControl = void 0;
   var BlockType_1 = requireBlockType();
-  var ButtonColorBuiltInControl$1 = (
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var ButtonBuiltInControl_1 = requireButtonBuiltInControl();
+  var ButtonHoverBorderColorBuiltInControl$1 = (
     /** @class */
     function(_super) {
-      __extends(ButtonColorBuiltInControl2, _super);
-      function ButtonColorBuiltInControl2() {
+      __extends(ButtonHoverBorderColorBuiltInControl2, _super);
+      function ButtonHoverBorderColorBuiltInControl2() {
         return _super !== null && _super.apply(this, arguments) || this;
       }
-      ButtonColorBuiltInControl2.prototype.getParentControlId = function() {
-        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].COLOR;
+      ButtonHoverBorderColorBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].HOVERED_BORDER_COLOR;
       };
-      ButtonColorBuiltInControl2.prototype.getTargetNodes = function(_root) {
-        return void 0;
-      };
-      ButtonColorBuiltInControl2.prototype.getLabels = function() {
-        return void 0;
-      };
-      return ButtonColorBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
+      return ButtonHoverBorderColorBuiltInControl2;
+    }(ButtonBuiltInControl_1.ButtonBuiltInControl)
   );
-  ButtonColorBuiltInControl.ButtonColorBuiltInControl = ButtonColorBuiltInControl$1;
-  return ButtonColorBuiltInControl;
+  ButtonHoverBorderColorBuiltInControl.ButtonHoverBorderColorBuiltInControl = ButtonHoverBorderColorBuiltInControl$1;
+  return ButtonHoverBorderColorBuiltInControl;
+}
+var ButtonHoverColorBuiltInControl = {};
+var hasRequiredButtonHoverColorBuiltInControl;
+function requireButtonHoverColorBuiltInControl() {
+  if (hasRequiredButtonHoverColorBuiltInControl) return ButtonHoverColorBuiltInControl;
+  hasRequiredButtonHoverColorBuiltInControl = 1;
+  var __extends = ButtonHoverColorBuiltInControl && ButtonHoverColorBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+      };
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(ButtonHoverColorBuiltInControl, "__esModule", { value: true });
+  ButtonHoverColorBuiltInControl.ButtonHoverColorBuiltInControl = void 0;
+  var BlockType_1 = requireBlockType();
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var ButtonBuiltInControl_1 = requireButtonBuiltInControl();
+  var ButtonHoverColorBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(ButtonHoverColorBuiltInControl2, _super);
+      function ButtonHoverColorBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      ButtonHoverColorBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].HOVERED_COLOR;
+      };
+      ButtonHoverColorBuiltInControl2.prototype.getLabels = function() {
+        return void 0;
+      };
+      return ButtonHoverColorBuiltInControl2;
+    }(ButtonBuiltInControl_1.ButtonBuiltInControl)
+  );
+  ButtonHoverColorBuiltInControl.ButtonHoverColorBuiltInControl = ButtonHoverColorBuiltInControl$1;
+  return ButtonHoverColorBuiltInControl;
+}
+var ButtonHoverTextColorBuiltInControl = {};
+var hasRequiredButtonHoverTextColorBuiltInControl;
+function requireButtonHoverTextColorBuiltInControl() {
+  if (hasRequiredButtonHoverTextColorBuiltInControl) return ButtonHoverTextColorBuiltInControl;
+  hasRequiredButtonHoverTextColorBuiltInControl = 1;
+  var __extends = ButtonHoverTextColorBuiltInControl && ButtonHoverTextColorBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+      };
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(ButtonHoverTextColorBuiltInControl, "__esModule", { value: true });
+  ButtonHoverTextColorBuiltInControl.ButtonHoverTextColorBuiltInControl = void 0;
+  var BlockType_1 = requireBlockType();
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var ButtonBuiltInControl_1 = requireButtonBuiltInControl();
+  var ButtonHoverTextColorBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(ButtonHoverTextColorBuiltInControl2, _super);
+      function ButtonHoverTextColorBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      ButtonHoverTextColorBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].HOVERED_TEXT_COLOR;
+      };
+      return ButtonHoverTextColorBuiltInControl2;
+    }(ButtonBuiltInControl_1.ButtonBuiltInControl)
+  );
+  ButtonHoverTextColorBuiltInControl.ButtonHoverTextColorBuiltInControl = ButtonHoverTextColorBuiltInControl$1;
+  return ButtonHoverTextColorBuiltInControl;
 }
 var ButtonInternalIndentsBuiltInControl = {};
 var hasRequiredButtonInternalIndentsBuiltInControl;
@@ -1515,9 +1415,9 @@ function requireButtonInternalIndentsBuiltInControl() {
   }();
   Object.defineProperty(ButtonInternalIndentsBuiltInControl, "__esModule", { value: true });
   ButtonInternalIndentsBuiltInControl.ButtonInternalIndentsBuiltInControl = void 0;
-  var BuiltInControl_1 = requireBuiltInControl();
-  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
   var BlockType_1 = requireBlockType();
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var ButtonBuiltInControl_1 = requireButtonBuiltInControl();
   var ButtonInternalIndentsBuiltInControl$1 = (
     /** @class */
     function(_super) {
@@ -1532,12 +1432,191 @@ function requireButtonInternalIndentsBuiltInControl() {
         return void 0;
       };
       return ButtonInternalIndentsBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
+    }(ButtonBuiltInControl_1.ButtonBuiltInControl)
   );
   ButtonInternalIndentsBuiltInControl.ButtonInternalIndentsBuiltInControl = ButtonInternalIndentsBuiltInControl$1;
   return ButtonInternalIndentsBuiltInControl;
 }
+var ButtonTextBuiltInControl = {};
+var hasRequiredButtonTextBuiltInControl;
+function requireButtonTextBuiltInControl() {
+  if (hasRequiredButtonTextBuiltInControl) return ButtonTextBuiltInControl;
+  hasRequiredButtonTextBuiltInControl = 1;
+  var __extends = ButtonTextBuiltInControl && ButtonTextBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+      };
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(ButtonTextBuiltInControl, "__esModule", { value: true });
+  ButtonTextBuiltInControl.ButtonTextBuiltInControl = void 0;
+  var BlockType_1 = requireBlockType();
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var ButtonBuiltInControl_1 = requireButtonBuiltInControl();
+  var ButtonTextBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(ButtonTextBuiltInControl2, _super);
+      function ButtonTextBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      ButtonTextBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].TEXT;
+      };
+      return ButtonTextBuiltInControl2;
+    }(ButtonBuiltInControl_1.ButtonBuiltInControl)
+  );
+  ButtonTextBuiltInControl.ButtonTextBuiltInControl = ButtonTextBuiltInControl$1;
+  return ButtonTextBuiltInControl;
+}
+var Control = {};
+var hasRequiredControl;
+function requireControl() {
+  if (hasRequiredControl) return Control;
+  hasRequiredControl = 1;
+  Object.defineProperty(Control, "__esModule", { value: true });
+  Control.Control = void 0;
+  var Control$1 = (
+    /** @class */
+    function() {
+      function Control2() {
+      }
+      Control2.prototype.onRender = function() {
+      };
+      Control2.prototype.onDestroy = function() {
+      };
+      return Control2;
+    }()
+  );
+  Control.Control = Control$1;
+  return Control;
+}
+var SettingsPanelRegistry = {};
+var hasRequiredSettingsPanelRegistry;
+function requireSettingsPanelRegistry() {
+  if (hasRequiredSettingsPanelRegistry) return SettingsPanelRegistry;
+  hasRequiredSettingsPanelRegistry = 1;
+  Object.defineProperty(SettingsPanelRegistry, "__esModule", { value: true });
+  SettingsPanelRegistry.SettingsPanelRegistry = void 0;
+  var SettingsPanelRegistry$1 = (
+    /** @class */
+    /* @__PURE__ */ function() {
+      function SettingsPanelRegistry2() {
+      }
+      return SettingsPanelRegistry2;
+    }()
+  );
+  SettingsPanelRegistry.SettingsPanelRegistry = SettingsPanelRegistry$1;
+  return SettingsPanelRegistry;
+}
+var SettingsPanelTab = {};
+var hasRequiredSettingsPanelTab;
+function requireSettingsPanelTab() {
+  if (hasRequiredSettingsPanelTab) return SettingsPanelTab;
+  hasRequiredSettingsPanelTab = 1;
+  Object.defineProperty(SettingsPanelTab, "__esModule", { value: true });
+  SettingsPanelTab.SettingsPanelTab = void 0;
+  var SettingsPanelTab$1 = (
+    /** @class */
+    function() {
+      function SettingsPanelTab2(tabId, controlsIds) {
+        this.tabId = tabId;
+        this.controlsIds = controlsIds;
+      }
+      SettingsPanelTab2.prototype.getTabId = function() {
+        return this.tabId;
+      };
+      SettingsPanelTab2.prototype.getLabel = function() {
+        return this.label;
+      };
+      SettingsPanelTab2.prototype.getControlsIds = function() {
+        return this.controlsIds;
+      };
+      SettingsPanelTab2.prototype.withLabel = function(label) {
+        this.label = label;
+        return this;
+      };
+      SettingsPanelTab2.prototype.addControl = function(controlId, position) {
+        if (position < 0) {
+          this.controlsIds.unshift(controlId);
+        } else if (position > this.controlsIds.length) {
+          this.controlsIds.push(controlId);
+        } else {
+          this.controlsIds.splice(position, 0, controlId);
+        }
+        return this;
+      };
+      SettingsPanelTab2.prototype.deleteControl = function(controlId) {
+        var index = this.controlsIds.indexOf(controlId);
+        if (index !== -1) {
+          this.controlsIds.splice(index, 1);
+        }
+      };
+      return SettingsPanelTab2;
+    }()
+  );
+  SettingsPanelTab.SettingsPanelTab = SettingsPanelTab$1;
+  return SettingsPanelTab;
+}
 var StructureBorderBuiltInControl = {};
+var StructureBuiltInControl = {};
+var hasRequiredStructureBuiltInControl;
+function requireStructureBuiltInControl() {
+  if (hasRequiredStructureBuiltInControl) return StructureBuiltInControl;
+  hasRequiredStructureBuiltInControl = 1;
+  var __extends = StructureBuiltInControl && StructureBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+      };
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(StructureBuiltInControl, "__esModule", { value: true });
+  StructureBuiltInControl.StructureBuiltInControl = void 0;
+  var BlockName_1 = requireBlockName();
+  var BuiltInControl_1 = requireBuiltInControl();
+  var StructureBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(StructureBuiltInControl2, _super);
+      function StructureBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      StructureBuiltInControl2.prototype.getTargetNodes = function(root) {
+        var structures = root.querySelectorAll(".".concat(BlockName_1.ESD_BLOCK_STRUCTURE));
+        return structures.length ? structures : [root];
+      };
+      return StructureBuiltInControl2;
+    }(BuiltInControl_1.BuiltInControl)
+  );
+  StructureBuiltInControl.StructureBuiltInControl = StructureBuiltInControl$1;
+  return StructureBuiltInControl;
+}
 var hasRequiredStructureBorderBuiltInControl;
 function requireStructureBorderBuiltInControl() {
   if (hasRequiredStructureBorderBuiltInControl) return StructureBorderBuiltInControl;
@@ -1563,9 +1642,9 @@ function requireStructureBorderBuiltInControl() {
   }();
   Object.defineProperty(StructureBorderBuiltInControl, "__esModule", { value: true });
   StructureBorderBuiltInControl.StructureBorderBuiltInControl = void 0;
-  var BuiltInControl_1 = requireBuiltInControl();
-  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
   var BlockType_1 = requireBlockType();
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var StructureBuiltInControl_1 = requireStructureBuiltInControl();
   var StructureBorderBuiltInControl$1 = (
     /** @class */
     function(_super) {
@@ -1576,17 +1655,283 @@ function requireStructureBorderBuiltInControl() {
       StructureBorderBuiltInControl2.prototype.getParentControlId = function() {
         return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.STRUCTURE].BORDER_FORM;
       };
-      StructureBorderBuiltInControl2.prototype.getTargetNodes = function(root) {
-        return void 0;
-      };
       StructureBorderBuiltInControl2.prototype.getLabels = function() {
         return void 0;
       };
       return StructureBorderBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
+    }(StructureBuiltInControl_1.StructureBuiltInControl)
   );
   StructureBorderBuiltInControl.StructureBorderBuiltInControl = StructureBorderBuiltInControl$1;
   return StructureBorderBuiltInControl;
+}
+var StructurePaddingsBuiltInControl = {};
+var hasRequiredStructurePaddingsBuiltInControl;
+function requireStructurePaddingsBuiltInControl() {
+  if (hasRequiredStructurePaddingsBuiltInControl) return StructurePaddingsBuiltInControl;
+  hasRequiredStructurePaddingsBuiltInControl = 1;
+  var __extends = StructurePaddingsBuiltInControl && StructurePaddingsBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+      };
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(StructurePaddingsBuiltInControl, "__esModule", { value: true });
+  StructurePaddingsBuiltInControl.StructurePaddingsBuiltInControl = void 0;
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var StructureBuiltInControl_1 = requireStructureBuiltInControl();
+  var StructurePaddingsBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(StructurePaddingsBuiltInControl2, _super);
+      function StructurePaddingsBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      StructurePaddingsBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes.GENERAL.STRUCTURE_PADDINGS;
+      };
+      StructurePaddingsBuiltInControl2.prototype.getLabels = function() {
+        return void 0;
+      };
+      return StructurePaddingsBuiltInControl2;
+    }(StructureBuiltInControl_1.StructureBuiltInControl)
+  );
+  StructurePaddingsBuiltInControl.StructurePaddingsBuiltInControl = StructurePaddingsBuiltInControl$1;
+  return StructurePaddingsBuiltInControl;
+}
+var FontFamilyBuiltInControl = {};
+var TextBuiltInControl = {};
+var hasRequiredTextBuiltInControl;
+function requireTextBuiltInControl() {
+  if (hasRequiredTextBuiltInControl) return TextBuiltInControl;
+  hasRequiredTextBuiltInControl = 1;
+  var __extends = TextBuiltInControl && TextBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+      };
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(TextBuiltInControl, "__esModule", { value: true });
+  TextBuiltInControl.TextBuiltInControl = void 0;
+  var BlockName_1 = requireBlockName();
+  var BuiltInControl_1 = requireBuiltInControl();
+  var TextBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(TextBuiltInControl2, _super);
+      function TextBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      TextBuiltInControl2.prototype.getTargetNodes = function(root) {
+        var texts = root.querySelectorAll(".".concat(BlockName_1.ESD_BLOCK_TEXT));
+        return texts.length ? texts : [root];
+      };
+      return TextBuiltInControl2;
+    }(BuiltInControl_1.BuiltInControl)
+  );
+  TextBuiltInControl.TextBuiltInControl = TextBuiltInControl$1;
+  return TextBuiltInControl;
+}
+var hasRequiredFontFamilyBuiltInControl;
+function requireFontFamilyBuiltInControl() {
+  if (hasRequiredFontFamilyBuiltInControl) return FontFamilyBuiltInControl;
+  hasRequiredFontFamilyBuiltInControl = 1;
+  var __extends = FontFamilyBuiltInControl && FontFamilyBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+      };
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(FontFamilyBuiltInControl, "__esModule", { value: true });
+  FontFamilyBuiltInControl.FontFamilyBuiltInControl = void 0;
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var TextBuiltInControl_1 = requireTextBuiltInControl();
+  var FontFamilyBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(FontFamilyBuiltInControl2, _super);
+      function FontFamilyBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      FontFamilyBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes.GENERAL.FONT_FAMILY;
+      };
+      return FontFamilyBuiltInControl2;
+    }(TextBuiltInControl_1.TextBuiltInControl)
+  );
+  FontFamilyBuiltInControl.FontFamilyBuiltInControl = FontFamilyBuiltInControl$1;
+  return FontFamilyBuiltInControl;
+}
+var TextLineSpacingBuiltInControl = {};
+var hasRequiredTextLineSpacingBuiltInControl;
+function requireTextLineSpacingBuiltInControl() {
+  if (hasRequiredTextLineSpacingBuiltInControl) return TextLineSpacingBuiltInControl;
+  hasRequiredTextLineSpacingBuiltInControl = 1;
+  var __extends = TextLineSpacingBuiltInControl && TextLineSpacingBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+      };
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(TextLineSpacingBuiltInControl, "__esModule", { value: true });
+  TextLineSpacingBuiltInControl.TextLineSpacingBuiltInControl = void 0;
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var TextBuiltInControl_1 = requireTextBuiltInControl();
+  var TextLineSpacingBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(TextLineSpacingBuiltInControl2, _super);
+      function TextLineSpacingBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      TextLineSpacingBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes.GENERAL.TEXT_LINE_SPACING;
+      };
+      return TextLineSpacingBuiltInControl2;
+    }(TextBuiltInControl_1.TextBuiltInControl)
+  );
+  TextLineSpacingBuiltInControl.TextLineSpacingBuiltInControl = TextLineSpacingBuiltInControl$1;
+  return TextLineSpacingBuiltInControl;
+}
+var LinkColorBuiltInControl = {};
+var hasRequiredLinkColorBuiltInControl;
+function requireLinkColorBuiltInControl() {
+  if (hasRequiredLinkColorBuiltInControl) return LinkColorBuiltInControl;
+  hasRequiredLinkColorBuiltInControl = 1;
+  var __extends = LinkColorBuiltInControl && LinkColorBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+      };
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(LinkColorBuiltInControl, "__esModule", { value: true });
+  LinkColorBuiltInControl.LinkColorBuiltInControl = void 0;
+  var BlockType_1 = requireBlockType();
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var TextBuiltInControl_1 = requireTextBuiltInControl();
+  var LinkColorBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(LinkColorBuiltInControl2, _super);
+      function LinkColorBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      LinkColorBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_TEXT].LINKS_COLOR;
+      };
+      return LinkColorBuiltInControl2;
+    }(TextBuiltInControl_1.TextBuiltInControl)
+  );
+  LinkColorBuiltInControl.LinkColorBuiltInControl = LinkColorBuiltInControl$1;
+  return LinkColorBuiltInControl;
+}
+var TextColorBuiltInControl = {};
+var hasRequiredTextColorBuiltInControl;
+function requireTextColorBuiltInControl() {
+  if (hasRequiredTextColorBuiltInControl) return TextColorBuiltInControl;
+  hasRequiredTextColorBuiltInControl = 1;
+  var __extends = TextColorBuiltInControl && TextColorBuiltInControl.__extends || /* @__PURE__ */ function() {
+    var extendStatics = function(d, b) {
+      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+        d2.__proto__ = b2;
+      } || function(d2, b2) {
+        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
+      };
+      return extendStatics(d, b);
+    };
+    return function(d, b) {
+      if (typeof b !== "function" && b !== null)
+        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+      extendStatics(d, b);
+      function __() {
+        this.constructor = d;
+      }
+      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+  }();
+  Object.defineProperty(TextColorBuiltInControl, "__esModule", { value: true });
+  TextColorBuiltInControl.TextColorBuiltInControl = void 0;
+  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var TextBuiltInControl_1 = requireTextBuiltInControl();
+  var TextColorBuiltInControl$1 = (
+    /** @class */
+    function(_super) {
+      __extends(TextColorBuiltInControl2, _super);
+      function TextColorBuiltInControl2() {
+        return _super !== null && _super.apply(this, arguments) || this;
+      }
+      TextColorBuiltInControl2.prototype.getParentControlId = function() {
+        return BuiltInControlTypes_1.BuiltInControlTypes.GENERAL.TEXT_COLOR;
+      };
+      return TextColorBuiltInControl2;
+    }(TextBuiltInControl_1.TextBuiltInControl)
+  );
+  TextColorBuiltInControl.TextColorBuiltInControl = TextColorBuiltInControl$1;
+  return TextColorBuiltInControl;
 }
 var TextSizeBuiltInControl = {};
 var hasRequiredTextSizeBuiltInControl;
@@ -1614,8 +1959,8 @@ function requireTextSizeBuiltInControl() {
   }();
   Object.defineProperty(TextSizeBuiltInControl, "__esModule", { value: true });
   TextSizeBuiltInControl.TextSizeBuiltInControl = void 0;
-  var BuiltInControl_1 = requireBuiltInControl();
   var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var TextBuiltInControl_1 = requireTextBuiltInControl();
   var TextSizeBuiltInControl$1 = (
     /** @class */
     function(_super) {
@@ -1626,14 +1971,8 @@ function requireTextSizeBuiltInControl() {
       TextSizeBuiltInControl2.prototype.getParentControlId = function() {
         return BuiltInControlTypes_1.BuiltInControlTypes.GENERAL.TEXT_SIZE;
       };
-      TextSizeBuiltInControl2.prototype.getTargetNodes = function(root) {
-        return void 0;
-      };
-      TextSizeBuiltInControl2.prototype.getMobileClassSpecificSelector = function() {
-        return void 0;
-      };
       return TextSizeBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
+    }(TextBuiltInControl_1.TextBuiltInControl)
   );
   TextSizeBuiltInControl.TextSizeBuiltInControl = TextSizeBuiltInControl$1;
   return TextSizeBuiltInControl;
@@ -1664,8 +2003,8 @@ function requireTextStyleBuiltInControl() {
   }();
   Object.defineProperty(TextStyleBuiltInControl, "__esModule", { value: true });
   TextStyleBuiltInControl.TextStyleBuiltInControl = void 0;
-  var BuiltInControl_1 = requireBuiltInControl();
   var BuiltInControlTypes_1 = requireBuiltInControlTypes();
+  var TextBuiltInControl_1 = requireTextBuiltInControl();
   var TextStyleBuiltInControl$1 = (
     /** @class */
     function(_super) {
@@ -1677,437 +2016,267 @@ function requireTextStyleBuiltInControl() {
         return BuiltInControlTypes_1.BuiltInControlTypes.GENERAL.TEXT_STYLE;
       };
       return TextStyleBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
+    }(TextBuiltInControl_1.TextBuiltInControl)
   );
   TextStyleBuiltInControl.TextStyleBuiltInControl = TextStyleBuiltInControl$1;
   return TextStyleBuiltInControl;
 }
-var LinkColorBuiltInControl = {};
-var hasRequiredLinkColorBuiltInControl;
-function requireLinkColorBuiltInControl() {
-  if (hasRequiredLinkColorBuiltInControl) return LinkColorBuiltInControl;
-  hasRequiredLinkColorBuiltInControl = 1;
-  var __extends = LinkColorBuiltInControl && LinkColorBuiltInControl.__extends || /* @__PURE__ */ function() {
-    var extendStatics = function(d, b) {
-      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
-        d2.__proto__ = b2;
-      } || function(d2, b2) {
-        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
-      };
-      return extendStatics(d, b);
-    };
-    return function(d, b) {
-      if (typeof b !== "function" && b !== null)
-        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-      extendStatics(d, b);
-      function __() {
-        this.constructor = d;
-      }
-      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-  }();
-  Object.defineProperty(LinkColorBuiltInControl, "__esModule", { value: true });
-  LinkColorBuiltInControl.LinkColorBuiltInControl = void 0;
-  var BuiltInControl_1 = requireBuiltInControl();
-  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
-  var BlockType_1 = requireBlockType();
-  var LinkColorBuiltInControl$1 = (
-    /** @class */
-    function(_super) {
-      __extends(LinkColorBuiltInControl2, _super);
-      function LinkColorBuiltInControl2() {
-        return _super !== null && _super.apply(this, arguments) || this;
-      }
-      LinkColorBuiltInControl2.prototype.getParentControlId = function() {
-        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_TEXT].LINKS_COLOR;
-      };
-      LinkColorBuiltInControl2.prototype.getTargetNodes = function(root) {
-        return void 0;
-      };
-      return LinkColorBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
-  );
-  LinkColorBuiltInControl.LinkColorBuiltInControl = LinkColorBuiltInControl$1;
-  return LinkColorBuiltInControl;
-}
-var ButtonTextBuiltInControl = {};
-var hasRequiredButtonTextBuiltInControl;
-function requireButtonTextBuiltInControl() {
-  if (hasRequiredButtonTextBuiltInControl) return ButtonTextBuiltInControl;
-  hasRequiredButtonTextBuiltInControl = 1;
-  var __extends = ButtonTextBuiltInControl && ButtonTextBuiltInControl.__extends || /* @__PURE__ */ function() {
-    var extendStatics = function(d, b) {
-      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
-        d2.__proto__ = b2;
-      } || function(d2, b2) {
-        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
-      };
-      return extendStatics(d, b);
-    };
-    return function(d, b) {
-      if (typeof b !== "function" && b !== null)
-        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-      extendStatics(d, b);
-      function __() {
-        this.constructor = d;
-      }
-      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-  }();
-  Object.defineProperty(ButtonTextBuiltInControl, "__esModule", { value: true });
-  ButtonTextBuiltInControl.ButtonTextBuiltInControl = void 0;
-  var BlockType_1 = requireBlockType();
-  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
-  var BuiltInControl_1 = requireBuiltInControl();
-  var ButtonTextBuiltInControl$1 = (
-    /** @class */
-    function(_super) {
-      __extends(ButtonTextBuiltInControl2, _super);
-      function ButtonTextBuiltInControl2() {
-        return _super !== null && _super.apply(this, arguments) || this;
-      }
-      ButtonTextBuiltInControl2.prototype.getParentControlId = function() {
-        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].TEXT;
-      };
-      ButtonTextBuiltInControl2.prototype.getTargetNodes = function(_root) {
-        return void 0;
-      };
-      return ButtonTextBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
-  );
-  ButtonTextBuiltInControl.ButtonTextBuiltInControl = ButtonTextBuiltInControl$1;
-  return ButtonTextBuiltInControl;
-}
-var ButtonBorderBuiltInControl = {};
-var hasRequiredButtonBorderBuiltInControl;
-function requireButtonBorderBuiltInControl() {
-  if (hasRequiredButtonBorderBuiltInControl) return ButtonBorderBuiltInControl;
-  hasRequiredButtonBorderBuiltInControl = 1;
-  var __extends = ButtonBorderBuiltInControl && ButtonBorderBuiltInControl.__extends || /* @__PURE__ */ function() {
-    var extendStatics = function(d, b) {
-      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
-        d2.__proto__ = b2;
-      } || function(d2, b2) {
-        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
-      };
-      return extendStatics(d, b);
-    };
-    return function(d, b) {
-      if (typeof b !== "function" && b !== null)
-        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-      extendStatics(d, b);
-      function __() {
-        this.constructor = d;
-      }
-      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-  }();
-  Object.defineProperty(ButtonBorderBuiltInControl, "__esModule", { value: true });
-  ButtonBorderBuiltInControl.ButtonBorderBuiltInControl = void 0;
-  var BuiltInControl_1 = requireBuiltInControl();
-  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
-  var BlockType_1 = requireBlockType();
-  var ButtonBorderBuiltInControl$1 = (
-    /** @class */
-    function(_super) {
-      __extends(ButtonBorderBuiltInControl2, _super);
-      function ButtonBorderBuiltInControl2() {
-        return _super !== null && _super.apply(this, arguments) || this;
-      }
-      ButtonBorderBuiltInControl2.prototype.getParentControlId = function() {
-        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].BORDER;
-      };
-      ButtonBorderBuiltInControl2.prototype.getTargetNodes = function(root) {
-        return void 0;
-      };
-      ButtonBorderBuiltInControl2.prototype.getLabels = function() {
-        return void 0;
-      };
-      return ButtonBorderBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
-  );
-  ButtonBorderBuiltInControl.ButtonBorderBuiltInControl = ButtonBorderBuiltInControl$1;
-  return ButtonBorderBuiltInControl;
-}
-var ButtonHoverTextColorBuiltInControl = {};
-var hasRequiredButtonHoverTextColorBuiltInControl;
-function requireButtonHoverTextColorBuiltInControl() {
-  if (hasRequiredButtonHoverTextColorBuiltInControl) return ButtonHoverTextColorBuiltInControl;
-  hasRequiredButtonHoverTextColorBuiltInControl = 1;
-  var __extends = ButtonHoverTextColorBuiltInControl && ButtonHoverTextColorBuiltInControl.__extends || /* @__PURE__ */ function() {
-    var extendStatics = function(d, b) {
-      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
-        d2.__proto__ = b2;
-      } || function(d2, b2) {
-        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
-      };
-      return extendStatics(d, b);
-    };
-    return function(d, b) {
-      if (typeof b !== "function" && b !== null)
-        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-      extendStatics(d, b);
-      function __() {
-        this.constructor = d;
-      }
-      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-  }();
-  Object.defineProperty(ButtonHoverTextColorBuiltInControl, "__esModule", { value: true });
-  ButtonHoverTextColorBuiltInControl.ButtonHoverTextColorBuiltInControl = void 0;
-  var BuiltInControl_1 = requireBuiltInControl();
-  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
-  var BlockType_1 = requireBlockType();
-  var ButtonHoverTextColorBuiltInControl$1 = (
-    /** @class */
-    function(_super) {
-      __extends(ButtonHoverTextColorBuiltInControl2, _super);
-      function ButtonHoverTextColorBuiltInControl2() {
-        return _super !== null && _super.apply(this, arguments) || this;
-      }
-      ButtonHoverTextColorBuiltInControl2.prototype.getParentControlId = function() {
-        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].HOVERED_TEXT_COLOR;
-      };
-      ButtonHoverTextColorBuiltInControl2.prototype.setRoot = function(_root) {
-        return void 0;
-      };
-      ButtonHoverTextColorBuiltInControl2.prototype.getTargetNodes = function(_root) {
-        return void 0;
-      };
-      ButtonHoverTextColorBuiltInControl2.prototype.getLabels = function() {
-        return void 0;
-      };
-      ButtonHoverTextColorBuiltInControl2.prototype.getHoverLinkSelector = function(_generateClass) {
-        return void 0;
-      };
-      return ButtonHoverTextColorBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
-  );
-  ButtonHoverTextColorBuiltInControl.ButtonHoverTextColorBuiltInControl = ButtonHoverTextColorBuiltInControl$1;
-  return ButtonHoverTextColorBuiltInControl;
-}
-var ButtonHoverBorderColorBuiltInControl = {};
-var hasRequiredButtonHoverBorderColorBuiltInControl;
-function requireButtonHoverBorderColorBuiltInControl() {
-  if (hasRequiredButtonHoverBorderColorBuiltInControl) return ButtonHoverBorderColorBuiltInControl;
-  hasRequiredButtonHoverBorderColorBuiltInControl = 1;
-  var __extends = ButtonHoverBorderColorBuiltInControl && ButtonHoverBorderColorBuiltInControl.__extends || /* @__PURE__ */ function() {
-    var extendStatics = function(d, b) {
-      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
-        d2.__proto__ = b2;
-      } || function(d2, b2) {
-        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
-      };
-      return extendStatics(d, b);
-    };
-    return function(d, b) {
-      if (typeof b !== "function" && b !== null)
-        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-      extendStatics(d, b);
-      function __() {
-        this.constructor = d;
-      }
-      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-  }();
-  Object.defineProperty(ButtonHoverBorderColorBuiltInControl, "__esModule", { value: true });
-  ButtonHoverBorderColorBuiltInControl.ButtonHoverBorderColorBuiltInControl = void 0;
-  var BuiltInControl_1 = requireBuiltInControl();
-  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
-  var BlockType_1 = requireBlockType();
-  var ButtonHoverBorderColorBuiltInControl$1 = (
-    /** @class */
-    function(_super) {
-      __extends(ButtonHoverBorderColorBuiltInControl2, _super);
-      function ButtonHoverBorderColorBuiltInControl2() {
-        return _super !== null && _super.apply(this, arguments) || this;
-      }
-      ButtonHoverBorderColorBuiltInControl2.prototype.getParentControlId = function() {
-        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].HOVERED_BORDER_COLOR;
-      };
-      ButtonHoverBorderColorBuiltInControl2.prototype.setRoot = function(_root) {
-        return void 0;
-      };
-      ButtonHoverBorderColorBuiltInControl2.prototype.getTargetNodes = function(_root) {
-        return void 0;
-      };
-      ButtonHoverBorderColorBuiltInControl2.prototype.getLabels = function() {
-        return void 0;
-      };
-      ButtonHoverBorderColorBuiltInControl2.prototype.getHoverBorderSelector = function(_generateClass) {
-        return void 0;
-      };
-      ButtonHoverBorderColorBuiltInControl2.prototype.getHoverLinkSelector = function(_generateClass) {
-        return void 0;
-      };
-      return ButtonHoverBorderColorBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
-  );
-  ButtonHoverBorderColorBuiltInControl.ButtonHoverBorderColorBuiltInControl = ButtonHoverBorderColorBuiltInControl$1;
-  return ButtonHoverBorderColorBuiltInControl;
-}
-var TextLineSpacingBuiltInControl = {};
-var hasRequiredTextLineSpacingBuiltInControl;
-function requireTextLineSpacingBuiltInControl() {
-  if (hasRequiredTextLineSpacingBuiltInControl) return TextLineSpacingBuiltInControl;
-  hasRequiredTextLineSpacingBuiltInControl = 1;
-  var __extends = TextLineSpacingBuiltInControl && TextLineSpacingBuiltInControl.__extends || /* @__PURE__ */ function() {
-    var extendStatics = function(d, b) {
-      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
-        d2.__proto__ = b2;
-      } || function(d2, b2) {
-        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
-      };
-      return extendStatics(d, b);
-    };
-    return function(d, b) {
-      if (typeof b !== "function" && b !== null)
-        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-      extendStatics(d, b);
-      function __() {
-        this.constructor = d;
-      }
-      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-  }();
-  Object.defineProperty(TextLineSpacingBuiltInControl, "__esModule", { value: true });
-  TextLineSpacingBuiltInControl.TextLineSpacingBuiltInControl = void 0;
-  var BuiltInControl_1 = requireBuiltInControl();
-  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
-  var TextLineSpacingBuiltInControl$1 = (
-    /** @class */
-    function(_super) {
-      __extends(TextLineSpacingBuiltInControl2, _super);
-      function TextLineSpacingBuiltInControl2() {
-        return _super !== null && _super.apply(this, arguments) || this;
-      }
-      TextLineSpacingBuiltInControl2.prototype.getParentControlId = function() {
-        return BuiltInControlTypes_1.BuiltInControlTypes.GENERAL.TEXT_LINE_SPACING;
-      };
-      return TextLineSpacingBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
-  );
-  TextLineSpacingBuiltInControl.TextLineSpacingBuiltInControl = TextLineSpacingBuiltInControl$1;
-  return TextLineSpacingBuiltInControl;
-}
-var BlocksPanel = {};
-var hasRequiredBlocksPanel;
-function requireBlocksPanel() {
-  if (hasRequiredBlocksPanel) return BlocksPanel;
-  hasRequiredBlocksPanel = 1;
-  Object.defineProperty(BlocksPanel, "__esModule", { value: true });
-  BlocksPanel.BlocksPanel = void 0;
-  var BlocksPanel$1 = (
+var Extension = {};
+var hasRequiredExtension;
+function requireExtension() {
+  if (hasRequiredExtension) return Extension;
+  hasRequiredExtension = 1;
+  Object.defineProperty(Extension, "__esModule", { value: true });
+  Extension.Extension = void 0;
+  var Extension$1 = (
     /** @class */
     function() {
-      function BlocksPanel2() {
+      function Extension2(i18n, styles2, uiElements, uiElementTagRegistry, controls2, settingsPanelRegistry, contextActions, blocks, externalSmartElementsLibrary2, externalImageLibrary, previewStyles2, externalAiAssistant2, externalDisplayConditionsLibrary, externalVideoLibrary, blocksPanel) {
+        if (uiElements === void 0) {
+          uiElements = [];
+        }
+        if (controls2 === void 0) {
+          controls2 = [];
+        }
+        if (contextActions === void 0) {
+          contextActions = [];
+        }
+        if (blocks === void 0) {
+          blocks = [];
+        }
+        this.uiElements = [];
+        this.controls = [];
+        this.contextActions = [];
+        this.blocks = [];
+        this.i18n = i18n;
+        this.styles = styles2;
+        this.previewStyles = previewStyles2;
+        this.uiElements = uiElements;
+        this.uiElementTagRegistry = uiElementTagRegistry;
+        this.controls = controls2;
+        this.settingsPanelRegistry = settingsPanelRegistry;
+        this.contextActions = contextActions;
+        this.blocks = blocks;
+        this.externalSmartElementsLibrary = externalSmartElementsLibrary2;
+        this.externalImageLibrary = externalImageLibrary;
+        this.externalAiAssistant = externalAiAssistant2;
+        this.externalDisplayConditionsLibrary = externalDisplayConditionsLibrary;
+        this.externalVideoLibrary = externalVideoLibrary;
+        this.blocksPanel = blocksPanel;
+        this.id = Math.random().toString(36).substring(2);
       }
-      BlocksPanel2.prototype.getBlockItemHtml = function(block) {
-        return void 0;
+      Extension2.prototype.getI18n = function() {
+        return this.i18n;
       };
-      BlocksPanel2.prototype.isBlockHintVisible = function(block) {
-        return true;
+      Extension2.prototype.getStyles = function() {
+        return this.styles;
       };
-      BlocksPanel2.prototype.getBlockHint = function(block) {
-        return {
-          title: block.title,
-          description: block.description
-        };
+      Extension2.prototype.getPreviewStyles = function() {
+        return this.previewStyles;
       };
-      BlocksPanel2.prototype.getBlocksPanelHeaderHtml = function() {
-        return void 0;
+      Extension2.prototype.getUiElements = function() {
+        return this.uiElements;
       };
-      BlocksPanel2.prototype.getModulesPanelCollapsedHtml = function() {
-        return void 0;
+      Extension2.prototype.getUiElementTagRegistry = function() {
+        return this.uiElementTagRegistry;
       };
-      BlocksPanel2.prototype.isModulesPanelCollapsedHintVisible = function() {
-        return true;
+      Extension2.prototype.getControls = function() {
+        return this.controls;
       };
-      BlocksPanel2.prototype.getHintDelay = function() {
-        return void 0;
+      Extension2.prototype.getSettingsPanelRegistry = function() {
+        return this.settingsPanelRegistry;
       };
-      BlocksPanel2.prototype.getModulesPanelHint = function() {
-        return void 0;
+      Extension2.prototype.getContextActions = function() {
+        return this.contextActions;
       };
-      return BlocksPanel2;
+      Extension2.prototype.getBlocks = function() {
+        return this.blocks;
+      };
+      Extension2.prototype.getId = function() {
+        return this.id;
+      };
+      Extension2.prototype.getExternalSmartElementsLibrary = function() {
+        return this.externalSmartElementsLibrary;
+      };
+      Extension2.prototype.getExternalImageLibrary = function() {
+        return this.externalImageLibrary;
+      };
+      Extension2.prototype.getExternalAiAssistant = function() {
+        return this.externalAiAssistant;
+      };
+      Extension2.prototype.getExternalDisplayConditionsLibrary = function() {
+        return this.externalDisplayConditionsLibrary;
+      };
+      Extension2.prototype.getExternalVideoLibrary = function() {
+        return this.externalVideoLibrary;
+      };
+      Extension2.prototype.getBlocksPanel = function() {
+        return this.blocksPanel;
+      };
+      return Extension2;
     }()
   );
-  BlocksPanel.BlocksPanel = BlocksPanel$1;
-  return BlocksPanel;
+  Extension.Extension = Extension$1;
+  return Extension;
 }
-var PanelPosition = {};
-var hasRequiredPanelPosition;
-function requirePanelPosition() {
-  if (hasRequiredPanelPosition) return PanelPosition;
-  hasRequiredPanelPosition = 1;
-  Object.defineProperty(PanelPosition, "__esModule", { value: true });
-  PanelPosition.PanelPosition = void 0;
-  var PanelPosition$1;
-  (function(PanelPosition2) {
-    PanelPosition2["BLOCKS_SETTINGS"] = "BLOCKS_SETTINGS";
-    PanelPosition2["SETTINGS_BLOCKS"] = "SETTINGS_BLOCKS";
-  })(PanelPosition$1 || (PanelPosition.PanelPosition = PanelPosition$1 = {}));
-  return PanelPosition;
-}
-var ButtonHoverColorBuiltInControl = {};
-var hasRequiredButtonHoverColorBuiltInControl;
-function requireButtonHoverColorBuiltInControl() {
-  if (hasRequiredButtonHoverColorBuiltInControl) return ButtonHoverColorBuiltInControl;
-  hasRequiredButtonHoverColorBuiltInControl = 1;
-  var __extends = ButtonHoverColorBuiltInControl && ButtonHoverColorBuiltInControl.__extends || /* @__PURE__ */ function() {
-    var extendStatics = function(d, b) {
-      extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
-        d2.__proto__ = b2;
-      } || function(d2, b2) {
-        for (var p in b2) if (Object.prototype.hasOwnProperty.call(b2, p)) d2[p] = b2[p];
-      };
-      return extendStatics(d, b);
-    };
-    return function(d, b) {
-      if (typeof b !== "function" && b !== null)
-        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-      extendStatics(d, b);
-      function __() {
-        this.constructor = d;
-      }
-      d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-  }();
-  Object.defineProperty(ButtonHoverColorBuiltInControl, "__esModule", { value: true });
-  ButtonHoverColorBuiltInControl.ButtonHoverColorBuiltInControl = void 0;
-  var BuiltInControl_1 = requireBuiltInControl();
-  var BuiltInControlTypes_1 = requireBuiltInControlTypes();
-  var BlockType_1 = requireBlockType();
-  var ButtonHoverColorBuiltInControl$1 = (
+var ExtensionBuilder = {};
+var hasRequiredExtensionBuilder;
+function requireExtensionBuilder() {
+  if (hasRequiredExtensionBuilder) return ExtensionBuilder;
+  hasRequiredExtensionBuilder = 1;
+  Object.defineProperty(ExtensionBuilder, "__esModule", { value: true });
+  ExtensionBuilder.ExtensionBuilder = void 0;
+  var Extension_1 = requireExtension();
+  var ExtensionBuilder$1 = (
     /** @class */
-    function(_super) {
-      __extends(ButtonHoverColorBuiltInControl2, _super);
-      function ButtonHoverColorBuiltInControl2() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function() {
+      function ExtensionBuilder2() {
+        this.uiElements = [];
+        this.controls = [];
+        this.contextActions = [];
+        this.blocks = [];
       }
-      ButtonHoverColorBuiltInControl2.prototype.getParentControlId = function() {
-        return BuiltInControlTypes_1.BuiltInControlTypes[BlockType_1.BlockType.BLOCK_BUTTON].HOVERED_COLOR;
+      ExtensionBuilder2.prototype.withLocalization = function(i18n) {
+        this.i18n = i18n;
+        return this;
       };
-      ButtonHoverColorBuiltInControl2.prototype.setRoot = function(_root) {
-        return void 0;
+      ExtensionBuilder2.prototype.withStyles = function(styles2) {
+        this.styles = styles2;
+        return this;
       };
-      ButtonHoverColorBuiltInControl2.prototype.getTargetNodes = function(root) {
-        return _super.prototype.getTargetNodes.call(this, root);
+      ExtensionBuilder2.prototype.withPreviewStyles = function(styles2) {
+        this.previewStyles = styles2;
+        return this;
       };
-      ButtonHoverColorBuiltInControl2.prototype.getLabels = function() {
-        return void 0;
+      ExtensionBuilder2.prototype.addContextAction = function(contextAction) {
+        this.contextActions.push(contextAction);
+        return this;
       };
-      ButtonHoverColorBuiltInControl2.prototype.getHoverBorderSelector = function(_generateClass) {
-        return void 0;
+      ExtensionBuilder2.prototype.addUiElement = function(uiElement) {
+        this.uiElements.push(uiElement);
+        return this;
       };
-      ButtonHoverColorBuiltInControl2.prototype.getHoverLinkSelector = function(_generateClass) {
-        return void 0;
+      ExtensionBuilder2.prototype.withUiElementTagRegistry = function(uiElementTagRegistry) {
+        this.uiElementTagRegistry = uiElementTagRegistry;
+        return this;
       };
-      return ButtonHoverColorBuiltInControl2;
-    }(BuiltInControl_1.BuiltInControl)
+      ExtensionBuilder2.prototype.addControl = function(control) {
+        this.controls.push(control);
+        return this;
+      };
+      ExtensionBuilder2.prototype.withSettingsPanelRegistry = function(settingsPanelRegistry) {
+        this.settingsPanelRegistry = settingsPanelRegistry;
+        return this;
+      };
+      ExtensionBuilder2.prototype.withExternalSmartElementsLibrary = function(externalSmartElementsLibrary2) {
+        this.externalSmartElementsLibrary = externalSmartElementsLibrary2;
+        return this;
+      };
+      ExtensionBuilder2.prototype.withExternalImageLibrary = function(externalImageLibrary) {
+        this.externalImageLibrary = externalImageLibrary;
+        return this;
+      };
+      ExtensionBuilder2.prototype.withExternalAiAssistant = function(externalAiAssistant2) {
+        this.externalAiAssistant = externalAiAssistant2;
+        return this;
+      };
+      ExtensionBuilder2.prototype.withExternalDisplayCondition = function(externalDisplayCondition) {
+        this.externalDisplayConditionsLibrary = externalDisplayCondition;
+        return this;
+      };
+      ExtensionBuilder2.prototype.withExternalVideosLibrary = function(externalVideoLibrary) {
+        this.externalVideoLibrary = externalVideoLibrary;
+        return this;
+      };
+      ExtensionBuilder2.prototype.withBlocksPanel = function(blocksPanel) {
+        this.blocksPanel = blocksPanel;
+        return this;
+      };
+      ExtensionBuilder2.prototype.addBlock = function(block) {
+        this.blocks.push(block);
+        return this;
+      };
+      ExtensionBuilder2.prototype.build = function() {
+        return new Extension_1.Extension(this.i18n, this.styles, this.uiElements, this.uiElementTagRegistry, this.controls, this.settingsPanelRegistry, this.contextActions, this.blocks, this.externalSmartElementsLibrary, this.externalImageLibrary, this.previewStyles, this.externalAiAssistant, this.externalDisplayConditionsLibrary, this.externalVideoLibrary, this.blocksPanel);
+      };
+      return ExtensionBuilder2;
+    }()
   );
-  ButtonHoverColorBuiltInControl.ButtonHoverColorBuiltInControl = ButtonHoverColorBuiltInControl$1;
-  return ButtonHoverColorBuiltInControl;
+  ExtensionBuilder.ExtensionBuilder = ExtensionBuilder$1;
+  return ExtensionBuilder;
+}
+var ModificationDescription = {};
+var hasRequiredModificationDescription;
+function requireModificationDescription() {
+  if (hasRequiredModificationDescription) return ModificationDescription;
+  hasRequiredModificationDescription = 1;
+  Object.defineProperty(ModificationDescription, "__esModule", { value: true });
+  ModificationDescription.ModificationDescription = void 0;
+  var ModificationDescription$1 = (
+    /** @class */
+    function() {
+      function ModificationDescription2(key) {
+        this.key = key;
+      }
+      ModificationDescription2.prototype.withParams = function(params) {
+        this.params = params;
+        return this;
+      };
+      ModificationDescription2.prototype.getValue = function() {
+        return {
+          key: this.key,
+          params: this.params
+        };
+      };
+      return ModificationDescription2;
+    }()
+  );
+  ModificationDescription.ModificationDescription = ModificationDescription$1;
+  return ModificationDescription;
+}
+var UIElement = {};
+var hasRequiredUIElement;
+function requireUIElement() {
+  if (hasRequiredUIElement) return UIElement;
+  hasRequiredUIElement = 1;
+  Object.defineProperty(UIElement, "__esModule", { value: true });
+  UIElement.UIElement = void 0;
+  var UIElement$1 = (
+    /** @class */
+    function() {
+      function UIElement2() {
+      }
+      UIElement2.prototype.onDestroy = function() {
+      };
+      UIElement2.prototype.getValue = function() {
+      };
+      UIElement2.prototype.setValue = function(value) {
+      };
+      UIElement2.prototype.onAttributeUpdated = function(name, value) {
+      };
+      return UIElement2;
+    }()
+  );
+  UIElement.UIElement = UIElement$1;
+  return UIElement;
+}
+var UIElementTagRegistry = {};
+var hasRequiredUIElementTagRegistry;
+function requireUIElementTagRegistry() {
+  if (hasRequiredUIElementTagRegistry) return UIElementTagRegistry;
+  hasRequiredUIElementTagRegistry = 1;
+  Object.defineProperty(UIElementTagRegistry, "__esModule", { value: true });
+  UIElementTagRegistry.UIElementTagRegistry = void 0;
+  var UIElementTagRegistry$1 = (
+    /** @class */
+    /* @__PURE__ */ function() {
+      function UIElementTagRegistry2() {
+      }
+      return UIElementTagRegistry2;
+    }()
+  );
+  UIElementTagRegistry.UIElementTagRegistry = UIElementTagRegistry$1;
+  return UIElementTagRegistry;
 }
 var hasRequiredDist;
 function requireDist() {
@@ -2116,54 +2285,42 @@ function requireDist() {
   (function(exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ButtonTextBuiltInControl = exports.LinkColorBuiltInControl = exports.BackgroundImageBuiltInControl = exports.BackgroundColorBuiltInControl = exports.FontFamilyBuiltInControl = exports.BuiltInControl = exports.ADD_CUSTOM_FONT_OPTION = exports.BlockAttr = exports.AiAssistantValueType = exports.BlockCompositionType = exports.AmpFormControls = exports.GeneralControls = exports.GeneralStylesControls = exports.MessageSettingsControls = exports.ContainerControls = exports.StructureControls = exports.StripeControls = exports.CarouselControls = exports.AccordionControls = exports.MenuControls = exports.SocialControls = exports.CustomTextControls = exports.CustomImageControls = exports.CustomLinkControls = exports.HTMLControls = exports.ImageControls = exports.SpacerControls = exports.TimerControls = exports.VideoControls = exports.TextControls = exports.ButtonControls = exports.BannerChildControls = exports.BannerControls = exports.BlockType = exports.SettingsTab = exports.BuiltInControlTypes = exports.ContextActionType = exports.UEAttr = exports.UIElementType = exports.ModificationDescription = exports.Extension = exports.ExtensionBuilder = exports.SettingsPanelTab = exports.Block = exports.BlockRenderer = exports.ContextAction = exports.SettingsPanelRegistry = exports.Control = exports.UIElementTagRegistry = exports.UIElement = void 0;
-    exports.ButtonHoverColorBuiltInControl = exports.ButtonHoverBorderColorBuiltInControl = exports.ButtonHoverTextColorBuiltInControl = exports.TextLineSpacingBuiltInControl = exports.ButtonBorderBuiltInControl = exports.PanelPosition = exports.BlocksPanel = exports.StructureBorderBuiltInControl = exports.TextStyleBuiltInControl = exports.TextSizeBuiltInControl = exports.PreviewDeviceMode = exports.EditorStatePropertyType = exports.ButtonColorBuiltInControl = exports.ButtonFontColorBuiltInControl = exports.TextColorBuiltInControl = exports.ButtonInternalIndentsBuiltInControl = exports.StructurePaddingsBuiltInControl = exports.BlockPaddingsBuiltInControl = void 0;
-    var UIElement_1 = requireUIElement();
-    Object.defineProperty(exports, "UIElement", { enumerable: true, get: function() {
-      return UIElement_1.UIElement;
-    } });
-    var Control_1 = requireControl();
-    Object.defineProperty(exports, "Control", { enumerable: true, get: function() {
-      return Control_1.Control;
-    } });
-    var SettingsPanelRegistry_1 = requireSettingsPanelRegistry();
-    Object.defineProperty(exports, "SettingsPanelRegistry", { enumerable: true, get: function() {
-      return SettingsPanelRegistry_1.SettingsPanelRegistry;
-    } });
-    var ContextAction_1 = requireContextAction();
-    Object.defineProperty(exports, "ContextAction", { enumerable: true, get: function() {
-      return ContextAction_1.ContextAction;
+    exports.ButtonBorderRadiusBuiltInControl = exports.ButtonHoverColorBuiltInControl = exports.ButtonAlignBuiltInControl = exports.ButtonHoverBorderColorBuiltInControl = exports.ButtonHoverTextColorBuiltInControl = exports.TextLineSpacingBuiltInControl = exports.ButtonBorderBuiltInControl = exports.PanelPosition = exports.BlocksPanel = exports.StructureBorderBuiltInControl = exports.TextStyleBuiltInControl = exports.TextSizeBuiltInControl = exports.PreviewDeviceMode = exports.EditorStatePropertyType = exports.ButtonColorBuiltInControl = exports.ButtonFontColorBuiltInControl = exports.TextColorBuiltInControl = exports.ButtonInternalIndentsBuiltInControl = exports.StructurePaddingsBuiltInControl = exports.BlockPaddingsBuiltInControl = void 0;
+    var Block_1 = requireBlock();
+    Object.defineProperty(exports, "Block", { enumerable: true, get: function() {
+      return Block_1.Block;
     } });
     var BlockRenderer_1 = requireBlockRenderer();
     Object.defineProperty(exports, "BlockRenderer", { enumerable: true, get: function() {
       return BlockRenderer_1.BlockRenderer;
     } });
-    var Block_1 = requireBlock();
-    Object.defineProperty(exports, "Block", { enumerable: true, get: function() {
-      return Block_1.Block;
+    var BlocksPanel_1 = requireBlocksPanel();
+    Object.defineProperty(exports, "BlocksPanel", { enumerable: true, get: function() {
+      return BlocksPanel_1.BlocksPanel;
     } });
-    var ExtensionBuilder_1 = requireExtensionBuilder();
-    Object.defineProperty(exports, "ExtensionBuilder", { enumerable: true, get: function() {
-      return ExtensionBuilder_1.ExtensionBuilder;
+    var ContextAction_1 = requireContextAction();
+    Object.defineProperty(exports, "ContextAction", { enumerable: true, get: function() {
+      return ContextAction_1.ContextAction;
     } });
-    var Extension_1 = requireExtension();
-    Object.defineProperty(exports, "Extension", { enumerable: true, get: function() {
-      return Extension_1.Extension;
+    var AddCustomFont_1 = requireAddCustomFont();
+    Object.defineProperty(exports, "ADD_CUSTOM_FONT_OPTION", { enumerable: true, get: function() {
+      return AddCustomFont_1.ADD_CUSTOM_FONT_OPTION;
     } });
-    var UIElementTagRegistry_1 = requireUIElementTagRegistry();
-    Object.defineProperty(exports, "UIElementTagRegistry", { enumerable: true, get: function() {
-      return UIElementTagRegistry_1.UIElementTagRegistry;
+    var AiAssistantValueType_1 = requireAiAssistantValueType();
+    Object.defineProperty(exports, "AiAssistantValueType", { enumerable: true, get: function() {
+      return AiAssistantValueType_1.AiAssistantValueType;
     } });
-    var ModificationDescription_1 = requireModificationDescription();
-    Object.defineProperty(exports, "ModificationDescription", { enumerable: true, get: function() {
-      return ModificationDescription_1.ModificationDescription;
+    var BlockAttributes_1 = requireBlockAttributes();
+    Object.defineProperty(exports, "BlockAttr", { enumerable: true, get: function() {
+      return BlockAttributes_1.BlockAttr;
     } });
-    var SettingsPanelTab_1 = requireSettingsPanelTab();
-    Object.defineProperty(exports, "SettingsPanelTab", { enumerable: true, get: function() {
-      return SettingsPanelTab_1.SettingsPanelTab;
+    var BlockCompositionType_1 = requireBlockCompositionType();
+    Object.defineProperty(exports, "BlockCompositionType", { enumerable: true, get: function() {
+      return BlockCompositionType_1.BlockCompositionType;
     } });
-    var UIElementType_1 = requireUIElementType();
-    Object.defineProperty(exports, "UIElementType", { enumerable: true, get: function() {
-      return UIElementType_1.UIElementType;
+    var BlockType_1 = requireBlockType();
+    Object.defineProperty(exports, "BlockType", { enumerable: true, get: function() {
+      return BlockType_1.BlockType;
     } });
     var BuiltInControlTypes_1 = requireBuiltInControlTypes();
     Object.defineProperty(exports, "AccordionControls", { enumerable: true, get: function() {
@@ -2238,6 +2395,22 @@ function requireDist() {
     Object.defineProperty(exports, "VideoControls", { enumerable: true, get: function() {
       return BuiltInControlTypes_1.VideoControls;
     } });
+    var ContextActionType_1 = requireContextActionType();
+    Object.defineProperty(exports, "ContextActionType", { enumerable: true, get: function() {
+      return ContextActionType_1.ContextActionType;
+    } });
+    var EditorStatePropertyType_1 = requireEditorStatePropertyType();
+    Object.defineProperty(exports, "EditorStatePropertyType", { enumerable: true, get: function() {
+      return EditorStatePropertyType_1.EditorStatePropertyType;
+    } });
+    var PanelPosition_1 = requirePanelPosition();
+    Object.defineProperty(exports, "PanelPosition", { enumerable: true, get: function() {
+      return PanelPosition_1.PanelPosition;
+    } });
+    var PreviewDeviceMode_1 = requirePreviewDeviceMode();
+    Object.defineProperty(exports, "PreviewDeviceMode", { enumerable: true, get: function() {
+      return PreviewDeviceMode_1.PreviewDeviceMode;
+    } });
     var SettingsTab_1 = requireSettingsTab();
     Object.defineProperty(exports, "SettingsTab", { enumerable: true, get: function() {
       return SettingsTab_1.SettingsTab;
@@ -2246,81 +2419,101 @@ function requireDist() {
     Object.defineProperty(exports, "UEAttr", { enumerable: true, get: function() {
       return UIElementsAttributes_1.UEAttr;
     } });
-    var BlockType_1 = requireBlockType();
-    Object.defineProperty(exports, "BlockType", { enumerable: true, get: function() {
-      return BlockType_1.BlockType;
-    } });
-    var ContextActionType_1 = requireContextActionType();
-    Object.defineProperty(exports, "ContextActionType", { enumerable: true, get: function() {
-      return ContextActionType_1.ContextActionType;
-    } });
-    var BlockCompositionType_1 = requireBlockCompositionType();
-    Object.defineProperty(exports, "BlockCompositionType", { enumerable: true, get: function() {
-      return BlockCompositionType_1.BlockCompositionType;
-    } });
-    var BlockAttributes_1 = requireBlockAttributes();
-    Object.defineProperty(exports, "BlockAttr", { enumerable: true, get: function() {
-      return BlockAttributes_1.BlockAttr;
-    } });
-    var AiAssistantValueType_1 = requireAiAssistantValueType();
-    Object.defineProperty(exports, "AiAssistantValueType", { enumerable: true, get: function() {
-      return AiAssistantValueType_1.AiAssistantValueType;
-    } });
-    var AddCustomFont_1 = requireAddCustomFont();
-    Object.defineProperty(exports, "ADD_CUSTOM_FONT_OPTION", { enumerable: true, get: function() {
-      return AddCustomFont_1.ADD_CUSTOM_FONT_OPTION;
-    } });
-    var BuiltInControl_1 = requireBuiltInControl();
-    Object.defineProperty(exports, "BuiltInControl", { enumerable: true, get: function() {
-      return BuiltInControl_1.BuiltInControl;
-    } });
-    var FontFamilyBuiltInControl_1 = requireFontFamilyBuiltInControl();
-    Object.defineProperty(exports, "FontFamilyBuiltInControl", { enumerable: true, get: function() {
-      return FontFamilyBuiltInControl_1.FontFamilyBuiltInControl;
+    var UIElementType_1 = requireUIElementType();
+    Object.defineProperty(exports, "UIElementType", { enumerable: true, get: function() {
+      return UIElementType_1.UIElementType;
     } });
     var BackgroundColorBuiltInControl_1 = requireBackgroundColorBuiltInControl();
     Object.defineProperty(exports, "BackgroundColorBuiltInControl", { enumerable: true, get: function() {
       return BackgroundColorBuiltInControl_1.BackgroundColorBuiltInControl;
     } });
-    var BlockPaddingsBuiltInControl_1 = requireBlockPaddingsBuiltInControl();
-    Object.defineProperty(exports, "BlockPaddingsBuiltInControl", { enumerable: true, get: function() {
-      return BlockPaddingsBuiltInControl_1.BlockPaddingsBuiltInControl;
-    } });
     var BackgroundImageBuiltInControl_1 = requireBackgroundImageBuiltInControl();
     Object.defineProperty(exports, "BackgroundImageBuiltInControl", { enumerable: true, get: function() {
       return BackgroundImageBuiltInControl_1.BackgroundImageBuiltInControl;
     } });
-    var EditorStatePropertyType_1 = requireEditorStatePropertyType();
-    Object.defineProperty(exports, "EditorStatePropertyType", { enumerable: true, get: function() {
-      return EditorStatePropertyType_1.EditorStatePropertyType;
+    var BlockPaddingsBuiltInControl_1 = requireBlockPaddingsBuiltInControl();
+    Object.defineProperty(exports, "BlockPaddingsBuiltInControl", { enumerable: true, get: function() {
+      return BlockPaddingsBuiltInControl_1.BlockPaddingsBuiltInControl;
     } });
-    var PreviewDeviceMode_1 = requirePreviewDeviceMode();
-    Object.defineProperty(exports, "PreviewDeviceMode", { enumerable: true, get: function() {
-      return PreviewDeviceMode_1.PreviewDeviceMode;
+    var BuiltInControl_1 = requireBuiltInControl();
+    Object.defineProperty(exports, "BuiltInControl", { enumerable: true, get: function() {
+      return BuiltInControl_1.BuiltInControl;
     } });
-    var StructurePaddingsBuiltInControl_1 = requireStructurePaddingsBuiltInControl();
-    Object.defineProperty(exports, "StructurePaddingsBuiltInControl", { enumerable: true, get: function() {
-      return StructurePaddingsBuiltInControl_1.StructurePaddingsBuiltInControl;
+    var ButtonBorderRadiusBuiltInControl_1 = requireButtonBorderRadiusBuiltInControl();
+    Object.defineProperty(exports, "ButtonBorderRadiusBuiltInControl", { enumerable: true, get: function() {
+      return ButtonBorderRadiusBuiltInControl_1.ButtonBorderRadiusBuiltInControl;
     } });
-    var TextColorBuiltInControl_1 = requireTextColorBuiltInControl();
-    Object.defineProperty(exports, "TextColorBuiltInControl", { enumerable: true, get: function() {
-      return TextColorBuiltInControl_1.TextColorBuiltInControl;
+    var ButtonAlignBuiltInControl_1 = requireButtonAlignBuiltInControl();
+    Object.defineProperty(exports, "ButtonAlignBuiltInControl", { enumerable: true, get: function() {
+      return ButtonAlignBuiltInControl_1.ButtonAlignBuiltInControl;
     } });
-    var ButtonFontColorBuiltInControl_1 = requireButtonFontColorBuiltInControl();
-    Object.defineProperty(exports, "ButtonFontColorBuiltInControl", { enumerable: true, get: function() {
-      return ButtonFontColorBuiltInControl_1.ButtonFontColorBuiltInControl;
+    var ButtonBorderBuiltInControl_1 = requireButtonBorderBuiltInControl();
+    Object.defineProperty(exports, "ButtonBorderBuiltInControl", { enumerable: true, get: function() {
+      return ButtonBorderBuiltInControl_1.ButtonBorderBuiltInControl;
     } });
     var ButtonColorBuiltInControl_1 = requireButtonColorBuiltInControl();
     Object.defineProperty(exports, "ButtonColorBuiltInControl", { enumerable: true, get: function() {
       return ButtonColorBuiltInControl_1.ButtonColorBuiltInControl;
     } });
+    var ButtonFontColorBuiltInControl_1 = requireButtonFontColorBuiltInControl();
+    Object.defineProperty(exports, "ButtonFontColorBuiltInControl", { enumerable: true, get: function() {
+      return ButtonFontColorBuiltInControl_1.ButtonFontColorBuiltInControl;
+    } });
+    var ButtonHoverBorderColorBuiltInControl_1 = requireButtonHoverBorderColorBuiltInControl();
+    Object.defineProperty(exports, "ButtonHoverBorderColorBuiltInControl", { enumerable: true, get: function() {
+      return ButtonHoverBorderColorBuiltInControl_1.ButtonHoverBorderColorBuiltInControl;
+    } });
+    var ButtonHoverColorBuiltInControl_1 = requireButtonHoverColorBuiltInControl();
+    Object.defineProperty(exports, "ButtonHoverColorBuiltInControl", { enumerable: true, get: function() {
+      return ButtonHoverColorBuiltInControl_1.ButtonHoverColorBuiltInControl;
+    } });
+    var ButtonHoverTextColorBuiltInControl_1 = requireButtonHoverTextColorBuiltInControl();
+    Object.defineProperty(exports, "ButtonHoverTextColorBuiltInControl", { enumerable: true, get: function() {
+      return ButtonHoverTextColorBuiltInControl_1.ButtonHoverTextColorBuiltInControl;
+    } });
     var ButtonInternalIndentsBuiltInControl_1 = requireButtonInternalIndentsBuiltInControl();
     Object.defineProperty(exports, "ButtonInternalIndentsBuiltInControl", { enumerable: true, get: function() {
       return ButtonInternalIndentsBuiltInControl_1.ButtonInternalIndentsBuiltInControl;
     } });
+    var ButtonTextBuiltInControl_1 = requireButtonTextBuiltInControl();
+    Object.defineProperty(exports, "ButtonTextBuiltInControl", { enumerable: true, get: function() {
+      return ButtonTextBuiltInControl_1.ButtonTextBuiltInControl;
+    } });
+    var Control_1 = requireControl();
+    Object.defineProperty(exports, "Control", { enumerable: true, get: function() {
+      return Control_1.Control;
+    } });
+    var SettingsPanelRegistry_1 = requireSettingsPanelRegistry();
+    Object.defineProperty(exports, "SettingsPanelRegistry", { enumerable: true, get: function() {
+      return SettingsPanelRegistry_1.SettingsPanelRegistry;
+    } });
+    var SettingsPanelTab_1 = requireSettingsPanelTab();
+    Object.defineProperty(exports, "SettingsPanelTab", { enumerable: true, get: function() {
+      return SettingsPanelTab_1.SettingsPanelTab;
+    } });
     var StructureBorderBuiltInControl_1 = requireStructureBorderBuiltInControl();
     Object.defineProperty(exports, "StructureBorderBuiltInControl", { enumerable: true, get: function() {
       return StructureBorderBuiltInControl_1.StructureBorderBuiltInControl;
+    } });
+    var StructurePaddingsBuiltInControl_1 = requireStructurePaddingsBuiltInControl();
+    Object.defineProperty(exports, "StructurePaddingsBuiltInControl", { enumerable: true, get: function() {
+      return StructurePaddingsBuiltInControl_1.StructurePaddingsBuiltInControl;
+    } });
+    var FontFamilyBuiltInControl_1 = requireFontFamilyBuiltInControl();
+    Object.defineProperty(exports, "FontFamilyBuiltInControl", { enumerable: true, get: function() {
+      return FontFamilyBuiltInControl_1.FontFamilyBuiltInControl;
+    } });
+    var TextLineSpacingBuiltInControl_1 = requireTextLineSpacingBuiltInControl();
+    Object.defineProperty(exports, "TextLineSpacingBuiltInControl", { enumerable: true, get: function() {
+      return TextLineSpacingBuiltInControl_1.TextLineSpacingBuiltInControl;
+    } });
+    var LinkColorBuiltInControl_1 = requireLinkColorBuiltInControl();
+    Object.defineProperty(exports, "LinkColorBuiltInControl", { enumerable: true, get: function() {
+      return LinkColorBuiltInControl_1.LinkColorBuiltInControl;
+    } });
+    var TextColorBuiltInControl_1 = requireTextColorBuiltInControl();
+    Object.defineProperty(exports, "TextColorBuiltInControl", { enumerable: true, get: function() {
+      return TextColorBuiltInControl_1.TextColorBuiltInControl;
     } });
     var TextSizeBuiltInControl_1 = requireTextSizeBuiltInControl();
     Object.defineProperty(exports, "TextSizeBuiltInControl", { enumerable: true, get: function() {
@@ -2330,41 +2523,25 @@ function requireDist() {
     Object.defineProperty(exports, "TextStyleBuiltInControl", { enumerable: true, get: function() {
       return TextStyleBuiltInControl_1.TextStyleBuiltInControl;
     } });
-    var LinkColorBuiltInControl_1 = requireLinkColorBuiltInControl();
-    Object.defineProperty(exports, "LinkColorBuiltInControl", { enumerable: true, get: function() {
-      return LinkColorBuiltInControl_1.LinkColorBuiltInControl;
+    var Extension_1 = requireExtension();
+    Object.defineProperty(exports, "Extension", { enumerable: true, get: function() {
+      return Extension_1.Extension;
     } });
-    var ButtonTextBuiltInControl_1 = requireButtonTextBuiltInControl();
-    Object.defineProperty(exports, "ButtonTextBuiltInControl", { enumerable: true, get: function() {
-      return ButtonTextBuiltInControl_1.ButtonTextBuiltInControl;
+    var ExtensionBuilder_1 = requireExtensionBuilder();
+    Object.defineProperty(exports, "ExtensionBuilder", { enumerable: true, get: function() {
+      return ExtensionBuilder_1.ExtensionBuilder;
     } });
-    var ButtonBorderBuiltInControl_1 = requireButtonBorderBuiltInControl();
-    Object.defineProperty(exports, "ButtonBorderBuiltInControl", { enumerable: true, get: function() {
-      return ButtonBorderBuiltInControl_1.ButtonBorderBuiltInControl;
+    var ModificationDescription_1 = requireModificationDescription();
+    Object.defineProperty(exports, "ModificationDescription", { enumerable: true, get: function() {
+      return ModificationDescription_1.ModificationDescription;
     } });
-    var ButtonHoverTextColorBuiltInControl_1 = requireButtonHoverTextColorBuiltInControl();
-    Object.defineProperty(exports, "ButtonHoverTextColorBuiltInControl", { enumerable: true, get: function() {
-      return ButtonHoverTextColorBuiltInControl_1.ButtonHoverTextColorBuiltInControl;
+    var UIElement_1 = requireUIElement();
+    Object.defineProperty(exports, "UIElement", { enumerable: true, get: function() {
+      return UIElement_1.UIElement;
     } });
-    var ButtonHoverBorderColorBuiltInControl_1 = requireButtonHoverBorderColorBuiltInControl();
-    Object.defineProperty(exports, "ButtonHoverBorderColorBuiltInControl", { enumerable: true, get: function() {
-      return ButtonHoverBorderColorBuiltInControl_1.ButtonHoverBorderColorBuiltInControl;
-    } });
-    var TextLineSpacingBuiltInControl_1 = requireTextLineSpacingBuiltInControl();
-    Object.defineProperty(exports, "TextLineSpacingBuiltInControl", { enumerable: true, get: function() {
-      return TextLineSpacingBuiltInControl_1.TextLineSpacingBuiltInControl;
-    } });
-    var BlocksPanel_1 = requireBlocksPanel();
-    Object.defineProperty(exports, "BlocksPanel", { enumerable: true, get: function() {
-      return BlocksPanel_1.BlocksPanel;
-    } });
-    var PanelPosition_1 = requirePanelPosition();
-    Object.defineProperty(exports, "PanelPosition", { enumerable: true, get: function() {
-      return PanelPosition_1.PanelPosition;
-    } });
-    var ButtonHoverColorBuiltInControl_1 = requireButtonHoverColorBuiltInControl();
-    Object.defineProperty(exports, "ButtonHoverColorBuiltInControl", { enumerable: true, get: function() {
-      return ButtonHoverColorBuiltInControl_1.ButtonHoverColorBuiltInControl;
+    var UIElementTagRegistry_1 = requireUIElementTagRegistry();
+    Object.defineProperty(exports, "UIElementTagRegistry", { enumerable: true, get: function() {
+      return UIElementTagRegistry_1.UIElementTagRegistry;
     } });
   })(dist);
   return dist;
@@ -2957,16 +3134,16 @@ class InitActionsBlock extends distExports.Block {
   }
 }
 const initActionsBlock = new distExports.ExtensionBuilder().addBlock(InitActionsBlock).build();
-const ID$m = "text-override-ui-element";
+const ID$o = "text-override-ui-element";
 class TestTagRegistry extends distExports.UIElementTagRegistry {
   registerUiElements(uiElementsTagsMap) {
     uiElementsTagsMap["original-text"] = uiElementsTagsMap[distExports.UIElementType.TEXT];
-    uiElementsTagsMap[distExports.UIElementType.TEXT] = ID$m;
+    uiElementsTagsMap[distExports.UIElementType.TEXT] = ID$o;
   }
 }
 class UiElementExtensionTextUiElementOverridden extends distExports.UIElement {
   getId() {
-    return ID$m;
+    return ID$o;
   }
   onRender(container) {
     this.listener = this._onChange.bind(this);
@@ -3387,15 +3564,15 @@ let ExternalImagesLibraryExample$1 = class ExternalImagesLibraryExample {
   }
 };
 const externalImagesLibrary = new distExports.ExtensionBuilder().withExternalImageLibrary(ExternalImagesLibraryExample$1).build();
-const ID$l = "external-merge-tags-ui-element";
+const ID$n = "external-merge-tags-ui-element";
 let MergeTagsTagRegistry$1 = class MergeTagsTagRegistry extends distExports.UIElementTagRegistry {
   registerUiElements(uiElementsTagsMap) {
-    uiElementsTagsMap[distExports.UIElementType.MERGETAGS] = ID$l;
+    uiElementsTagsMap[distExports.UIElementType.MERGETAGS] = ID$n;
   }
 };
 class DemoMergeTagsUiElementExtension extends distExports.UIElement {
   getId() {
-    return ID$l;
+    return ID$n;
   }
   onRender(container) {
     this.listener = this._onClick.bind(this);
@@ -3485,17 +3662,17 @@ const externalMergetags = new distExports.ExtensionBuilder().addUiElement(DemoMe
     "Open merge tags": "Відкрити мерж теги"
   }
 }).withUiElementTagRegistry(MergeTagsTagRegistry$1).build();
-const ID$k = "custom-font-family-select";
+const ID$m = "custom-font-family-select";
 const ORIGINAL_ID$1 = "original-font-family-select";
 let TagRegistry$1 = class TagRegistry extends distExports.UIElementTagRegistry {
   registerUiElements(uiElementsTagsMap) {
     uiElementsTagsMap[ORIGINAL_ID$1] = uiElementsTagsMap[distExports.UIElementType.FONT_FAMILY_SELECT];
-    uiElementsTagsMap[distExports.UIElementType.FONT_FAMILY_SELECT] = ID$k;
+    uiElementsTagsMap[distExports.UIElementType.FONT_FAMILY_SELECT] = ID$m;
   }
 };
 let CustomFontFamilySelect$1 = class CustomFontFamilySelect extends distExports.UIElement {
   getId() {
-    return ID$k;
+    return ID$m;
   }
   onRender(container) {
     this.listener = this._onChange.bind(this);
@@ -3568,24 +3745,19 @@ let CustomFontFamilySelect$1 = class CustomFontFamilySelect extends distExports.
   }
 };
 const fontFamilyExtension = new distExports.ExtensionBuilder().addUiElement(CustomFontFamilySelect$1).withUiElementTagRegistry(TagRegistry$1).build();
-const ID$j = "extendedFontFamily";
+const ID$l = "extendedFontFamily";
 let PanelRegistry$h = class PanelRegistry extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$j, 0);
+    controls2[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$l, 0);
   }
 };
 class ExtendedFontFamilyControl extends distExports.FontFamilyBuiltInControl {
   getId() {
-    return ID$j;
+    return ID$l;
   }
   getLabels() {
     return {
       title: "Extended font family control"
-    };
-  }
-  getTargetNodes(block) {
-    return {
-      targetNodes: [block.querySelector("span")]
     };
   }
   getModificationDescription() {
@@ -3596,15 +3768,15 @@ class ExtendedFontFamilyControl extends distExports.FontFamilyBuiltInControl {
   }
 }
 const fontFamilyControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedFontFamilyControl).withSettingsPanelRegistry(PanelRegistry$h).build();
-const ID$i = "extendedBackground";
+const ID$k = "extendedBackground";
 let PanelRegistry$g = class PanelRegistry2 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$i, 0);
+    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$k, 0);
   }
 };
 class ExtendedBackgroundControl extends distExports.BackgroundColorBuiltInControl {
   getId() {
-    return ID$i;
+    return ID$k;
   }
   getLabels() {
     return {
@@ -3616,24 +3788,19 @@ class ExtendedBackgroundControl extends distExports.BackgroundColorBuiltInContro
   }
 }
 const backgroundControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedBackgroundControl).withSettingsPanelRegistry(PanelRegistry$g).build();
-const ID$h = "extendedTextColor";
+const ID$j = "extendedTextColor";
 let PanelRegistry$f = class PanelRegistry3 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$h, 0);
+    controls2[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$j, 0);
   }
 };
 class ExtendedTextColorControl extends distExports.TextColorBuiltInControl {
   getId() {
-    return ID$h;
+    return ID$j;
   }
   getLabels() {
     return {
       title: "Extended text color control"
-    };
-  }
-  getTargetNodes(block) {
-    return {
-      targetNodes: [block.querySelector("a")]
     };
   }
   getAdditionalModifications(block) {
@@ -3641,24 +3808,19 @@ class ExtendedTextColorControl extends distExports.TextColorBuiltInControl {
   }
 }
 const textColorControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedTextColorControl).withSettingsPanelRegistry(PanelRegistry$f).build();
-const ID$g = "extendedTextStyle";
+const ID$i = "extendedTextStyle";
 let PanelRegistry$e = class PanelRegistry4 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$g, 0);
+    controls2[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$i, 0);
   }
 };
 class ExtendedTextStyleControl extends distExports.TextStyleBuiltInControl {
   getId() {
-    return ID$g;
+    return ID$i;
   }
   getLabels() {
     return {
       title: "Extended text style control"
-    };
-  }
-  getTargetNodes(block) {
-    return {
-      targetNodes: block.querySelectorAll("span")
     };
   }
   getAdditionalModifications(block) {
@@ -3666,46 +3828,37 @@ class ExtendedTextStyleControl extends distExports.TextStyleBuiltInControl {
   }
 }
 const textStyleControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedTextStyleControl).withSettingsPanelRegistry(PanelRegistry$e).build();
-const ID$f = "extendedTextSize";
+const ID$h = "extendedTextSize";
 let PanelRegistry$d = class PanelRegistry5 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$f, 0);
+    controls2[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$h, 0);
   }
 };
 class ExtendedTextSizeControl extends distExports.TextSizeBuiltInControl {
   getId() {
-    return ID$f;
+    return ID$h;
   }
   getLabels() {
     return {
       title: "Extended text size control"
     };
   }
-  getTargetNodes(block) {
-    return {
-      targetNodes: block.querySelectorAll("span"),
-      mobileClassTargetNodes: [block]
-    };
-  }
   getAdditionalModifications(block) {
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-text-size-applied");
   }
-  getMobileClassSpecificSelector() {
-    return " span";
-  }
 }
 const textSizeControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedTextSizeControl).withSettingsPanelRegistry(PanelRegistry$d).build();
-const ID$e = "nestedControlExtension";
+const ID$g = "nestedControlExtension";
 const BACKGROUND_CONTROL = "backgroundControl";
 const BACKGROUND_SWITCHER = "backgroundSwitcher";
 let PanelRegistry$c = class PanelRegistry6 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$e, 0);
+    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$g, 0);
   }
 };
 class NestedControlExtension extends distExports.Control {
   getId() {
-    return ID$e;
+    return ID$g;
   }
   getTemplate() {
     const { LABEL, SWITCHER, NESTED_CONTROL } = distExports.UIElementType;
@@ -3731,17 +3884,17 @@ class NestedControlExtension extends distExports.Control {
   }
 }
 const nestedBackgroundControl = new distExports.ExtensionBuilder().addControl(NestedControlExtension).withSettingsPanelRegistry(PanelRegistry$c).build();
-const ID$d = "stateChangeSubscriberExtension";
+const ID$f = "stateChangeSubscriberExtension";
 const LABEL_NAME = "label";
 const SWITCHER_NAME$1 = "switcher";
 let PanelRegistry$b = class PanelRegistry7 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$d, 0);
+    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$f, 0);
   }
 };
 class StateChangeSubscriberExtension extends distExports.Control {
   getId() {
-    return ID$d;
+    return ID$f;
   }
   getTemplate() {
     const { LABEL, SWITCHER } = distExports.UIElementType;
@@ -3779,15 +3932,15 @@ class StateChangeSubscriberExtension extends distExports.Control {
   }
 }
 const stateChangeSubscriber = new distExports.ExtensionBuilder().addControl(StateChangeSubscriberExtension).withSettingsPanelRegistry(PanelRegistry$b).build();
-const ID$c = "variableModeExtendedControl";
+const ID$e = "variableModeExtendedControl";
 let PanelRegistry$a = class PanelRegistry8 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$c, 0);
+    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$e, 0);
   }
 };
 class VariableModeExtendedControl extends distExports.BackgroundColorBuiltInControl {
   getId() {
-    return ID$c;
+    return ID$e;
   }
   getLabels() {
     return {
@@ -4362,15 +4515,15 @@ let ExternalDisplayConditions$2 = class ExternalDisplayConditions2 {
   }
 };
 const externalDisplayConditionsContextMenu = new distExports.ExtensionBuilder().withExternalDisplayCondition(ExternalDisplayConditions$2).build();
-const ID$b = "extendedBlockPaddings_text";
+const ID$d = "extendedBlockPaddings_text";
 let PanelRegistry$8 = class PanelRegistry10 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$b, 0);
+    controls2[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$d, 0);
   }
 };
 class ExtendedBlockPaddingsControl extends distExports.BlockPaddingsBuiltInControl {
   getId() {
-    return ID$b;
+    return ID$d;
   }
   getLabels() {
     return {
@@ -4381,13 +4534,10 @@ class ExtendedBlockPaddingsControl extends distExports.BlockPaddingsBuiltInContr
   }
   getAdditionalModifications(block) {
     const modifier = this.api.getDocumentModifier();
-    this.getTargetNodes(block).targetNodes.map((node) => modifier.modifyHtml(node).setClass("custom-paddings-applied"));
+    this.getTargetNodes(block).map(
+      (node) => modifier.modifyHtml(node).setClass("custom-paddings-applied")
+    );
     return modifier;
-  }
-  getTargetNodes(root) {
-    return {
-      targetNodes: root.querySelectorAll("p")
-    };
   }
 }
 const extendedBlockPaddingsControl = new distExports.ExtensionBuilder().addControl(ExtendedBlockPaddingsControl).withLocalization({
@@ -4398,15 +4548,15 @@ const extendedBlockPaddingsControl = new distExports.ExtensionBuilder().addContr
     "Extended block paddings": "Зовнішні відступи блоку текст"
   }
 }).withSettingsPanelRegistry(PanelRegistry$8).build();
-const ID$a = "extendedStructurePaddings";
+const ID$c = "extendedStructurePaddings";
 let PanelRegistry$7 = class PanelRegistry11 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[distExports.BlockType.STRIPE][0].addControl(ID$a, 0);
+    controls2[distExports.BlockType.STRIPE][0].addControl(ID$c, 0);
   }
 };
 class ExtendedStructurePaddingsControl extends distExports.StructurePaddingsBuiltInControl {
   getId() {
-    return ID$a;
+    return ID$c;
   }
   getLabels() {
     return {
@@ -4417,27 +4567,22 @@ class ExtendedStructurePaddingsControl extends distExports.StructurePaddingsBuil
   }
   getAdditionalModifications(block) {
     const modifier = this.api.getDocumentModifier();
-    this.getTargetNodes(block).targetNodes.map((node) => modifier.modifyHtml(node).setClass("custom-structure-paddings-applied"));
+    this.getTargetNodes(block).map((node) => modifier.modifyHtml(node).setClass("custom-structure-paddings-applied"));
     return modifier;
-  }
-  getTargetNodes(root) {
-    return {
-      targetNodes: root.querySelectorAll(".esd-structure")
-    };
   }
 }
 const extendedStructurePaddingsControl = new distExports.ExtensionBuilder().addControl(ExtendedStructurePaddingsControl).withLocalization({ "en": {
   "Extended structure paddings": "EN Extended structure paddings"
 } }).withSettingsPanelRegistry(PanelRegistry$7).build();
-const ID$9 = "extendedButtonInternalIndentsControl";
+const ID$b = "extendedButtonInternalIndentsControl";
 let PanelRegistry$6 = class PanelRegistry12 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[distExports.BlockType.STRIPE][0].addControl(ID$9, 0);
+    controls2[distExports.BlockType.STRIPE][0].addControl(ID$b, 0);
   }
 };
 class ExtendedButtonInternalIndents extends distExports.ButtonInternalIndentsBuiltInControl {
   getId() {
-    return ID$9;
+    return ID$b;
   }
   getLabels() {
     return {
@@ -4448,13 +4593,8 @@ class ExtendedButtonInternalIndents extends distExports.ButtonInternalIndentsBui
   }
   getAdditionalModifications(block) {
     const modifier = this.api.getDocumentModifier();
-    this.getTargetNodes(block).targetNodes.map((node) => modifier.modifyHtml(node).setClass("custom-internal-indents-applied"));
+    this.getTargetNodes(block).map((node) => modifier.modifyHtml(node).setClass("custom-internal-indents-applied"));
     return modifier;
-  }
-  getTargetNodes(root) {
-    return {
-      targetNodes: root.querySelectorAll(".es-button")
-    };
   }
 }
 const extendedButtonInternalIndentsControl = new distExports.ExtensionBuilder().addControl(ExtendedButtonInternalIndents).withLocalization({ "en": {
@@ -4508,25 +4648,19 @@ let ExternalVideoLibrary$1 = class ExternalVideoLibrary {
   }
 };
 const externalVideosLibrary = new distExports.ExtensionBuilder().withExternalVideosLibrary(ExternalVideoLibrary$1).build();
-const ID$8 = "extendedButtonColor";
+const ID$a = "extendedButtonColor";
 let PanelRegistry$5 = class PanelRegistry13 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$8, 0);
+    controls2[distExports.BlockType.BLOCK_BUTTON][0].addControl(ID$a, 0);
   }
 };
 class ExtendedButtonColorControl extends distExports.ButtonColorBuiltInControl {
   getId() {
-    return ID$8;
+    return ID$a;
   }
   getLabels() {
     return {
       title: "Extended button color control"
-    };
-  }
-  getTargetNodes(block) {
-    return {
-      targetNodes: [block.querySelector("a"), block.querySelector("span")],
-      msoBorderAltNode: block.querySelector("a")
     };
   }
   getAdditionalModifications(block) {
@@ -4534,17 +4668,17 @@ class ExtendedButtonColorControl extends distExports.ButtonColorBuiltInControl {
   }
 }
 const buttonColorControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedButtonColorControl).withSettingsPanelRegistry(PanelRegistry$5).build();
-const ID$7 = "extendedButtonBorder";
+const ID$9 = "extendedButtonBorder";
 let PanelRegistry$4 = class PanelRegistry14 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[distExports.BlockType.BLOCK_BUTTON] = [
-      new distExports.SettingsPanelTab(distExports.SettingsTab.STYLES, [ID$7])
+      new distExports.SettingsPanelTab(distExports.SettingsTab.STYLES, [ID$9])
     ];
   }
 };
 class ExtendedButtonBorderControl extends distExports.ButtonBorderBuiltInControl {
   getId() {
-    return ID$7;
+    return ID$9;
   }
   getLabels() {
     return {
@@ -4555,35 +4689,21 @@ class ExtendedButtonBorderControl extends distExports.ButtonBorderBuiltInControl
       borderStyleTitle: this.api.translate("Custom style label")
     };
   }
-  getTargetNodes(root) {
-    return {
-      targetNodes: [root.querySelector(".es-button-border")]
-    };
-  }
-  getAdditionalModifications(block) {
-    return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-button-border-applied");
-  }
 }
 const buttonBorderControlExtension = new distExports.ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$4).addControl(ExtendedButtonBorderControl).build();
-const ID$6 = "extendedLinkColor";
+const ID$8 = "extendedLinkColor";
 let PanelRegistry$3 = class PanelRegistry15 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$6, 0);
+    controls2[distExports.BlockType.BLOCK_TEXT][0].addControl(ID$8, 0);
   }
 };
 class ExtendedLinkColorControl extends distExports.LinkColorBuiltInControl {
   getId() {
-    return ID$6;
+    return ID$8;
   }
   getLabels() {
     return {
       title: this.api.translate("Extended link color control")
-    };
-  }
-  getTargetNodes(block) {
-    return {
-      targetNodes: block.querySelectorAll("a"),
-      textRootNode: block
     };
   }
 }
@@ -4609,7 +4729,7 @@ let ExtendedBackgroundImageControl$1 = class ExtendedBackgroundImageControl exte
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-background-applied");
   }
 };
-const ID$5 = "extendedGeneralBackgroundImage";
+const ID$7 = "extendedGeneralBackgroundImage";
 let PanelRegistry$2 = class PanelRegistry16 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2.GENERAL_STYLES[0] = new distExports.SettingsPanelTab("GENERAL_SETTINGS", [GENERAL_BACKGROUND_IMAGE_ID]);
@@ -4617,7 +4737,7 @@ let PanelRegistry$2 = class PanelRegistry16 extends distExports.SettingsPanelReg
 };
 class ExtendedBackgroundImageControl2 extends distExports.BackgroundImageBuiltInControl {
   getId() {
-    return ID$5;
+    return ID$7;
   }
   getLabels() {
     return {
@@ -4631,19 +4751,16 @@ class ExtendedBackgroundImageControl2 extends distExports.BackgroundImageBuiltIn
       backgroundHeight: this.api.translate("Custom Background Height")
     };
   }
-  getAdditionalModifications(block) {
-    return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-background-applied");
-  }
 }
 const generalBackgroundImageControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedBackgroundImageControl2).withSettingsPanelRegistry(PanelRegistry$2).build();
-const ID$4 = "extendedButtonText";
+const ID$6 = "extendedButtonText";
 class ButtonPanelRegistry extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[distExports.BlockType.BLOCK_BUTTON] = [
       new distExports.SettingsPanelTab(
         distExports.SettingsTab.SETTINGS,
         [
-          ID$4
+          ID$6
         ]
       )
     ];
@@ -4651,35 +4768,24 @@ class ButtonPanelRegistry extends distExports.SettingsPanelRegistry {
 }
 class ExtendedButtonTextControl extends distExports.ButtonTextBuiltInControl {
   getId() {
-    return ID$4;
+    return ID$6;
   }
   getLabels() {
     return {
       title: this.api.translate("Extended button text control")
     };
   }
-  getTargetNodes(block) {
-    return {
-      targetNodes: [block.querySelector(".es-button > *")],
-      buttonRootNode: block
-    };
-  }
 }
 const buttonTextControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedButtonTextControl).withSettingsPanelRegistry(ButtonPanelRegistry).build();
-const ID$3 = "extendedStructureBorder";
+const ID$5 = "extendedStructureBorder";
 let PanelRegistry$1 = class PanelRegistry17 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[distExports.BlockType.STRUCTURE][0].addControl(ID$3, 0);
+    controls2[distExports.BlockType.STRUCTURE][0].addControl(ID$5, 0);
   }
 };
 class ExtendedStructureBorderControl extends distExports.StructureBorderBuiltInControl {
   getId() {
-    return ID$3;
-  }
-  getTargetNodes(block) {
-    return {
-      targetNodes: [block]
-    };
+    return ID$5;
   }
   getLabels() {
     return {
@@ -4696,26 +4802,21 @@ class ExtendedStructureBorderControl extends distExports.StructureBorderBuiltInC
   }
 }
 const structureBorderControlExtension = new distExports.ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$1).addControl(ExtendedStructureBorderControl).build();
-const ID$2 = "extendedTextLineSpacing";
+const ID$4 = "extendedTextLineSpacing";
 class PanelRegistry18 extends distExports.SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[distExports.BlockType.BLOCK_TEXT] = [
-      new distExports.SettingsPanelTab(distExports.SettingsTab.SETTINGS, [ID$2])
+      new distExports.SettingsPanelTab(distExports.SettingsTab.SETTINGS, [ID$4])
     ];
   }
 }
 class ExtendedTextLineSpacingControl extends distExports.TextLineSpacingBuiltInControl {
   getId() {
-    return ID$2;
+    return ID$4;
   }
   getLabels() {
     return {
       title: this.api.translate("Extended line spacing")
-    };
-  }
-  getTargetNodes(block) {
-    return {
-      targetNodes: block.querySelectorAll("p")
     };
   }
   getAdditionalModifications(block) {
@@ -4723,6 +4824,56 @@ class ExtendedTextLineSpacingControl extends distExports.TextLineSpacingBuiltInC
   }
 }
 const textLineSpacingControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedTextLineSpacingControl).withSettingsPanelRegistry(PanelRegistry18).build();
+const ID$3 = "extendedButtonAlign";
+let ButonPanelRegistry$1 = class ButonPanelRegistry extends distExports.SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_BUTTON] = [
+      new distExports.SettingsPanelTab(
+        distExports.SettingsTab.SETTINGS,
+        [
+          ID$3
+        ]
+      )
+    ];
+  }
+};
+class ExtendedButtonAlignControl extends distExports.ButtonAlignBuiltInControl {
+  getId() {
+    return ID$3;
+  }
+  getLabels() {
+    return {
+      desktopTitle: this.api.translate("Extended button align desktop"),
+      mobileTitle: this.api.translate("Extended button align mobile")
+    };
+  }
+}
+const buttonAlignControlExtension = new distExports.ExtensionBuilder().addControl(ExtendedButtonAlignControl).withSettingsPanelRegistry(ButonPanelRegistry$1).build();
+const ID$2 = "extendedButtonBorderRadius";
+class ButonPanelRegistry2 extends distExports.SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[distExports.BlockType.BLOCK_BUTTON] = [
+      new distExports.SettingsPanelTab(
+        distExports.SettingsTab.STYLES,
+        [
+          ID$2
+        ]
+      )
+    ];
+  }
+}
+class ExtendedButtonBorderRadiusControl extends distExports.ButtonBorderRadiusBuiltInControl {
+  getId() {
+    return ID$2;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Extended button border radius"),
+      titleHint: this.api.translate("Extended hint border radius")
+    };
+  }
+}
+const buttonBorderRadiusExtension = new distExports.ExtensionBuilder().addControl(ExtendedButtonBorderRadiusControl).withSettingsPanelRegistry(ButonPanelRegistry2).build();
 class SimpleBlockRenderer extends distExports.BlockRenderer {
   /**
    * Generates a preview HTML string for the block.
@@ -6472,12 +6623,6 @@ class ButtonBackgroundColorControl extends distExports.ButtonColorBuiltInControl
       title: "Button built in background color"
     };
   }
-  getTargetNodes(block) {
-    return {
-      targetNodes: [block.querySelector("a"), block.querySelector("span")],
-      msoBorderAltNode: block.querySelector("a")
-    };
-  }
 }
 const STRUCTURE_BORDER_ID = "extendedStructureBorder";
 class StructureBorderControl extends distExports.StructureBorderBuiltInControl {
@@ -6487,11 +6632,6 @@ class StructureBorderControl extends distExports.StructureBorderBuiltInControl {
   }
   getId() {
     return STRUCTURE_BORDER_ID;
-  }
-  getTargetNodes(block) {
-    return {
-      targetNodes: [block]
-    };
   }
   getLabels() {
     return {
@@ -6525,27 +6665,11 @@ class ButtonTextControl extends distExports.ButtonTextBuiltInControl {
       title: this.api.translate("Button text built in control")
     };
   }
-  /**
-   * Gets the target nodes to apply button text modifications to
-   * @param {ImmutableHtmlNode} block - The block containing button elements
-   * @returns {Object} Object containing target button nodes and root button node
-   */
-  getTargetNodes(block) {
-    return {
-      targetNodes: [block.querySelector(".es-button > *")],
-      buttonRootNode: block
-    };
-  }
 }
 const BUTTON_BORDER_ID = "extendedButtonBorder";
 class ButtonBorderControl extends distExports.ButtonBorderBuiltInControl {
   getId() {
     return BUTTON_BORDER_ID;
-  }
-  getTargetNodes(block) {
-    return {
-      targetNodes: [block.querySelector(".es-custom-border-selector") ?? block.querySelector(".es-button-border")]
-    };
   }
   getLabels() {
     return {
@@ -6705,50 +6829,88 @@ class ProductStructureBlock extends distExports.Block {
             </td>`;
   }
 }
-class SampleSettingsPanelRegistry extends distExports.SettingsPanelRegistry {
-  registerBlockControls(controls2) {
-    controls2[CLASSIC_BLOCK_ID] = [
-      new distExports.SettingsPanelTab(
-        distExports.SettingsTab.STYLES,
-        [
-          // LINK_COLOR_CONTROL_ID,
-          // TEXT_SIZE_CONTROL_ID,
-          // TEXT_STYLE_CONTROL_ID,
-          // TEXT_LINE_SPACING_ID,
-        ]
-      )
-    ];
-    controls2[CLASSIC_STRUCTURE_ID] = [
-      new distExports.SettingsPanelTab(
-        "Structure",
-        [
-          STRUCTURE_BORDER_ID
-        ]
-      ).withLabel(this.api.translate("Structure")),
-      new distExports.SettingsPanelTab(
-        "Button",
-        [
-          BUTTON_TEXT_CONTROL_ID,
-          BUTTON_BORDER_ID
-        ]
-      ).withLabel(this.api.translate("Button"))
-    ];
-    controls2[PRODUCT_STRUCTURE_ID] = [
-      new distExports.SettingsPanelTab(
-        "Product",
-        [
-          STRUCTURE_BORDER_ID
-        ]
-      ).withLabel(this.api.translate("Product")),
-      new distExports.SettingsPanelTab(
-        "Card",
-        [
-          BUTTON_TEXT_CONTROL_ID,
-          BUTTON_BACKGROUND_COLOR_ID,
-          BUTTON_BORDER_ID
-        ]
-      ).withLabel(this.api.translate("Card"))
-    ];
+const BUTTON_ALIGN_CONTROL_ID = "buttonAlignBuiltInControl";
+class ButtonAlignControl extends distExports.ButtonAlignBuiltInControl {
+  getId() {
+    return BUTTON_ALIGN_CONTROL_ID;
+  }
+  getLabels() {
+    return {
+      desktopTitle: this.api.translate("Extended button align desktop"),
+      mobileTitle: this.api.translate("Extended button align mobile")
+    };
+  }
+}
+const BUTTON_HOVER_TEXT_COLOR_ID = "extendedButtonHoverTextColor";
+class ButtonHoverTextColorControl extends distExports.ButtonHoverTextColorBuiltInControl {
+  getId() {
+    return BUTTON_HOVER_TEXT_COLOR_ID;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Button built in hover text color")
+    };
+  }
+  getAdditionalModifications(root) {
+    const modifier = this.api.getDocumentModifier();
+    return modifier.modifyHtml(root).setClass("custom-button-hover-text-color-applied");
+  }
+}
+const BUTTON_HOVER_BORDER_COLOR_ID = "extendedButtonHoverBorderColor";
+class ButtonHoverBorderColorControl extends distExports.ButtonHoverBorderColorBuiltInControl {
+  getId() {
+    return BUTTON_HOVER_BORDER_COLOR_ID;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Button built in hover border color")
+    };
+  }
+  getAdditionalModifications(root) {
+    const modifier = this.api.getDocumentModifier();
+    return modifier.modifyHtml(root).setClass("custom-button-hover-border-color-applied");
+  }
+}
+const BUTTON_HOVER_COLOR_ID = "extendedButtonHoverColor";
+class ButtonHoverColorControl extends distExports.ButtonHoverColorBuiltInControl {
+  getId() {
+    return BUTTON_HOVER_COLOR_ID;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Button built in hover color")
+    };
+  }
+  getAdditionalModifications(root) {
+    const modifier = this.api.getDocumentModifier();
+    return modifier.modifyHtml(root).setClass("custom-button-hover-color-applied");
+  }
+}
+const BUTTON_TEXT_COLOR_ID = "extendedButtonTextColor";
+class ButtonTextColorControl extends distExports.ButtonFontColorBuiltInControl {
+  getId() {
+    return BUTTON_TEXT_COLOR_ID;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Button built in text color")
+    };
+  }
+  getAdditionalModifications(root) {
+    const modifier = this.api.getDocumentModifier();
+    return modifier.modifyHtml(root).setClass("custom-button-text-color-applied");
+  }
+}
+const BUTTON_BORDER_RADIUS_CONTROL_ID = "extendedButtonBorderRadius";
+class ButtonBorderRadiusControl extends distExports.ButtonBorderRadiusBuiltInControl {
+  getId() {
+    return BUTTON_BORDER_RADIUS_CONTROL_ID;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Extended button border radius"),
+      titleHint: this.api.translate("Extended hint border radius")
+    };
   }
 }
 const LINK_COLOR_CONTROL_ID = "linkColorBuiltInControl";
@@ -6769,17 +6931,6 @@ class LinkColorControl extends distExports.LinkColorBuiltInControl {
       title: this.api.translate("Link color built in control")
     };
   }
-  /**
-   * Gets the target nodes to apply link color modifications to
-   * @param {ImmutableHtmlNode} block - The block containing link elements
-   * @returns {Object} Object containing target link nodes and root text node
-   */
-  getTargetNodes(block) {
-    return {
-      targetNodes: block.querySelectorAll("a"),
-      textRootNode: block
-    };
-  }
 }
 const TEXT_SIZE_CONTROL_ID = "extendedTextSize";
 class TextSizeControl extends distExports.TextSizeBuiltInControl {
@@ -6790,15 +6941,6 @@ class TextSizeControl extends distExports.TextSizeBuiltInControl {
     return {
       title: "Extended text size control"
     };
-  }
-  getTargetNodes(block) {
-    return {
-      targetNodes: block.querySelectorAll("span"),
-      mobileClassTargetNodes: [block]
-    };
-  }
-  getMobileClassSpecificSelector() {
-    return " span";
   }
 }
 const TEXT_STYLE_CONTROL_ID = "extendedTextStyle";
@@ -6811,21 +6953,11 @@ class TextStyleControl extends distExports.TextStyleBuiltInControl {
       title: "Text style control"
     };
   }
-  getTargetNodes(block) {
-    return {
-      targetNodes: block.querySelectorAll("span")
-    };
-  }
 }
 const TEXT_LINE_SPACING_ID = "extendedTextLineSpacing";
 class TextLineSpacingControl extends distExports.TextLineSpacingBuiltInControl {
   getId() {
     return TEXT_LINE_SPACING_ID;
-  }
-  getTargetNodes(block) {
-    return {
-      targetNodes: block.querySelectorAll("span")
-    };
   }
   getLabels() {
     return {
@@ -6847,201 +6979,115 @@ class TextLineSpacingControl extends distExports.TextLineSpacingBuiltInControl {
     return modifier.modifyHtml(root).setClass("custom-line-spacing-applied");
   }
 }
-const BUTTON_HOVER_TEXT_COLOR_ID = "extendedButtonHoverTextColor";
-class ButtonHoverTextColorControl extends distExports.ButtonHoverTextColorBuiltInControl {
-  constructor() {
-    super(...arguments);
-    __publicField(this, "root");
-  }
-  setRoot(root) {
-    this.root = root;
-  }
+const TEXT_COLOR_CONTROL_ID = "extendedTextColor";
+class TextColorControl extends distExports.TextColorBuiltInControl {
   getId() {
-    return BUTTON_HOVER_TEXT_COLOR_ID;
+    return TEXT_COLOR_CONTROL_ID;
   }
   getLabels() {
     return {
-      title: this.api.translate("Button built in hover text color")
+      title: "Extended text color control"
     };
-  }
-  getTargetNodes(_root) {
-    return {
-      targetNodes: [_root.querySelector(".es-custom-link-selector") ?? _root.querySelector(".es-button")]
-    };
-  }
-  getHoverLinkSelector(_generateClass) {
-    const customLinkNode = this.root.querySelector(".es-custom-link-selector");
-    const customBorderNode = this.root.querySelector(".es-custom-border-selector");
-    let selector = "";
-    if (customBorderNode) {
-      selector += ".es-custom-border-selector:hover ";
-    } else {
-      selector += ".es-button-border:hover ";
-    }
-    if (customLinkNode) {
-      selector += `.es-custom-link-selector.${_generateClass}`;
-    } else {
-      selector += `a.${_generateClass}`;
-    }
-    return selector;
-  }
-  getAdditionalModifications(root) {
-    const modifier = this.api.getDocumentModifier();
-    return modifier.modifyHtml(root).setClass("custom-button-hover-text-color-applied");
   }
 }
-const BUTTON_HOVER_BORDER_COLOR_ID = "extendedButtonHoverBorderColor";
-class ButtonHoverBorderColorControl extends distExports.ButtonHoverBorderColorBuiltInControl {
-  constructor() {
-    super(...arguments);
-    __publicField(this, "root");
-  }
-  setRoot(root) {
-    this.root = root;
-  }
+const TEXT_FONT_FAMILY_ID = "extendedTextFontFamily";
+class TextFontFamily extends distExports.FontFamilyBuiltInControl {
   getId() {
-    return BUTTON_HOVER_BORDER_COLOR_ID;
+    return TEXT_FONT_FAMILY_ID;
   }
   getLabels() {
     return {
-      title: this.api.translate("Button built in hover border color")
+      title: "Extended font family control"
     };
-  }
-  getTargetNodes(_root) {
-    return {
-      targetNodes: [],
-      borderNode: _root.querySelector(".es-custom-border-selector") ?? _root.querySelector(".es-button-border"),
-      borderLinkNode: _root.querySelector(".es-custom-link-selector") ?? _root.querySelector(".es-button")
-    };
-  }
-  getHoverBorderSelector(_generateClass) {
-    const customNode = this.root.querySelector(".es-custom-border-selector");
-    let selector = "";
-    if (customNode) {
-      selector += `.es-custom-border-selector.${_generateClass}:hover`;
-    } else {
-      selector += `.${_generateClass}:hover`;
-    }
-    return selector;
-  }
-  getHoverLinkSelector(_generateClass) {
-    const customLinkNode = this.root.querySelector(".es-custom-link-selector");
-    const customBorderNode = this.root.querySelector(".es-custom-border-selector");
-    let selector = "";
-    if (customBorderNode) {
-      selector += ".es-custom-border-selector:hover ";
-    } else {
-      selector += ".es-button-border:hover ";
-    }
-    if (customLinkNode) {
-      selector += `.es-custom-link-selector.${_generateClass}`;
-    } else {
-      selector += `a.${_generateClass}`;
-    }
-    return selector;
-  }
-  getAdditionalModifications(root) {
-    const modifier = this.api.getDocumentModifier();
-    return modifier.modifyHtml(root).setClass("custom-button-hover-border-color-applied");
   }
 }
-const BUTTON_HOVER_COLOR_ID = "extendedButtonHoverColor";
-class ButtonHoverColorControl extends distExports.ButtonHoverColorBuiltInControl {
-  constructor() {
-    super(...arguments);
-    __publicField(this, "root");
-  }
-  setRoot(root) {
-    this.root = root;
-  }
-  getId() {
-    return BUTTON_HOVER_COLOR_ID;
-  }
-  getLabels() {
-    return {
-      title: this.api.translate("Button built in hover color")
-    };
-  }
-  getTargetNodes(_root) {
-    return {
-      targetNodes: [],
-      borderNode: _root.querySelector(".es-custom-border-selector") ?? _root.querySelector(".es-button-border"),
-      borderLinkNode: _root.querySelector(".es-custom-link-selector") ?? _root.querySelector(".es-button")
-    };
-  }
-  getHoverBorderSelector(_generateClass) {
-    const customNode = this.root.querySelector(".es-custom-border-selector");
-    let selector = "";
-    if (customNode) {
-      selector += `.es-custom-border-selector.${_generateClass}:hover`;
-    } else {
-      selector += `.${_generateClass}:hover`;
-    }
-    return selector;
-  }
-  getHoverLinkSelector(_generateClass) {
-    const customLinkNode = this.root.querySelector(".es-custom-link-selector");
-    const customBorderNode = this.root.querySelector(".es-custom-border-selector");
-    let selector = "";
-    if (customBorderNode) {
-      selector += ".es-custom-border-selector:hover ";
-    } else {
-      selector += ".es-button-border:hover ";
-    }
-    if (customLinkNode) {
-      selector += `.es-custom-link-selector.${_generateClass}`;
-    } else {
-      selector += `a.${_generateClass}`;
-    }
-    return selector;
-  }
-  getAdditionalModifications(root) {
-    const modifier = this.api.getDocumentModifier();
-    return modifier.modifyHtml(root).setClass("custom-button-hover-color-applied");
-  }
-}
-const BUTTON_TEXT_COLOR_ID = "extendedButtonTextColor";
-class ButtonTextColorControl extends distExports.ButtonFontColorBuiltInControl {
-  constructor() {
-    super(...arguments);
-    __publicField(this, "root");
-  }
-  getId() {
-    return BUTTON_TEXT_COLOR_ID;
-  }
-  setRoot(root) {
-    this.root = root;
-  }
-  getLabels() {
-    return {
-      title: this.api.translate("Button built in text color")
-    };
-  }
-  getTargetNodes(_root) {
-    return {
-      targetNodes: [_root.querySelector(".es-custom-link-selector") ?? _root.querySelector(".es-button")],
-      contrastRefenceNode: _root.querySelector(".es-custom-border-selector") ?? _root.querySelector(".es-button-border")
-    };
-  }
-  getHoverLinkSelector(_generateClass) {
-    const customLinkNode = this.root.querySelector(".es-custom-link-selector");
-    const customBorderNode = this.root.querySelector(".es-custom-border-selector");
-    let selector = "";
-    if (customBorderNode) {
-      selector += ".es-custom-border-selector:hover ";
-    } else {
-      selector += ".es-button-border:hover ";
-    }
-    if (customLinkNode) {
-      selector += `.es-custom-link-selector.${_generateClass}`;
-    } else {
-      selector += `a.${_generateClass}`;
-    }
-    return selector;
-  }
-  getAdditionalModifications(root) {
-    const modifier = this.api.getDocumentModifier();
-    return modifier.modifyHtml(root).setClass("custom-button-text-color-applied");
+class SampleSettingsPanelRegistry extends distExports.SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[CLASSIC_BLOCK_ID] = [
+      new distExports.SettingsPanelTab(
+        distExports.SettingsTab.STYLES,
+        [
+          // LINK_COLOR_CONTROL_ID,
+          // TEXT_SIZE_CONTROL_ID,
+          // TEXT_STYLE_CONTROL_ID,
+          // TEXT_LINE_SPACING_ID,
+        ]
+      )
+    ];
+    controls2[CLASSIC_STRUCTURE_ID] = [
+      new distExports.SettingsPanelTab(
+        "Structure",
+        [
+          STRUCTURE_BORDER_ID,
+          LINK_COLOR_CONTROL_ID,
+          TEXT_SIZE_CONTROL_ID,
+          TEXT_STYLE_CONTROL_ID,
+          TEXT_LINE_SPACING_ID
+        ]
+      ).withLabel(this.api.translate("Structure")),
+      new distExports.SettingsPanelTab(
+        "Button",
+        [
+          BUTTON_TEXT_CONTROL_ID,
+          BUTTON_BORDER_ID
+        ]
+      ).withLabel(this.api.translate("Button"))
+    ];
+    controls2[PRODUCT_STRUCTURE_ID] = [
+      new distExports.SettingsPanelTab(
+        "Product",
+        [
+          STRUCTURE_BORDER_ID,
+          BUTTON_ALIGN_CONTROL_ID,
+          LINK_COLOR_CONTROL_ID,
+          TEXT_SIZE_CONTROL_ID,
+          TEXT_STYLE_CONTROL_ID,
+          TEXT_LINE_SPACING_ID,
+          TEXT_COLOR_CONTROL_ID,
+          TEXT_FONT_FAMILY_ID
+        ]
+      ).withLabel(this.api.translate("Product")),
+      new distExports.SettingsPanelTab(
+        "Card",
+        [
+          BUTTON_TEXT_CONTROL_ID,
+          BUTTON_BACKGROUND_COLOR_ID,
+          BUTTON_BORDER_ID,
+          BUTTON_BORDER_RADIUS_CONTROL_ID,
+          BUTTON_HOVER_TEXT_COLOR_ID,
+          BUTTON_HOVER_BORDER_COLOR_ID,
+          BUTTON_HOVER_COLOR_ID
+        ]
+      ).withLabel(this.api.translate("Card"))
+    ];
+    controls2[distExports.BlockType.BLOCK_BUTTON] = [
+      new distExports.SettingsPanelTab(
+        distExports.SettingsTab.SETTINGS,
+        [
+          BUTTON_BACKGROUND_COLOR_ID,
+          BUTTON_TEXT_CONTROL_ID,
+          BUTTON_ALIGN_CONTROL_ID
+        ]
+      ),
+      new distExports.SettingsPanelTab(
+        distExports.SettingsTab.STYLES,
+        [
+          BUTTON_BORDER_ID,
+          BUTTON_TEXT_COLOR_ID,
+          BUTTON_HOVER_TEXT_COLOR_ID,
+          BUTTON_HOVER_BORDER_COLOR_ID,
+          BUTTON_HOVER_COLOR_ID
+        ]
+      )
+    ];
+    controls2[distExports.BlockType.STRUCTURE] = [
+      new distExports.SettingsPanelTab(
+        distExports.SettingsTab.STYLES,
+        [
+          STRUCTURE_BORDER_ID
+        ]
+      )
+    ];
   }
 }
 const controls = [
@@ -7050,14 +7096,18 @@ const controls = [
   StructureBorderControl,
   LinkColorControl,
   TextSizeControl,
+  TextColorControl,
   TextStyleControl,
+  TextFontFamily,
   ButtonBorderControl,
   ButtonHoverTextColorControl,
   ButtonHoverBorderColorControl,
   ButtonHoverColorControl,
   ExtendedBackgroundImageControl$1,
   TextLineSpacingControl,
-  ButtonTextColorControl
+  ButtonAlignControl,
+  ButtonTextColorControl,
+  ButtonBorderRadiusControl
 ];
 const builder = new distExports.ExtensionBuilder().addBlock(ClassicBlock).addBlock(ClassicStructureBlock).addBlock(ProductStructureBlock).withSettingsPanelRegistry(SampleSettingsPanelRegistry);
 for (const control of controls) {
@@ -7108,6 +7158,8 @@ const extensionsMap = {
   buttonTextControlExtension,
   buttonBorderControlExtension,
   textLineSpacingControlExtension,
+  buttonAlignControlExtension,
+  buttonBorderRadiusExtension,
   gitSample_01_Simple_Block,
   gitSample_02_Structure_Block,
   gitSample_03_External_Merge_Tags,
