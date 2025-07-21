@@ -15,5 +15,6 @@
    "stripo/countdowntimer": "20250625-r1332_850b925_master",
    "stripo/merge-service": "20250711-0736_0f0c332",
    "stripo/env-adapter-service": "20250704-0802_283ad73",
+   "stripo/ai-service": "20250710-1414_98cad18",
    "stripo/coediting-core-service": "20250704-0802_283ad73"
 }
