@@ -468,6 +468,7 @@ function requireBuiltInControlTypes() {
   (function(MenuControls2) {
     MenuControls2["EXTERNAL_INDENT"] = "externalIndent";
     MenuControls2["ALIGNMENT"] = "menuAlignment";
+    MenuControls2["RESPONSIVE_MENU"] = "menuResponsive";
     MenuControls2["FIT_TO_CONTAINER"] = "menuFitToContainer";
     MenuControls2["FONT_FAMILY"] = "menuFontFamily";
     MenuControls2["FONT_SIZE"] = "menuFontSize";
@@ -563,7 +564,7 @@ function requireBuiltInControlTypes() {
     MessageSettingsControls2["END_DISCOUNT_OFFER"] = "endDiscountOfferForm";
     MessageSettingsControls2["GMAIL_PROMOTIONS_TAB"] = "gmailPromotionsTabForm";
     MessageSettingsControls2["HIDDEN_PRE_HEADER"] = "hiddenPreHeaderForm";
-    MessageSettingsControls2["INCLUDE_PROMO_IMAGE"] = "includePromoImageForm";
+    MessageSettingsControls2["PROMO_IMAGE_CAROUSEL"] = "promoImageCarouselForm";
     MessageSettingsControls2["INCLUDE_SENDER_LOGO"] = "includeSenderLogoForm";
     MessageSettingsControls2["SUBJECT_TITLE"] = "subjectTitleForm";
     MessageSettingsControls2["UTM_PARAMETERS"] = "utmParametersForm";
@@ -2250,9 +2251,9 @@ function requireUIElement() {
       };
       UIElement2.prototype.getValue = function() {
       };
-      UIElement2.prototype.setValue = function(value) {
+      UIElement2.prototype.setValue = function(_value) {
       };
-      UIElement2.prototype.onAttributeUpdated = function(name, value) {
+      UIElement2.prototype.onAttributeUpdated = function(_name, _value) {
       };
       return UIElement2;
     }()
