@@ -145,6 +145,7 @@
 	"Make the image to fit to the width of a mobile screen. Please note: It only works on devices that have support for media queries.": "讓圖片符合行動版螢幕的寬度。請注意：這僅適用於支援媒體查詢的裝置。",
 	"The image will automatically adjust to the width of the screen on mobile devices that support it": "圖片將自動調整至可支援的行動裝置的螢幕寬度",
 	"Images won’t be adjusted to the width of the screen on mobile devices, which may lead to poor display of images and content": "圖片不會根據行動裝置的螢幕寬度進行調整，這可能會導致圖片和內容的顯示不佳",
+	"This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.": "This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.",
 	"Image Block": "圖片區塊",
 	"Text Block": "文字區塊",
 	"Button Block": "按鈕區塊",
@@ -2151,5 +2152,5 @@
 	"Minute": "分鐘",
 	"history_prop_display_availability_time": "history_prop_display_availability_time",
 	"history_prop_availability_time": "history_prop_availability_time",
-    "Up to the HTML Block": "Up to the HTML Block"
+	"Up to the HTML Block": "Up to the HTML Block"
 }

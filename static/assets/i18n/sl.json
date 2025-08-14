@@ -145,6 +145,7 @@
 	"Make the image to fit to the width of a mobile screen. Please note: It only works on devices that have support for media queries.": "Ta možnost omogoča prilagoditev slike širini zaslona mobilne naprave. Opomba: Prilagodljivost deluje samo na napravah, ki podpirajo medijske poizvedbe.",
 	"The image will automatically adjust to the width of the screen on mobile devices that support it": "Slika bo samodejno prilagojena širini zaslona v mobilnih napravah, ki to podpirajo.",
 	"Images won’t be adjusted to the width of the screen on mobile devices, which may lead to poor display of images and content": "Slike ne bodo samodejno prilagojene širini zaslona v mobilnih napravah, kar lahko vpliva na kakovost prikaza slik in vsebine.",
+	"This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.": "This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.",
 	"Image Block": "Polje slike",
 	"Text Block": "Polje besedila",
 	"Button Block": "Polje gumba",
@@ -2151,5 +2152,5 @@
 	"Minute": "Minuta",
 	"history_prop_display_availability_time": "history_prop_display_availability_time",
 	"history_prop_availability_time": "history_prop_availability_time",
-    "Up to the HTML Block": "Up to the HTML Block"
+	"Up to the HTML Block": "Up to the HTML Block"
 }

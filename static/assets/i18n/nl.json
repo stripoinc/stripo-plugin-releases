@@ -145,6 +145,7 @@
 	"Make the image to fit to the width of a mobile screen. Please note: It only works on devices that have support for media queries.": "Maak de afbeelding passend voor de breedte van een mobiel scherm. Let op: dit werkt alleen op apparaten die mediaquery's ondersteunen.",
 	"The image will automatically adjust to the width of the screen on mobile devices that support it": "De afbeelding wordt automatisch aangepast aan de breedte van het scherm op mobiele apparaten die dit ondersteunen",
 	"Images won’t be adjusted to the width of the screen on mobile devices, which may lead to poor display of images and content": "Afbeeldingen worden niet aangepast aan de breedte van het scherm op mobiele apparaten, wat kan leiden tot een slechte weergave van afbeeldingen en inhoud",
+	"This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.": "This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.",
 	"Image Block": "Afbeeldingsblok",
 	"Text Block": "Tekstblok",
 	"Button Block": "Knopblok",
@@ -2139,12 +2140,8 @@
 	"Neon Art": "Neon kunst",
 	"Geometric Art": "Geometrische kunst",
 	"Glitch Art": "Glitch kunst",
-<<<<<<< HEAD
-	"Discount Code": "Kortingscode",
-=======
 	"WebSocket connection unstable. Running diagnostics. Please do not close the editor.": "WebSocket connection unstable. Running diagnostics. Please do not close the editor.",
-	"Discount Code": "Discount Code",
->>>>>>> releases/2.60
+	"Discount Code": "Kortingscode",
 	"history_prop_discount_code": "history_prop_discount_code",
 	"history_prop_display_discount_code": "history_prop_display_discount_code",
 	"Deal Description": "Aanbiedingomschrijving",
@@ -2155,5 +2152,5 @@
 	"Minute": "Minuut",
 	"history_prop_display_availability_time": "history_prop_display_availability_time",
 	"history_prop_availability_time": "history_prop_availability_time",
-    "Up to the HTML Block": "Up to the HTML Block"
+	"Up to the HTML Block": "Up to the HTML Block"
 }

@@ -145,6 +145,7 @@
 	"Make the image to fit to the width of a mobile screen. Please note: It only works on devices that have support for media queries.": "Resmin mobil ekranın genişliğine uyduğundan emin olun. Lütfen yalnızca medya sorgularını destekleyen cihazlarda çalıştığını göz önünde bulundurun.",
 	"The image will automatically adjust to the width of the screen on mobile devices that support it": "Resim, desteklenen mobil cihazlarda ekranın genişliğine göre otomatik olarak sığdırılır",
 	"Images won’t be adjusted to the width of the screen on mobile devices, which may lead to poor display of images and content": "Mobil cihazlarda resimler ekran genişliğine göre ayarlanmayacağı için resmin ve içeriğin görüntü kalitesi olumsuz etkilenebilir",
+	"This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.": "This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.",
 	"Image Block": "Resim Bloku",
 	"Text Block": "Metin Bloku",
 	"Button Block": "Düğme Bloku",
@@ -2151,5 +2152,5 @@
 	"Minute": "Dakika",
 	"history_prop_display_availability_time": "history_prop_display_availability_time",
 	"history_prop_availability_time": "history_prop_availability_time",
-    "Up to the HTML Block": "Up to the HTML Block"
+	"Up to the HTML Block": "Up to the HTML Block"
 }

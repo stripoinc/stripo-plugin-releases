@@ -145,6 +145,7 @@
 	"Make the image to fit to the width of a mobile screen. Please note: It only works on devices that have support for media queries.": "Faire correspondre l'image à la largeur d'un écran mobile. Veuillez noter que cela ne fonctionne que sur les appareils qui prennent en charge les requêtes multimédia.",
 	"The image will automatically adjust to the width of the screen on mobile devices that support it": "L'image s'ajustera automatiquement à la largeur de l'écran sur les appareils mobiles qui prennent en charge cette fonctionnalité",
 	"Images won’t be adjusted to the width of the screen on mobile devices, which may lead to poor display of images and content": "Les images ne seront pas ajustées à la largeur de l'écran sur les appareils mobiles, ce qui peut entraîner un affichage médiocre des images et du contenu",
+	"This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.": "This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.",
 	"Image Block": "Bloc d'image",
 	"Text Block": "Bloc de texte",
 	"Button Block": "Bloc de bouton",
@@ -2139,12 +2140,8 @@
 	"Neon Art": "Art néon",
 	"Geometric Art": "Art géométrique",
 	"Glitch Art": "Art glitch",
-<<<<<<< HEAD
-	"Discount Code": "Code de réduction",
-=======
 	"WebSocket connection unstable. Running diagnostics. Please do not close the editor.": "WebSocket connection unstable. Running diagnostics. Please do not close the editor.",
-	"Discount Code": "Discount Code",
->>>>>>> releases/2.60
+	"Discount Code": "Code de réduction",
 	"history_prop_discount_code": "history_prop_discount_code",
 	"history_prop_display_discount_code": "history_prop_display_discount_code",
 	"Deal Description": "Description de l'affaire",
@@ -2155,5 +2152,5 @@
 	"Minute": "Minute",
 	"history_prop_display_availability_time": "history_prop_display_availability_time",
 	"history_prop_availability_time": "history_prop_availability_time",
-    "Up to the HTML Block": "Up to the HTML Block"
+	"Up to the HTML Block": "Up to the HTML Block"
 }

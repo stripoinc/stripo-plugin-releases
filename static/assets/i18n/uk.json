@@ -16,7 +16,6 @@
 	"Delete": "Видалити",
 	"Selected:": "Обрано:",
 	"Search": "Пошук",
-	"Brand Palette": "Палітра бренду",
 	"Default Palette": "Палітра за замовучуванням",
 	"My Palette": "Моя палітра",
 	"External Link": "Зовнішнє посилання",
@@ -145,6 +144,7 @@
 	"Make the image to fit to the width of a mobile screen. Please note: It only works on devices that have support for media queries.": "Опція дозволяє зображенню підлаштуватися під ширину екрану мобільного пристрою. Увага! Адаптивність працює тільки на пристроях, які її підтримують.",
 	"The image will automatically adjust to the width of the screen on mobile devices that support it": "Зображення автоматично підлаштується під ширину екрана на мобільних пристроях, які це підтримують",
 	"Images won’t be adjusted to the width of the screen on mobile devices, which may lead to poor display of images and content": "Зображення не підлаштовуватимуться під ширину екрана на мобільних пристроях, що може призвести до некоректного відображення зображень і контенту",
+	"This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.": "This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.",
 	"Image Block": "Зображення",
 	"Text Block": "Текст",
 	"Button Block": "Кнопка",
@@ -187,6 +187,7 @@
 	"Structures & Modules. Add template/pre-built modules, or structures with containers": "Структури & Модулі. Додайте модулі шаблону / підготовлені модулі або структури із контейнерами",
 	"Stripe": "Смуга",
 	"Image": "Зображення",
+	"Link": "Посилання",
 	"Text": "Текст",
 	"Button": "Кнопка",
 	"Spacer": "Розділювач",
@@ -406,7 +407,8 @@
 	"No Style": "Без стилю",
 	"Input Border Style": "Стиль обведення поля",
 	"Alignment": "Вирівнювання",
-	"Link": "Посилання",
+	"Text wrapping": "Огортання текстом",
+	"Margins are not supported in Outlook": "Зовнішні відступи не підтримуються в Outlook",
 	"Not all email clients support the selected link protocol. Check the <a href=\"https://support.stripo.email/en/articles/5332466-what-are-link-protocols-compatible-with-emails\" target=\"_blank\">compatibility guide</a> to learn more about supported clients.": "Не всі поштові клієнти підтримують вибраний протокол посилань. Перегляньте <a href=\"https://support.stripo.email/en/articles/5332466-what-are-link-protocols-compatible-with-emails\" target=\"_blank\">посібник із сумісності</a>, щоб дізнатися більше про підтримувані клієнти.",
 	"Shorten URL with Bit.ly": "Скоротіть посилання з Bit.ly",
 	"Original URL <br/> <span class=\"message-long-url\">{url}</span>": "Оригінальне посилання <br/> <span class=\"message-long-url\">{url}</span>",
@@ -2151,5 +2153,6 @@
 	"Minute": "Хвилини",
 	"history_prop_display_availability_time": "history_prop_display_availability_time",
 	"history_prop_availability_time": "history_prop_availability_time",
-	"Up to the HTML Block": "Вгору до блоку HTML"
+	"Up to the HTML Block": "Вгору до блоку HTML",
+	"Up to the Text Block": "Вгору до блоку Текст"
 }

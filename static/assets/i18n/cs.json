@@ -145,6 +145,7 @@
 	"Make the image to fit to the width of a mobile screen. Please note: It only works on devices that have support for media queries.": "Obrázek přizpůsobte šířce obrazovky mobilního telefonu. Upozornění: Funguje pouze na zařízeních s podporou dotazů na médium.",
 	"The image will automatically adjust to the width of the screen on mobile devices that support it": "Obrázek se automaticky přizpůsobí šířce obrazovky na mobilních zařízeních, která to podporují",
 	"Images won’t be adjusted to the width of the screen on mobile devices, which may lead to poor display of images and content": "Obrázky nebudou na mobilních zařízeních přizpůsobeny šířce obrazovky, což může vést ke špatnému zobrazení obrázků a obsahu",
+	"This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.": "This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.",
 	"Image Block": "Blok obrázků",
 	"Text Block": "Textový blok",
 	"Button Block": "Blok tlačítek",
@@ -2103,20 +2104,12 @@
 	"Display Conditions": "Podmínky zobrazení",
 	"Send": "Odeslat",
 	"Pick up my video": "Vybrat vlastní video",
-<<<<<<< HEAD
 	"Delete Slide": "Odstranit snímek",
 	"Headline": "Titulek",
 	"Product Name": "Název produktu",
 	"Price": "Cena",
 	"Discount Value, %": "Hodnota slevy",
-=======
-	"Delete Slide": "Delete Slide",
-	"Headline": "Headline",
-	"Product Name": "Product Name",
-	"Price": "Price",
-	"Discount Value, %": "Discount Value, %",
-	"Discount": "Discount",
->>>>>>> releases/2.60
+	"Discount": "Sleva",
 	"Realistic styles": "Realistické styly",
 	"Genres and Themes": "Žánry a motivy",
 	"Photography styles": "Fotografické styly",
@@ -2159,5 +2152,5 @@
 	"Minute": "Minuta",
 	"history_prop_display_availability_time": "history_prop_display_availability_time",
 	"history_prop_availability_time": "history_prop_availability_time",
-    "Up to the HTML Block": "Up to the HTML Block"
+	"Up to the HTML Block": "Up to the HTML Block"
 }

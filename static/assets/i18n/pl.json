@@ -145,6 +145,7 @@
 	"Make the image to fit to the width of a mobile screen. Please note: It only works on devices that have support for media queries.": "Dopasuj obraz do szerokości ekranu mobilnego. Uwaga: działa wyłącznie na urządzeniach obsługujących zapytania o media.",
 	"The image will automatically adjust to the width of the screen on mobile devices that support it": "Obraz zostanie automatycznie dostosowany do szerokości ekranu na urządzeniach mobilnych, które obsługują tę funkcję",
 	"Images won’t be adjusted to the width of the screen on mobile devices, which may lead to poor display of images and content": "Obrazy nie będą dostosowywane do szerokości ekranu urządzeń mobilnych, co może skutkować nieprawidłowym wyświetlaniem obrazów i treści",
+	"This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.": "This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.",
 	"Image Block": "Blok obrazów",
 	"Text Block": "Blok tekstowy",
 	"Button Block": "Blok przycisków",
@@ -2151,5 +2152,5 @@
 	"Minute": "Minuta",
 	"history_prop_display_availability_time": "history_prop_display_availability_time",
 	"history_prop_availability_time": "history_prop_availability_time",
-    "Up to the HTML Block": "Up to the HTML Block"
+	"Up to the HTML Block": "Up to the HTML Block"
 }

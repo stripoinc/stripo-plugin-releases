@@ -145,6 +145,7 @@
 	"Make the image to fit to the width of a mobile screen. Please note: It only works on devices that have support for media queries.": "Adatta la dimensione dell'immagine alla larghezza dello schermo dei dispositivi mobili. Nota: funziona solo sui dispositivi compatibili con le media query.",
 	"The image will automatically adjust to the width of the screen on mobile devices that support it": "L'immagine si adatterà automaticamente alla larghezza dello schermo su dispositivi mobili che la supportano",
 	"Images won’t be adjusted to the width of the screen on mobile devices, which may lead to poor display of images and content": "Le immagini non verranno adattate alla larghezza dello schermo su dispositivi mobili, il che può portare a una cattiva visualizzazione di immagini e contenuti",
+	"This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.": "This setting is automatically enabled due to the image width and cannot be disabled for proper mobile display.",
 	"Image Block": "Blocco immagine",
 	"Text Block": "Blocco di testo",
 	"Button Block": "Blocco pulsante",
@@ -2103,20 +2104,12 @@
 	"Display Conditions": "Condizioni di visualizzazione",
 	"Send": "Invia",
 	"Pick up my video": "Scegli un video",
-<<<<<<< HEAD
 	"Delete Slide": "Elimina slide",
 	"Headline": "Intestazione",
 	"Product Name": "Nome prodotto",
 	"Price": "Prezzo",
 	"Discount Value, %": "Valore dello sconto",
-=======
-	"Delete Slide": "Delete Slide",
-	"Headline": "Headline",
-	"Product Name": "Product Name",
-	"Price": "Price",
-	"Discount Value, %": "Discount Value, %",
-	"Discount": "Discount",
->>>>>>> releases/2.60
+	"Discount": "Sconto",
 	"Realistic styles": "Stili realistici",
 	"Genres and Themes": "Generi e temi",
 	"Photography styles": "Stili fotografici",
@@ -2159,5 +2152,5 @@
 	"Minute": "Minuto",
 	"history_prop_display_availability_time": "history_prop_display_availability_time",
 	"history_prop_availability_time": "history_prop_availability_time",
-    "Up to the HTML Block": "Up to the HTML Block"
+	"Up to the HTML Block": "Up to the HTML Block"
 }
