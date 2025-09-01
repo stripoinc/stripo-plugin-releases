@@ -1514,6 +1514,7 @@
 	"Current changes will be saved in the library and applied to all templates with this module": "Текущие изменения будут сохранены в библиотеке и применены ко всем шаблонам с этим модулем.",
 	"Module content will be restored from the library": "Контент модуля будет восстановлен из библиотеки.",
 	"Save changes only in this template, breaking the link with the library": "Сохранить изменения только в данном шаблоне разорвав связь с библиотекой.",
+	"Current changes cannot be saved to the library since the module belongs to another project": "Текущие изменения не могут быть сохранены в библиотеке, так как модуль принадлежит другому проекту",
 	"Symbols": "Символы",
 	"UTM Parameters": "UTM-метки",
 	"This option will add campaign parameters (UTM tags) to all URLs in the email when it is exported from Stripo, allowing you to track your campaign’s results in Google Analytics.": "Эта опция добавит UTM-метки во все ссылки в письме при экспорте, что позволит вам отслеживать результаты кампании в Google Analytics.",

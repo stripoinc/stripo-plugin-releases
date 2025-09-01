@@ -1514,6 +1514,7 @@
 	"Current changes will be saved in the library and applied to all templates with this module": "Current changes will be saved in the library and applied to all templates with this module",
 	"Module content will be restored from the library": "Module content will be restored from the library",
 	"Save changes only in this template, breaking the link with the library": "Save changes only in this template, breaking the link with the library",
+	"Current changes cannot be saved to the library since the module belongs to another project": "Current changes cannot be saved to the library since the module belongs to another project",
 	"Symbols": "Symbols",
 	"UTM Parameters": "UTM Parameters",
 	"This option will add campaign parameters (UTM tags) to all URLs in the email when it is exported from Stripo, allowing you to track your campaign’s results in Google Analytics.": "This option will add campaign parameters (UTM tags) to all URLs in the email when it is exported from Stripo, allowing you to track your campaign’s results in Google Analytics.",
