@@ -1420,7 +1420,7 @@ class AtomicBlockImageAlias extends Block {
   }
   getTemplate() {
     const attrs = BlockAttr.BLOCK_IMAGE;
-    return `<${BlockType.BLOCK_IMAGE} ${attrs.src}="src.jpg" ${attrs.alt}="alt"></${BlockType.BLOCK_IMAGE}>`;
+    return `<${BlockType.BLOCK_IMAGE} ${attrs.src}="src.jpg" ${attrs.alt}="alt" style="border: 2px solid blueviolet;"></${BlockType.BLOCK_IMAGE}>`;
   }
 }
 class AtomicBlockTextAlias extends Block {
@@ -1440,7 +1440,7 @@ class AtomicBlockTextAlias extends Block {
     return true;
   }
   getTemplate() {
-    return `<${BlockType.BLOCK_TEXT}><h1>Hello world!</h1></${BlockType.BLOCK_TEXT}>`;
+    return `<${BlockType.BLOCK_TEXT} class="product-name" align="center"><h1>Hello world!</h1></${BlockType.BLOCK_TEXT}>`;
   }
 }
 const atomicBlockAlias = new ExtensionBuilder().addBlock(AtomicBlockImageAlias).withSettingsPanelRegistry(PanelRegistry$s).addBlock(AtomicBlockTextAlias).build();
@@ -6805,21 +6805,21 @@ let CustomFontFamilySelect$1 = class CustomFontFamilySelect extends UIElement {
   }
 };
 const gitSample_07_External_Custom_Font = new ExtensionBuilder().addUiElement(CustomFontFamilySelect$1).withUiElementTagRegistry(TagRegistry$1).build();
-const AVAILABLE_CONDITION_NAMES$3 = [
+const AVAILABLE_CONDITION_NAMES$4 = [
   { label: "Email Address", value: "$EMAIL" },
   { label: "Phone number", value: "$PHONE" }
 ];
-const AVAILABLE_CONDITION_OPERATIONS$3 = [
+const AVAILABLE_CONDITION_OPERATIONS$4 = [
   { label: "Equals (Is)", value: "equals" },
   { label: "Contains", value: "in_array" }
 ];
-const AVAILABLE_CONDITION_CONCATENATIONS$3 = [
+const AVAILABLE_CONDITION_CONCATENATIONS$4 = [
   { label: "all", value: "&&" },
   { label: "any", value: "||" }
 ];
-const DEFAULT_CONDITION$3 = {
-  name: AVAILABLE_CONDITION_NAMES$3[0].value,
-  operation: AVAILABLE_CONDITION_OPERATIONS$3[0].value,
+const DEFAULT_CONDITION$4 = {
+  name: AVAILABLE_CONDITION_NAMES$4[0].value,
+  operation: AVAILABLE_CONDITION_OPERATIONS$4[0].value,
   value: ""
 };
 const CSS_CLASSES$1 = {
@@ -6839,7 +6839,7 @@ const MESSAGES$1 = {
   CONDITION_NAME: "Conditions applied",
   CONDITION_DESCRIPTION: "Only users that fit conditions will see this part of the email."
 };
-let ExternalDisplayConditions$3 = (_c = class {
+let ExternalDisplayConditions$4 = (_c = class {
   constructor() {
     /**
      * @private
@@ -7086,16 +7086,16 @@ let ExternalDisplayConditions$3 = (_c = class {
    */
   addConditionRow(e, conditionValue) {
     if (!conditionValue) {
-      conditionValue = DEFAULT_CONDITION$3;
+      conditionValue = DEFAULT_CONDITION$4;
     }
     const deleteActionClass = CSS_CLASSES$1.DELETE_ACTION_PREFIX + Math.random().toString().replace(".", "d");
     const tr = document.createElement("tr");
     tr.classList.add(CSS_CLASSES$1.CONDITION_ROW);
     tr.innerHTML = this.createConditionRowHTML(deleteActionClass);
     this.conditionsPopupElement.querySelector(`.${CSS_CLASSES$1.CONDITIONS_TABLE}`).appendChild(tr);
-    this.setDropdownOptions(tr, CSS_CLASSES$1.DROPDOWN_NAME, AVAILABLE_CONDITION_NAMES$3);
+    this.setDropdownOptions(tr, CSS_CLASSES$1.DROPDOWN_NAME, AVAILABLE_CONDITION_NAMES$4);
     this.setDropdownValue(tr, CSS_CLASSES$1.DROPDOWN_NAME, conditionValue.name);
-    this.setDropdownOptions(tr, CSS_CLASSES$1.DROPDOWN_OPERATION, AVAILABLE_CONDITION_OPERATIONS$3);
+    this.setDropdownOptions(tr, CSS_CLASSES$1.DROPDOWN_OPERATION, AVAILABLE_CONDITION_OPERATIONS$4);
     this.setDropdownValue(tr, CSS_CLASSES$1.DROPDOWN_OPERATION, conditionValue.operation);
     const inputElement = tr.querySelector(`.${CSS_CLASSES$1.CONDITION_VALUE}`);
     inputElement.value = conditionValue.value;
@@ -7244,8 +7244,8 @@ let ExternalDisplayConditions$3 = (_c = class {
     this.conditionsPopupElement.querySelector("#applyConditionsAction").addEventListener("click", this.applyConditions.bind(this));
     this.conditionsPopupElement.querySelector("#addNewCondition").addEventListener("click", this.addConditionRow.bind(this));
     this.conditionsPopupElement.querySelector("#removeConditionsPopup").addEventListener("click", this.removeConditions.bind(this));
-    this.setDropdownOptions(this.conditionsPopupElement, CSS_CLASSES$1.DROPDOWN_CONCATENATION, AVAILABLE_CONDITION_CONCATENATIONS$3);
-    this.setDropdownValue(this.conditionsPopupElement, CSS_CLASSES$1.DROPDOWN_CONCATENATION, AVAILABLE_CONDITION_CONCATENATIONS$3[0].value);
+    this.setDropdownOptions(this.conditionsPopupElement, CSS_CLASSES$1.DROPDOWN_CONCATENATION, AVAILABLE_CONDITION_CONCATENATIONS$4);
+    this.setDropdownValue(this.conditionsPopupElement, CSS_CLASSES$1.DROPDOWN_CONCATENATION, AVAILABLE_CONDITION_CONCATENATIONS$4[0].value);
   }
   /**
    * Initializes conditions from applied condition data
@@ -7271,13 +7271,13 @@ let ExternalDisplayConditions$3 = (_c = class {
    */
   parseAppliedCondition(appliedCondition) {
     const str = appliedCondition.trim().replace("%IF ", "").replace("%/IF%", "");
-    const concatenation = this.findConditionOptionValue(str, AVAILABLE_CONDITION_CONCATENATIONS$3);
+    const concatenation = this.findConditionOptionValue(str, AVAILABLE_CONDITION_CONCATENATIONS$4);
     const conditions = str.split(concatenation).map((conditionStr) => {
       const valueMatch = conditionStr.match(/'([^']+)'/);
       const value = valueMatch ? valueMatch[1] : "";
       return {
-        name: this.findConditionOptionValue(conditionStr, AVAILABLE_CONDITION_NAMES$3),
-        operation: this.findConditionOptionValue(conditionStr, AVAILABLE_CONDITION_OPERATIONS$3),
+        name: this.findConditionOptionValue(conditionStr, AVAILABLE_CONDITION_NAMES$4),
+        operation: this.findConditionOptionValue(conditionStr, AVAILABLE_CONDITION_OPERATIONS$4),
         value
       };
     });
@@ -7405,22 +7405,22 @@ __publicField(_c, "STYLES", {
     gap: "6px"
   }
 }), _c);
-const gitSample_08_External_Display_Conditions = new ExtensionBuilder().withExternalDisplayCondition(ExternalDisplayConditions$3).build();
-const AVAILABLE_CONDITION_NAMES$2 = [
+const gitSample_08_External_Display_Conditions = new ExtensionBuilder().withExternalDisplayCondition(ExternalDisplayConditions$4).build();
+const AVAILABLE_CONDITION_NAMES$3 = [
   { label: "Email Address", value: "$EMAIL" },
   { label: "Phone number", value: "$PHONE" }
 ];
-const AVAILABLE_CONDITION_OPERATIONS$2 = [
+const AVAILABLE_CONDITION_OPERATIONS$3 = [
   { label: "Equals (Is)", value: "equals" },
   { label: "Contains", value: "in_array" }
 ];
-const AVAILABLE_CONDITION_CONCATENATIONS$2 = [
+const AVAILABLE_CONDITION_CONCATENATIONS$3 = [
   { label: "all", value: "&&" },
   { label: "any", value: "||" }
 ];
-const DEFAULT_CONDITION$2 = {
-  name: AVAILABLE_CONDITION_NAMES$2[0].value,
-  operation: AVAILABLE_CONDITION_OPERATIONS$2[0].value,
+const DEFAULT_CONDITION$3 = {
+  name: AVAILABLE_CONDITION_NAMES$3[0].value,
+  operation: AVAILABLE_CONDITION_OPERATIONS$3[0].value,
   value: ""
 };
 const CSS_CLASSES = {
@@ -7440,7 +7440,7 @@ const MESSAGES = {
   CONDITION_NAME: "Conditions applied",
   CONDITION_DESCRIPTION: "Only users that fit conditions will see this part of the email."
 };
-let ExternalDisplayConditions$2 = (_d = class {
+let ExternalDisplayConditions$3 = (_d = class {
   constructor() {
     /**
      * @private
@@ -7687,16 +7687,16 @@ let ExternalDisplayConditions$2 = (_d = class {
    */
   addConditionRow(e, conditionValue) {
     if (!conditionValue) {
-      conditionValue = DEFAULT_CONDITION$2;
+      conditionValue = DEFAULT_CONDITION$3;
     }
     const deleteActionClass = CSS_CLASSES.DELETE_ACTION_PREFIX + Math.random().toString().replace(".", "d");
     const tr = document.createElement("tr");
     tr.classList.add(CSS_CLASSES.CONDITION_ROW);
     tr.innerHTML = this.createConditionRowHTML(deleteActionClass);
     this.conditionsPopupElement.querySelector(`.${CSS_CLASSES.CONDITIONS_TABLE}`).appendChild(tr);
-    this.setDropdownOptions(tr, CSS_CLASSES.DROPDOWN_NAME, AVAILABLE_CONDITION_NAMES$2);
+    this.setDropdownOptions(tr, CSS_CLASSES.DROPDOWN_NAME, AVAILABLE_CONDITION_NAMES$3);
     this.setDropdownValue(tr, CSS_CLASSES.DROPDOWN_NAME, conditionValue.name);
-    this.setDropdownOptions(tr, CSS_CLASSES.DROPDOWN_OPERATION, AVAILABLE_CONDITION_OPERATIONS$2);
+    this.setDropdownOptions(tr, CSS_CLASSES.DROPDOWN_OPERATION, AVAILABLE_CONDITION_OPERATIONS$3);
     this.setDropdownValue(tr, CSS_CLASSES.DROPDOWN_OPERATION, conditionValue.operation);
     const inputElement = tr.querySelector(`.${CSS_CLASSES.CONDITION_VALUE}`);
     inputElement.value = conditionValue.value;
@@ -7845,8 +7845,8 @@ let ExternalDisplayConditions$2 = (_d = class {
     this.conditionsPopupElement.querySelector("#applyConditionsAction").addEventListener("click", this.applyConditions.bind(this));
     this.conditionsPopupElement.querySelector("#addNewCondition").addEventListener("click", this.addConditionRow.bind(this));
     this.conditionsPopupElement.querySelector("#removeConditionsPopup").addEventListener("click", this.removeConditions.bind(this));
-    this.setDropdownOptions(this.conditionsPopupElement, CSS_CLASSES.DROPDOWN_CONCATENATION, AVAILABLE_CONDITION_CONCATENATIONS$2);
-    this.setDropdownValue(this.conditionsPopupElement, CSS_CLASSES.DROPDOWN_CONCATENATION, AVAILABLE_CONDITION_CONCATENATIONS$2[0].value);
+    this.setDropdownOptions(this.conditionsPopupElement, CSS_CLASSES.DROPDOWN_CONCATENATION, AVAILABLE_CONDITION_CONCATENATIONS$3);
+    this.setDropdownValue(this.conditionsPopupElement, CSS_CLASSES.DROPDOWN_CONCATENATION, AVAILABLE_CONDITION_CONCATENATIONS$3[0].value);
   }
   /**
    * Initializes conditions from applied condition data
@@ -7872,13 +7872,13 @@ let ExternalDisplayConditions$2 = (_d = class {
    */
   parseAppliedCondition(appliedCondition) {
     const str = appliedCondition.trim().replace("%IF ", "").replace("%/IF%", "");
-    const concatenation = this.findConditionOptionValue(str, AVAILABLE_CONDITION_CONCATENATIONS$2);
+    const concatenation = this.findConditionOptionValue(str, AVAILABLE_CONDITION_CONCATENATIONS$3);
     const conditions = str.split(concatenation).map((conditionStr) => {
       const valueMatch = conditionStr.match(/'([^']+)'/);
       const value = valueMatch ? valueMatch[1] : "";
       return {
-        name: this.findConditionOptionValue(conditionStr, AVAILABLE_CONDITION_NAMES$2),
-        operation: this.findConditionOptionValue(conditionStr, AVAILABLE_CONDITION_OPERATIONS$2),
+        name: this.findConditionOptionValue(conditionStr, AVAILABLE_CONDITION_NAMES$3),
+        operation: this.findConditionOptionValue(conditionStr, AVAILABLE_CONDITION_OPERATIONS$3),
         value
       };
     });
@@ -8020,7 +8020,7 @@ __publicField(_d, "STYLES", {
     gap: "6px"
   }
 }), _d);
-const gitSample_09_External_Display_Conditions_With_Context_Menu = new ExtensionBuilder().withExternalDisplayCondition(ExternalDisplayConditions$2).build();
+const gitSample_09_External_Display_Conditions_With_Context_Menu = new ExtensionBuilder().withExternalDisplayCondition(ExternalDisplayConditions$3).build();
 let ExternalVideoLibrary$1 = (_e = class {
   constructor() {
     // Instance properties
@@ -8983,6 +8983,239 @@ class ExternalAiAssistant {
   }
 }
 const externalAiAssistant = new ExtensionBuilder().withExternalAiAssistant(ExternalAiAssistant).build();
+const AVAILABLE_CONDITION_NAMES$2 = [
+  { label: "Email Address", value: "$EMAIL" },
+  { label: "Phone number", value: "$PHONE" }
+];
+const AVAILABLE_CONDITION_OPERATIONS$2 = [
+  { label: "Equals (Is)", value: "equals" },
+  { label: "Contains", value: "in_array" }
+];
+const AVAILABLE_CONDITION_CONCATENATIONS$2 = [
+  { label: "all", value: "&&" },
+  { label: "any", value: "||" }
+];
+const DEFAULT_CONDITION$2 = {
+  name: AVAILABLE_CONDITION_NAMES$2[0].value,
+  operation: AVAILABLE_CONDITION_OPERATIONS$2[0].value,
+  value: ""
+};
+const DROPDOWN_CONDITION_NAME_CLASS$2 = "dropdownConditionField";
+const DROPDOWN_CONDITION_OPERATION_CLASS$2 = "dropdownConditionOperation";
+const DROPDOWN_CONDITION_CONCATENATION_CLASS$2 = "dropdownConcatenation";
+let ExternalDisplayConditions$2 = class ExternalDisplayConditions {
+  constructor() {
+    __publicField(this, "selectConditionsCallback", null);
+    __publicField(this, "conditionsPopupElement", null);
+  }
+  getDropdownProps(baseElement, identifierClass) {
+    if (!baseElement) {
+      baseElement = this.conditionsPopupElement;
+    }
+    const el = baseElement.querySelector("select." + identifierClass);
+    if (!el.props) {
+      el.props = {};
+    }
+    return el.props;
+  }
+  setDropdownOptions(baseElement, identifierClass, newValue) {
+    if (!baseElement) {
+      baseElement = this.conditionsPopupElement;
+    }
+    const selectElement = baseElement.querySelector("select." + identifierClass);
+    newValue.forEach(function(option) {
+      const optionElement = document.createElement("option");
+      optionElement.value = option.value;
+      optionElement.innerHTML = option.label;
+      selectElement.appendChild(optionElement);
+    });
+  }
+  closePopup() {
+    this.conditionsPopupElement.style.visibility = "hidden";
+  }
+  cancelConditions() {
+    this.onCancelCallback();
+    this.closePopup();
+  }
+  applyConditions() {
+    {
+      const conditions = [];
+      const rows = this.conditionsPopupElement.querySelectorAll(".conditionsTable .condition-row");
+      for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        const value = row.querySelector(".condition-value").value;
+        if (value.length) {
+          conditions.push({
+            name: this.getDropdownProps(row, DROPDOWN_CONDITION_NAME_CLASS$2).value,
+            operation: this.getDropdownProps(row, DROPDOWN_CONDITION_OPERATION_CLASS$2).value,
+            value
+          });
+        }
+      }
+      if (conditions.length) {
+        const concatenation = this.getDropdownProps(this.conditionsPopupElement, DROPDOWN_CONDITION_CONCATENATION_CLASS$2).value;
+        const finalCondition = conditions.map(function(condition) {
+          return condition.operation + "('" + condition.value + "', " + condition.name + ")";
+        }).join(" " + concatenation + " ");
+        this.selectConditionsCallback({
+          name: "Conditions applied",
+          description: "Only users that fit conditions will see this part of the email.",
+          conditionsCount: conditions.length,
+          beforeScript: "%IF " + finalCondition + "%",
+          afterScript: "%/IF%"
+        });
+      }
+      this.closePopup();
+    }
+  }
+  addConditionRow(e, conditionValue) {
+    if (!conditionValue) {
+      conditionValue = DEFAULT_CONDITION$2;
+    }
+    const deleteActionClass = "condition-delete-action-" + Math.random().toString().replace(".", "d");
+    const tr = document.createElement("tr");
+    tr.classList.add("condition-row");
+    tr.innerHTML = '<td style="width: 150px; padding: 0 5px 10px 0;">' + this.getDropdownMarkup(DROPDOWN_CONDITION_NAME_CLASS$2) + '</td>                <td style="width: 110px; padding: 0 5px 10px 0;">' + this.getDropdownMarkup(DROPDOWN_CONDITION_OPERATION_CLASS$2) + '</td>                <td style="padding: 0 5px 10px 0;"><input type="text" class="form-control condition-value"></td>                <td style="width: 18px; padding-bottom: 10px;"><span class="es-icon-delete ' + deleteActionClass + '"></span></td>';
+    this.conditionsPopupElement.querySelector(".conditionsTable").appendChild(tr);
+    const nameProps = this.getDropdownProps(tr, DROPDOWN_CONDITION_NAME_CLASS$2);
+    this.setDropdownOptions(tr, DROPDOWN_CONDITION_NAME_CLASS$2, AVAILABLE_CONDITION_NAMES$2);
+    nameProps.value = conditionValue.name;
+    const operationProps = this.getDropdownProps(tr, DROPDOWN_CONDITION_OPERATION_CLASS$2);
+    this.setDropdownOptions(tr, DROPDOWN_CONDITION_OPERATION_CLASS$2, AVAILABLE_CONDITION_OPERATIONS$2);
+    operationProps.value = conditionValue.operation;
+    tr.querySelector(".condition-value").value = conditionValue.value;
+    this.conditionsPopupElement.querySelector("." + deleteActionClass).addEventListener("click", this.deleteConditionRow);
+    this.updateDeleteActionVisibility();
+  }
+  removeConditions() {
+    this.selectConditionsCallback(null);
+    this.closePopup();
+  }
+  updateDeleteActionVisibility() {
+    const rows = this.conditionsPopupElement.querySelectorAll(".conditionsTable .condition-row");
+    rows[0].querySelector(".es-icon-delete").style.display = rows.length > 1 ? "block" : "none";
+  }
+  getDropdownMarkup(className) {
+    return `<select style="padding: 0" class="${className}"></select>`;
+  }
+  deleteConditionRow(e) {
+    e.target.closest(".condition-row").remove();
+    this.updateDeleteActionVisibility();
+  }
+  openExternalDisplayConditionsDialog(currentCondition, onSelectCallback, onCancelCallback) {
+    this.selectConditionsCallback = onSelectCallback;
+    this.onCancelCallback = onCancelCallback;
+    this.activateConditionsPopup(currentCondition);
+  }
+  getCategory() {
+    return {
+      type: "EXTERNAL",
+      category: "External display conditions",
+      // Category name
+      openExternalDisplayConditionsDialog: () => {
+      }
+    };
+  }
+  getIsContextActionEnabled() {
+    return false;
+  }
+  getContextActionIndex() {
+    return 1;
+  }
+  activateConditionsPopup(appliedCondition) {
+    if (!this.conditionsPopupElement) {
+      this.createConditionsPopup();
+    }
+    this.initConditions(appliedCondition);
+    this.conditionsPopupElement.style.visibility = "visible";
+  }
+  createConditionsPopup() {
+    const div = document.createElement("div");
+    div.innerHTML = `<div id="externalDisplayConditionsPopup" style="background-color: rgba(0,0,0,.5); overflow: hidden; 
+                    position: fixed; top: 0; right: 0;  bottom: 0; left: 0; z-index: 1050; font-family: sans-serif; visibility: hidden;" 
+                    class="esdev-app">
+                <div style="margin: 10px;">
+                <div style="background-color: #f6f6f6; border-radius: 17px 17px 30px 30px; max-width: 800px; margin: 0 auto;">
+                    <div style="padding: 15px; border-bottom: 1px solid #e5e5e5;">
+                        <div>
+                           <button id="closePopupButton" type="button" style="cursor: pointer; background: transparent; border: 0; float: right; font-size: 21px; font-weight: bold; opacity: .2;">
+                                <span>×</span>
+                            </button>
+                            <h4 style="margin: 0; font-size: 18px; color: rgb(85, 85, 85);">Display conditions</h4>
+                        </div>
+                    </div>
+                    <div style="padding: 15px;">
+                        <table class="conditionsTable" style="border-collapse: collapse" width="100%"></table>
+                        <button id="addNewCondition" class="btn btn-primary btn-sm">Add Condition</button>
+                        <div style="margin-top: 20px;">
+                            Show this content if
+                            <span style="width: 65px;display: inline-block;">
+                                ${this.getDropdownMarkup(DROPDOWN_CONDITION_CONCATENATION_CLASS$2)}
+                            </span>
+                            conditions are met.
+                        </div>
+                        <div>
+                            <table style="width: 100%; margin-top: 20px;">
+                                <tr>
+                                    <td>
+                                        <a id="removeConditionsPopup" target="_blank">Remove all conditions and close modal</a>
+                                    </td>
+                                    <td width="80px">
+                                        <button id="closeConditionsPopup" class="btn btn-secondary">Cancel</button>
+                                    </td>
+                                    <td width="45px">
+                                        <button id="applyConditionsAction" class="btn btn-success">Ok</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+    document.body.appendChild(div);
+    this.conditionsPopupElement = document.getElementById("externalDisplayConditionsPopup");
+    this.conditionsPopupElement.querySelector("#closePopupButton").addEventListener("click", this.closePopup.bind(this));
+    this.conditionsPopupElement.querySelector("#closeConditionsPopup").addEventListener("click", this.cancelConditions.bind(this));
+    this.conditionsPopupElement.querySelector("#applyConditionsAction").addEventListener("click", this.applyConditions.bind(this));
+    this.conditionsPopupElement.querySelector("#addNewCondition").addEventListener("click", this.addConditionRow.bind(this));
+    this.conditionsPopupElement.querySelector("#removeConditionsPopup").addEventListener("click", this.removeConditions.bind(this));
+    this.setDropdownOptions(this.conditionsPopupElement, DROPDOWN_CONDITION_CONCATENATION_CLASS$2, AVAILABLE_CONDITION_CONCATENATIONS$2);
+    this.getDropdownProps(this.conditionsPopupElement, DROPDOWN_CONDITION_CONCATENATION_CLASS$2).values = AVAILABLE_CONDITION_CONCATENATIONS$2;
+  }
+  initConditions(appliedCondition) {
+    this.conditionsPopupElement.querySelector(".conditionsTable").innerHTML = "";
+    const initialConditions = this.parseAppliedCondition(appliedCondition.beforeScript);
+    for (let i = 0; i < initialConditions.conditions.length; i++) {
+      this.addConditionRow(null, initialConditions.conditions[i]);
+    }
+    this.getDropdownProps(this.conditionsPopupElement, DROPDOWN_CONDITION_CONCATENATION_CLASS$2).value = initialConditions.concatenation;
+  }
+  parseAppliedCondition(appliedCondition) {
+    const str = appliedCondition.trim().replace("%IF ", "").replace("%/IF%", "");
+    const concatenation = this.findConditionOptionValue(str, AVAILABLE_CONDITION_CONCATENATIONS$2);
+    const conditions = str.split(concatenation).map((str2) => {
+      return {
+        name: this.findConditionOptionValue(str2, AVAILABLE_CONDITION_NAMES$2),
+        operation: this.findConditionOptionValue(str2, AVAILABLE_CONDITION_OPERATIONS$2),
+        value: str2.substring(str2.indexOf("'") + 1, str2.lastIndexOf("'"))
+      };
+    });
+    return {
+      conditions,
+      concatenation
+    };
+  }
+  findConditionOptionValue(str, options) {
+    let option = options.find(function(i) {
+      return str.indexOf(i.value) > -1;
+    });
+    if (!option) {
+      option = options[0];
+    }
+    return option.value;
+  }
+};
+const externalDisplayConditions = new ExtensionBuilder().withExternalDisplayCondition(ExternalDisplayConditions$2).build();
 const AVAILABLE_CONDITION_NAMES$1 = [
   { label: "Email Address", value: "$EMAIL" },
   { label: "Phone number", value: "$PHONE" }
@@ -9003,7 +9236,7 @@ const DEFAULT_CONDITION$1 = {
 const DROPDOWN_CONDITION_NAME_CLASS$1 = "dropdownConditionField";
 const DROPDOWN_CONDITION_OPERATION_CLASS$1 = "dropdownConditionOperation";
 const DROPDOWN_CONDITION_CONCATENATION_CLASS$1 = "dropdownConcatenation";
-let ExternalDisplayConditions$1 = class ExternalDisplayConditions {
+let ExternalDisplayConditions$1 = class ExternalDisplayConditions2 {
   constructor() {
     __publicField(this, "selectConditionsCallback", null);
     __publicField(this, "conditionsPopupElement", null);
@@ -9117,7 +9350,7 @@ let ExternalDisplayConditions$1 = class ExternalDisplayConditions {
     };
   }
   getIsContextActionEnabled() {
-    return false;
+    return true;
   }
   getContextActionIndex() {
     return 1;
@@ -9215,7 +9448,7 @@ let ExternalDisplayConditions$1 = class ExternalDisplayConditions {
     return option.value;
   }
 };
-const externalDisplayConditions = new ExtensionBuilder().withExternalDisplayCondition(ExternalDisplayConditions$1).build();
+const externalDisplayConditionsContextMenu = new ExtensionBuilder().withExternalDisplayCondition(ExternalDisplayConditions$1).build();
 const AVAILABLE_CONDITION_NAMES = [
   { label: "Email Address", value: "$EMAIL" },
   { label: "Phone number", value: "$PHONE" }
@@ -9236,7 +9469,7 @@ const DEFAULT_CONDITION = {
 const DROPDOWN_CONDITION_NAME_CLASS = "dropdownConditionField";
 const DROPDOWN_CONDITION_OPERATION_CLASS = "dropdownConditionOperation";
 const DROPDOWN_CONDITION_CONCATENATION_CLASS = "dropdownConcatenation";
-class ExternalDisplayConditions2 {
+class ExternalDisplayConditions3 {
   constructor() {
     __publicField(this, "selectConditionsCallback", null);
     __publicField(this, "conditionsPopupElement", null);
@@ -9286,6 +9519,13 @@ class ExternalDisplayConditions2 {
         }
       }
       if (conditions.length) {
+        const extraData = this.getExtraOptionsValues();
+        let extraDataString = "";
+        try {
+          extraDataString = JSON.stringify(extraData);
+        } catch (e) {
+          console.error("Error stringify extraData", e);
+        }
         const concatenation = this.getDropdownProps(this.conditionsPopupElement, DROPDOWN_CONDITION_CONCATENATION_CLASS).value;
         const finalCondition = conditions.map(function(condition) {
           return condition.operation + "('" + condition.value + "', " + condition.name + ")";
@@ -9295,7 +9535,8 @@ class ExternalDisplayConditions2 {
           description: "Only users that fit conditions will see this part of the email.",
           conditionsCount: conditions.length,
           beforeScript: "%IF " + finalCondition + "%",
-          afterScript: "%/IF%"
+          afterScript: "%/IF%",
+          extraData: extraDataString
         });
       }
       this.closePopup();
@@ -9319,6 +9560,31 @@ class ExternalDisplayConditions2 {
     tr.querySelector(".condition-value").value = conditionValue.value;
     this.conditionsPopupElement.querySelector("." + deleteActionClass).addEventListener("click", this.deleteConditionRow);
     this.updateDeleteActionVisibility();
+  }
+  setExtraOptionsValues(appliedCondition) {
+    let extraDataObject;
+    try {
+      extraDataObject = JSON.parse(appliedCondition.extraData);
+    } catch (e) {
+      console.error(e);
+      return;
+    }
+    const inputs = this.conditionsPopupElement.querySelectorAll(".extraOptionsTable input");
+    inputs.forEach(function(input) {
+      const name = input.name;
+      if (extraDataObject[name]) {
+        input.value = extraDataObject[name];
+      }
+    });
+  }
+  getExtraOptionsValues() {
+    const inputs = this.conditionsPopupElement.querySelectorAll(".extraOptionsTable input");
+    const extraDataObject = {};
+    inputs.forEach(function(input) {
+      const name = input.name;
+      extraDataObject[name] = input.value;
+    });
+    return extraDataObject;
   }
   removeConditions() {
     this.selectConditionsCallback(null);
@@ -9350,7 +9616,7 @@ class ExternalDisplayConditions2 {
     };
   }
   getIsContextActionEnabled() {
-    return true;
+    return false;
   }
   getContextActionIndex() {
     return 1;
@@ -9360,6 +9626,7 @@ class ExternalDisplayConditions2 {
       this.createConditionsPopup();
     }
     this.initConditions(appliedCondition);
+    this.setExtraOptionsValues(appliedCondition);
     this.conditionsPopupElement.style.visibility = "visible";
   }
   createConditionsPopup() {
@@ -9379,6 +9646,17 @@ class ExternalDisplayConditions2 {
                     </div>
                     <div style="padding: 15px;">
                         <table class="conditionsTable" style="border-collapse: collapse" width="100%"></table>
+                        <table class="extraOptionsTable" style="border-collapse: collapse" width="100%">
+                            <tr>
+                                <th> Extra option 1 </th>
+                                <td> <input type="text" name="extraOption1" value=""> </td> 
+                            </tr>
+                            <tr>
+                                <th> Extra option 2 </th>
+                                <td><input type="text" name="extraOption2" value=""></td>
+                             </tr>
+                        </table>
+</table>
                         <button id="addNewCondition" class="btn btn-primary btn-sm">Add Condition</button>
                         <div style="margin-top: 20px;">
                             Show this content if
@@ -9448,7 +9726,7 @@ class ExternalDisplayConditions2 {
     return option.value;
   }
 }
-const externalDisplayConditionsContextMenu = new ExtensionBuilder().withExternalDisplayCondition(ExternalDisplayConditions2).build();
+const externalDisplayConditionsExtraData = new ExtensionBuilder().withExternalDisplayCondition(ExternalDisplayConditions3).build();
 const ID$1 = "external-merge-tags-ui-element";
 class MergeTagsTagRegistry2 extends UIElementTagRegistry {
   registerUiElements(uiElementsTagsMap) {
@@ -9671,6 +9949,7 @@ const extensionsMap = {
   externalAiAssistant,
   externalDisplayConditions,
   externalDisplayConditionsContextMenu,
+  externalDisplayConditionsExtraData,
   externalVideosLibrary,
   extendedBlockPaddingsControl,
   extendedStructurePaddingsControl,

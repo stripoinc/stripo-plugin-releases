@@ -1857,6 +1857,7 @@
 	"history_prop_description": "Description",
 	"history_prop_before_script": "Code Before Module",
 	"history_prop_after_script": "Code After Module",
+	"history_prop_extra_data": "Extra user data",
 	"history_prop_background_position": "Background Position",
 	"history_prop_background_repeat": "Background Repeat",
 	"history_prop_background_size": "Background Height",
