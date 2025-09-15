@@ -2217,5 +2217,6 @@
 	"history_prop_display_availability_time": "history_prop_display_availability_time",
 	"history_prop_availability_time": "history_prop_availability_time",
 	"Up to the HTML Block": "Вверх к блоку HTML",
-	"Up to the Text Block": "Вверх к блоку Текст"
+	"Up to the Text Block": "Вверх к блоку Текст",
+	"Current Changes can't be saved. Contact support for further help": "Текущие изменения не могут быть сохранены. Обратитесь в службу поддержки для получения дополнительной помощи."
 }

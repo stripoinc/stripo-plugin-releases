@@ -1258,7 +1258,7 @@ class Extension {
 class ExtensionBuilder {
   constructor() {
     __publicField(this, "i18n");
-    __publicField(this, "styles");
+    __publicField(this, "styles", []);
     __publicField(this, "previewStyles");
     __publicField(this, "uiElements", []);
     __publicField(this, "uiElementTagRegistry");
@@ -1277,8 +1277,15 @@ class ExtensionBuilder {
     this.i18n = i18n;
     return this;
   }
+  /**
+   * @deprecated Use addStyles() instead. This method will be removed in a future version.
+   */
   withStyles(styles2) {
-    this.styles = styles2;
+    this.styles = [styles2];
+    return this;
+  }
+  addStyles(styles2) {
+    this.styles.push(styles2);
     return this;
   }
   /**
@@ -1337,7 +1344,7 @@ class ExtensionBuilder {
     return this;
   }
   build() {
-    return new Extension(this.i18n, this.styles, this.uiElements, this.uiElementTagRegistry, this.controls, this.settingsPanelRegistry, this.contextActions, this.blocks, this.externalSmartElementsLibrary, this.externalImageLibrary, this.previewStyles, this.externalAiAssistant, this.externalDisplayConditionsLibrary, this.externalVideoLibrary, this.blocksPanel);
+    return new Extension(this.i18n, (this.styles || []).map((style) => style.trim()).join("\n"), this.uiElements, this.uiElementTagRegistry, this.controls, this.settingsPanelRegistry, this.contextActions, this.blocks, this.externalSmartElementsLibrary, this.externalImageLibrary, this.previewStyles, this.externalAiAssistant, this.externalDisplayConditionsLibrary, this.externalVideoLibrary, this.blocksPanel);
   }
 }
 class ModificationDescription {
