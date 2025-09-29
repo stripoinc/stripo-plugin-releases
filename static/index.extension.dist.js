@@ -6,6 +6,7 @@ var BlockCompositionType;
 (function(BlockCompositionType2) {
   BlockCompositionType2["BLOCK"] = "BLOCK";
   BlockCompositionType2["STRUCTURE"] = "STRUCTURE";
+  BlockCompositionType2["CONTAINER"] = "CONTAINER";
 })(BlockCompositionType || (BlockCompositionType = {}));
 class Block {
   constructor() {
@@ -54,38 +55,30 @@ class Block {
   /**
    * Lifecycle hook called when the editor document is initialized.
    * Useful for performing initial setup or modifications on existing block instances in the template.
-   * @returns An optional {@link HtmlNodeModifier} to apply changes to the block's HTML structure.
    */
   onDocumentInit() {
-    return void 0;
   }
   /**
    * Lifecycle hook called when an instance of this block is selected in the editor.
    * @param node - The immutable HTML node representing the selected block instance.
-   * @returns An optional {@link HtmlNodeModifier} to apply changes upon selection.
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onSelect(node) {
-    return void 0;
   }
   /**
    * Lifecycle hook called when an instance of this block is copied.
    * @param targetNode - The immutable HTML node where the copy is being inserted relative to.
    * @param sourceNode - The immutable HTML node representing the block instance being copied.
-   * @returns An optional {@link HtmlNodeModifier} to apply changes to the copied node.
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onCopy(targetNode, sourceNode) {
-    return void 0;
   }
   /**
    * Lifecycle hook called when an instance of this block is deleted.
    * @param node - The immutable HTML node representing the block instance being deleted.
-   * @returns An optional {@link HtmlNodeModifier} to apply changes before deletion (rarely needed).
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onDelete(node) {
-    return void 0;
   }
   /**
    * Lifecycle hook called after a new instance of this block is created and added to the document (e.g., via drag-and-drop).
@@ -932,11 +925,6 @@ class ButtonFitToContainerBuiltInControl extends ButtonBuiltInControl {
     return void 0;
   }
 }
-class ButtonFontColorBuiltInControl extends ButtonBuiltInControl {
-  getParentControlId() {
-    return BuiltInControlTypes[BlockType.BLOCK_BUTTON].FONT_COLOR;
-  }
-}
 class ButtonFontFamilyBuiltInControl extends ButtonBuiltInControl {
   getParentControlId() {
     return BuiltInControlTypes[BlockType.BLOCK_BUTTON].FONT_FAMILY;
@@ -983,6 +971,14 @@ class ButtonTextSizeBuiltInControl extends ButtonBuiltInControl {
     return BuiltInControlTypes[BlockType.BLOCK_BUTTON].FONT_SIZE;
   }
 }
+class ButtonTextStyleAndFontColorBuiltInControl extends ButtonBuiltInControl {
+  getParentControlId() {
+    return BuiltInControlTypes[BlockType.BLOCK_BUTTON].TEXT_STYLE_AND_COLOR;
+  }
+  getLabels() {
+    return void 0;
+  }
+}
 class ContainerBuiltInControl extends BuiltInControl {
   getTargetNodes(root) {
     const containers = root.querySelectorAll(BlockSelector.CONTAINER);
@@ -998,6 +994,14 @@ class ContainerBackgroundColorBuiltInControl extends ContainerBuiltInControl {
 class ContainerBackgroundImageBuiltInControl extends ContainerBuiltInControl {
   getParentControlId() {
     return BuiltInControlTypes[BlockType.CONTAINER].IMAGE_CONTAINER;
+  }
+  getLabels() {
+    return void 0;
+  }
+}
+class ContainerBorderBuiltInControl extends ContainerBuiltInControl {
+  getParentControlId() {
+    return BuiltInControlTypes[BlockType.CONTAINER].BORDER_FORM;
   }
   getLabels() {
     return void 0;
@@ -1443,7 +1447,7 @@ class UIElementTagRegistry {
 }
 const IMAGE_BLOCK_ID = "atomic-block-image-alias-extension";
 const TEXT_BLOCK_ID = "atomic-block-text-alias-extension";
-let PanelRegistry$u = class PanelRegistry extends SettingsPanelRegistry {
+let PanelRegistry$v = class PanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[IMAGE_BLOCK_ID] = [
       new SettingsPanelTab(SettingsTab.SETTINGS, [BuiltInControlTypes.BLOCK_IMAGE.IMAGE])
@@ -1491,7 +1495,7 @@ class AtomicBlockTextAlias extends Block {
     return `<${BlockType.BLOCK_TEXT} class="product-name" align="center"><h1>Hello world!</h1></${BlockType.BLOCK_TEXT}>`;
   }
 }
-const atomicBlockAlias = new ExtensionBuilder().addBlock(AtomicBlockImageAlias).withSettingsPanelRegistry(PanelRegistry$u).addBlock(AtomicBlockTextAlias).build();
+const atomicBlockAlias = new ExtensionBuilder().addBlock(AtomicBlockImageAlias).withSettingsPanelRegistry(PanelRegistry$v).addBlock(AtomicBlockTextAlias).build();
 const SINGLE_CONTAINER$1 = "single-container";
 const CONTAINERS_ROW$1 = "containers-row";
 const CONTAINERS_ROW2$1 = "containers-row2";
@@ -1939,7 +1943,7 @@ class InitActionsBlock extends Block {
     return true;
   }
   getTemplate() {
-    return `<td><h1>Init Actions block extension</h1></td>`;
+    return "<td><h1>Init Actions block extension</h1></td>";
   }
   onDocumentInit() {
     return this.api.getDocumentModifier().modifyHtml(this.api.getDocumentRoot().querySelector(".esd-stripe")).setClass("modified-on-init");
@@ -2083,17 +2087,100 @@ class StructureExtension extends Block {
   }
 }
 const customStructure = new ExtensionBuilder().addBlock(StructureExtension).build();
-const ID$F = "extendedBlockPaddings_text";
-let PanelRegistry$t = class PanelRegistry2 extends SettingsPanelRegistry {
+const EMPTY_CONTAINER_ID = "empty-container-extension";
+const CONTAINER_ID = "container-extension";
+class EmptyContainerExtension extends Block {
+  getId() {
+    return EMPTY_CONTAINER_ID;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Empty Container Extension");
+  }
+  getDescription() {
+    return this.api.translate("Empty Container Extension Description");
+  }
+  isEnabled() {
+    return true;
+  }
+  getCustomRenderer() {
+  }
+  canBeSavedAsModule() {
+    return true;
+  }
+  getTemplate() {
+    return `<td align="left" width="560" class="esd-container-frame">
+              <h3>Empty Container Extension</h3>
+              <table cellpadding="0" cellspacing="0" role="presentation" width="100%">
+                <tbody>
+                  <tr>
+                    <td align="center" class="esd-empty-container" style="display: none"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>`;
+  }
+  onDrop(node) {
+  }
+  onDelete(node) {
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.CONTAINER;
+  }
+  allowInnerBlocksSelection() {
+    return true;
+  }
+}
+class ContainerExtension extends Block {
+  getId() {
+    return CONTAINER_ID;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Container Extension");
+  }
+  getDescription() {
+    return this.api.translate("Container Extension Description");
+  }
+  isEnabled() {
+    return true;
+  }
+  getCustomRenderer() {
+  }
+  canBeSavedAsModule() {
+    return true;
+  }
+  getTemplate() {
+    const { CONTAINER, BLOCK_TEXT } = BlockType;
+    return `<${CONTAINER}><${BLOCK_TEXT}><p>Hello world!</p></${BLOCK_TEXT}></${CONTAINER}>`;
+  }
+  onDrop(node) {
+  }
+  onDelete(node) {
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.CONTAINER;
+  }
+  allowInnerBlocksSelection() {
+    return false;
+  }
+}
+const containerExtension = new ExtensionBuilder().addBlock(EmptyContainerExtension).addBlock(ContainerExtension).build();
+const ID$G = "extendedBlockPaddings_text";
+let PanelRegistry$u = class PanelRegistry2 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0] = new SettingsPanelTab(SettingsTab.SETTINGS, [
-      ID$F
+      ID$G
     ]);
   }
 };
 class ExtendedBlockPaddingsControl extends TextPaddingsBuiltInControl {
   getId() {
-    return ID$F;
+    return ID$G;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -2116,10 +2203,10 @@ const extendedBlockPaddingsControl = new ExtensionBuilder().addControl(ExtendedB
   "uk": {
     "Extended block paddings": "Зовнішні відступи блоку текст"
   }
-}).withSettingsPanelRegistry(PanelRegistry$t).build();
+}).withSettingsPanelRegistry(PanelRegistry$u).build();
 const TEXT_ID$1 = "extendedBlockPaddingsMultipleText";
 const BUTTON_ID$1 = "extendedBlockPaddingsMultipleButton";
-let PanelRegistry$s = class PanelRegistry3 extends SettingsPanelRegistry {
+let PanelRegistry$t = class PanelRegistry3 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRIPE][0].addControl(TEXT_ID$1, 0);
     controls2[BlockType.STRIPE][0].addControl(BUTTON_ID$1, 1);
@@ -2147,16 +2234,16 @@ class ExtendedBlockButtonMarginsControl extends ButtonMarginsBuiltInControl {
     };
   }
 }
-const extensionMultiplePaddings = new ExtensionBuilder().addControl(ExtendedBlockTextPaddingsControl).addControl(ExtendedBlockButtonMarginsControl).withSettingsPanelRegistry(PanelRegistry$s).build();
-const ID$E = "extendedImageSize";
-let PanelRegistry$r = class PanelRegistry4 extends SettingsPanelRegistry {
+const extensionMultiplePaddings = new ExtensionBuilder().addControl(ExtendedBlockTextPaddingsControl).addControl(ExtendedBlockButtonMarginsControl).withSettingsPanelRegistry(PanelRegistry$t).build();
+const ID$F = "extendedImageSize";
+let PanelRegistry$s = class PanelRegistry4 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRUCTURE][0].addControl(ID$E, 0);
+    controls2[BlockType.STRUCTURE][0].addControl(ID$F, 0);
   }
 };
 class ExtendedImageSizeControl extends ImageSizeBuiltInControl {
   getId() {
-    return ID$E;
+    return ID$F;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -2165,7 +2252,7 @@ class ExtendedImageSizeControl extends ImageSizeBuiltInControl {
     };
   }
 }
-const imageSizeControlExtension = new ExtensionBuilder().addControl(ExtendedImageSizeControl).withSettingsPanelRegistry(PanelRegistry$r).build();
+const imageSizeControlExtension = new ExtensionBuilder().addControl(ExtendedImageSizeControl).withSettingsPanelRegistry(PanelRegistry$s).build();
 const PRODUCT_CARD_NAME_ALIGN_CONTROL_ID = "card-name-align-control";
 const PRODUCT_CARD_PRICE_ALIGN_CONTROL_ID = "card-price-align-control";
 const PRODUCT_STRUCTURE_ID$1 = "product-structure";
@@ -2284,10 +2371,10 @@ let ProductStructureBlock$1 = class ProductStructureBlock extends Block {
   }
 };
 const multipleTextAlignExtension = new ExtensionBuilder().withSettingsPanelRegistry(SampleSettingsPanelRegistry$1).addBlock(ProductStructureBlock$1).addControl(CardNameAlignControl).addControl(CardPriceAlignControl).build();
-const ID$D = "custom-title";
+const ID$E = "custom-title";
 class CustomTitleWithPopoverPanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2["MESSAGE_SETTINGS"][0].addControl(ID$D, 0);
+    controls2["MESSAGE_SETTINGS"][0].addControl(ID$E, 0);
   }
 }
 const customTitleElementId = "custom-title-element";
@@ -2360,7 +2447,7 @@ class CutomTitleElement extends UIElement {
 }
 class CustomTitle extends Control {
   getId() {
-    return ID$D;
+    return ID$E;
   }
   getTemplate() {
     return `
@@ -2371,17 +2458,17 @@ class CustomTitle extends Control {
   }
 }
 const customTitleWithPopover = new ExtensionBuilder().addControl(CustomTitle).addUiElement(CutomTitleElement).withSettingsPanelRegistry(CustomTitleWithPopoverPanelRegistry).build();
-const ID$C = "nestedControlExtension";
+const ID$D = "nestedControlExtension";
 const BACKGROUND_CONTROL = "backgroundControl";
 const BACKGROUND_SWITCHER = "backgroundSwitcher";
-let PanelRegistry$q = class PanelRegistry5 extends SettingsPanelRegistry {
+let PanelRegistry$r = class PanelRegistry5 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$C, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$D, 0);
   }
 };
 class NestedControlExtension extends Control {
   getId() {
-    return ID$C;
+    return ID$D;
   }
   getTemplate() {
     const { LABEL, SWITCHER, NESTED_CONTROL } = UIElementType;
@@ -2406,11 +2493,11 @@ class NestedControlExtension extends Control {
     this.api.setVisibility(BACKGROUND_CONTROL, enable);
   }
 }
-const nestedBackgroundControl = new ExtensionBuilder().addControl(NestedControlExtension).withSettingsPanelRegistry(PanelRegistry$q).build();
+const nestedBackgroundControl = new ExtensionBuilder().addControl(NestedControlExtension).withSettingsPanelRegistry(PanelRegistry$r).build();
 const CONTROL_ID$2 = "reinitializedControlExtension";
 const ELEMENT_ID = "reinitializedElementExtension";
 const SWITCHER_NAME$2 = "switcher";
-let PanelRegistry$p = class PanelRegistry6 extends SettingsPanelRegistry {
+let PanelRegistry$q = class PanelRegistry6 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(CONTROL_ID$2, 0);
   }
@@ -2428,7 +2515,7 @@ class ReinitializedElement extends UIElement {
     this._checkbox.removeEventListener("change", this._listener);
   }
   _onChange(event) {
-    this.api.onValueChanged(event.target.checked);
+    this.api.triggerValueChange(event.target.checked);
   }
   getValue() {
     return this._checkbox.checked;
@@ -2465,18 +2552,18 @@ class ReinitializedControlExtension extends Control {
     }
   }
 }
-const reinitializedExtension = new ExtensionBuilder().addControl(ReinitializedControlExtension).addUiElement(ReinitializedElement).withSettingsPanelRegistry(PanelRegistry$p).build();
-const ID$B = "stateChangeSubscriberExtension";
+const reinitializedExtension = new ExtensionBuilder().addControl(ReinitializedControlExtension).addUiElement(ReinitializedElement).withSettingsPanelRegistry(PanelRegistry$q).build();
+const ID$C = "stateChangeSubscriberExtension";
 const LABEL_NAME = "label";
 const SWITCHER_NAME$1 = "switcher";
-let PanelRegistry$o = class PanelRegistry7 extends SettingsPanelRegistry {
+let PanelRegistry$p = class PanelRegistry7 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$B, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$C, 0);
   }
 };
 class StateChangeSubscriberExtension extends Control {
   getId() {
-    return ID$B;
+    return ID$C;
   }
   getTemplate() {
     const { LABEL, SWITCHER } = UIElementType;
@@ -2513,16 +2600,16 @@ class StateChangeSubscriberExtension extends Control {
     }
   }
 }
-const stateChangeSubscriber = new ExtensionBuilder().addControl(StateChangeSubscriberExtension).withSettingsPanelRegistry(PanelRegistry$o).build();
-const ID$A = "variableModeExtendedControl";
-let PanelRegistry$n = class PanelRegistry8 extends SettingsPanelRegistry {
+const stateChangeSubscriber = new ExtensionBuilder().addControl(StateChangeSubscriberExtension).withSettingsPanelRegistry(PanelRegistry$p).build();
+const ID$B = "variableModeExtendedControl";
+let PanelRegistry$o = class PanelRegistry8 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$A, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$B, 0);
   }
 };
 class VariableModeExtendedControl extends ButtonBlockBackgroundColorBuiltInControl {
   getId() {
-    return ID$A;
+    return ID$B;
   }
   getLabels() {
     return {
@@ -2536,15 +2623,56 @@ class VariableModeExtendedControl extends ButtonBlockBackgroundColorBuiltInContr
     return this.api.getEditorState()[EditorStatePropertyType.previewDeviceMode];
   }
 }
-const variableModeExtendedControl = new ExtensionBuilder().addControl(VariableModeExtendedControl).withSettingsPanelRegistry(PanelRegistry$n).build();
-const ID$z = "extendedButtonAlign";
+const variableModeExtendedControl = new ExtensionBuilder().addControl(VariableModeExtendedControl).withSettingsPanelRegistry(PanelRegistry$o).build();
+const CONTROL_ID$1 = "variableVisibilityControl";
+const SWITCHER_NAME = "switcher";
+let PanelRegistry$n = class PanelRegistry9 extends SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[BlockType.BLOCK_BUTTON][1] = new SettingsPanelTab(SettingsTab.STYLES, [CONTROL_ID$1]);
+    controls2[BlockType.BLOCK_IMAGE][0].addControl(CONTROL_ID$1, 0);
+  }
+};
+class VariableVisibilityControl extends Control {
+  getId() {
+    return CONTROL_ID$1;
+  }
+  getTemplate() {
+    const { SWITCHER, LABEL } = UIElementType;
+    return `<div class="e2e-variable-visibility-control">
+                <${LABEL}  ${UEAttr.LABEL.text}="Only visible if link href is undefined"></${LABEL}>
+                <${SWITCHER} ${UEAttr.DEFAULT.name}="${SWITCHER_NAME}"></${SWITCHER}>
+            </div>`;
+  }
+  isVisible(node) {
+    return !node.querySelector("a").getAttribute("href");
+  }
+  onRender() {
+    this.api.onValueChanged(SWITCHER_NAME, this._toggleClass.bind(this));
+  }
+  onTemplateNodeUpdated(node) {
+    this.link = node.querySelector("a");
+    this.api.updateValues({ [SWITCHER_NAME]: this.link.hasClass(this._getClass()) });
+  }
+  _getClass() {
+    return "test-class";
+  }
+  _toggleClass(add) {
+    if (add) {
+      this.api.getDocumentModifier().modifyHtml(this.link).setClass(this._getClass()).apply(new ModificationDescription("Class added"));
+    } else {
+      this.api.getDocumentModifier().modifyHtml(this.link).removeClass(this._getClass()).apply(new ModificationDescription("Class removed"));
+    }
+  }
+}
+const variableVisibilityControl = new ExtensionBuilder().addControl(VariableVisibilityControl).withSettingsPanelRegistry(PanelRegistry$n).build();
+const ID$A = "extendedButtonAlign";
 let ButonPanelRegistry$2 = class ButonPanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$z
+          ID$A
         ]
       )
     ];
@@ -2552,7 +2680,7 @@ let ButonPanelRegistry$2 = class ButonPanelRegistry extends SettingsPanelRegistr
 };
 class ExtendedButtonAlignControl extends ButtonAlignBuiltInControl {
   getId() {
-    return ID$z;
+    return ID$A;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -2562,15 +2690,15 @@ class ExtendedButtonAlignControl extends ButtonAlignBuiltInControl {
   }
 }
 const buttonAlignControlExtension = new ExtensionBuilder().addControl(ExtendedButtonAlignControl).withSettingsPanelRegistry(ButonPanelRegistry$2).build();
-const ID$y = "extendedButtonBackground";
-let PanelRegistry$m = class PanelRegistry9 extends SettingsPanelRegistry {
+const ID$z = "extendedButtonBackground";
+let PanelRegistry$m = class PanelRegistry10 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$y, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$z, 0);
   }
 };
 class ExtendedButtonBackgroundControl extends ButtonBackgroundColorBuiltInControl {
   getId() {
-    return ID$y;
+    return ID$z;
   }
   getLabels() {
     return {
@@ -2582,15 +2710,15 @@ class ExtendedButtonBackgroundControl extends ButtonBackgroundColorBuiltInContro
   }
 }
 const extensionButtonBackgroundControl = new ExtensionBuilder().addControl(ExtendedButtonBackgroundControl).withSettingsPanelRegistry(PanelRegistry$m).build();
-const ID$x = "extendedButtonBlockBackground";
-let PanelRegistry$l = class PanelRegistry10 extends SettingsPanelRegistry {
+const ID$y = "extendedButtonBlockBackground";
+let PanelRegistry$l = class PanelRegistry11 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$x, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$y, 0);
   }
 };
 class ExtendedButtonBlockBackgroundControl extends ButtonBlockBackgroundColorBuiltInControl {
   getId() {
-    return ID$x;
+    return ID$y;
   }
   getLabels() {
     return {
@@ -2599,17 +2727,17 @@ class ExtendedButtonBlockBackgroundControl extends ButtonBlockBackgroundColorBui
   }
 }
 const extensionButtonBlockBackgroundControl = new ExtensionBuilder().addControl(ExtendedButtonBlockBackgroundControl).withSettingsPanelRegistry(PanelRegistry$l).build();
-const ID$w = "extendedButtonBorder";
-let PanelRegistry$k = class PanelRegistry11 extends SettingsPanelRegistry {
+const ID$x = "extendedButtonBorder";
+let PanelRegistry$k = class PanelRegistry12 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(SettingsTab.STYLES, [ID$w])
+      new SettingsPanelTab(SettingsTab.STYLES, [ID$x])
     ];
   }
 };
 class ExtendedButtonBorderControl extends ButtonBorderBuiltInControl {
   getId() {
-    return ID$w;
+    return ID$x;
   }
   getLabels() {
     return {
@@ -2622,8 +2750,32 @@ class ExtendedButtonBorderControl extends ButtonBorderBuiltInControl {
   }
 }
 const buttonBorderControlExtension = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$k).addControl(ExtendedButtonBorderControl).build();
-const ID$v = "builtInButtonBorderHover";
+const ID$w = "builtInButtonBorderHover";
 let ButtonPanelRegistry$6 = class ButtonPanelRegistry extends SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[BlockType.BLOCK_BUTTON] = [
+      new SettingsPanelTab(
+        SettingsTab.STYLES,
+        [
+          ID$w
+        ]
+      )
+    ];
+  }
+};
+class ExtensionBuiltInButtonBorderHover extends ButtonHoverBorderColorBuiltInControl {
+  getId() {
+    return ID$w;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Button built in hover border color")
+    };
+  }
+}
+const extensionBuiltInButtonBorderHover = new ExtensionBuilder().addControl(ExtensionBuiltInButtonBorderHover).withSettingsPanelRegistry(ButtonPanelRegistry$6).build();
+const ID$v = "extendedButtonBorderRadius";
+let ButonPanelRegistry$1 = class ButonPanelRegistry2 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
@@ -2635,33 +2787,9 @@ let ButtonPanelRegistry$6 = class ButtonPanelRegistry extends SettingsPanelRegis
     ];
   }
 };
-class ExtensionBuiltInButtonBorderHover extends ButtonHoverBorderColorBuiltInControl {
-  getId() {
-    return ID$v;
-  }
-  getLabels() {
-    return {
-      title: this.api.translate("Button built in hover border color")
-    };
-  }
-}
-const extensionBuiltInButtonBorderHover = new ExtensionBuilder().addControl(ExtensionBuiltInButtonBorderHover).withSettingsPanelRegistry(ButtonPanelRegistry$6).build();
-const ID$u = "extendedButtonBorderRadius";
-let ButonPanelRegistry$1 = class ButonPanelRegistry2 extends SettingsPanelRegistry {
-  registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
-        SettingsTab.STYLES,
-        [
-          ID$u
-        ]
-      )
-    ];
-  }
-};
 class ExtendedButtonBorderRadiusControl extends ButtonBorderRadiusBuiltInControl {
   getId() {
-    return ID$u;
+    return ID$v;
   }
   getLabels() {
     return {
@@ -2671,15 +2799,15 @@ class ExtendedButtonBorderRadiusControl extends ButtonBorderRadiusBuiltInControl
   }
 }
 const buttonBorderRadiusExtension = new ExtensionBuilder().addControl(ExtendedButtonBorderRadiusControl).withSettingsPanelRegistry(ButonPanelRegistry$1).build();
-const ID$t = "extendedButtonColor";
-let PanelRegistry$j = class PanelRegistry12 extends SettingsPanelRegistry {
+const ID$u = "extendedButtonColor";
+let PanelRegistry$j = class PanelRegistry13 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$t, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$u, 0);
   }
 };
 class ExtendedButtonColorControl extends ButtonColorBuiltInControl {
   getId() {
-    return ID$t;
+    return ID$u;
   }
   getLabels() {
     return {
@@ -2691,14 +2819,14 @@ class ExtendedButtonColorControl extends ButtonColorBuiltInControl {
   }
 }
 const buttonColorControlExtension = new ExtensionBuilder().addControl(ExtendedButtonColorControl).withSettingsPanelRegistry(PanelRegistry$j).build();
-const ID$s = "builtInButtonFitToContainer";
+const ID$t = "builtInButtonFitToContainer";
 let ButtonPanelRegistry$5 = class ButtonPanelRegistry2 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$s
+          ID$t
         ]
       )
     ];
@@ -2706,7 +2834,7 @@ let ButtonPanelRegistry$5 = class ButtonPanelRegistry2 extends SettingsPanelRegi
 };
 class ExtendedButtonFitToContainerControl extends ButtonFitToContainerBuiltInControl {
   getId() {
-    return ID$s;
+    return ID$t;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -2720,8 +2848,32 @@ class ExtendedButtonFitToContainerControl extends ButtonFitToContainerBuiltInCon
   }
 }
 const extensionBuiltInButtonFitToContainer = new ExtensionBuilder().addControl(ExtendedButtonFitToContainerControl).withSettingsPanelRegistry(ButtonPanelRegistry$5).build();
-const ID$r = "builtInButtonHoverColor";
+const ID$s = "builtInButtonHoverColor";
 let ButtonPanelRegistry$4 = class ButtonPanelRegistry3 extends SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[BlockType.BLOCK_BUTTON] = [
+      new SettingsPanelTab(
+        SettingsTab.STYLES,
+        [
+          ID$s
+        ]
+      )
+    ];
+  }
+};
+class ExtensionBuiltInButtonHoverColor extends ButtonHoverColorBuiltInControl {
+  getId() {
+    return ID$s;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Button built in hover color")
+    };
+  }
+}
+const extensionBuiltInButtonHoverColor = new ExtensionBuilder().addControl(ExtensionBuiltInButtonHoverColor).withSettingsPanelRegistry(ButtonPanelRegistry$4).build();
+const ID$r = "builtInButtonHoverTextColor";
+let ButtonPanelRegistry$3 = class ButtonPanelRegistry4 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
@@ -2733,33 +2885,9 @@ let ButtonPanelRegistry$4 = class ButtonPanelRegistry3 extends SettingsPanelRegi
     ];
   }
 };
-class ExtensionBuiltInButtonHoverColor extends ButtonHoverColorBuiltInControl {
-  getId() {
-    return ID$r;
-  }
-  getLabels() {
-    return {
-      title: this.api.translate("Button built in hover color")
-    };
-  }
-}
-const extensionBuiltInButtonHoverColor = new ExtensionBuilder().addControl(ExtensionBuiltInButtonHoverColor).withSettingsPanelRegistry(ButtonPanelRegistry$4).build();
-const ID$q = "builtInButtonHoverTextColor";
-let ButtonPanelRegistry$3 = class ButtonPanelRegistry4 extends SettingsPanelRegistry {
-  registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
-        SettingsTab.STYLES,
-        [
-          ID$q
-        ]
-      )
-    ];
-  }
-};
 class ExtensionBuiltInButtonHoverTextColor extends ButtonHoverTextColorBuiltInControl {
   getId() {
-    return ID$q;
+    return ID$r;
   }
   getLabels() {
     return {
@@ -2768,15 +2896,15 @@ class ExtensionBuiltInButtonHoverTextColor extends ButtonHoverTextColorBuiltInCo
   }
 }
 const extensionBuiltInButtonHoverTextColor = new ExtensionBuilder().addControl(ExtensionBuiltInButtonHoverTextColor).withSettingsPanelRegistry(ButtonPanelRegistry$3).build();
-const ID$p = "extendedButtonMargins";
+const ID$q = "extendedButtonMargins";
 class ButonPanelRegistry3 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRIPE][0].addControl(ID$p, 0);
+    controls2[BlockType.STRIPE][0].addControl(ID$q, 0);
   }
 }
 class ExtendedButtonMarginsControl extends ButtonMarginsBuiltInControl {
   getId() {
-    return ID$p;
+    return ID$q;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -2786,15 +2914,15 @@ class ExtendedButtonMarginsControl extends ButtonMarginsBuiltInControl {
   }
 }
 const extensionButtonMarginsControl = new ExtensionBuilder().addControl(ExtendedButtonMarginsControl).withSettingsPanelRegistry(ButonPanelRegistry3).build();
-const ID$o = "extendedButtonPaddingsControl";
-let PanelRegistry$i = class PanelRegistry13 extends SettingsPanelRegistry {
+const ID$p = "extendedButtonPaddingsControl";
+let PanelRegistry$i = class PanelRegistry14 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRIPE][0].addControl(ID$o, 0);
+    controls2[BlockType.STRIPE][0].addControl(ID$p, 0);
   }
 };
 class ExtendedButtonInternalIndents extends ButtonPaddingsBuiltInControl {
   getId() {
-    return ID$o;
+    return ID$p;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -2812,14 +2940,14 @@ const extendedButtonPaddingsControl = new ExtensionBuilder().addControl(Extended
   "Extended buttons paddings desktop": "EN Extended buttons paddings desktop",
   "Extended buttons paddings mobile": "EN Extended buttons paddings mobile"
 } }).withSettingsPanelRegistry(PanelRegistry$i).build();
-const ID$n = "extendedButtonText";
+const ID$o = "extendedButtonText";
 let ButtonPanelRegistry$2 = class ButtonPanelRegistry5 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$n
+          ID$o
         ]
       )
     ];
@@ -2827,7 +2955,7 @@ let ButtonPanelRegistry$2 = class ButtonPanelRegistry5 extends SettingsPanelRegi
 };
 class ExtendedButtonTextControl extends ButtonTextBuiltInControl {
   getId() {
-    return ID$n;
+    return ID$o;
   }
   getLabels() {
     return {
@@ -2836,8 +2964,33 @@ class ExtendedButtonTextControl extends ButtonTextBuiltInControl {
   }
 }
 const buttonTextControlExtension = new ExtensionBuilder().addControl(ExtendedButtonTextControl).withSettingsPanelRegistry(ButtonPanelRegistry$2).build();
-const ID$m = "builtInButtonTextColor";
+const ID$n = "extendedButtonTextSize";
 let ButtonPanelRegistry$1 = class ButtonPanelRegistry6 extends SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[BlockType.BLOCK_BUTTON] = [
+      new SettingsPanelTab(
+        SettingsTab.STYLES,
+        [
+          ID$n
+        ]
+      )
+    ];
+  }
+};
+class ExtendedButtonTextSizeControl extends ButtonTextSizeBuiltInControl {
+  getId() {
+    return ID$n;
+  }
+  getLabels() {
+    const viewMode = this.api.getEditorState().previewDeviceMode;
+    return {
+      title: viewMode === "DESKTOP" ? this.api.translate("Extended button text size desktop") : this.api.translate("Extended button text size mobile")
+    };
+  }
+}
+const extensionButtonTextSizeControl = new ExtensionBuilder().addControl(ExtendedButtonTextSizeControl).withSettingsPanelRegistry(ButtonPanelRegistry$1).build();
+const ID$m = "builtInTextStyleAndColor";
+class ButtonPanelRegistry7 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
@@ -2848,52 +3001,32 @@ let ButtonPanelRegistry$1 = class ButtonPanelRegistry6 extends SettingsPanelRegi
       )
     ];
   }
-};
-class ExtensionBuiltInButtonTextColor extends ButtonFontColorBuiltInControl {
+}
+class ExtensionBuiltInButtonTextStyleAndColor extends ButtonTextStyleAndFontColorBuiltInControl {
   getId() {
     return ID$m;
   }
   getLabels() {
     return {
-      title: this.api.translate("Button built in text color")
+      colorTitle: this.api.translate("Button built in text color"),
+      styleTitle: this.api.translate("Button built in text style")
     };
   }
+  getAdditionalModifications(root) {
+    const modifier = this.api.getDocumentModifier();
+    return modifier.modifyHtml(root).setClass("custom-button-text-color-applied");
+  }
 }
-const extensionBuiltInButtonTextColor = new ExtensionBuilder().addControl(ExtensionBuiltInButtonTextColor).withSettingsPanelRegistry(ButtonPanelRegistry$1).build();
-const ID$l = "extendedButtonTextSize";
-class ButtonPanelRegistry7 extends SettingsPanelRegistry {
+const extensionButtonTextStyleAndColorControl = new ExtensionBuilder().addControl(ExtensionBuiltInButtonTextStyleAndColor).withSettingsPanelRegistry(ButtonPanelRegistry7).build();
+const ID$l = "extendedContainerBackgroundColor";
+let PanelRegistry$h = class PanelRegistry15 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
-        SettingsTab.STYLES,
-        [
-          ID$l
-        ]
-      )
-    ];
-  }
-}
-class ExtendedButtonTextSizeControl extends ButtonTextSizeBuiltInControl {
-  getId() {
-    return ID$l;
-  }
-  getLabels() {
-    const viewMode = this.api.getEditorState().previewDeviceMode;
-    return {
-      title: viewMode === "DESKTOP" ? this.api.translate("Extended button text size desktop") : this.api.translate("Extended button text size mobile")
-    };
-  }
-}
-const extensionButtonTextSizeControl = new ExtensionBuilder().addControl(ExtendedButtonTextSizeControl).withSettingsPanelRegistry(ButtonPanelRegistry7).build();
-const ID$k = "extendedContainerBackgroundColor";
-let PanelRegistry$h = class PanelRegistry14 extends SettingsPanelRegistry {
-  registerBlockControls(controls2) {
-    controls2[BlockType.CONTAINER][0].addControl(ID$k, 0);
+    controls2[BlockType.CONTAINER][0].addControl(ID$l, 0);
   }
 };
 class ExtendedContainerBackgroundColorControl extends ContainerBackgroundColorBuiltInControl {
   getId() {
-    return ID$k;
+    return ID$l;
   }
   getLabels() {
     return {
@@ -2902,32 +3035,64 @@ class ExtendedContainerBackgroundColorControl extends ContainerBackgroundColorBu
   }
 }
 const extensionContainerBackgroundControl = new ExtensionBuilder().addControl(ExtendedContainerBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$h).build();
-const ID$j = "extendedContainerBackgroundImage";
-let PanelRegistry$g = class PanelRegistry15 extends SettingsPanelRegistry {
+const ID$k = "extendedContainerBackgroundImage";
+let PanelRegistry$g = class PanelRegistry16 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.CONTAINER][0].addControl(ID$j, 0);
+    controls2[BlockType.CONTAINER][0].addControl(ID$k, 0);
   }
 };
 class ExtendedContainerBackgroundImageControl extends ContainerBackgroundImageBuiltInControl {
+  getId() {
+    return ID$k;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Extended container background image control"),
+      titleHint: this.api.translate("Extended container title hint"),
+      repeat: this.api.translate("Extended container repeat"),
+      repeatHint: this.api.translate("Extended container repeat hint"),
+      horizontalPosition: this.api.translate("Extended container horizontal position"),
+      verticalPosition: this.api.translate("Extended container vertical position"),
+      backgroundWidth: this.api.translate("Extended container background width"),
+      backgroundHeight: this.api.translate("Extended container background height")
+    };
+  }
+}
+const extensionContainerBackgroundImageControl = new ExtensionBuilder().addControl(ExtendedContainerBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$g).build();
+const ID$j = "extendedContainerBorder";
+let PanelRegistry$f = class PanelRegistry17 extends SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[BlockType.CONTAINER] = [
+      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$j])
+    ];
+    controls2[BlockType.STRUCTURE] = [
+      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$j])
+    ];
+  }
+};
+class ExtendedContainerBorderControl extends ContainerBorderBuiltInControl {
   getId() {
     return ID$j;
   }
   getLabels() {
     return {
-      title: this.api.translate("Extended container background image control"),
-      titleHint: this.api.translate("Extended title hint"),
-      repeat: this.api.translate("Extended repeat"),
-      repeatHint: this.api.translate("Extended repeat hint"),
-      horizontalPosition: this.api.translate("Extended horizontal position"),
-      verticalPosition: this.api.translate("Extended vertical position"),
-      backgroundWidth: this.api.translate("Extended background width"),
-      backgroundHeight: this.api.translate("Extended background height")
+      title: this.api.translate("Extended container border"),
+      borderColorTitle: this.api.translate("Custom color label"),
+      borderStyleTitle: this.api.translate("Custom style label"),
+      borderStyleHint: this.api.translate("Custom style hint")
     };
   }
+  getAdditionalModifications(root) {
+    const modifier = this.api.getDocumentModifier();
+    this.getTargetNodes(root).forEach((node) => {
+      modifier.modifyHtml(node).setClass("custom-container-border-applied");
+    });
+    return modifier;
+  }
 }
-const extensionContainerBackgroundImageControl = new ExtensionBuilder().addControl(ExtendedContainerBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$g).build();
+const extensionContainerBorderControl = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$f).addControl(ExtendedContainerBorderControl).build();
 const ID$i = "extendedSpacerBackgroundColor";
-let PanelRegistry$f = class PanelRegistry16 extends SettingsPanelRegistry {
+let PanelRegistry$e = class PanelRegistry18 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_SPACER][0].addControl(ID$i, 0);
   }
@@ -2942,9 +3107,9 @@ class ExtendedSpacerBackgroundColorControl extends SpacerBackgroundColorBuiltInC
     };
   }
 }
-const extensionSpacerBackgroundColorControl = new ExtensionBuilder().addControl(ExtendedSpacerBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$f).build();
+const extensionSpacerBackgroundColorControl = new ExtensionBuilder().addControl(ExtendedSpacerBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$e).build();
 const ID$h = "extendedStructureAdapt";
-let PanelRegistry$e = class PanelRegistry17 extends SettingsPanelRegistry {
+let PanelRegistry$d = class PanelRegistry19 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE] = [
       new SettingsPanelTab(
@@ -2982,9 +3147,9 @@ class ExtendedStructureAdaptControl extends StructureAdaptBuiltInControl {
     return modifier;
   }
 }
-const extensionStructureAdaptControl = new ExtensionBuilder().addControl(ExtendedStructureAdaptControl).withSettingsPanelRegistry(PanelRegistry$e).build();
+const extensionStructureAdaptControl = new ExtensionBuilder().addControl(ExtendedStructureAdaptControl).withSettingsPanelRegistry(PanelRegistry$d).build();
 const ID$g = "extendedStructureBackgroundColor";
-let PanelRegistry$d = class PanelRegistry18 extends SettingsPanelRegistry {
+let PanelRegistry$c = class PanelRegistry20 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE][0].addControl(ID$g, 0);
   }
@@ -2999,9 +3164,9 @@ class ExtendedStructureBackgroundColorControl extends StructureBackgroundColorBu
     };
   }
 }
-const extensionStructureBackgroundControl = new ExtensionBuilder().addControl(ExtendedStructureBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$d).build();
+const extensionStructureBackgroundControl = new ExtensionBuilder().addControl(ExtendedStructureBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$c).build();
 const ID$f = "extendedStructureBackgroundImage";
-let PanelRegistry$c = class PanelRegistry19 extends SettingsPanelRegistry {
+let PanelRegistry$b = class PanelRegistry21 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE][0].addControl(ID$f, 0);
   }
@@ -3013,19 +3178,19 @@ class ExtendedStructureBackgroundImageControl extends StructureBackgroundImageBu
   getLabels() {
     return {
       title: this.api.translate("Extended structure background image control"),
-      titleHint: this.api.translate("Extended title hint"),
-      repeat: this.api.translate("Extended repeat"),
-      repeatHint: this.api.translate("Extended repeat hint"),
-      horizontalPosition: this.api.translate("Extended horizontal position"),
-      verticalPosition: this.api.translate("Extended vertical position"),
-      backgroundWidth: this.api.translate("Extended background width"),
-      backgroundHeight: this.api.translate("Extended background height")
+      titleHint: this.api.translate("Extended structure title hint"),
+      repeat: this.api.translate("Extended structure repeat"),
+      repeatHint: this.api.translate("Extended structure repeat hint"),
+      horizontalPosition: this.api.translate("Extended structure horizontal position"),
+      verticalPosition: this.api.translate("Extended structure vertical position"),
+      backgroundWidth: this.api.translate("Extended structure background width"),
+      backgroundHeight: this.api.translate("Extended structure background height")
     };
   }
 }
-const extensionStructureBackgroundImageControl = new ExtensionBuilder().addControl(ExtendedStructureBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$c).build();
+const extensionStructureBackgroundImageControl = new ExtensionBuilder().addControl(ExtendedStructureBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$b).build();
 const ID$e = "extendedStructureBorder";
-let PanelRegistry$b = class PanelRegistry20 extends SettingsPanelRegistry {
+let PanelRegistry$a = class PanelRegistry22 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE][0].addControl(ID$e, 0);
   }
@@ -3048,9 +3213,9 @@ class ExtendedStructureBorderControl extends StructureBorderBuiltInControl {
     return modifier.modifyHtml(closestTable).setClass("custom-structure-border-applied");
   }
 }
-const structureBorderControlExtension = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$b).addControl(ExtendedStructureBorderControl).build();
+const structureBorderControlExtension = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$a).addControl(ExtendedStructureBorderControl).build();
 const ID$d = "extendedStructureMargins";
-let PanelRegistry$a = class PanelRegistry21 extends SettingsPanelRegistry {
+let PanelRegistry$9 = class PanelRegistry23 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRIPE][0].addControl(ID$d, 0);
   }
@@ -3069,9 +3234,9 @@ class ExtendedStructureMarginsControl extends StructureMarginsBuiltInControl {
 const extensionStructureMarginsControl = new ExtensionBuilder().addControl(ExtendedStructureMarginsControl).withLocalization({ "en": {
   "Extended structure margins desktop": "EN Extended structure margins desktop",
   "Extended structure margins mobile": "EN Extended structure margins mobile"
-} }).withSettingsPanelRegistry(PanelRegistry$a).build();
+} }).withSettingsPanelRegistry(PanelRegistry$9).build();
 const ID$c = "extendedStructurePaddings";
-let PanelRegistry$9 = class PanelRegistry22 extends SettingsPanelRegistry {
+let PanelRegistry$8 = class PanelRegistry24 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRIPE][0].addControl(ID$c, 0);
   }
@@ -3095,11 +3260,11 @@ class ExtendedStructurePaddingsControl extends StructurePaddingsBuiltInControl {
 const extendedStructurePaddingsControl = new ExtensionBuilder().addControl(ExtendedStructurePaddingsControl).withLocalization({ "en": {
   "Extended structure paddings desktop": "EN Extended structure paddings desktop",
   "Extended structure paddings mobile": "EN Extended structure paddings mobile"
-} }).withSettingsPanelRegistry(PanelRegistry$9).build();
+} }).withSettingsPanelRegistry(PanelRegistry$8).build();
 const TEXT_ID = "extendedTextFontFamily";
 const BUTTON_ID = "extendedButtonFontFamily";
 const MENU_ID = "extendedMenuFontFamily";
-let PanelRegistry$8 = class PanelRegistry23 extends SettingsPanelRegistry {
+let PanelRegistry$7 = class PanelRegistry25 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(TEXT_ID, 0);
     controls2[BlockType.STRUCTURE] = [
@@ -3150,9 +3315,9 @@ class ExtendedMenuFontFamilyControl extends MenuFontFamilyBuiltInControl {
     };
   }
 }
-const fontFamilyControlExtension = new ExtensionBuilder().addControl(ExtendedTextFontFamilyControl).addControl(ExtendedButtonFontFamilyControl).addControl(ExtendedMenuFontFamilyControl).withSettingsPanelRegistry(PanelRegistry$8).build();
+const fontFamilyControlExtension = new ExtensionBuilder().addControl(ExtendedTextFontFamilyControl).addControl(ExtendedButtonFontFamilyControl).addControl(ExtendedMenuFontFamilyControl).withSettingsPanelRegistry(PanelRegistry$7).build();
 const ID$b = "extendedLinkColor";
-let PanelRegistry$7 = class PanelRegistry24 extends SettingsPanelRegistry {
+let PanelRegistry$6 = class PanelRegistry26 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(ID$b, 0);
   }
@@ -3167,9 +3332,9 @@ class ExtendedLinkColorControl extends LinkColorBuiltInControl {
     };
   }
 }
-const linkColorControlExtension = new ExtensionBuilder().addControl(ExtendedLinkColorControl).withSettingsPanelRegistry(PanelRegistry$7).build();
+const linkColorControlExtension = new ExtensionBuilder().addControl(ExtendedLinkColorControl).withSettingsPanelRegistry(PanelRegistry$6).build();
 const ID$a = "extendedTextAlign";
-let PanelRegistry$6 = class PanelRegistry25 extends SettingsPanelRegistry {
+let PanelRegistry$5 = class PanelRegistry27 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
       new SettingsPanelTab(SettingsTab.SETTINGS, [ID$a])
@@ -3194,9 +3359,9 @@ class ExtendedTextAlignControl extends TextAlignBuiltInControl {
     return modifier;
   }
 }
-const extensionTextAlignControl = new ExtensionBuilder().addControl(ExtendedTextAlignControl).withSettingsPanelRegistry(PanelRegistry$6).build();
+const extensionTextAlignControl = new ExtensionBuilder().addControl(ExtendedTextAlignControl).withSettingsPanelRegistry(PanelRegistry$5).build();
 const ID$9 = "builtInTextBlockBackground";
-let PanelRegistry$5 = class PanelRegistry26 extends SettingsPanelRegistry {
+let PanelRegistry$4 = class PanelRegistry28 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(ID$9, 0);
   }
@@ -3211,9 +3376,9 @@ class ExtendedTextBlockBackgroundControl extends TextBlockBackgroundBuiltInContr
     };
   }
 }
-const extensionTextBlockBackgroundControl = new ExtensionBuilder().addControl(ExtendedTextBlockBackgroundControl).withSettingsPanelRegistry(PanelRegistry$5).build();
+const extensionTextBlockBackgroundControl = new ExtensionBuilder().addControl(ExtendedTextBlockBackgroundControl).withSettingsPanelRegistry(PanelRegistry$4).build();
 const ID$8 = "extendedTextColor";
-let PanelRegistry$4 = class PanelRegistry27 extends SettingsPanelRegistry {
+let PanelRegistry$3 = class PanelRegistry29 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(ID$8, 0);
   }
@@ -3231,9 +3396,9 @@ class ExtendedTextColorControl extends TextColorBuiltInControl {
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-text-color-applied");
   }
 }
-const textColorControlExtension = new ExtensionBuilder().addControl(ExtendedTextColorControl).withSettingsPanelRegistry(PanelRegistry$4).build();
+const textColorControlExtension = new ExtensionBuilder().addControl(ExtendedTextColorControl).withSettingsPanelRegistry(PanelRegistry$3).build();
 const ID$7 = "extendedTextLineSpacing";
-let PanelRegistry$3 = class PanelRegistry28 extends SettingsPanelRegistry {
+let PanelRegistry$2 = class PanelRegistry30 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
       new SettingsPanelTab(SettingsTab.SETTINGS, [ID$7])
@@ -3253,9 +3418,9 @@ class ExtendedTextLineSpacingControl extends TextLineSpacingBuiltInControl {
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-text-line-spacing-applied");
   }
 }
-const textLineSpacingControlExtension = new ExtensionBuilder().addControl(ExtendedTextLineSpacingControl).withSettingsPanelRegistry(PanelRegistry$3).build();
+const textLineSpacingControlExtension = new ExtensionBuilder().addControl(ExtendedTextLineSpacingControl).withSettingsPanelRegistry(PanelRegistry$2).build();
 const ID$6 = "extendedTextSize";
-let PanelRegistry$2 = class PanelRegistry29 extends SettingsPanelRegistry {
+let PanelRegistry$1 = class PanelRegistry31 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(ID$6, 0);
   }
@@ -3273,13 +3438,13 @@ class ExtendedTextSizeControl extends TextSizeBuiltInControl {
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-text-size-applied");
   }
 }
-const textSizeControlExtension = new ExtensionBuilder().addControl(ExtendedTextSizeControl).withSettingsPanelRegistry(PanelRegistry$2).build();
+const textSizeControlExtension = new ExtensionBuilder().addControl(ExtendedTextSizeControl).withSettingsPanelRegistry(PanelRegistry$1).build();
 const ID$5 = "extendedTextStyle";
-let PanelRegistry$1 = class PanelRegistry30 extends SettingsPanelRegistry {
+class PanelRegistry32 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(ID$5, 0);
   }
-};
+}
 class ExtendedTextStyleControl extends TextStyleBuiltInControl {
   getId() {
     return ID$5;
@@ -3293,7 +3458,7 @@ class ExtendedTextStyleControl extends TextStyleBuiltInControl {
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-text-style-applied");
   }
 }
-const textStyleControlExtension = new ExtensionBuilder().addControl(ExtendedTextStyleControl).withSettingsPanelRegistry(PanelRegistry$1).build();
+const textStyleControlExtension = new ExtensionBuilder().addControl(ExtendedTextStyleControl).withSettingsPanelRegistry(PanelRegistry32).build();
 const generalSettingsStyles = new ExtensionBuilder().withStyles(".e2e-general-settings button {color: red;}").build();
 const previewStyles = new ExtensionBuilder().withPreviewStyles(`
     .ue-action-buttons-wrapper {
@@ -3683,21 +3848,6 @@ class ButtonPaddingsControl extends ButtonPaddingsBuiltInControl {
     return modifier.modifyHtml(root).setClass("custom-button-paddings-applied");
   }
 }
-const BUTTON_TEXT_COLOR_ID = "extendedButtonTextColor";
-class ButtonTextColorControl extends ButtonFontColorBuiltInControl {
-  getId() {
-    return BUTTON_TEXT_COLOR_ID;
-  }
-  getLabels() {
-    return {
-      title: this.api.translate("Button built in text color")
-    };
-  }
-  getAdditionalModifications(root) {
-    const modifier = this.api.getDocumentModifier();
-    return modifier.modifyHtml(root).setClass("custom-button-text-color-applied");
-  }
-}
 const BUTTON_TEXT_CONTROL_ID = "buttonTextBuiltInControl";
 class ButtonTextControl extends ButtonTextBuiltInControl {
   /**
@@ -3715,6 +3865,22 @@ class ButtonTextControl extends ButtonTextBuiltInControl {
     return {
       title: this.api.translate("Button text built in control")
     };
+  }
+}
+const BUTTON_TEST_STYLE_AND_COLOR_ID = "extendedButtonTextStyleAndColor";
+class ButtonTextStyleAndColor extends ButtonTextStyleAndFontColorBuiltInControl {
+  getId() {
+    return BUTTON_TEST_STYLE_AND_COLOR_ID;
+  }
+  getLabels() {
+    return {
+      colorTitle: this.api.translate("Button built in text color"),
+      styleTitle: this.api.translate("Button built in text style")
+    };
+  }
+  getAdditionalModifications(root) {
+    const modifier = this.api.getDocumentModifier();
+    return modifier.modifyHtml(root).setClass("custom-button-text-color-applied");
   }
 }
 const BUTTON_TEXT_SIZE_CONTROL_ID = "extendedButtonTextSize";
@@ -4065,7 +4231,8 @@ class SampleSettingsPanelRegistry2 extends SettingsPanelRegistry {
           BUTTON_BLOCK_BACKGROUND_ID,
           BUTTON_TEXT_SIZE_CONTROL_ID,
           TEXT_BLOCK_BACKGROUND_ID,
-          STRUCTURE_BACKGROUND_COLOR_ID
+          STRUCTURE_BACKGROUND_COLOR_ID,
+          BUTTON_TEST_STYLE_AND_COLOR_ID
         ]
       ).withLabel(this.api.translate("Card"))
     ];
@@ -4082,7 +4249,6 @@ class SampleSettingsPanelRegistry2 extends SettingsPanelRegistry {
         SettingsTab.STYLES,
         [
           BUTTON_BORDER_ID,
-          BUTTON_TEXT_COLOR_ID,
           BUTTON_HOVER_TEXT_COLOR_ID,
           BUTTON_HOVER_BORDER_COLOR_ID,
           BUTTON_HOVER_COLOR_ID
@@ -4117,7 +4283,6 @@ const controls = [
   TextLineSpacingControl,
   ButtonAlignControl,
   ButtonTextSizeControl,
-  ButtonTextColorControl,
   ButtonBorderRadiusControl,
   ButtonPaddingsControl,
   TextPaddingsControl,
@@ -4134,7 +4299,8 @@ const controls = [
   ContainerBackgroundImage,
   StructureBackgroundImage,
   TextAlignControl,
-  ImageSizeControl
+  ImageSizeControl,
+  ButtonTextStyleAndColor
 ];
 const builder = new ExtensionBuilder().addBlock(ClassicBlock).addBlock(ClassicStructureBlock).addBlock(ProductStructureBlock2).withSettingsPanelRegistry(SampleSettingsPanelRegistry2);
 for (const control of controls) {
@@ -8800,7 +8966,7 @@ class CustomFontFamilySelect2 extends UIElement {
   }
   _onChange(event) {
     if (event.target.value !== ADD_CUSTOM_FONT_OPTION) {
-      this.api.onValueChanged(event.target.value);
+      this.api.triggerValueChange(event.target.value);
     } else if (!this.dialog) {
       this._showDialog();
     }
@@ -8830,7 +8996,7 @@ const MessageIcon = {
   WARNING: "warning",
   INFO: IMG_URL
 };
-const CONTROL_ID$1 = "ui-elements-demo";
+const CONTROL_ID = "ui-elements-demo";
 const MESSAGE_ELEMENT = "message";
 const TOGGLABLE_CONTAINER = "togglable";
 const RADIO_BUTTONS_ELEMENT = "radioButtons";
@@ -8846,12 +9012,12 @@ const TEXT_ELEMENT = "text";
 const TEXT_AREA_ELEMENT = "textArea";
 class TestUIElementsDemoPanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$1])];
+    controls2[BlockType.BLOCK_BUTTON] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID])];
   }
 }
 class TestUIElementsDemoControl extends Control {
   getId() {
-    return CONTROL_ID$1;
+    return CONTROL_ID;
   }
   _getLabel(text, name = `${Math.random()}`) {
     const tag = UIElementType.LABEL;
@@ -9039,7 +9205,6 @@ class TestUIElementsDemoControl extends Control {
     this.api.onValueChanged(RADIO_BUTTONS_ELEMENT, (value) => this._onRadioButtonsChange(value));
     this.api.onValueChanged(SELECT_ELEMENT, (value) => this._onSelectChange(value));
     this.api.onValueChanged(CHECK_BUTTONS_ELEMENT, (value) => this._onCheckButtonsChange(value));
-    this.api.onValueChanged(BUTTON_ELEMENT, (value) => this._onButtonClick(value));
     this.api.onValueChanged(CHECKBOX_ELEMENT, (value) => this._onCheckboxChange(value));
     this.api.onValueChanged(SWITCHER_ELEMENT, (value) => this._onSwitcherChange(value));
     this.api.onValueChanged(COLOR_ELEMENT, (value) => this._onColorChange(value));
@@ -9047,6 +9212,7 @@ class TestUIElementsDemoControl extends Control {
     this.api.onValueChanged(COUNTER_ELEMENT, (value) => this._onCounterChange(value));
     this.api.onValueChanged(TEXT_ELEMENT, (value) => this._onTextChange(value));
     this.api.onValueChanged(TEXT_AREA_ELEMENT, (value) => this._onTextAreaChange(value));
+    this.api.onValueChanged(BUTTON_ELEMENT, (value) => this._onButtonClick(value));
   }
   _updateMessage(message, overwrite) {
     const previousMessages = overwrite ? "" : this.api.getValues()[MESSAGE_ELEMENT];
@@ -9085,7 +9251,7 @@ class TestUIElementsDemoControl extends Control {
     this.api.setVisibility(TOGGLABLE_CONTAINER, value);
   }
   _onButtonClick() {
-    this._updateMessage(`All gone!`, true);
+    this._updateMessage("All gone!", true);
   }
   _onColorChange(value) {
     this._updateMessage(`<b>Color selected</b>: '<span style="color: ${value}; background: #FFFFFF; font-weight: bold;">${value}</span>'`);
@@ -9114,7 +9280,7 @@ class TestUIElementsDemoControl extends Control {
     if (requiredNumber > enteredNumber) {
       this._updateMessage(`<b>Enter ${requiredNumber - enteredNumber} more dinosaurs!</b>`);
     } else if (requiredNumber < enteredNumber) {
-      this._updateMessage(`<b>Hold your dinosaurs!</b>`);
+      this._updateMessage("<b>Hold your dinosaurs!</b>");
     } else {
       this._updateMessage(`<b>Top ${requiredNumber} of dinosaurs:</b><hr>${value.replace(/\n/g, "<br>")}`);
     }
@@ -9739,7 +9905,7 @@ class ExternalDisplayConditions3 {
   setExtraOptionsValues(appliedCondition) {
     let extraDataObject;
     try {
-      extraDataObject = JSON.parse(appliedCondition.extraData);
+      extraDataObject = JSON.parse((appliedCondition == null ? void 0 : appliedCondition.extraData) || "{}");
     } catch (e) {
       console.error(e);
       return;
@@ -9929,7 +10095,7 @@ class DemoMergeTagsUiElementExtension extends UIElement {
       this.mergeTagsLibrary = new ExternalMergeTagsLibrary();
     }
     this.mergeTagsLibrary.openMergeTagsLibrary((_a2 = this.selectedMergeTag) == null ? void 0 : _a2.value, (data) => {
-      this.api.onValueChanged(data);
+      this.api.triggerValueChange(data);
     });
   }
   onAttributeUpdated(name, value) {
@@ -9951,7 +10117,7 @@ class ExternalMergeTagsLibrary {
     __publicField(this, "selectedMergetag", null);
     __publicField(this, "dataSelectCallback", () => {
     });
-    let div = document.createElement("div");
+    const div = document.createElement("div");
     div.style.visibility = "hidden";
     div.innerHTML = '             <div id="externalMergeTags" style="background-color: rgba(0,0,0,.5); overflow: hidden; position: fixed; top: 0; right: 0;  bottom: 0; left: 0; z-index: 1050; font-family: sans-serif;">                <div style="margin: 10px;">                <div style="background-color: #f6f6f6; border-radius: 17px 17px 30px 30px; max-width: 900px; margin: 0 auto;">                    <div style="padding: 15px; border-bottom: 1px solid #e5e5e5;">                        <div>                           <button class="close" type="button" style="cursor: pointer; background: transparent; border: 0; float: right; font-size: 21px; font-weight: bold; opacity: .2;">                                <span aria-hidden="true">×</span>                            </button>                            <h4 style="margin: 0; font-size: 18px; color: rgb(85, 85, 85);">Your merge tags</h4>                        </div>                    </div>                    <div style="padding: 15px;">                        <div class="thumbnail" tag-value="*|FNAME|*" tag-label="John Doe" style="display: inline-block; width: 154px; height: 120px; cursor: pointer; padding: 4px; background-color: #ffffff; border: 1px solid #b80000; border-radius: 10px; margin-right: 10px">                            Merge Tag Name                        </div>                        <div class="thumbnail" tag-value="%%Phone%%" tag-label="User phone number" style="display: inline-block; width: 154px; height: 120px; cursor: pointer; padding: 4px; background-color: #ffffff; border: 1px solid #b80000; border-radius: 10px; margin-right: 10px">                            Merge Tag Phone                        </div>                        <div class="thumbnail" tag-value="Merge Tag 3" style="display: inline-block; width: 154px; height: 120px; cursor: pointer; padding: 4px; background-color: #ffffff; border: 1px solid #b80000; border-radius: 10px; margin-right: 10px">                            Merge Tag 3                        </div>                    </div>                </div>            </div>';
     document.body.appendChild(div);
@@ -10071,7 +10237,7 @@ class UiElementExtensionTextUiElementOverridden extends UIElement {
     this.originalTextInput.removeEventListener("change", this.listener);
   }
   _onChange(event) {
-    this.api.onValueChanged(`${event.target.id}_${event.target.value}`);
+    this.api.triggerValueChange(`${event.target.id}_${event.target.value}`);
   }
   getValue() {
     return this.customTextInput.value;
@@ -10089,52 +10255,12 @@ class UiElementExtensionTextUiElementOverridden extends UIElement {
   }
 }
 const textUiElementOverridden = new ExtensionBuilder().addUiElement(UiElementExtensionTextUiElementOverridden).withUiElementTagRegistry(TestTagRegistry).build();
-const CONTROL_ID = "variableVisibilityControl";
-const SWITCHER_NAME = "switcher";
-class PanelRegistry31 extends SettingsPanelRegistry {
-  registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][1] = new SettingsPanelTab(SettingsTab.STYLES, [CONTROL_ID]);
-    controls2[BlockType.BLOCK_IMAGE][0].addControl(CONTROL_ID, 0);
-  }
-}
-class VariableVisibilityControl extends Control {
-  getId() {
-    return CONTROL_ID;
-  }
-  getTemplate() {
-    const { SWITCHER, LABEL } = UIElementType;
-    return `<div class="e2e-variable-visibility-control">
-                <${LABEL}  ${UEAttr.LABEL.text}="Only visible if link href is undefined"></${LABEL}>
-                <${SWITCHER} ${UEAttr.DEFAULT.name}="${SWITCHER_NAME}"></${SWITCHER}>
-            </div>`;
-  }
-  isVisible(node) {
-    return !node.querySelector("a").getAttribute("href");
-  }
-  onRender() {
-    this.api.onValueChanged(SWITCHER_NAME, this._toggleClass.bind(this));
-  }
-  onTemplateNodeUpdated(node) {
-    this.link = node.querySelector("a");
-    this.api.updateValues({ [SWITCHER_NAME]: this.link.hasClass(this._getClass()) });
-  }
-  _getClass() {
-    return "test-class";
-  }
-  _toggleClass(add) {
-    if (add) {
-      this.api.getDocumentModifier().modifyHtml(this.link).setClass(this._getClass()).apply(new ModificationDescription("Class added"));
-    } else {
-      this.api.getDocumentModifier().modifyHtml(this.link).removeClass(this._getClass()).apply(new ModificationDescription("Class removed"));
-    }
-  }
-}
-const variableVisibilityControl = new ExtensionBuilder().addControl(VariableVisibilityControl).withSettingsPanelRegistry(PanelRegistry31).build();
 const extensionsMap = {
   variableVisibilityControl,
   textBlockWithCustomControls,
   textBlockWithExtendedControls,
   textBlockWithRemovedControl,
+  containerExtension,
   customBlockBasic,
   atomicBlockAlias,
   customBlockWithCustomRenderer,
@@ -10180,7 +10306,6 @@ const extensionsMap = {
   buttonAlignControlExtension,
   extensionButtonTextSizeControl,
   buttonBorderRadiusExtension,
-  extensionBuiltInButtonTextColor,
   extensionBuiltInButtonHoverColor,
   extensionBuiltInButtonBorderHover,
   extensionBuiltInButtonHoverTextColor,
@@ -10200,6 +10325,8 @@ const extensionsMap = {
   multipleTextAlignExtension,
   extensionStructureBackgroundImageControl,
   extensionContainerBackgroundImageControl,
+  extensionButtonTextStyleAndColorControl,
+  extensionContainerBorderControl,
   gitSample_01_Simple_Block,
   gitSample_02_Structure_Block,
   gitSample_03_External_Merge_Tags,
