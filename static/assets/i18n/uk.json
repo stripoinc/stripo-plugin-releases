@@ -1303,6 +1303,8 @@
 	"All": "Всі",
 	"Open": "Відкриті",
 	"Resolved": "Вирішені",
+	"{count, plural, one {Open} other {Open}}": "{count, plural, one {Відкритий} other {Відкриті}}",
+	"{count, plural, one {Resolved} other {Resolved}}": "{count, plural, one {Вирішений} other {Вирішені}}",
 	"Without Reply": "Без відповіді",
 	"Unread": "Непрочитані",
 	"Resolve": "Вирішити",

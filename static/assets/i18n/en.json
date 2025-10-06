@@ -1303,6 +1303,8 @@
 	"All": "All",
 	"Open": "Open",
 	"Resolved": "Resolved",
+	"{count, plural, one {Open} other {Open}}": "{count, plural, one {Open} other {Open}}",
+	"{count, plural, one {Resolved} other {Resolved}}": "{count, plural, one {Resolved} other {Resolved}}",
 	"Without Reply": "Without Reply",
 	"Unread": "Unread",
 	"Resolve": "Resolve",
