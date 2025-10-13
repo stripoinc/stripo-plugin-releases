@@ -1,14 +1,76 @@
 var __defProp = Object.defineProperty;
+var __typeError = (msg) => {
+  throw TypeError(msg);
+};
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
-var _a, _b, _c, _d, _e;
+var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot " + msg);
+var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+var __privateMethod = (obj, member, method) => (__accessCheck(obj, member, "access private method"), method);
+var _CustomTitleControl_instances, patchControl_fn, _a, _b, _c, _d, _e;
 var BlockCompositionType = /* @__PURE__ */ ((BlockCompositionType2) => {
   BlockCompositionType2["BLOCK"] = "BLOCK";
   BlockCompositionType2["STRUCTURE"] = "STRUCTURE";
   BlockCompositionType2["CONTAINER"] = "CONTAINER";
   return BlockCompositionType2;
 })(BlockCompositionType || {});
-var Block = class {
+var _BaseValidatedClass = class _BaseValidatedClass2 {
+  /**
+   * Validates that all required methods are properly implemented in the subclass.
+   * @param requiredMethods - Array of method names that must be implemented
+   * @param classRef - Reference to the class constructor for validation caching
+   */
+  constructor(requiredMethods, classRef) {
+    if (classRef !== _BaseValidatedClass2) {
+      if (!_BaseValidatedClass2.validatedClasses.has(classRef)) {
+        this.validateImplementation(requiredMethods, classRef);
+      }
+      const errors = _BaseValidatedClass2.validationErrors.get(classRef);
+      if (errors && errors.length > 0) {
+        throw new Error(
+          `${classRef.name} has validation errors:
+${errors.map((e) => `  - ${e}`).join("\n")}`
+        );
+      }
+    }
+  }
+  /**
+   * Validates that all required methods are properly implemented in the subclass.
+   * This validation runs only once per class type and results are cached.
+   */
+  validateImplementation(requiredMethods, classRef) {
+    var _a2;
+    const errors = [];
+    const className = classRef.name;
+    const proto = Object.getPrototypeOf(this);
+    requiredMethods.forEach((methodName) => {
+      const method = this[methodName];
+      if (typeof method !== "function") {
+        errors.push(`Method ${methodName}() is not defined`);
+        return;
+      }
+      if (proto[methodName] === classRef.prototype[methodName]) {
+        errors.push(`Method ${methodName}() must be implemented (currently using base class error-throwing implementation)`);
+      }
+    });
+    _BaseValidatedClass2.validatedClasses.add(classRef);
+    if (errors.length > 0) {
+      _BaseValidatedClass2.validationErrors.set(classRef, errors);
+      console.error(`[${className} Validation] ${className} validation failed:`, errors);
+    } else {
+      if (typeof process !== "undefined" && ((_a2 = process.env) == null ? void 0 : _a2.NODE_ENV) === "development") {
+        console.log(`[${className} Validation] ✅ ${className} validated successfully`);
+      }
+    }
+  }
+};
+_BaseValidatedClass.validatedClasses = /* @__PURE__ */ new Set();
+_BaseValidatedClass.validationErrors = /* @__PURE__ */ new Map();
+var BaseValidatedClass = _BaseValidatedClass;
+var _Block = class _Block2 extends BaseValidatedClass {
+  constructor() {
+    super(_Block2.REQUIRED_METHODS, _Block2);
+  }
   /**
    * Determines if the block should be available for use in the editor.
    * Override to provide custom logic based on editor state or configuration.
@@ -63,11 +125,10 @@ var Block = class {
   }
   /**
    * Lifecycle hook called when an instance of this block is copied.
-   * @param targetNode - The immutable HTML node where the copy is being inserted relative to.
-   * @param sourceNode - The immutable HTML node representing the block instance being copied.
+   * @param modifier - The HTML node modifier to apply changes to the copied block instance.
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  onCopy(targetNode, sourceNode) {
+  onCopy(modifier) {
   }
   /**
    * Lifecycle hook called when an instance of this block is deleted.
@@ -119,16 +180,68 @@ var Block = class {
   allowInnerBlocksDND() {
     return true;
   }
+  /**
+   * Gets the unique identifier for this block type.
+   * This ID is used for registration and referencing the block.
+   * @returns A unique string ID.
+   */
+  getId() {
+    throw new Error("Method getId() must be implemented by the subclass");
+  }
+  /**
+   * Gets the HTML template string that defines the initial structure of this block.
+   * This template will be used when the block is dragged into the editor.
+   * @returns An HTML string.
+   */
+  getTemplate() {
+    throw new Error("Method getTemplate() must be implemented by the subclass");
+  }
+  /**
+   * Gets the URL or path to the icon representing this block in the editor's block panel.
+   * @returns A string representing the icon source (e.g., URL, data URI).
+   */
+  getIcon() {
+    throw new Error("Method getIcon() must be implemented by the subclass");
+  }
+  /**
+   * Gets the display name of the block shown to the user in the block panel.
+   * Use `this.api.translate()` for localization.
+   * @returns The localized block name string.
+   */
+  getName() {
+    throw new Error("Method getName() must be implemented by the subclass");
+  }
+  /**
+   * Gets a short description of the block shown to the user, often as a tooltip in the block panel.
+   * Use `this.api.translate()` for localization.
+   * @returns The localized description string.
+   */
+  getDescription() {
+    throw new Error("Method getDescription() must be implemented by the subclass");
+  }
 };
-var BlockRenderer = class {
+_Block.REQUIRED_METHODS = ["getId", "getTemplate", "getIcon", "getName", "getDescription"];
+var Block = _Block;
+var _BlockRenderer = class _BlockRenderer2 extends BaseValidatedClass {
+  constructor() {
+    super(_BlockRenderer2.REQUIRED_METHODS, _BlockRenderer2);
+  }
   /**
    * @deprecated - use {@link getPreviewInnerHtml} instead
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getPreviewHtml(node) {
+  getPreviewHtml(_node) {
     return void 0;
   }
+  /**
+   * @description returns custom content to be displayed inside the {@link Block} root TD element
+   */
+  getPreviewInnerHtml(_node) {
+    throw new Error("Method getPreviewInnerHtml() must be implemented by the subclass");
+  }
 };
+_BlockRenderer.REQUIRED_METHODS = ["getPreviewInnerHtml"];
+var BlockRenderer = _BlockRenderer;
 var BlocksPanel = class {
   /**
    * Generates HTML representation for a block item
@@ -203,8 +316,25 @@ var BlocksPanel = class {
     return void 0;
   }
 };
-var ContextAction = class {
+var _ContextAction = class _ContextAction2 extends BaseValidatedClass {
+  constructor() {
+    super(_ContextAction2.REQUIRED_METHODS, _ContextAction2);
+  }
+  getId() {
+    throw new Error("Method getId() must be implemented by the subclass");
+  }
+  getIcon() {
+    throw new Error("Method getIcon() must be implemented by the subclass");
+  }
+  getLabel() {
+    throw new Error("Method getLabel() must be implemented by the subclass");
+  }
+  onClick(_node) {
+    throw new Error("Method onClick() must be implemented by the subclass");
+  }
 };
+_ContextAction.REQUIRED_METHODS = ["getId", "getIcon", "getLabel", "onClick"];
+var ContextAction = _ContextAction;
 var ADD_CUSTOM_FONT_OPTION = "ADD_CUSTOM_FONT_OPTION";
 var containerAttributes = {
   widthPercent: "width-percent"
@@ -846,7 +976,10 @@ var ContainerBorderBuiltInControl = class extends ContainerBuiltInControl {
     return void 0;
   }
 };
-var Control = class {
+var _Control = class _Control2 extends BaseValidatedClass {
+  constructor() {
+    super(_Control2.REQUIRED_METHODS, _Control2);
+  }
   /**
    * @description Allows to determine if control should be visible or hidden in control panel.
    * Called on every node modification.
@@ -866,8 +999,33 @@ var Control = class {
    */
   onDestroy() {
   }
-  // On any change
+  /**
+   * Gets the unique identifier for this UI control type.
+   * This ID is used for registration and referencing.
+   * @returns A unique string ID.
+   */
+  getId() {
+    throw new Error("Method getId() must be implemented by the subclass");
+  }
+  /**
+   * Gets the HTML template string that defines the structure of this UI control,
+   * typically containing one or more UI elements (e.g., `<UE-TEXT>`, `<UE-BUTTON>`).
+   * @returns An HTML string.
+   */
+  getTemplate() {
+    throw new Error("Method getTemplate() must be implemented by the subclass");
+  }
+  /**
+   * Hook called whenever the underlying template node associated with this control's context
+   * (e.g., the selected block's  HTMLnode) is updated.
+   * Implement this to react to changes in the block/structure and update the control's UI elements accordingly.
+   * @param node - The updated immutable HTML node representing the control's context.
+   */
+  onTemplateNodeUpdated(_node) {
+  }
 };
+_Control.REQUIRED_METHODS = ["getId", "getTemplate"];
+var Control = _Control;
 var ImageBuiltInControl = class extends BuiltInControl {
   getTargetNodes(root) {
     const images = root.querySelectorAll(BlockSelector.IMAGE);
@@ -903,8 +1061,16 @@ var MenuFontFamilyBuiltInControl = class extends MenuBuiltInControl {
     ].FONT_FAMILY;
   }
 };
-var SettingsPanelRegistry = class {
+var _SettingsPanelRegistry = class _SettingsPanelRegistry2 extends BaseValidatedClass {
+  constructor() {
+    super(_SettingsPanelRegistry2.REQUIRED_METHODS, _SettingsPanelRegistry2);
+  }
+  registerBlockControls(_blockControlsMap) {
+    throw new Error("Method registerBlockControls() must be implemented by the subclass");
+  }
 };
+_SettingsPanelRegistry.REQUIRED_METHODS = ["registerBlockControls"];
+var SettingsPanelRegistry = _SettingsPanelRegistry;
 var SettingsPanelTab = class {
   constructor(tabId, controlsIds) {
     this.tabId = tabId;
@@ -1275,6 +1441,84 @@ var ExtensionBuilder = class {
     );
   }
 };
+var _ExternalAiAssistant = class _ExternalAiAssistant2 extends BaseValidatedClass {
+  constructor() {
+    super(_ExternalAiAssistant2.REQUIRED_METHODS, _ExternalAiAssistant2);
+  }
+  openAiAssistant({ value, onDataSelectCallback, onCancelCallback, type }) {
+    throw new Error("Method openAiAssistant() must be implemented by the subclass");
+  }
+};
+_ExternalAiAssistant.REQUIRED_METHODS = ["openAiAssistant"];
+var _ExternalDisplayConditionsLibrary = class _ExternalDisplayConditionsLibrary2 extends BaseValidatedClass {
+  constructor() {
+    super(_ExternalDisplayConditionsLibrary2.REQUIRED_METHODS, _ExternalDisplayConditionsLibrary2);
+  }
+  /**
+   * Returns properties that describe the category of the external display condition.
+   * This provides metadata about the type and category name.
+   *
+   * @returns {ExternalDisplayConditionCategory} The category details of the external display condition.
+   */
+  getCategory() {
+    throw new Error("Method getCategory() must be implemented by the subclass");
+  }
+  /**
+   * Opens a popup dialog for creating or updating a display condition.
+   *
+   * @param {DisplayCondition} currentCondition - The currently selected display condition to edit.
+   * @param {ExternalDisplayConditionSelectedCB} successCallback - Callback executed with the updated or newly created condition upon success.
+   * @param {() => void} cancelCallback - Callback executed when the dialog is closed without making changes.
+   */
+  openExternalDisplayConditionsDialog(_currentCondition, _successCallback, _cancelCallback) {
+    throw new Error("Method openExternalDisplayConditionsDialog() must be implemented by the subclass");
+  }
+  /**
+   * Determines if the context action associated with this library is enabled.
+   *
+   * @returns {boolean} `true` if the context action is enabled, otherwise `false`.
+   */
+  getIsContextActionEnabled() {
+    throw new Error("Method getIsContextActionEnabled() must be implemented by the subclass");
+  }
+  /**
+   * Retrieves the index of the context action associated with this library.
+   * The index represents the position/order of the action in the UI.
+   *
+   * @returns {number} The index of the context action.
+   */
+  getContextActionIndex() {
+    throw new Error("Method getContextActionIndex() must be implemented by the subclass");
+  }
+};
+_ExternalDisplayConditionsLibrary.REQUIRED_METHODS = ["getCategory", "openExternalDisplayConditionsDialog", "getIsContextActionEnabled", "getContextActionIndex"];
+var _ExternalImageLibrary = class _ExternalImageLibrary2 extends BaseValidatedClass {
+  constructor() {
+    super(_ExternalImageLibrary2.REQUIRED_METHODS, _ExternalImageLibrary2);
+  }
+  openImageLibrary(_currentImageUrl, _onImageSelectCallback, _onCancelCallback) {
+    throw new Error("Method openImageLibrary() must be implemented by the subclass");
+  }
+};
+_ExternalImageLibrary.REQUIRED_METHODS = ["openImageLibrary"];
+var _ExternalSmartElementsLibrary = class _ExternalSmartElementsLibrary2 extends BaseValidatedClass {
+  constructor() {
+    super(_ExternalSmartElementsLibrary2.REQUIRED_METHODS, _ExternalSmartElementsLibrary2);
+  }
+  openSmartElementsLibrary(_onDataSelectCallback, _onCancelCallback) {
+    throw new Error("Method openSmartElementsLibrary() must be implemented by the subclass");
+  }
+};
+_ExternalSmartElementsLibrary.REQUIRED_METHODS = ["openSmartElementsLibrary"];
+var _ExternalVideosLibrary = class _ExternalVideosLibrary2 extends BaseValidatedClass {
+  constructor() {
+    super(_ExternalVideosLibrary2.REQUIRED_METHODS, _ExternalVideosLibrary2);
+  }
+  openExternalVideosLibraryDialog(_currentValue, _successCallback, _cancelCallback) {
+    throw new Error("Method openExternalVideosLibraryDialog() must be implemented by the subclass");
+  }
+};
+_ExternalVideosLibrary.REQUIRED_METHODS = ["openExternalVideosLibraryDialog"];
 var ModificationDescription = class {
   constructor(key) {
     this.key = key;
@@ -1290,7 +1534,17 @@ var ModificationDescription = class {
     };
   }
 };
-var UIElement = class {
+var _UIElement = class _UIElement2 extends BaseValidatedClass {
+  constructor() {
+    super(_UIElement2.REQUIRED_METHODS, _UIElement2);
+  }
+  /**
+   * Called when the UI element should render its content into the provided container.
+   * @param container - The HTMLElement where the UI element should be rendered.
+   */
+  onRender(_container) {
+    throw new Error("Method onRender() must be implemented by the subclass");
+  }
   /**
    * Optional cleanup hook called when the UI element is being destroyed.
    * Use this to remove event listeners or perform other cleanup tasks.
@@ -1319,14 +1573,47 @@ var UIElement = class {
    */
   onAttributeUpdated(_name, _value) {
   }
+  /**
+   * Gets the unique identifier for this UI element type.
+   * This ID is used for registration and referencing within controls.
+   * @returns A unique string ID.
+   */
+  getId() {
+    throw new Error("Method getId() must be implemented by the subclass");
+  }
+  /**
+   * Gets the HTML template string that defines the structure of this UI element.
+   * @returns An HTML string.
+   */
+  getTemplate() {
+    throw new Error("Method getTemplate() must be implemented by the subclass");
+  }
 };
-var UIElementTagRegistry = class {
+_UIElement.REQUIRED_METHODS = ["onRender", "getId", "getTemplate"];
+var UIElement = _UIElement;
+var _UIElementTagRegistry = class _UIElementTagRegistry2 extends BaseValidatedClass {
+  constructor() {
+    super(_UIElementTagRegistry2.REQUIRED_METHODS, _UIElementTagRegistry2);
+  }
+  registerUiElements(_uiElementsTagsMap) {
+    throw new Error("Method registerUiElements() must be implemented by the subclass");
+  }
 };
-var IconsRegistry = class {
+_UIElementTagRegistry.REQUIRED_METHODS = ["registerUiElements"];
+var UIElementTagRegistry = _UIElementTagRegistry;
+var _IconsRegistry = class _IconsRegistry2 extends BaseValidatedClass {
+  constructor() {
+    super(_IconsRegistry2.REQUIRED_METHODS, _IconsRegistry2);
+  }
+  registerIconsSvg(_iconsMap) {
+    throw new Error("Method registerIconsSvg() must be implemented by the subclass");
+  }
 };
+_IconsRegistry.REQUIRED_METHODS = ["registerIconsSvg"];
+var IconsRegistry = _IconsRegistry;
 const IMAGE_BLOCK_ID = "atomic-block-image-alias-extension";
 const TEXT_BLOCK_ID$1 = "atomic-block-text-alias-extension";
-let PanelRegistry$x = class PanelRegistry extends SettingsPanelRegistry {
+let PanelRegistry$y = class PanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[IMAGE_BLOCK_ID] = [
       new SettingsPanelTab(SettingsTab.SETTINGS, [BuiltInControlTypes.BLOCK_IMAGE.IMAGE])
@@ -1374,14 +1661,14 @@ class AtomicBlockTextAlias extends Block {
     return `<${BlockType.BLOCK_TEXT} class="product-name" align="center"><h1>Hello world!</h1></${BlockType.BLOCK_TEXT}>`;
   }
 }
-const atomicBlockAlias = new ExtensionBuilder().addBlock(AtomicBlockImageAlias).withSettingsPanelRegistry(PanelRegistry$x).addBlock(AtomicBlockTextAlias).build();
+const atomicBlockAlias = new ExtensionBuilder().addBlock(AtomicBlockImageAlias).withSettingsPanelRegistry(PanelRegistry$y).addBlock(AtomicBlockTextAlias).build();
 const BUTTON_ID$3 = "button-id";
 class BlockExtensionButton extends Block {
   getId() {
     return BUTTON_ID$3;
   }
   getBlockCompositionType() {
-    return BlockCompositionType.CONTAINER;
+    return BlockCompositionType.BLOCK;
   }
   getIcon() {
     return "new-window";
@@ -1406,6 +1693,9 @@ class BlockExtensionButton extends Block {
   }
   isEnabled() {
     return true;
+  }
+  onCreated(node) {
+    this.api.getDocumentModifier().modifyHtml(node).setAttribute("data-created", (/* @__PURE__ */ new Date()).toISOString()).apply(new ModificationDescription("Initialized new block"));
   }
 }
 const buttonExtensionBlock = new ExtensionBuilder().addBlock(BlockExtensionButton).build();
@@ -1484,6 +1774,11 @@ function requireCjs() {
     Extension: () => Extension2,
     ExtensionBuilder: () => ExtensionBuilder2,
     ExtensionPopoverType: () => ExtensionPopoverType,
+    ExternalAiAssistant: () => ExternalAiAssistant2,
+    ExternalDisplayConditionsLibrary: () => ExternalDisplayConditionsLibrary,
+    ExternalImageLibrary: () => ExternalImageLibrary,
+    ExternalSmartElementsLibrary: () => ExternalSmartElementsLibrary2,
+    ExternalVideosLibrary: () => ExternalVideosLibrary,
     FontFamilyBuiltInControl: () => FontFamilyBuiltInControl2,
     GeneralControls: () => GeneralControls2,
     GeneralStylesControls: () => GeneralStylesControls,
@@ -1544,7 +1839,63 @@ function requireCjs() {
     BlockCompositionType22["CONTAINER"] = "CONTAINER";
     return BlockCompositionType22;
   })(BlockCompositionType2 || {});
-  var Block2 = class {
+  var _BaseValidatedClass3 = class _BaseValidatedClass4 {
+    /**
+     * Validates that all required methods are properly implemented in the subclass.
+     * @param requiredMethods - Array of method names that must be implemented
+     * @param classRef - Reference to the class constructor for validation caching
+     */
+    constructor(requiredMethods, classRef) {
+      if (classRef !== _BaseValidatedClass4) {
+        if (!_BaseValidatedClass4.validatedClasses.has(classRef)) {
+          this.validateImplementation(requiredMethods, classRef);
+        }
+        const errors = _BaseValidatedClass4.validationErrors.get(classRef);
+        if (errors && errors.length > 0) {
+          throw new Error(
+            `${classRef.name} has validation errors:
+${errors.map((e) => `  - ${e}`).join("\n")}`
+          );
+        }
+      }
+    }
+    /**
+     * Validates that all required methods are properly implemented in the subclass.
+     * This validation runs only once per class type and results are cached.
+     */
+    validateImplementation(requiredMethods, classRef) {
+      var _a2;
+      const errors = [];
+      const className = classRef.name;
+      const proto = Object.getPrototypeOf(this);
+      requiredMethods.forEach((methodName) => {
+        const method = this[methodName];
+        if (typeof method !== "function") {
+          errors.push(`Method ${methodName}() is not defined`);
+          return;
+        }
+        if (proto[methodName] === classRef.prototype[methodName]) {
+          errors.push(`Method ${methodName}() must be implemented (currently using base class error-throwing implementation)`);
+        }
+      });
+      _BaseValidatedClass4.validatedClasses.add(classRef);
+      if (errors.length > 0) {
+        _BaseValidatedClass4.validationErrors.set(classRef, errors);
+        console.error(`[${className} Validation] ${className} validation failed:`, errors);
+      } else {
+        if (typeof process !== "undefined" && ((_a2 = process.env) == null ? void 0 : _a2.NODE_ENV) === "development") {
+          console.log(`[${className} Validation] ✅ ${className} validated successfully`);
+        }
+      }
+    }
+  };
+  _BaseValidatedClass3.validatedClasses = /* @__PURE__ */ new Set();
+  _BaseValidatedClass3.validationErrors = /* @__PURE__ */ new Map();
+  var BaseValidatedClass2 = _BaseValidatedClass3;
+  var _Block3 = class _Block4 extends BaseValidatedClass2 {
+    constructor() {
+      super(_Block4.REQUIRED_METHODS, _Block4);
+    }
     /**
      * Determines if the block should be available for use in the editor.
      * Override to provide custom logic based on editor state or configuration.
@@ -1599,11 +1950,10 @@ function requireCjs() {
     }
     /**
      * Lifecycle hook called when an instance of this block is copied.
-     * @param targetNode - The immutable HTML node where the copy is being inserted relative to.
-     * @param sourceNode - The immutable HTML node representing the block instance being copied.
+     * @param modifier - The HTML node modifier to apply changes to the copied block instance.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onCopy(targetNode, sourceNode) {
+    onCopy(modifier) {
     }
     /**
      * Lifecycle hook called when an instance of this block is deleted.
@@ -1655,16 +2005,68 @@ function requireCjs() {
     allowInnerBlocksDND() {
       return true;
     }
+    /**
+     * Gets the unique identifier for this block type.
+     * This ID is used for registration and referencing the block.
+     * @returns A unique string ID.
+     */
+    getId() {
+      throw new Error("Method getId() must be implemented by the subclass");
+    }
+    /**
+     * Gets the HTML template string that defines the initial structure of this block.
+     * This template will be used when the block is dragged into the editor.
+     * @returns An HTML string.
+     */
+    getTemplate() {
+      throw new Error("Method getTemplate() must be implemented by the subclass");
+    }
+    /**
+     * Gets the URL or path to the icon representing this block in the editor's block panel.
+     * @returns A string representing the icon source (e.g., URL, data URI).
+     */
+    getIcon() {
+      throw new Error("Method getIcon() must be implemented by the subclass");
+    }
+    /**
+     * Gets the display name of the block shown to the user in the block panel.
+     * Use `this.api.translate()` for localization.
+     * @returns The localized block name string.
+     */
+    getName() {
+      throw new Error("Method getName() must be implemented by the subclass");
+    }
+    /**
+     * Gets a short description of the block shown to the user, often as a tooltip in the block panel.
+     * Use `this.api.translate()` for localization.
+     * @returns The localized description string.
+     */
+    getDescription() {
+      throw new Error("Method getDescription() must be implemented by the subclass");
+    }
   };
-  var BlockRenderer2 = class {
+  _Block3.REQUIRED_METHODS = ["getId", "getTemplate", "getIcon", "getName", "getDescription"];
+  var Block2 = _Block3;
+  var _BlockRenderer3 = class _BlockRenderer4 extends BaseValidatedClass2 {
+    constructor() {
+      super(_BlockRenderer4.REQUIRED_METHODS, _BlockRenderer4);
+    }
     /**
      * @deprecated - use {@link getPreviewInnerHtml} instead
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    getPreviewHtml(node) {
+    getPreviewHtml(_node) {
       return void 0;
     }
+    /**
+     * @description returns custom content to be displayed inside the {@link Block} root TD element
+     */
+    getPreviewInnerHtml(_node) {
+      throw new Error("Method getPreviewInnerHtml() must be implemented by the subclass");
+    }
   };
+  _BlockRenderer3.REQUIRED_METHODS = ["getPreviewInnerHtml"];
+  var BlockRenderer2 = _BlockRenderer3;
   var BlocksPanel2 = class {
     /**
      * Generates HTML representation for a block item
@@ -1739,8 +2141,25 @@ function requireCjs() {
       return void 0;
     }
   };
-  var ContextAction2 = class {
+  var _ContextAction3 = class _ContextAction4 extends BaseValidatedClass2 {
+    constructor() {
+      super(_ContextAction4.REQUIRED_METHODS, _ContextAction4);
+    }
+    getId() {
+      throw new Error("Method getId() must be implemented by the subclass");
+    }
+    getIcon() {
+      throw new Error("Method getIcon() must be implemented by the subclass");
+    }
+    getLabel() {
+      throw new Error("Method getLabel() must be implemented by the subclass");
+    }
+    onClick(_node) {
+      throw new Error("Method onClick() must be implemented by the subclass");
+    }
   };
+  _ContextAction3.REQUIRED_METHODS = ["getId", "getIcon", "getLabel", "onClick"];
+  var ContextAction2 = _ContextAction3;
   var ADD_CUSTOM_FONT_OPTION2 = "ADD_CUSTOM_FONT_OPTION";
   var AiAssistantValueType = /* @__PURE__ */ ((AiAssistantValueType2) => {
     AiAssistantValueType2["SUBJECT"] = "subject";
@@ -2729,7 +3148,10 @@ function requireCjs() {
       return void 0;
     }
   };
-  var Control2 = class {
+  var _Control3 = class _Control4 extends BaseValidatedClass2 {
+    constructor() {
+      super(_Control4.REQUIRED_METHODS, _Control4);
+    }
     /**
      * @description Allows to determine if control should be visible or hidden in control panel.
      * Called on every node modification.
@@ -2749,8 +3171,33 @@ function requireCjs() {
      */
     onDestroy() {
     }
-    // On any change
+    /**
+     * Gets the unique identifier for this UI control type.
+     * This ID is used for registration and referencing.
+     * @returns A unique string ID.
+     */
+    getId() {
+      throw new Error("Method getId() must be implemented by the subclass");
+    }
+    /**
+     * Gets the HTML template string that defines the structure of this UI control,
+     * typically containing one or more UI elements (e.g., `<UE-TEXT>`, `<UE-BUTTON>`).
+     * @returns An HTML string.
+     */
+    getTemplate() {
+      throw new Error("Method getTemplate() must be implemented by the subclass");
+    }
+    /**
+     * Hook called whenever the underlying template node associated with this control's context
+     * (e.g., the selected block's  HTMLnode) is updated.
+     * Implement this to react to changes in the block/structure and update the control's UI elements accordingly.
+     * @param node - The updated immutable HTML node representing the control's context.
+     */
+    onTemplateNodeUpdated(_node) {
+    }
   };
+  _Control3.REQUIRED_METHODS = ["getId", "getTemplate"];
+  var Control2 = _Control3;
   var HtmlBuiltInControl = class extends BuiltInControl2 {
     getTargetNodes(root) {
       const htmlBlocks = root.querySelectorAll(BlockSelector2.HTML);
@@ -2817,8 +3264,16 @@ function requireCjs() {
       ].EXTERNAL_INDENTS;
     }
   };
-  var SettingsPanelRegistry2 = class {
+  var _SettingsPanelRegistry3 = class _SettingsPanelRegistry4 extends BaseValidatedClass2 {
+    constructor() {
+      super(_SettingsPanelRegistry4.REQUIRED_METHODS, _SettingsPanelRegistry4);
+    }
+    registerBlockControls(_blockControlsMap) {
+      throw new Error("Method registerBlockControls() must be implemented by the subclass");
+    }
   };
+  _SettingsPanelRegistry3.REQUIRED_METHODS = ["registerBlockControls"];
+  var SettingsPanelRegistry2 = _SettingsPanelRegistry3;
   var SettingsPanelTab2 = class {
     constructor(tabId, controlsIds) {
       this.tabId = tabId;
@@ -3227,6 +3682,89 @@ function requireCjs() {
       );
     }
   };
+  var _ExternalAiAssistant3 = class _ExternalAiAssistant4 extends BaseValidatedClass2 {
+    constructor() {
+      super(_ExternalAiAssistant4.REQUIRED_METHODS, _ExternalAiAssistant4);
+    }
+    openAiAssistant({ value, onDataSelectCallback, onCancelCallback, type }) {
+      throw new Error("Method openAiAssistant() must be implemented by the subclass");
+    }
+  };
+  _ExternalAiAssistant3.REQUIRED_METHODS = ["openAiAssistant"];
+  var ExternalAiAssistant2 = _ExternalAiAssistant3;
+  var _ExternalDisplayConditionsLibrary3 = class _ExternalDisplayConditionsLibrary4 extends BaseValidatedClass2 {
+    constructor() {
+      super(_ExternalDisplayConditionsLibrary4.REQUIRED_METHODS, _ExternalDisplayConditionsLibrary4);
+    }
+    /**
+     * Returns properties that describe the category of the external display condition.
+     * This provides metadata about the type and category name.
+     *
+     * @returns {ExternalDisplayConditionCategory} The category details of the external display condition.
+     */
+    getCategory() {
+      throw new Error("Method getCategory() must be implemented by the subclass");
+    }
+    /**
+     * Opens a popup dialog for creating or updating a display condition.
+     *
+     * @param {DisplayCondition} currentCondition - The currently selected display condition to edit.
+     * @param {ExternalDisplayConditionSelectedCB} successCallback - Callback executed with the updated or newly created condition upon success.
+     * @param {() => void} cancelCallback - Callback executed when the dialog is closed without making changes.
+     */
+    openExternalDisplayConditionsDialog(_currentCondition, _successCallback, _cancelCallback) {
+      throw new Error("Method openExternalDisplayConditionsDialog() must be implemented by the subclass");
+    }
+    /**
+     * Determines if the context action associated with this library is enabled.
+     *
+     * @returns {boolean} `true` if the context action is enabled, otherwise `false`.
+     */
+    getIsContextActionEnabled() {
+      throw new Error("Method getIsContextActionEnabled() must be implemented by the subclass");
+    }
+    /**
+     * Retrieves the index of the context action associated with this library.
+     * The index represents the position/order of the action in the UI.
+     *
+     * @returns {number} The index of the context action.
+     */
+    getContextActionIndex() {
+      throw new Error("Method getContextActionIndex() must be implemented by the subclass");
+    }
+  };
+  _ExternalDisplayConditionsLibrary3.REQUIRED_METHODS = ["getCategory", "openExternalDisplayConditionsDialog", "getIsContextActionEnabled", "getContextActionIndex"];
+  var ExternalDisplayConditionsLibrary = _ExternalDisplayConditionsLibrary3;
+  var _ExternalImageLibrary3 = class _ExternalImageLibrary4 extends BaseValidatedClass2 {
+    constructor() {
+      super(_ExternalImageLibrary4.REQUIRED_METHODS, _ExternalImageLibrary4);
+    }
+    openImageLibrary(_currentImageUrl, _onImageSelectCallback, _onCancelCallback) {
+      throw new Error("Method openImageLibrary() must be implemented by the subclass");
+    }
+  };
+  _ExternalImageLibrary3.REQUIRED_METHODS = ["openImageLibrary"];
+  var ExternalImageLibrary = _ExternalImageLibrary3;
+  var _ExternalSmartElementsLibrary3 = class _ExternalSmartElementsLibrary4 extends BaseValidatedClass2 {
+    constructor() {
+      super(_ExternalSmartElementsLibrary4.REQUIRED_METHODS, _ExternalSmartElementsLibrary4);
+    }
+    openSmartElementsLibrary(_onDataSelectCallback, _onCancelCallback) {
+      throw new Error("Method openSmartElementsLibrary() must be implemented by the subclass");
+    }
+  };
+  _ExternalSmartElementsLibrary3.REQUIRED_METHODS = ["openSmartElementsLibrary"];
+  var ExternalSmartElementsLibrary2 = _ExternalSmartElementsLibrary3;
+  var _ExternalVideosLibrary3 = class _ExternalVideosLibrary4 extends BaseValidatedClass2 {
+    constructor() {
+      super(_ExternalVideosLibrary4.REQUIRED_METHODS, _ExternalVideosLibrary4);
+    }
+    openExternalVideosLibraryDialog(_currentValue, _successCallback, _cancelCallback) {
+      throw new Error("Method openExternalVideosLibraryDialog() must be implemented by the subclass");
+    }
+  };
+  _ExternalVideosLibrary3.REQUIRED_METHODS = ["openExternalVideosLibraryDialog"];
+  var ExternalVideosLibrary = _ExternalVideosLibrary3;
   var ModificationDescription2 = class {
     constructor(key) {
       this.key = key;
@@ -3242,7 +3780,17 @@ function requireCjs() {
       };
     }
   };
-  var UIElement2 = class {
+  var _UIElement3 = class _UIElement4 extends BaseValidatedClass2 {
+    constructor() {
+      super(_UIElement4.REQUIRED_METHODS, _UIElement4);
+    }
+    /**
+     * Called when the UI element should render its content into the provided container.
+     * @param container - The HTMLElement where the UI element should be rendered.
+     */
+    onRender(_container) {
+      throw new Error("Method onRender() must be implemented by the subclass");
+    }
     /**
      * Optional cleanup hook called when the UI element is being destroyed.
      * Use this to remove event listeners or perform other cleanup tasks.
@@ -3271,11 +3819,44 @@ function requireCjs() {
      */
     onAttributeUpdated(_name, _value) {
     }
+    /**
+     * Gets the unique identifier for this UI element type.
+     * This ID is used for registration and referencing within controls.
+     * @returns A unique string ID.
+     */
+    getId() {
+      throw new Error("Method getId() must be implemented by the subclass");
+    }
+    /**
+     * Gets the HTML template string that defines the structure of this UI element.
+     * @returns An HTML string.
+     */
+    getTemplate() {
+      throw new Error("Method getTemplate() must be implemented by the subclass");
+    }
   };
-  var UIElementTagRegistry2 = class {
+  _UIElement3.REQUIRED_METHODS = ["onRender", "getId", "getTemplate"];
+  var UIElement2 = _UIElement3;
+  var _UIElementTagRegistry3 = class _UIElementTagRegistry4 extends BaseValidatedClass2 {
+    constructor() {
+      super(_UIElementTagRegistry4.REQUIRED_METHODS, _UIElementTagRegistry4);
+    }
+    registerUiElements(_uiElementsTagsMap) {
+      throw new Error("Method registerUiElements() must be implemented by the subclass");
+    }
   };
-  var IconsRegistry2 = class {
+  _UIElementTagRegistry3.REQUIRED_METHODS = ["registerUiElements"];
+  var UIElementTagRegistry2 = _UIElementTagRegistry3;
+  var _IconsRegistry3 = class _IconsRegistry4 extends BaseValidatedClass2 {
+    constructor() {
+      super(_IconsRegistry4.REQUIRED_METHODS, _IconsRegistry4);
+    }
+    registerIconsSvg(_iconsMap) {
+      throw new Error("Method registerIconsSvg() must be implemented by the subclass");
+    }
   };
+  _IconsRegistry3.REQUIRED_METHODS = ["registerIconsSvg"];
+  var IconsRegistry2 = _IconsRegistry3;
   return cjs;
 }
 var cjsExports = /* @__PURE__ */ requireCjs();
@@ -3390,11 +3971,11 @@ const CONTAINERS_ROW2$1 = "containers-row2";
 const CONTAINERS_ROW3 = "containers-row3";
 const CONTAINERS_COLUMN$1 = "containers-column";
 let BaseBlockExtension$3 = class BaseBlockExtension extends Block {
-  constructor(id, name, icon) {
+  constructor(id, name, icon2) {
     super();
     this.id = id;
     this.name = name;
-    this.icon = icon;
+    this.icon = icon2;
   }
   getId() {
     return this.id;
@@ -3531,16 +4112,16 @@ class BlockExtensionCustomBlockBasic extends Block {
   }
   onDelete(node) {
   }
+  onCopy(modifier) {
+    modifier.setAttribute("data-copied", "true");
+  }
 }
 const customBlockBasic = new ExtensionBuilder().addBlock(BlockExtensionCustomBlockBasic).build();
 const BLOCK_ID$5 = "test-context-action-block-extension";
-const CONTEXT_ACTION_ID = "test-block-context-action";
-class TestBlockContextAction extends ContextAction {
+const CONTEXT_ACTION_ID$1 = "test-block-context-action";
+let TestBlockContextAction$1 = class TestBlockContextAction extends ContextAction {
   getId() {
-    return CONTEXT_ACTION_ID;
-  }
-  getIconClass() {
-    return "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
+    return CONTEXT_ACTION_ID$1;
   }
   getLabel() {
     return this.api.translate("Test context action");
@@ -3548,7 +4129,10 @@ class TestBlockContextAction extends ContextAction {
   onClick(node) {
     console.log(`Test context action clicked for block: ${node.getOuterHTML()}`);
   }
-}
+  getIcon() {
+    return "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
+  }
+};
 class BlockExtensionCustomBlockWithCustomContextAction extends Block {
   getId() {
     return BLOCK_ID$5;
@@ -3568,17 +4152,17 @@ class BlockExtensionCustomBlockWithCustomContextAction extends Block {
   getCustomRenderer() {
   }
   getTemplate() {
-    return `<td><h1>Test Context Action Block Extension</h1></td>`;
+    return "<td><h1>Test Context Action Block Extension</h1></td>";
   }
   onDrop(node) {
   }
   onDelete(node) {
   }
   getContextActionsIds() {
-    return [ContextActionType.REMOVE, CONTEXT_ACTION_ID];
+    return [ContextActionType.REMOVE, CONTEXT_ACTION_ID$1];
   }
 }
-const customBlockWithCustomContextAction = new ExtensionBuilder().addBlock(BlockExtensionCustomBlockWithCustomContextAction).addContextAction(TestBlockContextAction).build();
+const customBlockWithCustomContextAction = new ExtensionBuilder().addBlock(BlockExtensionCustomBlockWithCustomContextAction).addContextAction(TestBlockContextAction$1).build();
 const BLOCK_ID$4 = "test-custom-renderer-block-extension";
 let CustomRenderer$1 = class CustomRenderer extends BlockRenderer {
   getPreviewInnerHtml(node) {
@@ -3726,11 +4310,11 @@ const MEDIA_STRUCTURE_ID = "media-structure";
 const MEDIA_BLOCK_ID = "media-block";
 const QUICK_INSERT_BLOCK_ID = "quick-insert-block";
 let BaseBlockExtension$2 = class BaseBlockExtension2 extends Block {
-  constructor(id, name, icon, type) {
+  constructor(id, name, icon2, type) {
     super();
     this.id = id;
     this.name = name;
-    this.icon = icon;
+    this.icon = icon2;
     this.type = type;
   }
   getId() {
@@ -3800,11 +4384,11 @@ const CONTAINERS_ROW = "containers-row";
 const CONTAINERS_ROW2 = "containers-row2";
 const CONTAINERS_COLUMN = "containers-column";
 let BaseBlockExtension$1 = class BaseBlockExtension3 extends Block {
-  constructor(id, name, icon) {
+  constructor(id, name, icon2) {
     super();
     this.id = id;
     this.name = name;
-    this.icon = icon;
+    this.icon = icon2;
   }
   getId() {
     return this.id;
@@ -3941,11 +4525,11 @@ const initActionsBlock = new ExtensionBuilder().addBlock(InitActionsBlock).build
 const RESTRICTED_DND = "restricted_dnd";
 const RESTRICTED_SELECTION = "restricted_selection";
 class BaseBlockExtension4 extends Block {
-  constructor(id, name, icon) {
+  constructor(id, name, icon2) {
     super();
     this.id = id;
     this.name = name;
-    this.icon = icon;
+    this.icon = icon2;
   }
   getId() {
     return this.id;
@@ -4021,6 +4605,47 @@ class RestrictedSelection extends BaseBlockExtension4 {
   }
 }
 const interactionConstraints = new ExtensionBuilder().addBlock(RestrictedDND).addBlock(RestrictedSelection).build();
+const ID$N = "custom-blocks";
+class BlockExtensionCustomBlocks extends Block {
+  getId() {
+    return ID$N;
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.BLOCK;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getTemplate() {
+    const { BLOCK_TEXT, BLOCK_BUTTON } = BlockType;
+    return `
+            <td>
+                <table width="100%" cellspacing="0" cellpadding="0">       
+                    <${BLOCK_TEXT}>
+                        <p>Lorem ipsum dolor sit amet</p>
+                    </${BLOCK_TEXT}>
+                    
+                    <${BLOCK_BUTTON} ${BlockAttr.BLOCK_BUTTON.href}="https://stripo.email">
+                        Click me
+                    </${BLOCK_BUTTON}>
+               </table> 
+            </td>
+        `;
+  }
+  getName() {
+    return this.api.translate("Only blocks");
+  }
+  getDescription() {
+    return this.api.translate("Only blocks");
+  }
+  allowInnerBlocksSelection() {
+    return false;
+  }
+  allowInnerBlocksDND() {
+    return false;
+  }
+}
+const onlyBlocksExtensionBlock = new ExtensionBuilder().addBlock(BlockExtensionCustomBlocks).build();
 const BLOCK_ID = "structure-extension";
 class StructureExtension extends Block {
   getId() {
@@ -4098,7 +4723,7 @@ class ExtendedButtonAlignControl extends ButtonAlignBuiltInControl {
 }
 const buttonAlignControlExtension = new ExtensionBuilder().addControl(ExtendedButtonAlignControl).withSettingsPanelRegistry(ButonPanelRegistry$2).build();
 const ID$L = "extendedButtonBackground";
-let PanelRegistry$w = class PanelRegistry2 extends SettingsPanelRegistry {
+let PanelRegistry$x = class PanelRegistry2 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$L, 0);
   }
@@ -4116,9 +4741,9 @@ class ExtendedButtonBackgroundControl extends ButtonBackgroundColorBuiltInContro
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-background-applied");
   }
 }
-const extensionButtonBackgroundControl = new ExtensionBuilder().addControl(ExtendedButtonBackgroundControl).withSettingsPanelRegistry(PanelRegistry$w).build();
+const extensionButtonBackgroundControl = new ExtensionBuilder().addControl(ExtendedButtonBackgroundControl).withSettingsPanelRegistry(PanelRegistry$x).build();
 const ID$K = "extendedButtonBlockBackground";
-let PanelRegistry$v = class PanelRegistry3 extends SettingsPanelRegistry {
+let PanelRegistry$w = class PanelRegistry3 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$K, 0);
   }
@@ -4133,9 +4758,9 @@ class ExtendedButtonBlockBackgroundControl extends ButtonBlockBackgroundColorBui
     };
   }
 }
-const extensionButtonBlockBackgroundControl = new ExtensionBuilder().addControl(ExtendedButtonBlockBackgroundControl).withSettingsPanelRegistry(PanelRegistry$v).build();
+const extensionButtonBlockBackgroundControl = new ExtensionBuilder().addControl(ExtendedButtonBlockBackgroundControl).withSettingsPanelRegistry(PanelRegistry$w).build();
 const ID$J = "extendedButtonBorder";
-let PanelRegistry$u = class PanelRegistry4 extends SettingsPanelRegistry {
+let PanelRegistry$v = class PanelRegistry4 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(SettingsTab.STYLES, [ID$J])
@@ -4156,7 +4781,7 @@ class ExtendedButtonBorderControl extends ButtonBorderBuiltInControl {
     };
   }
 }
-const buttonBorderControlExtension = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$u).addControl(ExtendedButtonBorderControl).build();
+const buttonBorderControlExtension = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$v).addControl(ExtendedButtonBorderControl).build();
 const ID$I = "builtInButtonBorderHover";
 let ButtonPanelRegistry$b = class ButtonPanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
@@ -4207,7 +4832,7 @@ class ExtendedButtonBorderRadiusControl extends ButtonBorderRadiusBuiltInControl
 }
 const buttonBorderRadiusExtension = new ExtensionBuilder().addControl(ExtendedButtonBorderRadiusControl).withSettingsPanelRegistry(ButonPanelRegistry$1).build();
 const ID$G = "extendedButtonColor";
-let PanelRegistry$t = class PanelRegistry5 extends SettingsPanelRegistry {
+let PanelRegistry$u = class PanelRegistry5 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$G, 0);
   }
@@ -4225,7 +4850,7 @@ class ExtendedButtonColorControl extends ButtonColorBuiltInControl {
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-button-color-applied");
   }
 }
-const buttonColorControlExtension = new ExtensionBuilder().addControl(ExtendedButtonColorControl).withSettingsPanelRegistry(PanelRegistry$t).build();
+const buttonColorControlExtension = new ExtensionBuilder().addControl(ExtendedButtonColorControl).withSettingsPanelRegistry(PanelRegistry$u).build();
 const ID$F = "builtInButtonFitToContainer";
 let ButtonPanelRegistry$a = class ButtonPanelRegistry2 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
@@ -4322,7 +4947,7 @@ class ExtendedButtonMarginsControl extends ButtonMarginsBuiltInControl {
 }
 const extensionButtonMarginsControl = new ExtensionBuilder().addControl(ExtendedButtonMarginsControl).withSettingsPanelRegistry(ButonPanelRegistry3).build();
 const ID$B = "extendedButtonPaddingsControl";
-let PanelRegistry$s = class PanelRegistry6 extends SettingsPanelRegistry {
+let PanelRegistry$t = class PanelRegistry6 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRIPE][0].addControl(ID$B, 0);
   }
@@ -4346,7 +4971,7 @@ class ExtendedButtonInternalIndents extends ButtonPaddingsBuiltInControl {
 const extendedButtonPaddingsControl = new ExtensionBuilder().addControl(ExtendedButtonInternalIndents).withLocalization({ "en": {
   "Extended buttons paddings desktop": "EN Extended buttons paddings desktop",
   "Extended buttons paddings mobile": "EN Extended buttons paddings mobile"
-} }).withSettingsPanelRegistry(PanelRegistry$s).build();
+} }).withSettingsPanelRegistry(PanelRegistry$t).build();
 const ID$A = "extendedButtonText";
 let ButtonPanelRegistry$7 = class ButtonPanelRegistry5 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
@@ -4458,7 +5083,7 @@ class ExtensionBuiltInButtonTextStyleAndColor extends ButtonTextStyleAndFontColo
 }
 const extensionButtonTextStyleAndColorControl = new ExtensionBuilder().addControl(ExtensionBuiltInButtonTextStyleAndColor).withSettingsPanelRegistry(ButtonPanelRegistry$4).build();
 const ID$w = "extendedContainerBackgroundColor";
-let PanelRegistry$r = class PanelRegistry7 extends SettingsPanelRegistry {
+let PanelRegistry$s = class PanelRegistry7 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.CONTAINER][0].addControl(ID$w, 0);
   }
@@ -4473,9 +5098,9 @@ class ExtendedContainerBackgroundColorControl extends ContainerBackgroundColorBu
     };
   }
 }
-const extensionContainerBackgroundControl = new ExtensionBuilder().addControl(ExtendedContainerBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$r).build();
+const extensionContainerBackgroundControl = new ExtensionBuilder().addControl(ExtendedContainerBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$s).build();
 const ID$v = "extendedContainerBackgroundImage";
-let PanelRegistry$q = class PanelRegistry8 extends SettingsPanelRegistry {
+let PanelRegistry$r = class PanelRegistry8 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.CONTAINER][0].addControl(ID$v, 0);
   }
@@ -4497,9 +5122,9 @@ class ExtendedContainerBackgroundImageControl extends ContainerBackgroundImageBu
     };
   }
 }
-const extensionContainerBackgroundImageControl = new ExtensionBuilder().addControl(ExtendedContainerBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$q).build();
+const extensionContainerBackgroundImageControl = new ExtensionBuilder().addControl(ExtendedContainerBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$r).build();
 const ID$u = "extendedContainerBorder";
-let PanelRegistry$p = class PanelRegistry9 extends SettingsPanelRegistry {
+let PanelRegistry$q = class PanelRegistry9 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.CONTAINER] = [
       new SettingsPanelTab(SettingsTab.SETTINGS, [ID$u])
@@ -4529,7 +5154,7 @@ class ExtendedContainerBorderControl extends ContainerBorderBuiltInControl {
     return modifier;
   }
 }
-const extensionContainerBorderControl = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$p).addControl(ExtendedContainerBorderControl).build();
+const extensionContainerBorderControl = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$q).addControl(ExtendedContainerBorderControl).build();
 const ID$t = "extendedContainerVisibility";
 let ButtonPanelRegistry$3 = class ButtonPanelRegistry9 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
@@ -4556,7 +5181,7 @@ class ExtendedContainerVisibilityControl extends ContainerVisibilityBuiltInContr
 }
 const extensionContainerVisibilityControl = new ExtensionBuilder().addControl(ExtendedContainerVisibilityControl).withSettingsPanelRegistry(ButtonPanelRegistry$3).build();
 const ID$s = "extendedBlockPaddings_text";
-let PanelRegistry$o = class PanelRegistry10 extends SettingsPanelRegistry {
+let PanelRegistry$p = class PanelRegistry10 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0] = new SettingsPanelTab(SettingsTab.SETTINGS, [
       ID$s
@@ -4588,10 +5213,10 @@ const extendedBlockPaddingsControl = new ExtensionBuilder().addControl(ExtendedB
   "uk": {
     "Extended block paddings": "Зовнішні відступи блоку текст"
   }
-}).withSettingsPanelRegistry(PanelRegistry$o).build();
+}).withSettingsPanelRegistry(PanelRegistry$p).build();
 const TEXT_ID$1 = "extendedBlockPaddingsMultipleText";
 const BUTTON_ID$2 = "extendedBlockPaddingsMultipleButton";
-let PanelRegistry$n = class PanelRegistry11 extends SettingsPanelRegistry {
+let PanelRegistry$o = class PanelRegistry11 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRIPE][0].addControl(TEXT_ID$1, 0);
     controls2[BlockType.STRIPE][0].addControl(BUTTON_ID$2, 1);
@@ -4619,7 +5244,7 @@ let ExtendedBlockButtonMarginsControl$1 = class ExtendedBlockButtonMarginsContro
     };
   }
 };
-const extensionMultiplePaddings = new ExtensionBuilder().addControl(ExtendedBlockTextPaddingsControl).addControl(ExtendedBlockButtonMarginsControl$1).withSettingsPanelRegistry(PanelRegistry$n).build();
+const extensionMultiplePaddings = new ExtensionBuilder().addControl(ExtendedBlockTextPaddingsControl).addControl(ExtendedBlockButtonMarginsControl$1).withSettingsPanelRegistry(PanelRegistry$o).build();
 const PRODUCT_CARD_NAME_ALIGN_CONTROL_ID = "card-name-align-control";
 const PRODUCT_CARD_PRICE_ALIGN_CONTROL_ID = "card-price-align-control";
 const PRODUCT_STRUCTURE_ID$1 = "product-structure";
@@ -4738,6 +5363,60 @@ let ProductStructureBlock$1 = class ProductStructureBlock extends Block {
   }
 };
 const multipleTextAlignExtension = new ExtensionBuilder().withSettingsPanelRegistry(SampleSettingsPanelRegistry$1).addBlock(ProductStructureBlock$1).addControl(CardNameAlignControl).addControl(CardPriceAlignControl).build();
+const CUSTOM_TITLE_CONTROL_ID = "extensionCustomTitle";
+class CustomTitleControl extends Control {
+  constructor() {
+    super(...arguments);
+    __privateAdd(this, _CustomTitleControl_instances);
+  }
+  getId() {
+    return CUSTOM_TITLE_CONTROL_ID;
+  }
+  getTemplate() {
+    const { LABEL, TEXTAREA } = UIElementType;
+    const {
+      LABEL: { text: labelTextAttr },
+      TEXTAREA: { name: textareaNameAttr, placeholder: textareaPlaceholderAttr }
+    } = UEAttr;
+    return `
+      <div class="container e2e-custom-title-extension">
+        <${LABEL} ${labelTextAttr}="${this.api.translate("Custom subject|title control")}:"></${LABEL}>
+        
+        <${TEXTAREA} ${textareaNameAttr}="customNameTextArea" ${textareaPlaceholderAttr}="customPlaceholderTextArea"></${TEXTAREA}>
+      </div>
+    `;
+  }
+  onRender() {
+    const modifier = this.api.getDocumentModifier();
+    const root = this.api.getDocumentRootHtmlNode();
+    this.api.onValueChanged("customNameTextArea", (newValue, _) => {
+      const head = root.querySelector("head");
+      const title = head.querySelector("title");
+      modifier.modifyHtml(title).replaceWith(`<title>${newValue}</title>`).apply(new ModificationDescription("Modify title"));
+    });
+  }
+  onTemplateNodeUpdated(node) {
+    this.node = node;
+    __privateMethod(this, _CustomTitleControl_instances, patchControl_fn).call(this);
+  }
+}
+_CustomTitleControl_instances = new WeakSet();
+patchControl_fn = function() {
+  const root = this.api.getDocumentRootHtmlNode();
+  const head = root.querySelector("head");
+  const title = head.querySelector("title");
+  this.api.updateValues({
+    "customNameTextArea": title.getInnerText()
+  });
+};
+let PanelRegistry$n = class PanelRegistry12 extends SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    const controlIds = controls2["MESSAGE_SETTINGS"][0].getControlsIds();
+    controls2["MESSAGE_SETTINGS"][0].deleteControl(controlIds[0]);
+    controls2["MESSAGE_SETTINGS"][0].addControl(CUSTOM_TITLE_CONTROL_ID, 0);
+  }
+};
+const extensionCustomTitle = new ExtensionBuilder().addControl(CustomTitleControl).withSettingsPanelRegistry(PanelRegistry$n).build();
 const ID$r = "custom-title";
 class CustomTitleWithPopoverPanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
@@ -4827,7 +5506,7 @@ class CustomTitle extends Control {
 const customTitleWithPopover = new ExtensionBuilder().addControl(CustomTitle).addUiElement(CutomTitleElement).withSettingsPanelRegistry(CustomTitleWithPopoverPanelRegistry).build();
 const BACKGROUND_CONTROL$2 = "backgroundControl";
 const ID$q = "expandableControlExtension";
-let PanelRegistry$m = class PanelRegistry12 extends SettingsPanelRegistry {
+let PanelRegistry$m = class PanelRegistry13 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$q, 0);
   }
@@ -4865,7 +5544,7 @@ const expandableControlExtension$1 = new ExtensionBuilder().addControl(expandabl
 const ID$p = "nestedControlExtension";
 const BACKGROUND_CONTROL$1 = "backgroundControl";
 const BACKGROUND_SWITCHER = "backgroundSwitcher";
-let PanelRegistry$l = class PanelRegistry13 extends SettingsPanelRegistry {
+let PanelRegistry$l = class PanelRegistry14 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$p, 0);
   }
@@ -4901,7 +5580,7 @@ const nestedBackgroundControl = new ExtensionBuilder().addControl(NestedControlE
 const CONTROL_ID$2 = "reinitializedControlExtension";
 const ELEMENT_ID = "reinitializedElementExtension";
 const SWITCHER_NAME$2 = "switcher";
-let PanelRegistry$k = class PanelRegistry14 extends SettingsPanelRegistry {
+let PanelRegistry$k = class PanelRegistry15 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(CONTROL_ID$2, 0);
   }
@@ -4960,7 +5639,7 @@ const reinitializedExtension = new ExtensionBuilder().addControl(ReinitializedCo
 const ID$o = "stateChangeSubscriberExtension";
 const LABEL_NAME = "label";
 const SWITCHER_NAME$1 = "switcher";
-let PanelRegistry$j = class PanelRegistry15 extends SettingsPanelRegistry {
+let PanelRegistry$j = class PanelRegistry16 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$o, 0);
   }
@@ -5006,7 +5685,7 @@ class StateChangeSubscriberExtension extends Control {
 }
 const stateChangeSubscriber = new ExtensionBuilder().addControl(StateChangeSubscriberExtension).withSettingsPanelRegistry(PanelRegistry$j).build();
 const ID$n = "variableModeExtendedControl";
-let PanelRegistry$i = class PanelRegistry16 extends SettingsPanelRegistry {
+let PanelRegistry$i = class PanelRegistry17 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$n, 0);
   }
@@ -5030,7 +5709,7 @@ class VariableModeExtendedControl extends ButtonBlockBackgroundColorBuiltInContr
 const variableModeExtendedControl = new ExtensionBuilder().addControl(VariableModeExtendedControl).withSettingsPanelRegistry(PanelRegistry$i).build();
 const CONTROL_ID$1 = "variableVisibilityControl";
 const SWITCHER_NAME = "switcher";
-let PanelRegistry$h = class PanelRegistry17 extends SettingsPanelRegistry {
+let PanelRegistry$h = class PanelRegistry18 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][1] = new SettingsPanelTab(SettingsTab.STYLES, [CONTROL_ID$1]);
     controls2[BlockType.BLOCK_IMAGE][0].addControl(CONTROL_ID$1, 0);
@@ -5070,7 +5749,7 @@ class VariableVisibilityControl extends Control {
 }
 const variableVisibilityControl = new ExtensionBuilder().addControl(VariableVisibilityControl).withSettingsPanelRegistry(PanelRegistry$h).build();
 const BUTTON_ID$1 = "extendedBlockPaddingsMultipleButton";
-let PanelRegistry$g = class PanelRegistry18 extends SettingsPanelRegistry {
+let PanelRegistry$g = class PanelRegistry19 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(SettingsTab.SETTINGS, [BUTTON_ID$1])
@@ -5097,7 +5776,7 @@ class ExtendedBlockButtonMarginsControl2 extends ButtonMarginsBuiltInControl {
 }
 const extensionVisibleBuiltControl = new ExtensionBuilder().addControl(ExtendedBlockButtonMarginsControl2).withSettingsPanelRegistry(PanelRegistry$g).build();
 const ID$m = "extendedImageSize";
-let PanelRegistry$f = class PanelRegistry19 extends SettingsPanelRegistry {
+let PanelRegistry$f = class PanelRegistry20 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE][0].addControl(ID$m, 0);
   }
@@ -5140,7 +5819,7 @@ class ExtendedImageVisibilityControl extends ImageVisibilityBuiltInControl {
 }
 const extensionImageVisibilityControl = new ExtensionBuilder().addControl(ExtendedImageVisibilityControl).withSettingsPanelRegistry(ButtonPanelRegistry$2).build();
 const ID$k = "extendedSpacerBackgroundColor";
-let PanelRegistry$e = class PanelRegistry20 extends SettingsPanelRegistry {
+let PanelRegistry$e = class PanelRegistry21 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_SPACER][0].addControl(ID$k, 0);
   }
@@ -5157,7 +5836,7 @@ class ExtendedSpacerBackgroundColorControl extends SpacerBackgroundColorBuiltInC
 }
 const extensionSpacerBackgroundColorControl = new ExtensionBuilder().addControl(ExtendedSpacerBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$e).build();
 const ID$j = "extendedStructureAdapt";
-let PanelRegistry$d = class PanelRegistry21 extends SettingsPanelRegistry {
+let PanelRegistry$d = class PanelRegistry22 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE] = [
       new SettingsPanelTab(
@@ -5197,7 +5876,7 @@ class ExtendedStructureAdaptControl extends StructureAdaptBuiltInControl {
 }
 const extensionStructureAdaptControl = new ExtensionBuilder().addControl(ExtendedStructureAdaptControl).withSettingsPanelRegistry(PanelRegistry$d).build();
 const ID$i = "extendedStructureBackgroundColor";
-let PanelRegistry$c = class PanelRegistry22 extends SettingsPanelRegistry {
+let PanelRegistry$c = class PanelRegistry23 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE][0].addControl(ID$i, 0);
   }
@@ -5214,7 +5893,7 @@ class ExtendedStructureBackgroundColorControl extends StructureBackgroundColorBu
 }
 const extensionStructureBackgroundControl = new ExtensionBuilder().addControl(ExtendedStructureBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$c).build();
 const ID$h = "extendedStructureBackgroundImage";
-let PanelRegistry$b = class PanelRegistry23 extends SettingsPanelRegistry {
+let PanelRegistry$b = class PanelRegistry24 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE][0].addControl(ID$h, 0);
   }
@@ -5238,7 +5917,7 @@ class ExtendedStructureBackgroundImageControl extends StructureBackgroundImageBu
 }
 const extensionStructureBackgroundImageControl = new ExtensionBuilder().addControl(ExtendedStructureBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$b).build();
 const ID$g = "extendedStructureBorder";
-let PanelRegistry$a = class PanelRegistry24 extends SettingsPanelRegistry {
+let PanelRegistry$a = class PanelRegistry25 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE][0].addControl(ID$g, 0);
   }
@@ -5263,7 +5942,7 @@ class ExtendedStructureBorderControl extends StructureBorderBuiltInControl {
 }
 const structureBorderControlExtension = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$a).addControl(ExtendedStructureBorderControl).build();
 const ID$f = "extendedStructureMargins";
-let PanelRegistry$9 = class PanelRegistry25 extends SettingsPanelRegistry {
+let PanelRegistry$9 = class PanelRegistry26 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRIPE][0].addControl(ID$f, 0);
   }
@@ -5284,7 +5963,7 @@ const extensionStructureMarginsControl = new ExtensionBuilder().addControl(Exten
   "Extended structure margins mobile": "EN Extended structure margins mobile"
 } }).withSettingsPanelRegistry(PanelRegistry$9).build();
 const ID$e = "extendedStructurePaddings";
-let PanelRegistry$8 = class PanelRegistry26 extends SettingsPanelRegistry {
+let PanelRegistry$8 = class PanelRegistry27 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRIPE][0].addControl(ID$e, 0);
   }
@@ -5337,7 +6016,7 @@ const extensionStructureVisibilityControl = new ExtensionBuilder().addControl(Ex
 const TEXT_ID = "extendedTextFontFamily";
 const BUTTON_ID = "extendedButtonFontFamily";
 const MENU_ID = "extendedMenuFontFamily";
-let PanelRegistry$7 = class PanelRegistry27 extends SettingsPanelRegistry {
+let PanelRegistry$7 = class PanelRegistry28 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(TEXT_ID, 0);
     controls2[BlockType.STRUCTURE] = [
@@ -5390,7 +6069,7 @@ class ExtendedMenuFontFamilyControl extends MenuFontFamilyBuiltInControl {
 }
 const fontFamilyControlExtension = new ExtensionBuilder().addControl(ExtendedTextFontFamilyControl).addControl(ExtendedButtonFontFamilyControl).addControl(ExtendedMenuFontFamilyControl).withSettingsPanelRegistry(PanelRegistry$7).build();
 const ID$c = "extendedLinkColor";
-let PanelRegistry$6 = class PanelRegistry28 extends SettingsPanelRegistry {
+let PanelRegistry$6 = class PanelRegistry29 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(ID$c, 0);
   }
@@ -5407,7 +6086,7 @@ class ExtendedLinkColorControl extends LinkColorBuiltInControl {
 }
 const linkColorControlExtension = new ExtensionBuilder().addControl(ExtendedLinkColorControl).withSettingsPanelRegistry(PanelRegistry$6).build();
 const ID$b = "extendedTextAlign";
-let PanelRegistry$5 = class PanelRegistry29 extends SettingsPanelRegistry {
+let PanelRegistry$5 = class PanelRegistry30 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
       new SettingsPanelTab(SettingsTab.SETTINGS, [ID$b])
@@ -5434,7 +6113,7 @@ class ExtendedTextAlignControl extends TextAlignBuiltInControl {
 }
 const extensionTextAlignControl = new ExtensionBuilder().addControl(ExtendedTextAlignControl).withSettingsPanelRegistry(PanelRegistry$5).build();
 const ID$a = "builtInTextBlockBackground";
-let PanelRegistry$4 = class PanelRegistry30 extends SettingsPanelRegistry {
+let PanelRegistry$4 = class PanelRegistry31 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(ID$a, 0);
   }
@@ -5451,7 +6130,7 @@ class ExtendedTextBlockBackgroundControl extends TextBlockBackgroundBuiltInContr
 }
 const extensionTextBlockBackgroundControl = new ExtensionBuilder().addControl(ExtendedTextBlockBackgroundControl).withSettingsPanelRegistry(PanelRegistry$4).build();
 const ID$9 = "extendedTextColor";
-let PanelRegistry$3 = class PanelRegistry31 extends SettingsPanelRegistry {
+let PanelRegistry$3 = class PanelRegistry32 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(ID$9, 0);
   }
@@ -5471,7 +6150,7 @@ class ExtendedTextColorControl extends TextColorBuiltInControl {
 }
 const textColorControlExtension = new ExtensionBuilder().addControl(ExtendedTextColorControl).withSettingsPanelRegistry(PanelRegistry$3).build();
 const ID$8 = "extendedTextLineSpacing";
-let PanelRegistry$2 = class PanelRegistry32 extends SettingsPanelRegistry {
+let PanelRegistry$2 = class PanelRegistry33 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
       new SettingsPanelTab(SettingsTab.SETTINGS, [ID$8])
@@ -5493,7 +6172,7 @@ class ExtendedTextLineSpacingControl extends TextLineSpacingBuiltInControl {
 }
 const textLineSpacingControlExtension = new ExtensionBuilder().addControl(ExtendedTextLineSpacingControl).withSettingsPanelRegistry(PanelRegistry$2).build();
 const ID$7 = "extendedTextSize";
-let PanelRegistry$1 = class PanelRegistry33 extends SettingsPanelRegistry {
+let PanelRegistry$1 = class PanelRegistry34 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(ID$7, 0);
   }
@@ -5513,7 +6192,7 @@ class ExtendedTextSizeControl extends TextSizeBuiltInControl {
 }
 const textSizeControlExtension = new ExtensionBuilder().addControl(ExtendedTextSizeControl).withSettingsPanelRegistry(PanelRegistry$1).build();
 const ID$6 = "extendedTextStyle";
-class PanelRegistry34 extends SettingsPanelRegistry {
+class PanelRegistry35 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(ID$6, 0);
   }
@@ -5531,7 +6210,7 @@ class ExtendedTextStyleControl extends TextStyleBuiltInControl {
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-text-style-applied");
   }
 }
-const textStyleControlExtension = new ExtensionBuilder().addControl(ExtendedTextStyleControl).withSettingsPanelRegistry(PanelRegistry34).build();
+const textStyleControlExtension = new ExtensionBuilder().addControl(ExtendedTextStyleControl).withSettingsPanelRegistry(PanelRegistry35).build();
 const ID$5 = "extendedTextVisibility";
 class ButtonPanelRegistry12 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
@@ -5648,7 +6327,28 @@ class ExternalSmartElementsLibrary {
   }
 }
 const externalSmartElementsLibrary = new ExtensionBuilder().withExternalSmartElementsLibrary(ExternalSmartElementsLibrary).build();
+const icon = '<?xml version="1.0" encoding="UTF-8"?>\n<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 353.94 273.09">\n  <defs>\n  </defs>\n  <path class="cls-1" d="m351.53,138.89c4.05-41.3,4.73-112.53-12.81-106.27-7.33,2.6-16.74,22.73-23.95,40.93-16.88-27.82-46.55-40.48-88.55-45.21C221.82,8.87,209.79,0,177.03,0h0c-32.76,0-44.79,8.87-49.19,28.31-.4.05-.8.09-1.19.14-.82.09-1.62.19-2.41.28-40.34,4.99-68.77,17.65-85.11,44.7-7.21-18.17-16.62-38.21-23.93-40.83C-2.34,26.34-1.68,97.56,2.39,138.87.84,143.71,0,148.84,0,154.13,0,173.89,11.5,191.26,28.68,200.98c9.08,31.75,28.21,50.32,56.99,60.64h.02c3.23,1.15,6.58,2.2,10.04,3.16.19.05.37.09.56.16,3.32.89,6.74,1.71,10.3,2.46.19.05.35.07.54.12h-.05c19.88,4.05,43.17,5.57,69.89,5.57,81.62,0,131.65-14.02,148.28-72.09,17.19-9.69,28.68-27.09,28.68-46.85,0-5.29-.84-10.42-2.39-15.27h-.02Zm-73.78,54.97c-3.39,8.5-8.08,14.61-14.73,19.29-15.01,10.54-42.33,15.43-86.02,15.43s-71.01-4.92-86.02-15.43c-6.65-4.66-11.33-10.79-14.73-19.29-4.35-10.91-6.56-25.83-6.56-44.32s2.06-32.17,6.06-42.94c.16-.47.33-.96.49-1.38,3.25-8.15,7.7-14.09,13.93-18.68.26-.19.52-.42.8-.61,10.86-7.61,28.21-12.29,53.5-14.28,9.67-.77,20.44-1.15,32.52-1.15s22.78.4,32.4,1.15c25.33,1.99,42.73,6.65,53.59,14.28.14.09.26.21.4.3,6.44,4.64,11,10.68,14.33,18.99.26.63.47,1.33.73,2.01,3.86,10.7,5.85,24.91,5.85,42.33,0,18.52-2.2,33.43-6.56,44.32v-.02Z"/>\n  <circle class="cls-1" cx="125.28" cy="149.54" r="25.99" transform="translate(-69.05 132.39) rotate(-45)"/>\n  <path class="cls-1" d="m238.84,133.62h-26.69c-8.78,0-15.92,7.12-15.92,15.92s7.12,15.92,15.92,15.92h26.69c8.78,0,15.92-7.12,15.92-15.92s-7.12-15.92-15.92-15.92Z"/>\n</svg>';
 const CLASSIC_BLOCK_ID = "classic-block";
+class ClassicBlockIcons extends IconsRegistry {
+  registerIconsSvg(iconsMap) {
+    iconsMap["robot"] = icon;
+  }
+}
+const CONTEXT_ACTION_ID = "test-block-context-action";
+class TestBlockContextAction2 extends ContextAction {
+  getId() {
+    return CONTEXT_ACTION_ID;
+  }
+  getLabel() {
+    return this.api.translate("Test context action");
+  }
+  onClick(node) {
+    console.log(`Test context action clicked for block: ${node.getOuterHTML()}`);
+  }
+  getIcon() {
+    return "robot";
+  }
+}
 class ClassicBlock extends Block {
   getId() {
     return CLASSIC_BLOCK_ID;
@@ -5670,6 +6370,9 @@ class ClassicBlock extends Block {
                 </p>
             </td>
         `;
+  }
+  getContextActionsIds() {
+    return [ContextActionType.REMOVE, CONTEXT_ACTION_ID];
   }
 }
 const CLASSIC_STRUCTURE_ID = "classic-structure";
@@ -6501,7 +7204,7 @@ const controls = [
   TextVisibilityControl,
   ExpandableControl
 ];
-const builder = new ExtensionBuilder().addBlock(ClassicBlock).addBlock(ClassicStructureBlock).addBlock(ProductStructureBlock2).withSettingsPanelRegistry(SampleSettingsPanelRegistry2);
+const builder = new ExtensionBuilder().addBlock(ClassicBlock).addBlock(ClassicStructureBlock).addBlock(ProductStructureBlock2).addContextAction(TestBlockContextAction2).withSettingsPanelRegistry(SampleSettingsPanelRegistry2).withIconsRegistry(ClassicBlockIcons);
 for (const control of controls) {
   builder.addControl(control);
 }
@@ -6621,15 +7324,22 @@ const gitSample_11_Blocks_Panel = new ExtensionBuilder().withBlocksPanel(BlocksP
 }).withIconsRegistry(ModulesIconsRegistry).build();
 class SimpleBlockRenderer extends BlockRenderer {
   /**
+   * Deprecated
+   */
+  getPreviewHtml(node) {
+    var _a2, _b2;
+    return node.getOuterHTML().replace(`#{NAME}`, ((_b2 = (_a2 = this.api.getEditorConfig()) == null ? void 0 : _a2.extensionBlockParams) == null ? void 0 : _b2.defVal) || "World");
+  }
+  /**
    * Generates a preview HTML string for the block.
    * It replaces the dynamic merge tag `#{NAME}` with the static default value from editor configuration or 'World'
    * to provide a representative preview in the editor UI.
    * @param {ImmutableHtmlNode} node The immutable HTML node representing the block.
    * @returns {string} The modified HTML string for preview.
    */
-  getPreviewHtml(node) {
+  getPreviewInnerHtml(node) {
     var _a2, _b2;
-    return node.getOuterHTML().replace(`#{NAME}`, ((_b2 = (_a2 = this.api.getEditorConfig()) == null ? void 0 : _a2.extensionBlockParams) == null ? void 0 : _b2.defVal) || "World");
+    return node.getInnerHTML().replace(`#{NAME}`, ((_b2 = (_a2 = this.api.getEditorConfig()) == null ? void 0 : _a2.extensionBlockParams) == null ? void 0 : _b2.defVal) || "World");
   }
 }
 const CONTEXT_ACTION_MAGIC_BUTTON_ID = "simple-block-magic-button";
@@ -6642,10 +7352,16 @@ class SimpleBlockContextAction extends ContextAction {
     return CONTEXT_ACTION_MAGIC_BUTTON_ID;
   }
   /**
+   * Deprecated
+   */
+  getIconClass() {
+    return "plus";
+  }
+  /**
    * Returns the CSS class name for the icon of this context action.
    * @returns {string} The icon class name.
    */
-  getIconClass() {
+  getIcon() {
     return "plus";
   }
   /**
@@ -11244,10 +11960,10 @@ class TestUIElementsDemoControl extends Control {
         <${tag} ${attr.name}="${MESSAGE_ELEMENT}" ${attr.type}="${MessageStyle.INFO}"></${tag}>
     `;
   }
-  _getRadioButton(text, value, icon) {
+  _getRadioButton(text, value, icon2) {
     const tag = UIElementType.RADIO_ITEM;
     const attr = UEAttr.RADIO_ITEM;
-    return `<${tag} ${attr.hint}="${text}" ${attr.icon}="${icon}" ${attr.value}="${value}"></${tag}>`;
+    return `<${tag} ${attr.hint}="${text}" ${attr.icon}="${icon2}" ${attr.value}="${value}"></${tag}>`;
   }
   _getRadioButtons() {
     const tag = UIElementType.RADIO_BUTTONS;
@@ -11276,10 +11992,10 @@ class TestUIElementsDemoControl extends Control {
         </${tag}>
     `;
   }
-  getCheckItem(name, value, icon = "") {
+  getCheckItem(name, value, icon2 = "") {
     const tag = UIElementType.CHECK_ITEM;
     const attr = UEAttr.CHECK_ITEM;
-    return `<${tag} ${attr.hint}="${name}" ${attr.text}="${name}" ${attr.value}="${value}" ${icon ? `${attr.icon}="${icon}"` : ""}></${tag}>`;
+    return `<${tag} ${attr.hint}="${name}" ${attr.text}="${name}" ${attr.value}="${value}" ${icon2 ? `${attr.icon}="${icon2}"` : ""}></${tag}>`;
   }
   _getCheckButtons() {
     const tag = UIElementType.CHECK_BUTTONS;
@@ -12547,6 +13263,8 @@ const extensionsMap = {
   expandableControlExtension: expandableControlExtension$1,
   buttonExtensionBlock,
   extensionVisibleBuiltControl,
+  extensionCustomTitle,
+  onlyBlocksExtensionBlock,
   // new E2E lib type test extensions
   esmLib,
   cjsLib,

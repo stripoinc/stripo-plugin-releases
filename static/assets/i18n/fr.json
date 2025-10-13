@@ -2221,7 +2221,5 @@
 	"Up to the HTML Block": "Jusqu'au bloc HTML",
 	"Up to the Text Block": "Jusqu'au bloc de texte",
 	"Using a merge tag within a banner is not supported, as the banner is rendered as a single image containing all its components.": "L'utilisation d'une balise de fusion dans une bannière n'est pas prise en charge, car la bannière est rendue sous la forme d'une seule image contenant tous ses composants.",
-	"Current Changes can't be saved. Contact support for further help": "Les modifications en cours ne peuvent pas être enregistrées. Contactez l'assistance pour obtenir plus d'aide",
-	"Using a merge tag within a video block is not supported, as the video is rendered as a single element.": "Using a merge tag within a video block is not supported, as the video is rendered as a single element.",
-	"Using a merge tag within a timer block is not supported, as the timer is rendered as a single element.": "Using a merge tag within a timer block is not supported, as the timer is rendered as a single element."
+	"Current Changes can't be saved. Contact support for further help": "Les modifications en cours ne peuvent pas être enregistrées. Contactez l'assistance pour obtenir plus d'aide"
 }

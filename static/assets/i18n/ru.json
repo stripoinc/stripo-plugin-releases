@@ -1541,6 +1541,7 @@
 	"Disconnect": "Отсоединить",
 	"Confirm": "Подтвердить",
 	"Confirm deletion": "Подтвердите удаление",
+	"Choose one of the available sources for importing Data:": "Выберите один из доступных источников для импорта данных:",
 	"Connecting a Data Source lets you activate the SMART properties to automatically import content from your source into the email. In this way, you simplify and speed up the email production process": "Подключение к источнику данных позволяет активировать свойства SMART для автоматического импорта контента из вашего источника в письмо. Таким образом, вы упрощаете и ускоряете процесс создания письма.<br><br>Выберите один из доступных источников для импорта данных:",
 	"We didn't get any data by the link. Please check Selector [Attribute, Expression, Format].": "Мы не нашли никаких данных по ссылке. Пожалуйста, проверьте Селектор [Атрибут, Выражение, Формат].",
 	"We didn't find the {keys} by the link. Please check Selector [Attribute, Expression, Format].": "Мы не нашли {keys} по ссылке. Пожалуйста, проверьте Селектор [Атрибут, Выражение, Формат].",
