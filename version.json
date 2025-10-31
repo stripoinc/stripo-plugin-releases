@@ -13,8 +13,8 @@
    "stripo/stripo-security-service": "20251021-1444_8529dd5",
    "stripo/stripo-timer-api": "20251021-1503_8529dd5",
    "stripo/countdowntimer": "20250923-r1351_7e112aa_master",
-   "stripo/merge-service": "20251020-1553_d885892",
-   "stripo/env-adapter-service": "20251017-0836_fcc54b9",
+   "stripo/merge-service": "20251028-1449_67b675b",
+   "stripo/env-adapter-service": "20251028-0825_22b1c40",
    "stripo/ai-service": "20251024-0805_7d3d6c7",
-   "stripo/coediting-core-service": "20251017-0836_fcc54b9"
+   "stripo/coediting-core-service": "20251028-0825_22b1c40"
 }
