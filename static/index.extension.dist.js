@@ -5774,7 +5774,7 @@ let ExtendedBlockButtonMarginsControl$1 = class ExtendedBlockButtonMarginsContro
 const extensionMultiplePaddings = new ExtensionBuilder().addControl(ExtendedBlockTextPaddingsControl).addControl(ExtendedBlockButtonMarginsControl$1).withSettingsPanelRegistry(PanelRegistry$s).build();
 const PRODUCT_CARD_NAME_ALIGN_CONTROL_ID = "card-name-align-control";
 const PRODUCT_CARD_PRICE_ALIGN_CONTROL_ID = "card-price-align-control";
-const PRODUCT_STRUCTURE_ID$2 = "product-structure";
+const PRODUCT_STRUCTURE_ID$3 = "product-structure";
 class CardNameAlignControl extends TextAlignBuiltInControl {
   getId() {
     return PRODUCT_CARD_NAME_ALIGN_CONTROL_ID;
@@ -5801,7 +5801,7 @@ class CardPriceAlignControl extends TextAlignBuiltInControl {
     };
   }
 }
-let SampleSettingsPanelRegistry$1 = class SampleSettingsPanelRegistry extends SettingsPanelRegistry {
+let SampleSettingsPanelRegistry$2 = class SampleSettingsPanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE][0] = new SettingsPanelTab(
       "settings",
@@ -5810,7 +5810,7 @@ let SampleSettingsPanelRegistry$1 = class SampleSettingsPanelRegistry extends Se
         PRODUCT_CARD_PRICE_ALIGN_CONTROL_ID
       ]
     );
-    controls2[PRODUCT_STRUCTURE_ID$2] = [
+    controls2[PRODUCT_STRUCTURE_ID$3] = [
       new SettingsPanelTab(
         "settings",
         [
@@ -5821,9 +5821,9 @@ let SampleSettingsPanelRegistry$1 = class SampleSettingsPanelRegistry extends Se
     ];
   }
 };
-let ProductStructureBlock$2 = class ProductStructureBlock extends Block {
+let ProductStructureBlock$3 = class ProductStructureBlock extends Block {
   getId() {
-    return PRODUCT_STRUCTURE_ID$2;
+    return PRODUCT_STRUCTURE_ID$3;
   }
   getBlockCompositionType() {
     return BlockCompositionType.STRUCTURE;
@@ -5889,7 +5889,108 @@ let ProductStructureBlock$2 = class ProductStructureBlock extends Block {
             </td>`;
   }
 };
-const multipleTextAlignExtension = new ExtensionBuilder().withSettingsPanelRegistry(SampleSettingsPanelRegistry$1).addBlock(ProductStructureBlock$2).addControl(CardNameAlignControl).addControl(CardPriceAlignControl).build();
+const multipleTextAlignExtension = new ExtensionBuilder().withSettingsPanelRegistry(SampleSettingsPanelRegistry$2).addBlock(ProductStructureBlock$3).addControl(CardNameAlignControl).addControl(CardPriceAlignControl).build();
+const TEXT_STYLE_NAME_CONTROL_ID = "card-name-align-control";
+const TEXT_STYLE_PRICE_CONTROL_ID = "card-price-align-control";
+const PRODUCT_STRUCTURE_ID$2 = "product-structure-check";
+class CardNameTextStyleControl extends TextStyleBuiltInControl {
+  getId() {
+    return TEXT_STYLE_NAME_CONTROL_ID;
+  }
+  getTargetNodes(root) {
+    return root.querySelectorAll(".esd-block-text.name");
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Text style name")
+    };
+  }
+}
+class CardPriceTextStyleControl extends TextStyleBuiltInControl {
+  getId() {
+    return TEXT_STYLE_PRICE_CONTROL_ID;
+  }
+  getTargetNodes(root) {
+    return root.querySelectorAll(".esd-block-text.price");
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Text style price")
+    };
+  }
+}
+let SampleSettingsPanelRegistry$1 = class SampleSettingsPanelRegistry2 extends SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[PRODUCT_STRUCTURE_ID$2] = [
+      new SettingsPanelTab(
+        "settings",
+        [
+          TEXT_STYLE_NAME_CONTROL_ID,
+          TEXT_STYLE_PRICE_CONTROL_ID
+        ]
+      )
+    ];
+  }
+};
+let ProductStructureBlock$2 = class ProductStructureBlock2 extends Block {
+  getId() {
+    return PRODUCT_STRUCTURE_ID$2;
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.STRUCTURE;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Product");
+  }
+  getDescription() {
+    return this.api.translate("Product description");
+  }
+  allowInnerBlocksSelection() {
+    return false;
+  }
+  allowInnerBlocksDND() {
+    return false;
+  }
+  getTemplate() {
+    return `
+            <td>
+                <${BlockType.CONTAINER} ${BlockAttr.CONTAINER.widthPercent}="50">
+                    <${BlockType.BLOCK_TEXT} class="name">
+                        <p style="color: #555555; line-height: 200%;">
+                            IPhone X
+                        </p>
+                    </${BlockType.BLOCK_TEXT}>    
+                    <${BlockType.BLOCK_TEXT} class="price">
+                        <p style="color: #555555; line-height: 200%;">
+                            999.95
+                        </p>
+                    </${BlockType.BLOCK_TEXT}>
+                    <${BlockType.BLOCK_BUTTON} ${BlockAttr.BLOCK_BUTTON.href}="https://google.com">
+                        Buy
+                    </${BlockType.BLOCK_TEXT}>
+                </${BlockType.CONTAINER}>
+                <${BlockType.CONTAINER} ${BlockAttr.CONTAINER.widthPercent}="50">
+                    <${BlockType.BLOCK_TEXT} class="name">
+                        <p style="color: #555555; line-height: 200%;">
+                            IPhone X
+                        </p>
+                    </${BlockType.BLOCK_TEXT}>    
+                    <${BlockType.BLOCK_TEXT} class="price">
+                        <p style="color: #555555; line-height: 200%;">
+                            999.95
+                        </p>
+                    </${BlockType.BLOCK_TEXT}>
+                    <${BlockType.BLOCK_BUTTON} ${BlockAttr.BLOCK_BUTTON.href}="https://google.com">
+                        Buy
+                    </${BlockType.BLOCK_TEXT}>
+                </${BlockType.CONTAINER}>
+            </td>`;
+  }
+};
+const multipleTextStyleExtension = new ExtensionBuilder().withSettingsPanelRegistry(SampleSettingsPanelRegistry$1).addBlock(ProductStructureBlock$2).addControl(CardNameTextStyleControl).addControl(CardPriceTextStyleControl).build();
 const CUSTOM_TITLE_CONTROL_ID = "extensionCustomTitle";
 class CustomTitleControl extends Control {
   constructor() {
@@ -6079,7 +6180,7 @@ class expandableControlExtension extends Control {
 const expandableControlExtension$1 = new ExtensionBuilder().addControl(expandableControlExtension).withSettingsPanelRegistry(PanelRegistry$q).build();
 const PRODUCT_STRUCTURE_ID$1 = "product-block-id";
 const TEXT_FIXED_HEIGHT_ID = "text-fixed-height-id";
-let ProductStructureBlock$1 = class ProductStructureBlock2 extends Block {
+let ProductStructureBlock$1 = class ProductStructureBlock3 extends Block {
   getId() {
     return PRODUCT_STRUCTURE_ID$1;
   }
@@ -7179,7 +7280,7 @@ class ClassicStructureBlock extends Block {
   }
 }
 const PRODUCT_STRUCTURE_ID = "product-structure";
-class ProductStructureBlock3 extends Block {
+class ProductStructureBlock4 extends Block {
   getId() {
     return PRODUCT_STRUCTURE_ID;
   }
@@ -7846,7 +7947,7 @@ class TextVisibilityControl extends TextVisibilityBuiltInControl {
     };
   }
 }
-class SampleSettingsPanelRegistry2 extends SettingsPanelRegistry {
+class SampleSettingsPanelRegistry3 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[CLASSIC_BLOCK_ID] = [
       new SettingsPanelTab(
@@ -7999,7 +8100,7 @@ const controls = [
   ButtonFixedHeightControl,
   TextFixedHeightControl3
 ];
-const builder = new ExtensionBuilder().addBlock(ClassicBlock).addBlock(ClassicStructureBlock).addBlock(ProductStructureBlock3).addContextAction(TestBlockContextAction2).withSettingsPanelRegistry(SampleSettingsPanelRegistry2).withIconsRegistry(ClassicBlockIcons);
+const builder = new ExtensionBuilder().addBlock(ClassicBlock).addBlock(ClassicStructureBlock).addBlock(ProductStructureBlock4).addContextAction(TestBlockContextAction2).withSettingsPanelRegistry(SampleSettingsPanelRegistry3).withIconsRegistry(ClassicBlockIcons);
 for (const control of controls) {
   builder.addControl(control);
 }
@@ -9980,6 +10081,7 @@ const extensionsMap = {
   customTitleWithPopover,
   extensionMultiplePaddings,
   multipleTextAlignExtension,
+  multipleTextStyleExtension,
   extensionStructureBackgroundImageControl,
   extensionContainerBackgroundImageControl,
   extensionButtonTextStyleAndColorControl,

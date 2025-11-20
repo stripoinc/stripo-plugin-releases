@@ -53,7 +53,7 @@
 	"Input Background Color": "輸入背景顏色",
 	"Input Font Family": "輸入字型系列",
 	"Input Height": "輸入高度",
-	"Thumbnails can be pulled from YouTube, Instagram, TikTok or Vimeo. For other sources, add a custom thumbnail below.": "Thumbnails can be pulled from YouTube, Instagram, TikTok or Vimeo. For other sources, add a custom thumbnail below.",
+	"Thumbnails can be pulled from YouTube, TikTok or Vimeo. For other sources, add a custom thumbnail below.": "Thumbnails can be pulled from YouTube, TikTok or Vimeo. For other sources, add a custom thumbnail below.",
 	"Promo Image": "促銷圖片",
 	"The aspect ratio of the added image does not match the others. Please replace it to match the {ratio} format": "新增的圖片的長寬比和其他圖片不符。請將其替換以符合 {ratio} 格式",
 	"Product Card URL": "產品卡片 URL",
