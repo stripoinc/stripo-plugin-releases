@@ -5403,6 +5403,9 @@ class ExtendedButtonAlignControl extends ButtonAlignBuiltInControl {
       title: viewMode === "DESKTOP" ? this.api.translate("Extended button align desktop") : this.api.translate("Extended button align mobile")
     };
   }
+  getAdditionalModifications(block) {
+    return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-button-align-applied");
+  }
 }
 const buttonAlignControlExtension = new ExtensionBuilder().addControl(ExtendedButtonAlignControl).withSettingsPanelRegistry(ButonPanelRegistry$2).build();
 const ID$J = "extendedButtonBackground";
