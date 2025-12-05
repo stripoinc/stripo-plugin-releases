@@ -13,7 +13,7 @@
    "stripo/stripo-security-service": "20251121-1728_6def0b4",
    "stripo/stripo-timer-api": "20251123-1913_0c1de5d",
    "stripo/countdowntimer": "20251202-r0808_151ee0b_master",
-   "stripo/merge-service": "20251202-0838_cbf2ec0",
+   "stripo/merge-service": "20251204-1646_70f326d",
    "stripo/env-adapter-service": "20251127-1857_fe89edc",
    "stripo/ai-service": "20251128-1449_970cc16",
    "stripo/coediting-core-service": "20251128-0943_aabbeb0"
