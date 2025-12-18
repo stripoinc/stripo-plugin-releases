@@ -207,7 +207,7 @@ var _Block = class _Block2 extends BaseValidatedClass {
    *
    * @return {string} The name of the block panel.
    */
-  getSettingsPanelName() {
+  getSettingsPanelTitleHtml() {
     return "";
   }
   /**
@@ -516,13 +516,11 @@ var BuiltInControlTypes = {
 };
 var ContextActionType = /* @__PURE__ */ ((ContextActionType2) => {
   ContextActionType2["SAVE_AS_MODULE"] = "saveAsModule";
-  ContextActionType2["UPDATE_MODULE"] = "updateModule";
   ContextActionType2["IMPROVE_WITH_AI"] = "improveWithAI";
   ContextActionType2["MOVE"] = "move";
   ContextActionType2["COPY"] = "copy";
   ContextActionType2["REMOVE"] = "remove";
   ContextActionType2["CLEAR_CONTAINER"] = "clearContainer";
-  ContextActionType2["REMOVE_CONTAINER"] = "removeContainer";
   ContextActionType2["EXTERNAL_DISPLAY_CONDITION"] = "externalDisplayCondition";
   return ContextActionType2;
 })(ContextActionType || {});
@@ -531,6 +529,11 @@ var EditorStatePropertyType = /* @__PURE__ */ ((EditorStatePropertyType2) => {
   EditorStatePropertyType2["panelPosition"] = "panelPosition";
   return EditorStatePropertyType2;
 })(EditorStatePropertyType || {});
+var OrderableItemIconPosition = /* @__PURE__ */ ((OrderableItemIconPosition2) => {
+  OrderableItemIconPosition2["TOP"] = "TOP";
+  OrderableItemIconPosition2["LEFT"] = "LEFT";
+  return OrderableItemIconPosition2;
+})(OrderableItemIconPosition || {});
 var PreviewDeviceMode = /* @__PURE__ */ ((PreviewDeviceMode2) => {
   PreviewDeviceMode2["DESKTOP"] = "DESKTOP";
   PreviewDeviceMode2["MOBILE"] = "MOBILE";
@@ -628,6 +631,9 @@ var orderableAttributes = {
 var orderableIconAttributes = {
   icon: "icon"
 };
+var repeatableAttributes = {
+  ...UIElementAttributes
+};
 var UEAttr = {
   DEFAULT: UIElementAttributes,
   BUTTON: buttonAttributes2,
@@ -650,7 +656,8 @@ var UEAttr = {
   NESTED_CONTROL: nestedControlAttributes,
   EXPANDABLE: expandableAttributes,
   ORDERABLE: orderableAttributes,
-  ORDERABLE_ICON: orderableIconAttributes
+  ORDERABLE_ICON: orderableIconAttributes,
+  REPEATABLE: repeatableAttributes
 };
 var UIElementType = /* @__PURE__ */ ((UIElementType2) => {
   UIElementType2["BUTTON"] = "UE-BUTTON";
@@ -679,6 +686,7 @@ var UIElementType = /* @__PURE__ */ ((UIElementType2) => {
   UIElementType2["ORDERABLE"] = "UE-ORDERABLE";
   UIElementType2["ORDERABLE_ITEM"] = "UE-ORDERABLE-ITEM";
   UIElementType2["ORDERABLE_ICON"] = "UE-ORDERABLE-ICON";
+  UIElementType2["REPEATABLE"] = "UE-REPEATABLE";
   return UIElementType2;
 })(UIElementType || {});
 var BuiltInControl = class {
@@ -975,6 +983,77 @@ var _Control = class _Control2 extends BaseValidatedClass {
 };
 _Control.REQUIRED_METHODS = ["getId", "getTemplate"];
 var Control = _Control;
+var _GeneralPanelTab = class _GeneralPanelTab2 extends BaseValidatedClass {
+  constructor() {
+    super(_GeneralPanelTab2.REQUIRED_METHODS, _GeneralPanelTab2);
+  }
+  /**
+   * Gets the unique identifier for this tab.
+   * This ID is used for registration.
+   * @returns A unique string ID.
+   */
+  getId() {
+    throw new Error("Method getId() must be implemented by the subclass");
+  }
+  /**
+   * Gets the icon key representing this tab in the header.
+   * @returns A string representing the icon key from the IconsRegistry
+   */
+  getIcon() {
+    throw new Error("Method getIcon() must be implemented by the subclass");
+  }
+  /**
+   * Retrieves the index of the tab associated with the panel.
+   * The index represents the position/order of the tab in the UI.
+   *
+   * @returns {number} The index of the tab.
+   */
+  getTabIndex() {
+    throw new Error("Method getTabIndex() must be implemented by the subclass");
+  }
+  /**
+   * Gets the display name of the tab shown to the user in the header hint.
+   * Use `this.api.translate()` for localization.
+   * @returns The localized tab name string.
+   */
+  getName() {
+    throw new Error("Method getName() must be implemented by the subclass");
+  }
+  /**
+   * Determines if the tab should be available for use in the editor.
+   * Override to provide custom logic based on the editor state or configuration.
+   * @returns True if the tab is enabled, false otherwise. Defaults to true.
+   */
+  isEnabled() {
+    return true;
+  }
+  /**
+   * Gets the HTML template string that defines the initial template of general tab.
+   * @returns An HTML string.
+   */
+  getTemplate() {
+    throw new Error("Method getTemplate() must be implemented by the subclass");
+  }
+  /**
+   * Lifecycle hook called when any part of the document template has changed.
+   * This can be frequent; use cautiously for performance-sensitive operations.
+   */
+  onDocumentChanged() {
+  }
+  /**
+   * Optional hook called when the general panel tab is initially rendered.
+   * Use this for setup tasks like attaching event listeners to the panel's template elements.
+   */
+  onRender() {
+  }
+  /**
+   * Optional cleanup hook called when the general panel tab is being destroyed.
+   */
+  onDestroy() {
+  }
+};
+_GeneralPanelTab.REQUIRED_METHODS = ["getId", "getIcon", "getName", "getTemplate", "getTabIndex"];
+var GeneralPanelTab = _GeneralPanelTab;
 var ImageBuiltInControl = class extends BuiltInControl {
   getTargetNodes(root) {
     const images = root.querySelectorAll(BlockSelector.IMAGE);
@@ -1217,28 +1296,30 @@ var TextVisibilityBuiltInControl = class extends TextBuiltInControl {
   }
 };
 var Extension = class {
-  constructor(i18n, styles, uiElements = [], uiElementTagRegistry, controls2 = [], settingsPanelRegistry, contextActions = [], blocks = [], externalSmartElementsLibrary2, externalImageLibrary, previewStyles2, externalAiAssistant2, externalDisplayConditionsLibrary, externalVideoLibrary, blocksPanel, iconsRegistry, externalImageLibraryTab) {
+  constructor(options) {
     this.uiElements = [];
     this.controls = [];
     this.contextActions = [];
     this.blocks = [];
-    this.i18n = i18n;
-    this.styles = styles;
-    this.previewStyles = previewStyles2;
-    this.uiElements = uiElements;
-    this.uiElementTagRegistry = uiElementTagRegistry;
-    this.controls = controls2;
-    this.settingsPanelRegistry = settingsPanelRegistry;
-    this.contextActions = contextActions;
-    this.blocks = blocks;
-    this.externalSmartElementsLibrary = externalSmartElementsLibrary2;
-    this.externalImageLibrary = externalImageLibrary;
-    this.externalImageLibraryTab = externalImageLibraryTab;
-    this.externalAiAssistant = externalAiAssistant2;
-    this.externalDisplayConditionsLibrary = externalDisplayConditionsLibrary;
-    this.externalVideoLibrary = externalVideoLibrary;
-    this.blocksPanel = blocksPanel;
-    this.iconsRegistry = iconsRegistry;
+    this.generalPanelTabs = [];
+    this.i18n = options?.i18n;
+    this.styles = options?.styles;
+    this.previewStyles = options?.previewStyles;
+    this.uiElements = options?.uiElements ?? [];
+    this.uiElementTagRegistry = options?.uiElementTagRegistry;
+    this.controls = options?.controls ?? [];
+    this.settingsPanelRegistry = options?.settingsPanelRegistry;
+    this.contextActions = options?.contextActions ?? [];
+    this.blocks = options?.blocks ?? [];
+    this.generalPanelTabs = options?.generalPanelTabs ?? [];
+    this.externalSmartElementsLibrary = options?.externalSmartElementsLibrary;
+    this.externalImageLibrary = options?.externalImageLibrary;
+    this.externalImageLibraryTab = options?.externalImageLibraryTab;
+    this.externalAiAssistant = options?.externalAiAssistant;
+    this.externalDisplayConditionsLibrary = options?.externalDisplayConditionsLibrary;
+    this.externalVideoLibrary = options?.externalVideoLibrary;
+    this.blocksPanel = options?.blocksPanel;
+    this.iconsRegistry = options?.iconsRegistry;
     this.id = Math.random().toString(36).substring(2);
   }
   getI18n() {
@@ -1295,6 +1376,9 @@ var Extension = class {
   getIconsRegistry() {
     return this.iconsRegistry;
   }
+  getGeneralPanelTabs() {
+    return this.generalPanelTabs;
+  }
 };
 var ExtensionBuilder = class {
   constructor() {
@@ -1303,6 +1387,7 @@ var ExtensionBuilder = class {
     this.controls = [];
     this.contextActions = [];
     this.blocks = [];
+    this.generalPanelTabs = [];
   }
   withLocalization(i18n) {
     this.i18n = i18n;
@@ -1382,33 +1467,38 @@ var ExtensionBuilder = class {
     this.iconsRegistry = iconsRegistry;
     return this;
   }
+  addGeneralPanelTab(tab) {
+    this.generalPanelTabs.push(tab);
+    return this;
+  }
   build() {
-    return new Extension(
-      this.i18n,
-      (this.styles || []).map((style) => style.trim()).join("\n"),
-      this.uiElements,
-      this.uiElementTagRegistry,
-      this.controls,
-      this.settingsPanelRegistry,
-      this.contextActions,
-      this.blocks,
-      this.externalSmartElementsLibrary,
-      this.externalImageLibrary,
-      this.previewStyles,
-      this.externalAiAssistant,
-      this.externalDisplayConditionsLibrary,
-      this.externalVideoLibrary,
-      this.blocksPanel,
-      this.iconsRegistry,
-      this.externalImageLibraryTab
-    );
+    return new Extension({
+      i18n: this.i18n,
+      styles: this.styles.map((style) => style.trim()).join("\n"),
+      uiElements: this.uiElements,
+      uiElementTagRegistry: this.uiElementTagRegistry,
+      controls: this.controls,
+      settingsPanelRegistry: this.settingsPanelRegistry,
+      contextActions: this.contextActions,
+      blocks: this.blocks,
+      externalSmartElementsLibrary: this.externalSmartElementsLibrary,
+      externalImageLibrary: this.externalImageLibrary,
+      previewStyles: this.previewStyles,
+      externalAiAssistant: this.externalAiAssistant,
+      externalDisplayConditionsLibrary: this.externalDisplayConditionsLibrary,
+      externalVideoLibrary: this.externalVideoLibrary,
+      blocksPanel: this.blocksPanel,
+      iconsRegistry: this.iconsRegistry,
+      externalImageLibraryTab: this.externalImageLibraryTab,
+      generalPanelTabs: this.generalPanelTabs
+    });
   }
 };
 var _ExternalAiAssistant = class _ExternalAiAssistant2 extends BaseValidatedClass {
   constructor() {
     super(_ExternalAiAssistant2.REQUIRED_METHODS, _ExternalAiAssistant2);
   }
-  openAiAssistant({ value, onDataSelectCallback, onCancelCallback, type }) {
+  openAiAssistant(_options) {
     throw new Error("Method openAiAssistant() must be implemented by the subclass");
   }
 };
@@ -1428,9 +1518,9 @@ var _ExternalDisplayConditionsLibrary = class _ExternalDisplayConditionsLibrary2
   /**
    * Opens a popup dialog for creating or updating a display condition.
    *
-   * @param {DisplayCondition} currentCondition - The currently selected display condition to edit.
-   * @param {ExternalDisplayConditionSelectedCB} successCallback - Callback executed with the updated or newly created condition upon success.
-   * @param {() => void} cancelCallback - Callback executed when the dialog is closed without making changes.
+   * @param {DisplayCondition} _currentCondition - The currently selected display condition to edit.
+   * @param {ExternalDisplayConditionSelectedCB} _successCallback - Callback executed with the updated or newly created condition upon success.
+   * @param {() => void} _cancelCallback - Callback executed when the dialog is closed without making changes.
    */
   openExternalDisplayConditionsDialog(_currentCondition, _successCallback, _cancelCallback) {
     throw new Error("Method openExternalDisplayConditionsDialog() must be implemented by the subclass");
@@ -1478,7 +1568,7 @@ var _ExternalImageLibraryTab = class _ExternalImageLibraryTab2 extends BaseValid
    * @description Opens the external image library tab and provides a container for rendering
    * @param _container - DOM element container where the external library UI should be rendered
    * @param _onImageSelectCallback - Callback to invoke when an image is selected
-   * @param _imageNode - The image node for which the gallery is being opened (optional)
+   * @param _selectedNode - (Optional) Selected node for which the gallery is being opened
    */
   openImageLibraryTab(_container, _onImageSelectCallback, _selectedNode) {
     throw new Error("Method openImageLibraryTab() must be implemented by the subclass");
@@ -1596,14 +1686,9 @@ var _UIElementTagRegistry = class _UIElementTagRegistry2 extends BaseValidatedCl
 };
 _UIElementTagRegistry.REQUIRED_METHODS = ["registerUiElements"];
 var UIElementTagRegistry = _UIElementTagRegistry;
-var OrderableItemIconPosition = /* @__PURE__ */ ((OrderableItemIconPosition2) => {
-  OrderableItemIconPosition2["TOP"] = "TOP";
-  OrderableItemIconPosition2["LEFT"] = "LEFT";
-  return OrderableItemIconPosition2;
-})(OrderableItemIconPosition || {});
 const IMAGE_BLOCK_ID = "atomic-block-image-alias-extension";
 const TEXT_BLOCK_ID$1 = "atomic-block-text-alias-extension";
-let PanelRegistry$I = class PanelRegistry extends SettingsPanelRegistry {
+let PanelRegistry$J = class PanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[IMAGE_BLOCK_ID] = [
       new SettingsPanelTab(SettingsTab.SETTINGS, [BuiltInControlTypes.BLOCK_IMAGE.IMAGE])
@@ -1651,12 +1736,12 @@ class AtomicBlockTextAlias extends Block {
     return `<${BlockType.BLOCK_TEXT} class="product-name" align="center"><h1>Hello world!</h1></${BlockType.BLOCK_TEXT}>`;
   }
 }
-const atomicBlockAlias = new ExtensionBuilder().addBlock(AtomicBlockImageAlias).withSettingsPanelRegistry(PanelRegistry$I).addBlock(AtomicBlockTextAlias).build();
-const BLOCK_ID$c = "structure-wth-ondocumentChange-hook";
-const CONTROL_ID$6 = "structure-wth-ondocumentChange-hook-control";
+const atomicBlockAlias = new ExtensionBuilder().addBlock(AtomicBlockImageAlias).withSettingsPanelRegistry(PanelRegistry$J).addBlock(AtomicBlockTextAlias).build();
+const BLOCK_ID$e = "structure-wth-ondocumentChange-hook";
+const CONTROL_ID$7 = "structure-wth-ondocumentChange-hook-control";
 let StructureExtensionControl$1 = class StructureExtensionControl extends StructureMarginsBuiltInControl {
   getId() {
-    return CONTROL_ID$6;
+    return CONTROL_ID$7;
   }
   getLabels() {
     return {
@@ -1666,7 +1751,7 @@ let StructureExtensionControl$1 = class StructureExtensionControl extends Struct
 };
 let StructureExtensionBlock$1 = class StructureExtensionBlock extends Block {
   getId() {
-    return BLOCK_ID$c;
+    return BLOCK_ID$e;
   }
   getIcon() {
     return "new-window";
@@ -1716,16 +1801,16 @@ let StructureExtensionBlock$1 = class StructureExtensionBlock extends Block {
     return BlockCompositionType.STRUCTURE;
   }
 };
-let PanelRegistry$H = class PanelRegistry2 extends SettingsPanelRegistry {
+let PanelRegistry$I = class PanelRegistry2 extends SettingsPanelRegistry {
   registerBlockControls(_blockControlsMap) {
-    _blockControlsMap[BLOCK_ID$c] = [
+    _blockControlsMap[BLOCK_ID$e] = [
       new SettingsPanelTab("Settings", [
-        CONTROL_ID$6
+        CONTROL_ID$7
       ]).withLabel("Settings")
     ];
   }
 };
-const blockWithDocumentChangedHook = new ExtensionBuilder().addBlock(StructureExtensionBlock$1).addControl(StructureExtensionControl$1).withSettingsPanelRegistry(PanelRegistry$H).build();
+const blockWithDocumentChangedHook = new ExtensionBuilder().addBlock(StructureExtensionBlock$1).addControl(StructureExtensionControl$1).withSettingsPanelRegistry(PanelRegistry$I).build();
 const BUTTON_ID$3 = "button-id";
 class BlockExtensionButton extends Block {
   getId() {
@@ -1846,6 +1931,7 @@ function requireCjs() {
     ExternalSmartElementsLibrary: () => ExternalSmartElementsLibrary2,
     ExternalVideosLibrary: () => ExternalVideosLibrary,
     GeneralControls: () => GeneralControls2,
+    GeneralPanelTab: () => GeneralPanelTab2,
     GeneralStylesControls: () => GeneralStylesControls,
     HTMLControls: () => HTMLControls,
     HtmlMarginsBuiltInControl: () => HtmlMarginsBuiltInControl,
@@ -2110,7 +2196,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
      *
      * @return {string} The name of the block panel.
      */
-    getSettingsPanelName() {
+    getSettingsPanelTitleHtml() {
       return "";
     }
     /**
@@ -2779,13 +2865,11 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
   };
   var ContextActionType2 = /* @__PURE__ */ ((ContextActionType22) => {
     ContextActionType22["SAVE_AS_MODULE"] = "saveAsModule";
-    ContextActionType22["UPDATE_MODULE"] = "updateModule";
     ContextActionType22["IMPROVE_WITH_AI"] = "improveWithAI";
     ContextActionType22["MOVE"] = "move";
     ContextActionType22["COPY"] = "copy";
     ContextActionType22["REMOVE"] = "remove";
     ContextActionType22["CLEAR_CONTAINER"] = "clearContainer";
-    ContextActionType22["REMOVE_CONTAINER"] = "removeContainer";
     ContextActionType22["EXTERNAL_DISPLAY_CONDITION"] = "externalDisplayCondition";
     return ContextActionType22;
   })(ContextActionType2 || {});
@@ -2794,6 +2878,11 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     EditorStatePropertyType22["panelPosition"] = "panelPosition";
     return EditorStatePropertyType22;
   })(EditorStatePropertyType2 || {});
+  var OrderableItemIconPosition2 = /* @__PURE__ */ ((OrderableItemIconPosition22) => {
+    OrderableItemIconPosition22["TOP"] = "TOP";
+    OrderableItemIconPosition22["LEFT"] = "LEFT";
+    return OrderableItemIconPosition22;
+  })(OrderableItemIconPosition2 || {});
   var PanelPosition = /* @__PURE__ */ ((PanelPosition2) => {
     PanelPosition2["BLOCKS_SETTINGS"] = "BLOCKS_SETTINGS";
     PanelPosition2["SETTINGS_BLOCKS"] = "SETTINGS_BLOCKS";
@@ -2935,6 +3024,9 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     ...UIElementAttributes2,
     icon: "icon"
   };
+  var repeatableAttributes2 = {
+    ...UIElementAttributes2
+  };
   var UEAttr2 = {
     DEFAULT: UIElementAttributes2,
     BUTTON: buttonAttributes22,
@@ -2959,7 +3051,8 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     EXPANDABLE: expandableAttributes2,
     ORDERABLE: orderableAttributes2,
     ORDERABLE_ITEM: orderableItemAttributes,
-    ORDERABLE_ICON: orderableIconAttributes2
+    ORDERABLE_ICON: orderableIconAttributes2,
+    REPEATABLE: repeatableAttributes2
   };
   var UIElementType2 = /* @__PURE__ */ ((UIElementType22) => {
     UIElementType22["BUTTON"] = "UE-BUTTON";
@@ -2988,6 +3081,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     UIElementType22["ORDERABLE"] = "UE-ORDERABLE";
     UIElementType22["ORDERABLE_ITEM"] = "UE-ORDERABLE-ITEM";
     UIElementType22["ORDERABLE_ICON"] = "UE-ORDERABLE-ICON";
+    UIElementType22["REPEATABLE"] = "UE-REPEATABLE";
     return UIElementType22;
   })(UIElementType2 || {});
   var BuiltInControl2 = class {
@@ -3299,6 +3393,77 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
   };
   _Control3.REQUIRED_METHODS = ["getId", "getTemplate"];
   var Control2 = _Control3;
+  var _GeneralPanelTab3 = class _GeneralPanelTab4 extends BaseValidatedClass2 {
+    constructor() {
+      super(_GeneralPanelTab4.REQUIRED_METHODS, _GeneralPanelTab4);
+    }
+    /**
+     * Gets the unique identifier for this tab.
+     * This ID is used for registration.
+     * @returns A unique string ID.
+     */
+    getId() {
+      throw new Error("Method getId() must be implemented by the subclass");
+    }
+    /**
+     * Gets the icon key representing this tab in the header.
+     * @returns A string representing the icon key from the IconsRegistry
+     */
+    getIcon() {
+      throw new Error("Method getIcon() must be implemented by the subclass");
+    }
+    /**
+     * Retrieves the index of the tab associated with the panel.
+     * The index represents the position/order of the tab in the UI.
+     *
+     * @returns {number} The index of the tab.
+     */
+    getTabIndex() {
+      throw new Error("Method getTabIndex() must be implemented by the subclass");
+    }
+    /**
+     * Gets the display name of the tab shown to the user in the header hint.
+     * Use `this.api.translate()` for localization.
+     * @returns The localized tab name string.
+     */
+    getName() {
+      throw new Error("Method getName() must be implemented by the subclass");
+    }
+    /**
+     * Determines if the tab should be available for use in the editor.
+     * Override to provide custom logic based on the editor state or configuration.
+     * @returns True if the tab is enabled, false otherwise. Defaults to true.
+     */
+    isEnabled() {
+      return true;
+    }
+    /**
+     * Gets the HTML template string that defines the initial template of general tab.
+     * @returns An HTML string.
+     */
+    getTemplate() {
+      throw new Error("Method getTemplate() must be implemented by the subclass");
+    }
+    /**
+     * Lifecycle hook called when any part of the document template has changed.
+     * This can be frequent; use cautiously for performance-sensitive operations.
+     */
+    onDocumentChanged() {
+    }
+    /**
+     * Optional hook called when the general panel tab is initially rendered.
+     * Use this for setup tasks like attaching event listeners to the panel's template elements.
+     */
+    onRender() {
+    }
+    /**
+     * Optional cleanup hook called when the general panel tab is being destroyed.
+     */
+    onDestroy() {
+    }
+  };
+  _GeneralPanelTab3.REQUIRED_METHODS = ["getId", "getIcon", "getName", "getTemplate", "getTabIndex"];
+  var GeneralPanelTab2 = _GeneralPanelTab3;
   var HtmlBuiltInControl = class extends BuiltInControl2 {
     getTargetNodes(root) {
       const htmlBlocks = root.querySelectorAll(BlockSelector2.HTML);
@@ -3610,28 +3775,30 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     }
   };
   var Extension2 = class {
-    constructor(i18n, styles, uiElements = [], uiElementTagRegistry, controls2 = [], settingsPanelRegistry, contextActions = [], blocks = [], externalSmartElementsLibrary2, externalImageLibrary, previewStyles2, externalAiAssistant2, externalDisplayConditionsLibrary, externalVideoLibrary, blocksPanel, iconsRegistry, externalImageLibraryTab) {
+    constructor(options) {
       this.uiElements = [];
       this.controls = [];
       this.contextActions = [];
       this.blocks = [];
-      this.i18n = i18n;
-      this.styles = styles;
-      this.previewStyles = previewStyles2;
-      this.uiElements = uiElements;
-      this.uiElementTagRegistry = uiElementTagRegistry;
-      this.controls = controls2;
-      this.settingsPanelRegistry = settingsPanelRegistry;
-      this.contextActions = contextActions;
-      this.blocks = blocks;
-      this.externalSmartElementsLibrary = externalSmartElementsLibrary2;
-      this.externalImageLibrary = externalImageLibrary;
-      this.externalImageLibraryTab = externalImageLibraryTab;
-      this.externalAiAssistant = externalAiAssistant2;
-      this.externalDisplayConditionsLibrary = externalDisplayConditionsLibrary;
-      this.externalVideoLibrary = externalVideoLibrary;
-      this.blocksPanel = blocksPanel;
-      this.iconsRegistry = iconsRegistry;
+      this.generalPanelTabs = [];
+      this.i18n = options?.i18n;
+      this.styles = options?.styles;
+      this.previewStyles = options?.previewStyles;
+      this.uiElements = options?.uiElements ?? [];
+      this.uiElementTagRegistry = options?.uiElementTagRegistry;
+      this.controls = options?.controls ?? [];
+      this.settingsPanelRegistry = options?.settingsPanelRegistry;
+      this.contextActions = options?.contextActions ?? [];
+      this.blocks = options?.blocks ?? [];
+      this.generalPanelTabs = options?.generalPanelTabs ?? [];
+      this.externalSmartElementsLibrary = options?.externalSmartElementsLibrary;
+      this.externalImageLibrary = options?.externalImageLibrary;
+      this.externalImageLibraryTab = options?.externalImageLibraryTab;
+      this.externalAiAssistant = options?.externalAiAssistant;
+      this.externalDisplayConditionsLibrary = options?.externalDisplayConditionsLibrary;
+      this.externalVideoLibrary = options?.externalVideoLibrary;
+      this.blocksPanel = options?.blocksPanel;
+      this.iconsRegistry = options?.iconsRegistry;
       this.id = Math.random().toString(36).substring(2);
     }
     getI18n() {
@@ -3688,6 +3855,9 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     getIconsRegistry() {
       return this.iconsRegistry;
     }
+    getGeneralPanelTabs() {
+      return this.generalPanelTabs;
+    }
   };
   var ExtensionBuilder2 = class {
     constructor() {
@@ -3696,6 +3866,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       this.controls = [];
       this.contextActions = [];
       this.blocks = [];
+      this.generalPanelTabs = [];
     }
     withLocalization(i18n) {
       this.i18n = i18n;
@@ -3775,33 +3946,38 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       this.iconsRegistry = iconsRegistry;
       return this;
     }
+    addGeneralPanelTab(tab) {
+      this.generalPanelTabs.push(tab);
+      return this;
+    }
     build() {
-      return new Extension2(
-        this.i18n,
-        (this.styles || []).map((style) => style.trim()).join("\n"),
-        this.uiElements,
-        this.uiElementTagRegistry,
-        this.controls,
-        this.settingsPanelRegistry,
-        this.contextActions,
-        this.blocks,
-        this.externalSmartElementsLibrary,
-        this.externalImageLibrary,
-        this.previewStyles,
-        this.externalAiAssistant,
-        this.externalDisplayConditionsLibrary,
-        this.externalVideoLibrary,
-        this.blocksPanel,
-        this.iconsRegistry,
-        this.externalImageLibraryTab
-      );
+      return new Extension2({
+        i18n: this.i18n,
+        styles: this.styles.map((style) => style.trim()).join("\n"),
+        uiElements: this.uiElements,
+        uiElementTagRegistry: this.uiElementTagRegistry,
+        controls: this.controls,
+        settingsPanelRegistry: this.settingsPanelRegistry,
+        contextActions: this.contextActions,
+        blocks: this.blocks,
+        externalSmartElementsLibrary: this.externalSmartElementsLibrary,
+        externalImageLibrary: this.externalImageLibrary,
+        previewStyles: this.previewStyles,
+        externalAiAssistant: this.externalAiAssistant,
+        externalDisplayConditionsLibrary: this.externalDisplayConditionsLibrary,
+        externalVideoLibrary: this.externalVideoLibrary,
+        blocksPanel: this.blocksPanel,
+        iconsRegistry: this.iconsRegistry,
+        externalImageLibraryTab: this.externalImageLibraryTab,
+        generalPanelTabs: this.generalPanelTabs
+      });
     }
   };
   var _ExternalAiAssistant3 = class _ExternalAiAssistant4 extends BaseValidatedClass2 {
     constructor() {
       super(_ExternalAiAssistant4.REQUIRED_METHODS, _ExternalAiAssistant4);
     }
-    openAiAssistant({ value, onDataSelectCallback, onCancelCallback, type }) {
+    openAiAssistant(_options) {
       throw new Error("Method openAiAssistant() must be implemented by the subclass");
     }
   };
@@ -3822,9 +3998,9 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     /**
      * Opens a popup dialog for creating or updating a display condition.
      *
-     * @param {DisplayCondition} currentCondition - The currently selected display condition to edit.
-     * @param {ExternalDisplayConditionSelectedCB} successCallback - Callback executed with the updated or newly created condition upon success.
-     * @param {() => void} cancelCallback - Callback executed when the dialog is closed without making changes.
+     * @param {DisplayCondition} _currentCondition - The currently selected display condition to edit.
+     * @param {ExternalDisplayConditionSelectedCB} _successCallback - Callback executed with the updated or newly created condition upon success.
+     * @param {() => void} _cancelCallback - Callback executed when the dialog is closed without making changes.
      */
     openExternalDisplayConditionsDialog(_currentCondition, _successCallback, _cancelCallback) {
       throw new Error("Method openExternalDisplayConditionsDialog() must be implemented by the subclass");
@@ -3874,7 +4050,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
      * @description Opens the external image library tab and provides a container for rendering
      * @param _container - DOM element container where the external library UI should be rendered
      * @param _onImageSelectCallback - Callback to invoke when an image is selected
-     * @param _imageNode - The image node for which the gallery is being opened (optional)
+     * @param _selectedNode - (Optional) Selected node for which the gallery is being opened
      */
     openImageLibraryTab(_container, _onImageSelectCallback, _selectedNode) {
       throw new Error("Method openImageLibraryTab() must be implemented by the subclass");
@@ -3994,18 +4170,13 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
   };
   _UIElementTagRegistry3.REQUIRED_METHODS = ["registerUiElements"];
   var UIElementTagRegistry2 = _UIElementTagRegistry3;
-  var OrderableItemIconPosition2 = /* @__PURE__ */ ((OrderableItemIconPosition22) => {
-    OrderableItemIconPosition22["TOP"] = "TOP";
-    OrderableItemIconPosition22["LEFT"] = "LEFT";
-    return OrderableItemIconPosition22;
-  })(OrderableItemIconPosition2 || {});
   return cjs;
 }
 var cjsExports = /* @__PURE__ */ requireCjs();
-const BLOCK_ID$b = "e2e-cjs-block";
+const BLOCK_ID$d = "e2e-cjs-block";
 class E2eCjsBlock extends cjsExports.Block {
   getId() {
-    return BLOCK_ID$b;
+    return BLOCK_ID$d;
   }
   getIcon() {
     return "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
@@ -4020,12 +4191,12 @@ class E2eCjsBlock extends cjsExports.Block {
     return true;
   }
   getTemplate() {
-    return `<td class="esd-${BLOCK_ID$b}"><h1>E2E CJS</h1></td>`;
+    return `<td class="esd-${BLOCK_ID$d}"><h1>E2E CJS</h1></td>`;
   }
 }
 const cjsLib = new cjsExports.ExtensionBuilder().addBlock(E2eCjsBlock).build();
 const EMPTY_CONTAINER_ID = "empty-container-extension";
-const CONTAINER_ID = "container-extension";
+const CONTAINER_ID$1 = "container-extension";
 class EmptyContainerExtension extends Block {
   getId() {
     return EMPTY_CONTAINER_ID;
@@ -4070,9 +4241,9 @@ class EmptyContainerExtension extends Block {
     return true;
   }
 }
-let ContainerExtension$1 = class ContainerExtension extends Block {
+let ContainerExtension$2 = class ContainerExtension extends Block {
   getId() {
-    return CONTAINER_ID;
+    return CONTAINER_ID$1;
   }
   getIcon() {
     return "new-window";
@@ -4106,7 +4277,80 @@ let ContainerExtension$1 = class ContainerExtension extends Block {
     return false;
   }
 };
-const containerExtension = new ExtensionBuilder().addBlock(EmptyContainerExtension).addBlock(ContainerExtension$1).build();
+const containerExtension = new ExtensionBuilder().addBlock(EmptyContainerExtension).addBlock(ContainerExtension$2).build();
+const BLOCK_ID$c = "block-extension";
+const CONTAINER_ID = "container-extension";
+const STRUCTURE_ID$2 = "structure-extension";
+class BlockExtension extends Block {
+  getId() {
+    return BLOCK_ID$c;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("XBlock");
+  }
+  getDescription() {
+    return this.api.translate("Block Extension Description");
+  }
+  getTemplate() {
+    return "<td>Block extension</td>";
+  }
+}
+let ContainerExtension$1 = class ContainerExtension2 extends Block {
+  getId() {
+    return CONTAINER_ID;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("XCont");
+  }
+  getDescription() {
+    return this.api.translate("Container Extension Description");
+  }
+  getTemplate() {
+    return `<${BlockType.EMPTY_CONTAINER}></${BlockType.EMPTY_CONTAINER}>`;
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.CONTAINER;
+  }
+};
+let StructureExtension$1 = class StructureExtension extends Block {
+  getId() {
+    return STRUCTURE_ID$2;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("XStruct");
+  }
+  getDescription() {
+    return this.api.translate("Structure Extension Description");
+  }
+  getTemplate() {
+    return `<td class="esd-structure es-p20t es-p20r es-p20l">
+              <table cellpadding="0" cellspacing="0" align="left" class="es-left">
+                <tbody>
+                  <tr>
+                    <td align="left" width="560" esd-extension-block-id="container-extension" class="esd-container-frame esd-container-extension esd-extension-block">
+                      <table cellpadding="0" cellspacing="0" role="presentation" width="100%">
+                        <tbody><tr><td esd-extension-block-id="block-extension" class="esd-block-extension esd-extension-block">Block extension</td></tr></tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>`;
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.STRUCTURE;
+  }
+};
+const extensionNames = new ExtensionBuilder().addBlock(StructureExtension$1).addBlock(ContainerExtension$1).addBlock(BlockExtension).build();
 const SINGLE_CONTAINER$1 = "single-container";
 const CONTAINERS_ROW$1 = "containers-row";
 const CONTAINERS_ROW2$1 = "containers-row2";
@@ -4228,10 +4472,10 @@ let ContainersColumn$1 = class ContainersColumn extends BaseBlockExtension$3 {
   }
 };
 const containerLayouts = new ExtensionBuilder().addBlock(SingleContainer$1).addBlock(ContainersRow$1).addBlock(ContainersRow2$1).addBlock(ContainersRow3).addBlock(ContainersColumn$1).build();
-const BLOCK_ID$a = "test-block-extension";
+const BLOCK_ID$b = "test-block-extension";
 class BlockExtensionCustomBlockBasic extends Block {
   getId() {
-    return BLOCK_ID$a;
+    return BLOCK_ID$b;
   }
   getIcon() {
     return "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
@@ -4259,7 +4503,7 @@ class BlockExtensionCustomBlockBasic extends Block {
   }
 }
 const customBlockBasic = new ExtensionBuilder().addBlock(BlockExtensionCustomBlockBasic).build();
-const BLOCK_ID$9 = "test-context-action-block-extension";
+const BLOCK_ID$a = "test-context-action-block-extension";
 const CONTEXT_ACTION_ID$1 = "test-block-context-action";
 let TestBlockContextAction$1 = class TestBlockContextAction extends ContextAction {
   getId() {
@@ -4277,7 +4521,7 @@ let TestBlockContextAction$1 = class TestBlockContextAction extends ContextActio
 };
 class BlockExtensionCustomBlockWithCustomContextAction extends Block {
   getId() {
-    return BLOCK_ID$9;
+    return BLOCK_ID$a;
   }
   getIcon() {
     return "new-window";
@@ -4305,7 +4549,7 @@ class BlockExtensionCustomBlockWithCustomContextAction extends Block {
   }
 }
 const customBlockWithCustomContextAction = new ExtensionBuilder().addBlock(BlockExtensionCustomBlockWithCustomContextAction).addContextAction(TestBlockContextAction$1).build();
-const BLOCK_ID$8 = "test-custom-renderer-block-extension";
+const BLOCK_ID$9 = "test-custom-renderer-block-extension";
 let CustomRenderer$3 = class CustomRenderer extends BlockRenderer {
   getPreviewInnerHtml(node) {
     return "<h1>Custom content</h1>";
@@ -4313,7 +4557,7 @@ let CustomRenderer$3 = class CustomRenderer extends BlockRenderer {
 };
 class BlockExtensionCustomBlockWithCustomRenderer extends Block {
   getId() {
-    return BLOCK_ID$8;
+    return BLOCK_ID$9;
   }
   getIcon() {
     return "new-window";
@@ -4428,7 +4672,7 @@ let CustomBlock$1 = class CustomBlock extends Block {
         `;
   }
 };
-let PanelRegistry$G = class PanelRegistry3 extends SettingsPanelRegistry {
+let PanelRegistry$H = class PanelRegistry3 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[TEST_STRUCTURE_ID] = [
       new SettingsPanelTab(
@@ -4440,7 +4684,7 @@ let PanelRegistry$G = class PanelRegistry3 extends SettingsPanelRegistry {
     ];
   }
 };
-const extensionCustomBlockMultiRowModifier = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$G).addBlock(CustomBlock$1).addControl(CardOrientationControl).build();
+const extensionCustomBlockMultiRowModifier = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$H).addBlock(CustomBlock$1).addControl(CardOrientationControl).build();
 const STRUCTURE_ID$1 = "custom-renderer-structure";
 const IMG_BLOCK_ID = "custom-renderer-img-block";
 const IMG_SIZE_ID = "extended-img-size-control";
@@ -4565,7 +4809,7 @@ let ExtendedTextColorControl$1 = class ExtendedTextColorControl extends TextColo
     };
   }
 };
-let PanelRegistry$F = class PanelRegistry4 extends SettingsPanelRegistry {
+let PanelRegistry$G = class PanelRegistry4 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[STRUCTURE_ID$1] = [
       new SettingsPanelTab(
@@ -4588,7 +4832,7 @@ let PanelRegistry$F = class PanelRegistry4 extends SettingsPanelRegistry {
     ];
   }
 };
-const customRendererControls = new ExtensionBuilder().addBlock(CustomRendererStructureExtension$1).addBlock(CustomRendererImageBlockExtension).addControl(ExtendedImageSizeControl$1).addControl(ExtendedFontFamilyControl).addControl(TextFixedHeightControl$2).addControl(ExtendedTextColorControl$1).withSettingsPanelRegistry(PanelRegistry$F).build();
+const customRendererControls = new ExtensionBuilder().addBlock(CustomRendererStructureExtension$1).addBlock(CustomRendererImageBlockExtension).addControl(ExtendedImageSizeControl$1).addControl(ExtendedFontFamilyControl).addControl(TextFixedHeightControl$2).addControl(ExtendedTextColorControl$1).withSettingsPanelRegistry(PanelRegistry$G).build();
 const STRUCTURE_ID = "custom-renderer-structure";
 const TEXT_BLOCK_ID = "custom-renderer-text-block";
 let CustomRenderer$1 = class CustomRenderer3 extends BlockRenderer {
@@ -4664,7 +4908,7 @@ class CustomRendererTextBlockExtension extends Block {
   }
 }
 const customRendererRestrictions = new ExtensionBuilder().addBlock(CustomRendererStructureExtension2).addBlock(CustomRendererTextBlockExtension).build();
-const BLOCK_ID$7 = "test-deprecated-custom-renderer-block-extension";
+const BLOCK_ID$8 = "test-deprecated-custom-renderer-block-extension";
 class DeprecatedCustomRenderer extends BlockRenderer {
   getPreviewHtml(node) {
     return "<td><h1>Deprecated custom content</h1></td>";
@@ -4672,7 +4916,7 @@ class DeprecatedCustomRenderer extends BlockRenderer {
 }
 class BlockExtensionWithDeprecatedCustomRenderer extends Block {
   getId() {
-    return BLOCK_ID$7;
+    return BLOCK_ID$8;
   }
   getIcon() {
     return "new-window";
@@ -4864,10 +5108,10 @@ class ContainersColumn2 extends BaseBlockExtension$1 {
   }
 }
 const emptyContainerLayouts = new ExtensionBuilder().addBlock(SingleContainer2).addBlock(ContainersRow4).addBlock(ContainersRow22).addBlock(ContainersColumn2).build();
-const BLOCK_ID$6 = "e2e-esm-block";
+const BLOCK_ID$7 = "e2e-esm-block";
 class E2eEsmBlock extends Block {
   getId() {
-    return BLOCK_ID$6;
+    return BLOCK_ID$7;
   }
   getIcon() {
     return "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
@@ -4882,15 +5126,15 @@ class E2eEsmBlock extends Block {
     return true;
   }
   getTemplate() {
-    return `<td class="esd-${BLOCK_ID$6}"><h1>E2E ESM</h1></td>`;
+    return `<td class="esd-${BLOCK_ID$7}"><h1>E2E ESM</h1></td>`;
   }
 }
 const esmLib = new ExtensionBuilder().addBlock(E2eEsmBlock).build();
-const BLOCK_ID$5 = "structure-wth-ondocumentChange-hook";
-const CONTROL_ID$5 = "structure-wth-ondocumentChange-hook-control";
+const BLOCK_ID$6 = "structure-wth-ondocumentChange-hook";
+const CONTROL_ID$6 = "structure-wth-ondocumentChange-hook-control";
 class StructureExtensionControl2 extends StructureMarginsBuiltInControl {
   getId() {
-    return CONTROL_ID$5;
+    return CONTROL_ID$6;
   }
   getLabels() {
     return {
@@ -4900,7 +5144,7 @@ class StructureExtensionControl2 extends StructureMarginsBuiltInControl {
 }
 class StructureExtensionBlock2 extends Block {
   getId() {
-    return BLOCK_ID$5;
+    return BLOCK_ID$6;
   }
   getIcon() {
     return "new-window";
@@ -4908,7 +5152,7 @@ class StructureExtensionBlock2 extends Block {
   getName() {
     return this.api.translate("Structure Extension");
   }
-  getSettingsPanelName() {
+  getSettingsPanelTitleHtml() {
     return `<div style="display:flex;">
                 <p style="margin: 0; margin-right: 10px">${this.api.translate("CUSTOM STRUCTURE")}</p>
                 <${UIElementType.ICON} class="icon-button" src="new-window" hint="Some hint"></${UIElementType.ICON}>
@@ -4956,16 +5200,16 @@ class StructureExtensionBlock2 extends Block {
     return BlockCompositionType.STRUCTURE;
   }
 }
-let PanelRegistry$E = class PanelRegistry5 extends SettingsPanelRegistry {
+let PanelRegistry$F = class PanelRegistry5 extends SettingsPanelRegistry {
   registerBlockControls(_blockControlsMap) {
-    _blockControlsMap[BLOCK_ID$5] = [
+    _blockControlsMap[BLOCK_ID$6] = [
       new SettingsPanelTab("Settings", [
-        CONTROL_ID$5
+        CONTROL_ID$6
       ]).withLabel("Settings")
     ];
   }
 };
-const blockWithHtmlSettingsPanelName = new ExtensionBuilder().addBlock(StructureExtensionBlock2).addControl(StructureExtensionControl2).withSettingsPanelRegistry(PanelRegistry$E).withLocalization({
+const blockWithHtmlSettingsPanelName = new ExtensionBuilder().addBlock(StructureExtensionBlock2).addControl(StructureExtensionControl2).withSettingsPanelRegistry(PanelRegistry$F).withLocalization({
   "en": {
     "CUSTOM STRUCTURE": "EN CUSTOM STRUCTURE"
   },
@@ -4973,7 +5217,7 @@ const blockWithHtmlSettingsPanelName = new ExtensionBuilder().addBlock(Structure
     "CUSTOM STRUCTURE": "DE CUSTOM STRUCTURE"
   }
 }).build();
-const BLOCK_ID$4 = "get-editor-config-block";
+const BLOCK_ID$5 = "get-editor-config-block";
 const EXTERNAL_CONFIG_KEY = "getEditorConfigExternalOnly";
 const INTERNAL_OVERRIDE_KEY = "name";
 const VARIABLE_KEY = "--getEditorConfigVariable";
@@ -4982,7 +5226,7 @@ const EMAIL_CONTENT_WIDTH = "--common__emailContentWidth";
 const ICON_URL = "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
 class GetEditorConfigBlock extends Block {
   getId() {
-    return BLOCK_ID$4;
+    return BLOCK_ID$5;
   }
   getIcon() {
     return ICON_URL;
@@ -5054,10 +5298,10 @@ class BlockExtensionImage extends Block {
   }
 }
 const baseImageBlockExtension = new ExtensionBuilder().addBlock(BlockExtensionImage).build();
-const BLOCK_ID$3 = "init-actions-block";
+const BLOCK_ID$4 = "init-actions-block";
 class InitActionsBlock extends Block {
   getId() {
-    return BLOCK_ID$3;
+    return BLOCK_ID$4;
   }
   getIcon() {
     return "new-window";
@@ -5260,7 +5504,7 @@ class SelectProductItemsControl extends Control {
     this.node = node;
   }
 }
-let PanelRegistry$D = class PanelRegistry6 extends SettingsPanelRegistry {
+let PanelRegistry$E = class PanelRegistry6 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[PRODUCT_BLOCK_ID] = [
       new SettingsPanelTab(
@@ -5272,11 +5516,11 @@ let PanelRegistry$D = class PanelRegistry6 extends SettingsPanelRegistry {
     ];
   }
 };
-const extensionMultirowModifierBlock = new ExtensionBuilder().addBlock(ProductBlock).addControl(SelectProductItemsControl).withSettingsPanelRegistry(PanelRegistry$D).build();
-const ID$L = "custom-blocks";
+const extensionMultirowModifierBlock = new ExtensionBuilder().addBlock(ProductBlock).addControl(SelectProductItemsControl).withSettingsPanelRegistry(PanelRegistry$E).build();
+const ID$M = "custom-blocks";
 class BlockExtensionCustomBlocks extends Block {
   getId() {
-    return ID$L;
+    return ID$M;
   }
   getBlockCompositionType() {
     return BlockCompositionType.BLOCK;
@@ -5314,10 +5558,10 @@ class BlockExtensionCustomBlocks extends Block {
   }
 }
 const onlyBlocksExtensionBlock = new ExtensionBuilder().addBlock(BlockExtensionCustomBlocks).build();
-const BLOCK_ID$2 = "structure-extension";
-class StructureExtension extends Block {
+const BLOCK_ID$3 = "structure-extension";
+class StructureExtension2 extends Block {
   getId() {
-    return BLOCK_ID$2;
+    return BLOCK_ID$3;
   }
   getIcon() {
     return "new-window";
@@ -5364,15 +5608,71 @@ class StructureExtension extends Block {
     return BlockCompositionType.STRUCTURE;
   }
 }
-const customStructure = new ExtensionBuilder().addBlock(StructureExtension).build();
-const ID$K = "extendedButtonAlign";
+const customStructure = new ExtensionBuilder().addBlock(StructureExtension2).build();
+const CUSTOM_BLOCK_ID = "custom-markup-block";
+const BUTTON_ALIGN_CONTROL_ID$1 = "buttonAlignBuiltInControl";
+let ButtonAlignControl$1 = class ButtonAlignControl extends ButtonAlignBuiltInControl {
+  getId() {
+    return BUTTON_ALIGN_CONTROL_ID$1;
+  }
+  getLabels() {
+    const viewMode = this.api.getEditorState().previewDeviceMode;
+    return {
+      title: viewMode === "DESKTOP" ? this.api.translate("Extended button align desktop") : this.api.translate("Extended button align mobile")
+    };
+  }
+};
+class BlockExtensionCustomMarkup extends Block {
+  getId() {
+    return CUSTOM_BLOCK_ID;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Test block");
+  }
+  getDescription() {
+    return this.api.translate("Test block description");
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.STRUCTURE;
+  }
+  getTemplate() {
+    return `<td>
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tbody>
+                  <tr>
+                    <td align="center" class="esd-block-button">
+                      <span class="es-button-border">
+                        <a href="" target="_blank" class="es-button">
+                          Test Button
+                        </a>
+                      </span>
+                  </tr>
+                </tbody>
+              </table>
+            </td>`;
+  }
+}
+class SettingsPanel extends SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[CUSTOM_BLOCK_ID] = [
+      new SettingsPanelTab("Settings", [
+        BUTTON_ALIGN_CONTROL_ID$1
+      ]).withLabel(this.api.translate("Settings"))
+    ];
+  }
+}
+const structureWithCustomMarkupExtension = new ExtensionBuilder().addBlock(BlockExtensionCustomMarkup).addControl(ButtonAlignControl$1).withSettingsPanelRegistry(SettingsPanel).build();
+const ID$L = "extendedButtonAlign";
 let ButonPanelRegistry$2 = class ButonPanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$K
+          ID$L
         ]
       )
     ];
@@ -5380,7 +5680,7 @@ let ButonPanelRegistry$2 = class ButonPanelRegistry extends SettingsPanelRegistr
 };
 class ExtendedButtonAlignControl extends ButtonAlignBuiltInControl {
   getId() {
-    return ID$K;
+    return ID$L;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -5393,15 +5693,15 @@ class ExtendedButtonAlignControl extends ButtonAlignBuiltInControl {
   }
 }
 const buttonAlignControlExtension = new ExtensionBuilder().addControl(ExtendedButtonAlignControl).withSettingsPanelRegistry(ButonPanelRegistry$2).build();
-const ID$J = "extendedButtonBackground";
-let PanelRegistry$C = class PanelRegistry7 extends SettingsPanelRegistry {
+const ID$K = "extendedButtonBackground";
+let PanelRegistry$D = class PanelRegistry7 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$J, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$K, 0);
   }
 };
 class ExtendedButtonBackgroundControl extends ButtonBackgroundColorBuiltInControl {
   getId() {
-    return ID$J;
+    return ID$K;
   }
   getLabels() {
     return {
@@ -5412,16 +5712,16 @@ class ExtendedButtonBackgroundControl extends ButtonBackgroundColorBuiltInContro
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-background-applied");
   }
 }
-const extensionButtonBackgroundControl = new ExtensionBuilder().addControl(ExtendedButtonBackgroundControl).withSettingsPanelRegistry(PanelRegistry$C).build();
-const ID$I = "extendedButtonBlockBackground";
-let PanelRegistry$B = class PanelRegistry8 extends SettingsPanelRegistry {
+const extensionButtonBackgroundControl = new ExtensionBuilder().addControl(ExtendedButtonBackgroundControl).withSettingsPanelRegistry(PanelRegistry$D).build();
+const ID$J = "extendedButtonBlockBackground";
+let PanelRegistry$C = class PanelRegistry8 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$I, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$J, 0);
   }
 };
 class ExtendedButtonBlockBackgroundControl extends ButtonBlockBackgroundColorBuiltInControl {
   getId() {
-    return ID$I;
+    return ID$J;
   }
   getLabels() {
     return {
@@ -5429,18 +5729,18 @@ class ExtendedButtonBlockBackgroundControl extends ButtonBlockBackgroundColorBui
     };
   }
 }
-const extensionButtonBlockBackgroundControl = new ExtensionBuilder().addControl(ExtendedButtonBlockBackgroundControl).withSettingsPanelRegistry(PanelRegistry$B).build();
-const ID$H = "extendedButtonBorder";
-let PanelRegistry$A = class PanelRegistry9 extends SettingsPanelRegistry {
+const extensionButtonBlockBackgroundControl = new ExtensionBuilder().addControl(ExtendedButtonBlockBackgroundControl).withSettingsPanelRegistry(PanelRegistry$C).build();
+const ID$I = "extendedButtonBorder";
+let PanelRegistry$B = class PanelRegistry9 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(SettingsTab.STYLES, [ID$H])
+      new SettingsPanelTab(SettingsTab.STYLES, [ID$I])
     ];
   }
 };
 class ExtendedButtonBorderControl extends ButtonBorderBuiltInControl {
   getId() {
-    return ID$H;
+    return ID$I;
   }
   getLabels() {
     return {
@@ -5452,9 +5752,33 @@ class ExtendedButtonBorderControl extends ButtonBorderBuiltInControl {
     };
   }
 }
-const buttonBorderControlExtension = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$A).addControl(ExtendedButtonBorderControl).build();
-const ID$G = "builtInButtonBorderHover";
+const buttonBorderControlExtension = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$B).addControl(ExtendedButtonBorderControl).build();
+const ID$H = "builtInButtonBorderHover";
 let ButtonPanelRegistry$b = class ButtonPanelRegistry extends SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[BlockType.BLOCK_BUTTON] = [
+      new SettingsPanelTab(
+        SettingsTab.STYLES,
+        [
+          ID$H
+        ]
+      )
+    ];
+  }
+};
+class ExtensionBuiltInButtonBorderHover extends ButtonHoverBorderColorBuiltInControl {
+  getId() {
+    return ID$H;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Button built in hover border color")
+    };
+  }
+}
+const extensionBuiltInButtonBorderHover = new ExtensionBuilder().addControl(ExtensionBuiltInButtonBorderHover).withSettingsPanelRegistry(ButtonPanelRegistry$b).build();
+const ID$G = "extendedButtonBorderRadius";
+let ButonPanelRegistry$1 = class ButonPanelRegistry2 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
@@ -5466,33 +5790,9 @@ let ButtonPanelRegistry$b = class ButtonPanelRegistry extends SettingsPanelRegis
     ];
   }
 };
-class ExtensionBuiltInButtonBorderHover extends ButtonHoverBorderColorBuiltInControl {
-  getId() {
-    return ID$G;
-  }
-  getLabels() {
-    return {
-      title: this.api.translate("Button built in hover border color")
-    };
-  }
-}
-const extensionBuiltInButtonBorderHover = new ExtensionBuilder().addControl(ExtensionBuiltInButtonBorderHover).withSettingsPanelRegistry(ButtonPanelRegistry$b).build();
-const ID$F = "extendedButtonBorderRadius";
-let ButonPanelRegistry$1 = class ButonPanelRegistry2 extends SettingsPanelRegistry {
-  registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
-        SettingsTab.STYLES,
-        [
-          ID$F
-        ]
-      )
-    ];
-  }
-};
 class ExtendedButtonBorderRadiusControl extends ButtonBorderRadiusBuiltInControl {
   getId() {
-    return ID$F;
+    return ID$G;
   }
   getLabels() {
     return {
@@ -5502,15 +5802,15 @@ class ExtendedButtonBorderRadiusControl extends ButtonBorderRadiusBuiltInControl
   }
 }
 const buttonBorderRadiusExtension = new ExtensionBuilder().addControl(ExtendedButtonBorderRadiusControl).withSettingsPanelRegistry(ButonPanelRegistry$1).build();
-const ID$E = "extendedButtonColor";
-let PanelRegistry$z = class PanelRegistry10 extends SettingsPanelRegistry {
+const ID$F = "extendedButtonColor";
+let PanelRegistry$A = class PanelRegistry10 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$E, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$F, 0);
   }
 };
 class ExtendedButtonColorControl extends ButtonColorBuiltInControl {
   getId() {
-    return ID$E;
+    return ID$F;
   }
   getLabels() {
     return {
@@ -5521,15 +5821,15 @@ class ExtendedButtonColorControl extends ButtonColorBuiltInControl {
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-button-color-applied");
   }
 }
-const buttonColorControlExtension = new ExtensionBuilder().addControl(ExtendedButtonColorControl).withSettingsPanelRegistry(PanelRegistry$z).build();
-const ID$D = "builtInButtonFitToContainer";
+const buttonColorControlExtension = new ExtensionBuilder().addControl(ExtendedButtonColorControl).withSettingsPanelRegistry(PanelRegistry$A).build();
+const ID$E = "builtInButtonFitToContainer";
 let ButtonPanelRegistry$a = class ButtonPanelRegistry2 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$D
+          ID$E
         ]
       )
     ];
@@ -5537,7 +5837,7 @@ let ButtonPanelRegistry$a = class ButtonPanelRegistry2 extends SettingsPanelRegi
 };
 class ExtendedButtonFitToContainerControl extends ButtonFitToContainerBuiltInControl {
   getId() {
-    return ID$D;
+    return ID$E;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -5551,8 +5851,32 @@ class ExtendedButtonFitToContainerControl extends ButtonFitToContainerBuiltInCon
   }
 }
 const extensionBuiltInButtonFitToContainer = new ExtensionBuilder().addControl(ExtendedButtonFitToContainerControl).withSettingsPanelRegistry(ButtonPanelRegistry$a).build();
-const ID$C = "builtInButtonHoverColor";
+const ID$D = "builtInButtonHoverColor";
 let ButtonPanelRegistry$9 = class ButtonPanelRegistry3 extends SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[BlockType.BLOCK_BUTTON] = [
+      new SettingsPanelTab(
+        SettingsTab.STYLES,
+        [
+          ID$D
+        ]
+      )
+    ];
+  }
+};
+class ExtensionBuiltInButtonHoverColor extends ButtonHoverColorBuiltInControl {
+  getId() {
+    return ID$D;
+  }
+  getLabels() {
+    return {
+      title: this.api.translate("Button built in hover color")
+    };
+  }
+}
+const extensionBuiltInButtonHoverColor = new ExtensionBuilder().addControl(ExtensionBuiltInButtonHoverColor).withSettingsPanelRegistry(ButtonPanelRegistry$9).build();
+const ID$C = "builtInButtonHoverTextColor";
+let ButtonPanelRegistry$8 = class ButtonPanelRegistry4 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
@@ -5564,33 +5888,9 @@ let ButtonPanelRegistry$9 = class ButtonPanelRegistry3 extends SettingsPanelRegi
     ];
   }
 };
-class ExtensionBuiltInButtonHoverColor extends ButtonHoverColorBuiltInControl {
-  getId() {
-    return ID$C;
-  }
-  getLabels() {
-    return {
-      title: this.api.translate("Button built in hover color")
-    };
-  }
-}
-const extensionBuiltInButtonHoverColor = new ExtensionBuilder().addControl(ExtensionBuiltInButtonHoverColor).withSettingsPanelRegistry(ButtonPanelRegistry$9).build();
-const ID$B = "builtInButtonHoverTextColor";
-let ButtonPanelRegistry$8 = class ButtonPanelRegistry4 extends SettingsPanelRegistry {
-  registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
-        SettingsTab.STYLES,
-        [
-          ID$B
-        ]
-      )
-    ];
-  }
-};
 class ExtensionBuiltInButtonHoverTextColor extends ButtonHoverTextColorBuiltInControl {
   getId() {
-    return ID$B;
+    return ID$C;
   }
   getLabels() {
     return {
@@ -5599,15 +5899,15 @@ class ExtensionBuiltInButtonHoverTextColor extends ButtonHoverTextColorBuiltInCo
   }
 }
 const extensionBuiltInButtonHoverTextColor = new ExtensionBuilder().addControl(ExtensionBuiltInButtonHoverTextColor).withSettingsPanelRegistry(ButtonPanelRegistry$8).build();
-const ID$A = "extendedButtonMargins";
+const ID$B = "extendedButtonMargins";
 class ButonPanelRegistry3 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRIPE][0].addControl(ID$A, 0);
+    controls2[BlockType.STRIPE][0].addControl(ID$B, 0);
   }
 }
 class ExtendedButtonMarginsControl extends ButtonMarginsBuiltInControl {
   getId() {
-    return ID$A;
+    return ID$B;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -5617,15 +5917,15 @@ class ExtendedButtonMarginsControl extends ButtonMarginsBuiltInControl {
   }
 }
 const extensionButtonMarginsControl = new ExtensionBuilder().addControl(ExtendedButtonMarginsControl).withSettingsPanelRegistry(ButonPanelRegistry3).build();
-const ID$z = "extendedButtonPaddingsControl";
-let PanelRegistry$y = class PanelRegistry11 extends SettingsPanelRegistry {
+const ID$A = "extendedButtonPaddingsControl";
+let PanelRegistry$z = class PanelRegistry11 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRIPE][0].addControl(ID$z, 0);
+    controls2[BlockType.STRIPE][0].addControl(ID$A, 0);
   }
 };
 class ExtendedButtonInternalIndents extends ButtonPaddingsBuiltInControl {
   getId() {
-    return ID$z;
+    return ID$A;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -5642,15 +5942,15 @@ class ExtendedButtonInternalIndents extends ButtonPaddingsBuiltInControl {
 const extendedButtonPaddingsControl = new ExtensionBuilder().addControl(ExtendedButtonInternalIndents).withLocalization({ "en": {
   "Extended buttons paddings desktop": "EN Extended buttons paddings desktop",
   "Extended buttons paddings mobile": "EN Extended buttons paddings mobile"
-} }).withSettingsPanelRegistry(PanelRegistry$y).build();
-const ID$y = "extendedButtonText";
+} }).withSettingsPanelRegistry(PanelRegistry$z).build();
+const ID$z = "extendedButtonText";
 let ButtonPanelRegistry$7 = class ButtonPanelRegistry5 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$y
+          ID$z
         ]
       )
     ];
@@ -5658,7 +5958,7 @@ let ButtonPanelRegistry$7 = class ButtonPanelRegistry5 extends SettingsPanelRegi
 };
 class ExtendedButtonTextControl extends ButtonTextBuiltInControl {
   getId() {
-    return ID$y;
+    return ID$z;
   }
   getLabels() {
     return {
@@ -5667,14 +5967,14 @@ class ExtendedButtonTextControl extends ButtonTextBuiltInControl {
   }
 }
 const buttonTextControlExtension = new ExtensionBuilder().addControl(ExtendedButtonTextControl).withSettingsPanelRegistry(ButtonPanelRegistry$7).build();
-const ID$x = "extendedButtonTextSize";
+const ID$y = "extendedButtonTextSize";
 let ButtonPanelRegistry$6 = class ButtonPanelRegistry6 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.STYLES,
         [
-          ID$x
+          ID$y
         ]
       )
     ];
@@ -5682,7 +5982,7 @@ let ButtonPanelRegistry$6 = class ButtonPanelRegistry6 extends SettingsPanelRegi
 };
 class ExtendedButtonTextSizeControl extends ButtonTextSizeBuiltInControl {
   getId() {
-    return ID$x;
+    return ID$y;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -5699,14 +5999,14 @@ class ExtendedButtonTextSizeControl extends ButtonTextSizeBuiltInControl {
   }
 }
 const extensionButtonTextSizeControl = new ExtensionBuilder().addControl(ExtendedButtonTextSizeControl).withSettingsPanelRegistry(ButtonPanelRegistry$6).build();
-const ID$w = "extendedButtonVisibility";
+const ID$x = "extendedButtonVisibility";
 let ButtonPanelRegistry$5 = class ButtonPanelRegistry7 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$w
+          ID$x
         ]
       )
     ];
@@ -5714,7 +6014,7 @@ let ButtonPanelRegistry$5 = class ButtonPanelRegistry7 extends SettingsPanelRegi
 };
 class ExtendedButtonVisibilityControl extends ButtonVisibilityBuiltInControl {
   getId() {
-    return ID$w;
+    return ID$x;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -5724,14 +6024,14 @@ class ExtendedButtonVisibilityControl extends ButtonVisibilityBuiltInControl {
   }
 }
 const extensionButtonVisibilityControl = new ExtensionBuilder().addControl(ExtendedButtonVisibilityControl).withSettingsPanelRegistry(ButtonPanelRegistry$5).build();
-const ID$v = "builtInTextStyleAndColor";
+const ID$w = "builtInTextStyleAndColor";
 let ButtonPanelRegistry$4 = class ButtonPanelRegistry8 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.STYLES,
         [
-          ID$v
+          ID$w
         ]
       )
     ];
@@ -5739,7 +6039,7 @@ let ButtonPanelRegistry$4 = class ButtonPanelRegistry8 extends SettingsPanelRegi
 };
 class ExtensionBuiltInButtonTextStyleAndColor extends ButtonTextStyleAndFontColorBuiltInControl {
   getId() {
-    return ID$v;
+    return ID$w;
   }
   getLabels() {
     return {
@@ -5753,15 +6053,15 @@ class ExtensionBuiltInButtonTextStyleAndColor extends ButtonTextStyleAndFontColo
   }
 }
 const extensionButtonTextStyleAndColorControl = new ExtensionBuilder().addControl(ExtensionBuiltInButtonTextStyleAndColor).withSettingsPanelRegistry(ButtonPanelRegistry$4).build();
-const ID$u = "extendedContainerBackgroundColor";
-let PanelRegistry$x = class PanelRegistry12 extends SettingsPanelRegistry {
+const ID$v = "extendedContainerBackgroundColor";
+let PanelRegistry$y = class PanelRegistry12 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.CONTAINER][0].addControl(ID$u, 0);
+    controls2[BlockType.CONTAINER][0].addControl(ID$v, 0);
   }
 };
 class ExtendedContainerBackgroundColorControl extends ContainerBackgroundColorBuiltInControl {
   getId() {
-    return ID$u;
+    return ID$v;
   }
   getLabels() {
     return {
@@ -5769,16 +6069,16 @@ class ExtendedContainerBackgroundColorControl extends ContainerBackgroundColorBu
     };
   }
 }
-const extensionContainerBackgroundControl = new ExtensionBuilder().addControl(ExtendedContainerBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$x).build();
-const ID$t = "extendedContainerBackgroundImage";
-let PanelRegistry$w = class PanelRegistry13 extends SettingsPanelRegistry {
+const extensionContainerBackgroundControl = new ExtensionBuilder().addControl(ExtendedContainerBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$y).build();
+const ID$u = "extendedContainerBackgroundImage";
+let PanelRegistry$x = class PanelRegistry13 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.CONTAINER][0].addControl(ID$t, 0);
+    controls2[BlockType.CONTAINER][0].addControl(ID$u, 0);
   }
 };
 class ExtendedContainerBackgroundImageControl extends ContainerBackgroundImageBuiltInControl {
   getId() {
-    return ID$t;
+    return ID$u;
   }
   getLabels() {
     return {
@@ -5793,21 +6093,21 @@ class ExtendedContainerBackgroundImageControl extends ContainerBackgroundImageBu
     };
   }
 }
-const extensionContainerBackgroundImageControl = new ExtensionBuilder().addControl(ExtendedContainerBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$w).build();
-const ID$s = "extendedContainerBorder";
-let PanelRegistry$v = class PanelRegistry14 extends SettingsPanelRegistry {
+const extensionContainerBackgroundImageControl = new ExtensionBuilder().addControl(ExtendedContainerBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$x).build();
+const ID$t = "extendedContainerBorder";
+let PanelRegistry$w = class PanelRegistry14 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.CONTAINER] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$s])
+      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$t])
     ];
     controls2[BlockType.STRUCTURE] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$s])
+      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$t])
     ];
   }
 };
 class ExtendedContainerBorderControl extends ContainerBorderBuiltInControl {
   getId() {
-    return ID$s;
+    return ID$t;
   }
   getLabels() {
     return {
@@ -5825,15 +6125,15 @@ class ExtendedContainerBorderControl extends ContainerBorderBuiltInControl {
     return modifier;
   }
 }
-const extensionContainerBorderControl = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$v).addControl(ExtendedContainerBorderControl).build();
-const ID$r = "extendedContainerVisibility";
+const extensionContainerBorderControl = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$w).addControl(ExtendedContainerBorderControl).build();
+const ID$s = "extendedContainerVisibility";
 let ButtonPanelRegistry$3 = class ButtonPanelRegistry9 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.CONTAINER] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$r
+          ID$s
         ]
       )
     ];
@@ -5841,7 +6141,7 @@ let ButtonPanelRegistry$3 = class ButtonPanelRegistry9 extends SettingsPanelRegi
 };
 class ExtendedContainerVisibilityControl extends ContainerVisibilityBuiltInControl {
   getId() {
-    return ID$r;
+    return ID$s;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -5851,17 +6151,17 @@ class ExtendedContainerVisibilityControl extends ContainerVisibilityBuiltInContr
   }
 }
 const extensionContainerVisibilityControl = new ExtensionBuilder().addControl(ExtendedContainerVisibilityControl).withSettingsPanelRegistry(ButtonPanelRegistry$3).build();
-const ID$q = "extendedBlockPaddings_text";
-let PanelRegistry$u = class PanelRegistry15 extends SettingsPanelRegistry {
+const ID$r = "extendedBlockPaddings_text";
+let PanelRegistry$v = class PanelRegistry15 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0] = new SettingsPanelTab(SettingsTab.SETTINGS, [
-      ID$q
+      ID$r
     ]);
   }
 };
 class ExtendedBlockPaddingsControl extends TextPaddingsBuiltInControl {
   getId() {
-    return ID$q;
+    return ID$r;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -5884,10 +6184,10 @@ const extendedBlockPaddingsControl = new ExtensionBuilder().addControl(ExtendedB
   "uk": {
     "Extended block paddings": "Зовнішні відступи блоку текст"
   }
-}).withSettingsPanelRegistry(PanelRegistry$u).build();
+}).withSettingsPanelRegistry(PanelRegistry$v).build();
 const TEXT_ID$1 = "extendedBlockPaddingsMultipleText";
 const BUTTON_ID$2 = "extendedBlockPaddingsMultipleButton";
-let PanelRegistry$t = class PanelRegistry16 extends SettingsPanelRegistry {
+let PanelRegistry$u = class PanelRegistry16 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRIPE][0].addControl(TEXT_ID$1, 0);
     controls2[BlockType.STRIPE][0].addControl(BUTTON_ID$2, 1);
@@ -5915,7 +6215,7 @@ let ExtendedBlockButtonMarginsControl$1 = class ExtendedBlockButtonMarginsContro
     };
   }
 };
-const extensionMultiplePaddings = new ExtensionBuilder().addControl(ExtendedBlockTextPaddingsControl).addControl(ExtendedBlockButtonMarginsControl$1).withSettingsPanelRegistry(PanelRegistry$t).build();
+const extensionMultiplePaddings = new ExtensionBuilder().addControl(ExtendedBlockTextPaddingsControl).addControl(ExtendedBlockButtonMarginsControl$1).withSettingsPanelRegistry(PanelRegistry$u).build();
 const PRODUCT_CARD_NAME_ALIGN_CONTROL_ID = "card-name-align-control";
 const PRODUCT_CARD_PRICE_ALIGN_CONTROL_ID = "card-price-align-control";
 const PRODUCT_STRUCTURE_ID$3 = "product-structure";
@@ -6176,18 +6476,18 @@ class CustomTitleControl extends Control {
     });
   }
 }
-let PanelRegistry$s = class PanelRegistry17 extends SettingsPanelRegistry {
+let PanelRegistry$t = class PanelRegistry17 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     const controlIds = controls2["MESSAGE_SETTINGS"][0].getControlsIds();
     controls2["MESSAGE_SETTINGS"][0].deleteControl(controlIds[0]);
     controls2["MESSAGE_SETTINGS"][0].addControl(CUSTOM_TITLE_CONTROL_ID, 0);
   }
 };
-const extensionCustomTitle = new ExtensionBuilder().addControl(CustomTitleControl).withSettingsPanelRegistry(PanelRegistry$s).build();
-const ID$p = "custom-title";
+const extensionCustomTitle = new ExtensionBuilder().addControl(CustomTitleControl).withSettingsPanelRegistry(PanelRegistry$t).build();
+const ID$q = "custom-title";
 class CustomTitleWithPopoverPanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2["MESSAGE_SETTINGS"][0].addControl(ID$p, 0);
+    controls2["MESSAGE_SETTINGS"][0].addControl(ID$q, 0);
   }
 }
 const customTitleElementId = "custom-title-element";
@@ -6260,7 +6560,7 @@ class CutomTitleElement extends UIElement {
 }
 class CustomTitle extends Control {
   getId() {
-    return ID$p;
+    return ID$q;
   }
   getTemplate() {
     return `
@@ -6272,16 +6572,16 @@ class CustomTitle extends Control {
 }
 const customTitleWithPopover = new ExtensionBuilder().addControl(CustomTitle).addUiElement(CutomTitleElement).withSettingsPanelRegistry(CustomTitleWithPopoverPanelRegistry).build();
 const BACKGROUND_CONTROL$2 = "backgroundControl";
-const ID$o = "expandableControlExtension";
-let PanelRegistry$r = class PanelRegistry18 extends SettingsPanelRegistry {
+const ID$p = "expandableControlExtension";
+let PanelRegistry$s = class PanelRegistry18 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$o, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$p, 0);
   }
 };
 class expandableControlExtension extends Control {
   disabled = false;
   getId() {
-    return ID$o;
+    return ID$p;
   }
   getTemplate() {
     const { NESTED_CONTROL } = UIElementType;
@@ -6313,7 +6613,7 @@ class expandableControlExtension extends Control {
     this.api.setUIEAttribute("exp1", UEAttr.EXPANDABLE.disabled, this.disabled);
   }
 }
-const expandableControlExtension$1 = new ExtensionBuilder().addControl(expandableControlExtension).withSettingsPanelRegistry(PanelRegistry$r).build();
+const expandableControlExtension$1 = new ExtensionBuilder().addControl(expandableControlExtension).withSettingsPanelRegistry(PanelRegistry$s).build();
 const PRODUCT_STRUCTURE_ID$1 = "product-block-id";
 const TEXT_FIXED_HEIGHT_ID = "text-fixed-height-id";
 let ProductStructureBlock$1 = class ProductStructureBlock3 extends Block {
@@ -6396,7 +6696,7 @@ let TextFixedHeightControl$1 = class TextFixedHeightControl2 extends TextFixedHe
     };
   }
 };
-let PanelRegistry$q = class PanelRegistry19 extends SettingsPanelRegistry {
+let PanelRegistry$r = class PanelRegistry19 extends SettingsPanelRegistry {
   registerBlockControls(_blockControlsMap) {
     _blockControlsMap[PRODUCT_STRUCTURE_ID$1] = [
       new SettingsPanelTab("Settings", [
@@ -6405,13 +6705,13 @@ let PanelRegistry$q = class PanelRegistry19 extends SettingsPanelRegistry {
     ];
   }
 };
-const extensionFixedHeightControl = new ExtensionBuilder().addBlock(ProductStructureBlock$1).addControl(TextFixedHeightControl$1).withSettingsPanelRegistry(PanelRegistry$q).build();
-const CONTROL_ID$4 = "custom-control-id";
-const BLOCK_ID$1 = "custom-block-id";
+const extensionFixedHeightControl = new ExtensionBuilder().addBlock(ProductStructureBlock$1).addControl(TextFixedHeightControl$1).withSettingsPanelRegistry(PanelRegistry$r).build();
+const CONTROL_ID$5 = "custom-control-id";
+const BLOCK_ID$2 = "custom-block-id";
 class CustomControl extends Control {
   #node;
   getId() {
-    return CONTROL_ID$4;
+    return CONTROL_ID$5;
   }
   getTemplate() {
     return `
@@ -6451,7 +6751,7 @@ class CustomControl extends Control {
 }
 class CustomBlock2 extends Block {
   getId() {
-    return BLOCK_ID$1;
+    return BLOCK_ID$2;
   }
   getBlockCompositionType() {
     return BlockCompositionType.STRUCTURE;
@@ -6474,32 +6774,32 @@ class CustomBlock2 extends Block {
     return "<td><h1>Test block extension</h1></td>";
   }
 }
-let PanelRegistry$p = class PanelRegistry20 extends SettingsPanelRegistry {
+let PanelRegistry$q = class PanelRegistry20 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$1] = [
+    controls2[BLOCK_ID$2] = [
       new SettingsPanelTab(
         "Test tab",
-        [CONTROL_ID$4]
+        [CONTROL_ID$5]
       ).withLabel(this.api.translate("Test tab"))
     ];
   }
 };
-const multipleCustomControlWithEmptyState = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$p).addBlock(CustomBlock2).addControl(CustomControl).build();
-const ID$n = "nestedControlExtension";
+const multipleCustomControlWithEmptyState = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$q).addBlock(CustomBlock2).addControl(CustomControl).build();
+const ID$o = "nestedControlExtension";
 const DISABLED_ID = "disabledNestedControlExtension";
 const BACKGROUND_CONTROL$1 = "backgroundControl";
 const DISABLED_BACKGROUND_CONTROL = "disabledBackgroundControl";
 const BACKGROUND_SWITCHER = "backgroundSwitcher";
-let PanelRegistry$o = class PanelRegistry21 extends SettingsPanelRegistry {
+let PanelRegistry$p = class PanelRegistry21 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$n, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$o, 0);
     controls2[BlockType.BLOCK_TEXT][0].addControl(DISABLED_ID, 0);
   }
 };
 let NestedControlExtension$1 = class NestedControlExtension extends Control {
   #switcher;
   getId() {
-    return ID$n;
+    return ID$o;
   }
   getTemplate() {
     const { LABEL, SWITCHER, NESTED_CONTROL } = UIElementType;
@@ -6542,7 +6842,7 @@ class DisabledNestedControlExtension extends Control {
   onTemplateNodeUpdated(node) {
   }
 }
-const nestedBackgroundControl = new ExtensionBuilder().addControl(NestedControlExtension$1).addControl(DisabledNestedControlExtension).withSettingsPanelRegistry(PanelRegistry$o).build();
+const nestedBackgroundControl = new ExtensionBuilder().addControl(NestedControlExtension$1).addControl(DisabledNestedControlExtension).withSettingsPanelRegistry(PanelRegistry$p).build();
 const NESTED_ID = "nestedControlID";
 class NestedControlExtension2 extends Control {
   getId() {
@@ -6556,18 +6856,18 @@ class NestedControlExtension2 extends Control {
             </{NESTED_CONTROL}>`;
   }
 }
-let PanelRegistry$n = class PanelRegistry22 extends SettingsPanelRegistry {
+let PanelRegistry$o = class PanelRegistry22 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(NESTED_ID, 0);
   }
 };
-const nestedControlVisibility = new ExtensionBuilder().addControl(NestedControlExtension2).withSettingsPanelRegistry(PanelRegistry$n).build();
-const CONTROL_ID$3 = "reinitializedControlExtension";
+const nestedControlVisibility = new ExtensionBuilder().addControl(NestedControlExtension2).withSettingsPanelRegistry(PanelRegistry$o).build();
+const CONTROL_ID$4 = "reinitializedControlExtension";
 const ELEMENT_ID = "reinitializedElementExtension";
-const SWITCHER_NAME$2 = "switcher";
-let PanelRegistry$m = class PanelRegistry23 extends SettingsPanelRegistry {
+const SWITCHER_NAME$3 = "switcher";
+let PanelRegistry$n = class PanelRegistry23 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(CONTROL_ID$3, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(CONTROL_ID$4, 0);
   }
 };
 class ReinitializedElement extends UIElement {
@@ -6597,17 +6897,17 @@ class ReinitializedElement extends UIElement {
 }
 class ReinitializedControlExtension extends Control {
   getId() {
-    return CONTROL_ID$3;
+    return CONTROL_ID$4;
   }
   getTemplate() {
-    return `<div class="e2e-reinitialized-control"><${ELEMENT_ID} ${UEAttr.DEFAULT.name}="${SWITCHER_NAME$2}"></${ELEMENT_ID}></div>`;
+    return `<div class="e2e-reinitialized-control"><${ELEMENT_ID} ${UEAttr.DEFAULT.name}="${SWITCHER_NAME$3}"></${ELEMENT_ID}></div>`;
   }
   onRender() {
-    this.api.onValueChanged(SWITCHER_NAME$2, this._toggleClass.bind(this));
+    this.api.onValueChanged(SWITCHER_NAME$3, this._toggleClass.bind(this));
   }
   onTemplateNodeUpdated(node) {
     this.link = node.querySelector("a");
-    this.api.updateValues({ [SWITCHER_NAME$2]: this.link.hasClass(this._getClass()) });
+    this.api.updateValues({ [SWITCHER_NAME$3]: this.link.hasClass(this._getClass()) });
   }
   _getClass() {
     return "test-class";
@@ -6620,28 +6920,28 @@ class ReinitializedControlExtension extends Control {
     }
   }
 }
-const reinitializedExtension = new ExtensionBuilder().addControl(ReinitializedControlExtension).addUiElement(ReinitializedElement).withSettingsPanelRegistry(PanelRegistry$m).build();
-const ID$m = "stateChangeSubscriberExtension";
+const reinitializedExtension = new ExtensionBuilder().addControl(ReinitializedControlExtension).addUiElement(ReinitializedElement).withSettingsPanelRegistry(PanelRegistry$n).build();
+const ID$n = "stateChangeSubscriberExtension";
 const LABEL_NAME = "label";
-const SWITCHER_NAME$1 = "switcher";
-let PanelRegistry$l = class PanelRegistry24 extends SettingsPanelRegistry {
+const SWITCHER_NAME$2 = "switcher";
+let PanelRegistry$m = class PanelRegistry24 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$m, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$n, 0);
   }
 };
 class StateChangeSubscriberExtension extends Control {
   getId() {
-    return ID$m;
+    return ID$n;
   }
   getTemplate() {
     const { LABEL, SWITCHER } = UIElementType;
     return `<div class="e2e-mode-class-control">
                 <${LABEL} ${UEAttr.LABEL.name}="${LABEL_NAME}"></${LABEL}>
-                <${SWITCHER} ${UEAttr.SWITCHER.name}="${SWITCHER_NAME$1}"></${SWITCHER}>
+                <${SWITCHER} ${UEAttr.SWITCHER.name}="${SWITCHER_NAME$2}"></${SWITCHER}>
             </div>`;
   }
   onRender() {
-    this.api.onValueChanged(SWITCHER_NAME$1, this._toggleClass.bind(this));
+    this.api.onValueChanged(SWITCHER_NAME$2, this._toggleClass.bind(this));
     this.api.onEditorStatePropUpdated(EditorStatePropertyType.previewDeviceMode, () => this._updateForm());
   }
   onTemplateNodeUpdated(node) {
@@ -6651,7 +6951,7 @@ class StateChangeSubscriberExtension extends Control {
   _updateForm() {
     this.api.updateValues({
       [LABEL_NAME]: this._getViewMode() === PreviewDeviceMode.DESKTOP ? "Set desktop class" : "Set mobile class",
-      [SWITCHER_NAME$1]: this.link.hasClass(this._getClass())
+      [SWITCHER_NAME$2]: this.link.hasClass(this._getClass())
     });
   }
   _getViewMode() {
@@ -6668,16 +6968,16 @@ class StateChangeSubscriberExtension extends Control {
     }
   }
 }
-const stateChangeSubscriber = new ExtensionBuilder().addControl(StateChangeSubscriberExtension).withSettingsPanelRegistry(PanelRegistry$l).build();
-const ID$l = "variableModeExtendedControl";
-let PanelRegistry$k = class PanelRegistry25 extends SettingsPanelRegistry {
+const stateChangeSubscriber = new ExtensionBuilder().addControl(StateChangeSubscriberExtension).withSettingsPanelRegistry(PanelRegistry$m).build();
+const ID$m = "variableModeExtendedControl";
+let PanelRegistry$l = class PanelRegistry25 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$l, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$m, 0);
   }
 };
 class VariableModeExtendedControl extends ButtonBlockBackgroundColorBuiltInControl {
   getId() {
-    return ID$l;
+    return ID$m;
   }
   getLabels() {
     return {
@@ -6691,35 +6991,35 @@ class VariableModeExtendedControl extends ButtonBlockBackgroundColorBuiltInContr
     return this.api.getEditorState()[EditorStatePropertyType.previewDeviceMode];
   }
 }
-const variableModeExtendedControl = new ExtensionBuilder().addControl(VariableModeExtendedControl).withSettingsPanelRegistry(PanelRegistry$k).build();
-const CONTROL_ID$2 = "variableVisibilityControl";
-const SWITCHER_NAME = "switcher";
-let PanelRegistry$j = class PanelRegistry26 extends SettingsPanelRegistry {
+const variableModeExtendedControl = new ExtensionBuilder().addControl(VariableModeExtendedControl).withSettingsPanelRegistry(PanelRegistry$l).build();
+const CONTROL_ID$3 = "variableVisibilityControl";
+const SWITCHER_NAME$1 = "switcher";
+let PanelRegistry$k = class PanelRegistry26 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][1] = new SettingsPanelTab(SettingsTab.STYLES, [CONTROL_ID$2]);
-    controls2[BlockType.BLOCK_IMAGE][0].addControl(CONTROL_ID$2, 0);
+    controls2[BlockType.BLOCK_BUTTON][1] = new SettingsPanelTab(SettingsTab.STYLES, [CONTROL_ID$3]);
+    controls2[BlockType.BLOCK_IMAGE][0].addControl(CONTROL_ID$3, 0);
   }
 };
 class VariableVisibilityControl extends Control {
   getId() {
-    return CONTROL_ID$2;
+    return CONTROL_ID$3;
   }
   getTemplate() {
     const { SWITCHER, LABEL } = UIElementType;
     return `<div class="e2e-variable-visibility-control">
                 <${LABEL}  ${UEAttr.LABEL.text}="Only visible if link href is undefined"></${LABEL}>
-                <${SWITCHER} ${UEAttr.DEFAULT.name}="${SWITCHER_NAME}"></${SWITCHER}>
+                <${SWITCHER} ${UEAttr.DEFAULT.name}="${SWITCHER_NAME$1}"></${SWITCHER}>
             </div>`;
   }
   isVisible(node) {
     return !node.querySelector("a").getAttribute("href");
   }
   onRender() {
-    this.api.onValueChanged(SWITCHER_NAME, this._toggleClass.bind(this));
+    this.api.onValueChanged(SWITCHER_NAME$1, this._toggleClass.bind(this));
   }
   onTemplateNodeUpdated(node) {
     this.link = node.querySelector("a");
-    this.api.updateValues({ [SWITCHER_NAME]: this.link.hasClass(this._getClass()) });
+    this.api.updateValues({ [SWITCHER_NAME$1]: this.link.hasClass(this._getClass()) });
   }
   _getClass() {
     return "test-class";
@@ -6732,9 +7032,9 @@ class VariableVisibilityControl extends Control {
     }
   }
 }
-const variableVisibilityControl = new ExtensionBuilder().addControl(VariableVisibilityControl).withSettingsPanelRegistry(PanelRegistry$j).build();
+const variableVisibilityControl = new ExtensionBuilder().addControl(VariableVisibilityControl).withSettingsPanelRegistry(PanelRegistry$k).build();
 const BUTTON_ID$1 = "extendedBlockPaddingsMultipleButton";
-let PanelRegistry$i = class PanelRegistry27 extends SettingsPanelRegistry {
+let PanelRegistry$j = class PanelRegistry27 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(SettingsTab.SETTINGS, [BUTTON_ID$1])
@@ -6759,16 +7059,16 @@ class ExtendedBlockButtonMarginsControl2 extends ButtonMarginsBuiltInControl {
     return true;
   }
 }
-const extensionVisibleBuiltControl = new ExtensionBuilder().addControl(ExtendedBlockButtonMarginsControl2).withSettingsPanelRegistry(PanelRegistry$i).build();
-const ID$k = "extendedImageSize";
-let PanelRegistry$h = class PanelRegistry28 extends SettingsPanelRegistry {
+const extensionVisibleBuiltControl = new ExtensionBuilder().addControl(ExtendedBlockButtonMarginsControl2).withSettingsPanelRegistry(PanelRegistry$j).build();
+const ID$l = "extendedImageSize";
+let PanelRegistry$i = class PanelRegistry28 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRUCTURE][0].addControl(ID$k, 0);
+    controls2[BlockType.STRUCTURE][0].addControl(ID$l, 0);
   }
 };
 class ExtendedImageSizeControl2 extends ImageSizeBuiltInControl {
   getId() {
-    return ID$k;
+    return ID$l;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -6777,15 +7077,15 @@ class ExtendedImageSizeControl2 extends ImageSizeBuiltInControl {
     };
   }
 }
-const imageSizeControlExtension = new ExtensionBuilder().addControl(ExtendedImageSizeControl2).withSettingsPanelRegistry(PanelRegistry$h).build();
-const ID$j = "extendedImageVisibility";
+const imageSizeControlExtension = new ExtensionBuilder().addControl(ExtendedImageSizeControl2).withSettingsPanelRegistry(PanelRegistry$i).build();
+const ID$k = "extendedImageVisibility";
 let ButtonPanelRegistry$2 = class ButtonPanelRegistry10 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_IMAGE] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$j
+          ID$k
         ]
       )
     ];
@@ -6793,7 +7093,7 @@ let ButtonPanelRegistry$2 = class ButtonPanelRegistry10 extends SettingsPanelReg
 };
 class ExtendedImageVisibilityControl extends ImageVisibilityBuiltInControl {
   getId() {
-    return ID$j;
+    return ID$k;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -6803,15 +7103,15 @@ class ExtendedImageVisibilityControl extends ImageVisibilityBuiltInControl {
   }
 }
 const extensionImageVisibilityControl = new ExtensionBuilder().addControl(ExtendedImageVisibilityControl).withSettingsPanelRegistry(ButtonPanelRegistry$2).build();
-const ID$i = "extendedSpacerBackgroundColor";
-let PanelRegistry$g = class PanelRegistry29 extends SettingsPanelRegistry {
+const ID$j = "extendedSpacerBackgroundColor";
+let PanelRegistry$h = class PanelRegistry29 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_SPACER][0].addControl(ID$i, 0);
+    controls2[BlockType.BLOCK_SPACER][0].addControl(ID$j, 0);
   }
 };
 class ExtendedSpacerBackgroundColorControl extends SpacerBackgroundColorBuiltInControl {
   getId() {
-    return ID$i;
+    return ID$j;
   }
   getLabels() {
     return {
@@ -6819,15 +7119,15 @@ class ExtendedSpacerBackgroundColorControl extends SpacerBackgroundColorBuiltInC
     };
   }
 }
-const extensionSpacerBackgroundColorControl = new ExtensionBuilder().addControl(ExtendedSpacerBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$g).build();
-const ID$h = "extendedStructureAdapt";
-let PanelRegistry$f = class PanelRegistry30 extends SettingsPanelRegistry {
+const extensionSpacerBackgroundColorControl = new ExtensionBuilder().addControl(ExtendedSpacerBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$h).build();
+const ID$i = "extendedStructureAdapt";
+let PanelRegistry$g = class PanelRegistry30 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$h
+          ID$i
         ]
       )
     ];
@@ -6835,7 +7135,7 @@ let PanelRegistry$f = class PanelRegistry30 extends SettingsPanelRegistry {
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$h
+          ID$i
         ]
       )
     ];
@@ -6843,7 +7143,7 @@ let PanelRegistry$f = class PanelRegistry30 extends SettingsPanelRegistry {
 };
 class ExtendedStructureAdaptControl extends StructureAdaptBuiltInControl {
   getId() {
-    return ID$h;
+    return ID$i;
   }
   getLabels() {
     return {
@@ -6859,16 +7159,16 @@ class ExtendedStructureAdaptControl extends StructureAdaptBuiltInControl {
     return modifier;
   }
 }
-const extensionStructureAdaptControl = new ExtensionBuilder().addControl(ExtendedStructureAdaptControl).withSettingsPanelRegistry(PanelRegistry$f).build();
-const ID$g = "extendedStructureBackgroundColor";
-let PanelRegistry$e = class PanelRegistry31 extends SettingsPanelRegistry {
+const extensionStructureAdaptControl = new ExtensionBuilder().addControl(ExtendedStructureAdaptControl).withSettingsPanelRegistry(PanelRegistry$g).build();
+const ID$h = "extendedStructureBackgroundColor";
+let PanelRegistry$f = class PanelRegistry31 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRUCTURE][0].addControl(ID$g, 0);
+    controls2[BlockType.STRUCTURE][0].addControl(ID$h, 0);
   }
 };
 class ExtendedStructureBackgroundColorControl extends StructureBackgroundColorBuiltInControl {
   getId() {
-    return ID$g;
+    return ID$h;
   }
   getLabels() {
     return {
@@ -6876,16 +7176,16 @@ class ExtendedStructureBackgroundColorControl extends StructureBackgroundColorBu
     };
   }
 }
-const extensionStructureBackgroundControl = new ExtensionBuilder().addControl(ExtendedStructureBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$e).build();
-const ID$f = "extendedStructureBackgroundImage";
-let PanelRegistry$d = class PanelRegistry32 extends SettingsPanelRegistry {
+const extensionStructureBackgroundControl = new ExtensionBuilder().addControl(ExtendedStructureBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$f).build();
+const ID$g = "extendedStructureBackgroundImage";
+let PanelRegistry$e = class PanelRegistry32 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRUCTURE][0].addControl(ID$f, 0);
+    controls2[BlockType.STRUCTURE][0].addControl(ID$g, 0);
   }
 };
 class ExtendedStructureBackgroundImageControl extends StructureBackgroundImageBuiltInControl {
   getId() {
-    return ID$f;
+    return ID$g;
   }
   getLabels() {
     return {
@@ -6900,16 +7200,16 @@ class ExtendedStructureBackgroundImageControl extends StructureBackgroundImageBu
     };
   }
 }
-const extensionStructureBackgroundImageControl = new ExtensionBuilder().addControl(ExtendedStructureBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$d).build();
-const ID$e = "extendedStructureBorder";
-let PanelRegistry$c = class PanelRegistry33 extends SettingsPanelRegistry {
+const extensionStructureBackgroundImageControl = new ExtensionBuilder().addControl(ExtendedStructureBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$e).build();
+const ID$f = "extendedStructureBorder";
+let PanelRegistry$d = class PanelRegistry33 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRUCTURE][0].addControl(ID$e, 0);
+    controls2[BlockType.STRUCTURE][0].addControl(ID$f, 0);
   }
 };
 class ExtendedStructureBorderControl extends StructureBorderBuiltInControl {
   getId() {
-    return ID$e;
+    return ID$f;
   }
   getLabels() {
     return {
@@ -6925,16 +7225,16 @@ class ExtendedStructureBorderControl extends StructureBorderBuiltInControl {
     return modifier.modifyHtml(closestTable).setClass("custom-structure-border-applied");
   }
 }
-const structureBorderControlExtension = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$c).addControl(ExtendedStructureBorderControl).build();
-const ID$d = "extendedStructureMargins";
-let PanelRegistry$b = class PanelRegistry34 extends SettingsPanelRegistry {
+const structureBorderControlExtension = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$d).addControl(ExtendedStructureBorderControl).build();
+const ID$e = "extendedStructureMargins";
+let PanelRegistry$c = class PanelRegistry34 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRIPE][0].addControl(ID$d, 0);
+    controls2[BlockType.STRIPE][0].addControl(ID$e, 0);
   }
 };
 class ExtendedStructureMarginsControl extends StructureMarginsBuiltInControl {
   getId() {
-    return ID$d;
+    return ID$e;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -6946,16 +7246,16 @@ class ExtendedStructureMarginsControl extends StructureMarginsBuiltInControl {
 const extensionStructureMarginsControl = new ExtensionBuilder().addControl(ExtendedStructureMarginsControl).withLocalization({ "en": {
   "Extended structure margins desktop": "EN Extended structure margins desktop",
   "Extended structure margins mobile": "EN Extended structure margins mobile"
-} }).withSettingsPanelRegistry(PanelRegistry$b).build();
-const ID$c = "extendedStructurePaddings";
-let PanelRegistry$a = class PanelRegistry35 extends SettingsPanelRegistry {
+} }).withSettingsPanelRegistry(PanelRegistry$c).build();
+const ID$d = "extendedStructurePaddings";
+let PanelRegistry$b = class PanelRegistry35 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRIPE][0].addControl(ID$c, 0);
+    controls2[BlockType.STRIPE][0].addControl(ID$d, 0);
   }
 };
 class ExtendedStructurePaddingsControl extends StructurePaddingsBuiltInControl {
   getId() {
-    return ID$c;
+    return ID$d;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -6972,15 +7272,15 @@ class ExtendedStructurePaddingsControl extends StructurePaddingsBuiltInControl {
 const extendedStructurePaddingsControl = new ExtensionBuilder().addControl(ExtendedStructurePaddingsControl).withLocalization({ "en": {
   "Extended structure paddings desktop": "EN Extended structure paddings desktop",
   "Extended structure paddings mobile": "EN Extended structure paddings mobile"
-} }).withSettingsPanelRegistry(PanelRegistry$a).build();
-const ID$b = "extendedStructureVisibility";
+} }).withSettingsPanelRegistry(PanelRegistry$b).build();
+const ID$c = "extendedStructureVisibility";
 let ButtonPanelRegistry$1 = class ButtonPanelRegistry11 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$b
+          ID$c
         ]
       )
     ];
@@ -6988,7 +7288,7 @@ let ButtonPanelRegistry$1 = class ButtonPanelRegistry11 extends SettingsPanelReg
 };
 class ExtendedStructureVisibilityControl extends StructureVisibilityBuiltInControl {
   getId() {
-    return ID$b;
+    return ID$c;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -7001,7 +7301,7 @@ const extensionStructureVisibilityControl = new ExtensionBuilder().addControl(Ex
 const TEXT_ID = "extendedTextFontFamily";
 const BUTTON_ID = "extendedButtonFontFamily";
 const MENU_ID = "extendedMenuFontFamily";
-let PanelRegistry$9 = class PanelRegistry36 extends SettingsPanelRegistry {
+let PanelRegistry$a = class PanelRegistry36 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(TEXT_ID, 0);
     controls2[BlockType.STRUCTURE] = [
@@ -7052,16 +7352,16 @@ class ExtendedMenuFontFamilyControl extends MenuFontFamilyBuiltInControl {
     };
   }
 }
-const fontFamilyControlExtension = new ExtensionBuilder().addControl(ExtendedTextFontFamilyControl).addControl(ExtendedButtonFontFamilyControl).addControl(ExtendedMenuFontFamilyControl).withSettingsPanelRegistry(PanelRegistry$9).build();
-const ID$a = "extendedLinkColor";
-let PanelRegistry$8 = class PanelRegistry37 extends SettingsPanelRegistry {
+const fontFamilyControlExtension = new ExtensionBuilder().addControl(ExtendedTextFontFamilyControl).addControl(ExtendedButtonFontFamilyControl).addControl(ExtendedMenuFontFamilyControl).withSettingsPanelRegistry(PanelRegistry$a).build();
+const ID$b = "extendedLinkColor";
+let PanelRegistry$9 = class PanelRegistry37 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$a, 0);
+    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$b, 0);
   }
 };
 class ExtendedLinkColorControl extends TextLinkColorBuiltInControl {
   getId() {
-    return ID$a;
+    return ID$b;
   }
   getLabels() {
     return {
@@ -7069,18 +7369,18 @@ class ExtendedLinkColorControl extends TextLinkColorBuiltInControl {
     };
   }
 }
-const linkColorControlExtension = new ExtensionBuilder().addControl(ExtendedLinkColorControl).withSettingsPanelRegistry(PanelRegistry$8).build();
-const ID$9 = "extendedTextAlign";
-let PanelRegistry$7 = class PanelRegistry38 extends SettingsPanelRegistry {
+const linkColorControlExtension = new ExtensionBuilder().addControl(ExtendedLinkColorControl).withSettingsPanelRegistry(PanelRegistry$9).build();
+const ID$a = "extendedTextAlign";
+let PanelRegistry$8 = class PanelRegistry38 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$9])
+      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$a])
     ];
   }
 };
 class ExtendedTextAlignControl extends TextAlignBuiltInControl {
   getId() {
-    return ID$9;
+    return ID$a;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -7096,16 +7396,16 @@ class ExtendedTextAlignControl extends TextAlignBuiltInControl {
     return modifier;
   }
 }
-const extensionTextAlignControl = new ExtensionBuilder().addControl(ExtendedTextAlignControl).withSettingsPanelRegistry(PanelRegistry$7).build();
-const ID$8 = "builtInTextBlockBackground";
-let PanelRegistry$6 = class PanelRegistry39 extends SettingsPanelRegistry {
+const extensionTextAlignControl = new ExtensionBuilder().addControl(ExtendedTextAlignControl).withSettingsPanelRegistry(PanelRegistry$8).build();
+const ID$9 = "builtInTextBlockBackground";
+let PanelRegistry$7 = class PanelRegistry39 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$8, 0);
+    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$9, 0);
   }
 };
 class ExtendedTextBlockBackgroundControl extends TextBlockBackgroundBuiltInControl {
   getId() {
-    return ID$8;
+    return ID$9;
   }
   getLabels() {
     return {
@@ -7113,16 +7413,16 @@ class ExtendedTextBlockBackgroundControl extends TextBlockBackgroundBuiltInContr
     };
   }
 }
-const extensionTextBlockBackgroundControl = new ExtensionBuilder().addControl(ExtendedTextBlockBackgroundControl).withSettingsPanelRegistry(PanelRegistry$6).build();
-const ID$7 = "extendedTextColor";
-let PanelRegistry$5 = class PanelRegistry40 extends SettingsPanelRegistry {
+const extensionTextBlockBackgroundControl = new ExtensionBuilder().addControl(ExtendedTextBlockBackgroundControl).withSettingsPanelRegistry(PanelRegistry$7).build();
+const ID$8 = "extendedTextColor";
+let PanelRegistry$6 = class PanelRegistry40 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$7, 0);
+    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$8, 0);
   }
 };
 class ExtendedTextColorControl2 extends TextColorBuiltInControl {
   getId() {
-    return ID$7;
+    return ID$8;
   }
   getLabels() {
     return {
@@ -7133,18 +7433,18 @@ class ExtendedTextColorControl2 extends TextColorBuiltInControl {
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-text-color-applied");
   }
 }
-const textColorControlExtension = new ExtensionBuilder().addControl(ExtendedTextColorControl2).withSettingsPanelRegistry(PanelRegistry$5).build();
-const ID$6 = "extendedTextLineSpacing";
-let PanelRegistry$4 = class PanelRegistry41 extends SettingsPanelRegistry {
+const textColorControlExtension = new ExtensionBuilder().addControl(ExtendedTextColorControl2).withSettingsPanelRegistry(PanelRegistry$6).build();
+const ID$7 = "extendedTextLineSpacing";
+let PanelRegistry$5 = class PanelRegistry41 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$6])
+      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$7])
     ];
   }
 };
 class ExtendedTextLineSpacingControl extends TextLineSpacingBuiltInControl {
   getId() {
-    return ID$6;
+    return ID$7;
   }
   getLabels() {
     return {
@@ -7155,16 +7455,16 @@ class ExtendedTextLineSpacingControl extends TextLineSpacingBuiltInControl {
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-text-line-spacing-applied");
   }
 }
-const textLineSpacingControlExtension = new ExtensionBuilder().addControl(ExtendedTextLineSpacingControl).withSettingsPanelRegistry(PanelRegistry$4).build();
-const ID$5 = "extendedTextSize";
-let PanelRegistry$3 = class PanelRegistry42 extends SettingsPanelRegistry {
+const textLineSpacingControlExtension = new ExtensionBuilder().addControl(ExtendedTextLineSpacingControl).withSettingsPanelRegistry(PanelRegistry$5).build();
+const ID$6 = "extendedTextSize";
+let PanelRegistry$4 = class PanelRegistry42 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$5, 0);
+    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$6, 0);
   }
 };
 class ExtendedTextSizeControl extends TextSizeBuiltInControl {
   getId() {
-    return ID$5;
+    return ID$6;
   }
   getLabels() {
     return {
@@ -7175,16 +7475,16 @@ class ExtendedTextSizeControl extends TextSizeBuiltInControl {
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-text-size-applied");
   }
 }
-const textSizeControlExtension = new ExtensionBuilder().addControl(ExtendedTextSizeControl).withSettingsPanelRegistry(PanelRegistry$3).build();
-const ID$4 = "extendedTextStyle";
-let PanelRegistry$2 = class PanelRegistry43 extends SettingsPanelRegistry {
+const textSizeControlExtension = new ExtensionBuilder().addControl(ExtendedTextSizeControl).withSettingsPanelRegistry(PanelRegistry$4).build();
+const ID$5 = "extendedTextStyle";
+let PanelRegistry$3 = class PanelRegistry43 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$4, 0);
+    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$5, 0);
   }
 };
 class ExtendedTextStyleControl extends TextStyleBuiltInControl {
   getId() {
-    return ID$4;
+    return ID$5;
   }
   getLabels() {
     return {
@@ -7195,15 +7495,15 @@ class ExtendedTextStyleControl extends TextStyleBuiltInControl {
     return this.api.getDocumentModifier().modifyHtml(block).setClass("custom-text-style-applied");
   }
 }
-const textStyleControlExtension = new ExtensionBuilder().addControl(ExtendedTextStyleControl).withSettingsPanelRegistry(PanelRegistry$2).build();
-const ID$3 = "extendedTextVisibility";
+const textStyleControlExtension = new ExtensionBuilder().addControl(ExtendedTextStyleControl).withSettingsPanelRegistry(PanelRegistry$3).build();
+const ID$4 = "extendedTextVisibility";
 class ButtonPanelRegistry12 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$3
+          ID$4
         ]
       )
     ];
@@ -7211,7 +7511,7 @@ class ButtonPanelRegistry12 extends SettingsPanelRegistry {
 }
 class ExtendedTextVisibilityControl extends TextVisibilityBuiltInControl {
   getId() {
-    return ID$3;
+    return ID$4;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -7226,7 +7526,7 @@ const TEXT_COLOR_COMPUTED = "textColorComputed";
 const FONT_FAMILY_ATTR = "fontFamilyAttr";
 const CONTAINER = "container-extension";
 const CONTAINER_WITH_CUSTOM_RENDERER = "container-with-custom-renderer-extension";
-let PanelRegistry$1 = class PanelRegistry44 extends SettingsPanelRegistry {
+let PanelRegistry$2 = class PanelRegistry44 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[CONTAINER] = [
       new SettingsPanelTab(SettingsTab.SETTINGS, [TEXT_COLOR_ATTR, TEXT_COLOR_COMPUTED, FONT_FAMILY_ATTR])
@@ -7236,7 +7536,7 @@ let PanelRegistry$1 = class PanelRegistry44 extends SettingsPanelRegistry {
     ];
   }
 };
-class ContainerExtension2 extends Block {
+class ContainerExtension3 extends Block {
   getId() {
     return CONTAINER;
   }
@@ -7272,7 +7572,7 @@ class CustomRenderer4 extends BlockRenderer {
     return "<h1>Custom renderer content</h1>";
   }
 }
-class ContainerWithCustomRendererExtension extends ContainerExtension2 {
+class ContainerWithCustomRendererExtension extends ContainerExtension3 {
   getId() {
     return CONTAINER_WITH_CUSTOM_RENDERER;
   }
@@ -7325,7 +7625,7 @@ class FontFamilyControl extends TextFontFamilyBuiltInControl {
     return root.querySelectorAll(".text-with-font-family");
   }
 }
-const controlStyleReading = new ExtensionBuilder().addBlock(ContainerExtension2).addBlock(ContainerWithCustomRendererExtension).addControl(TextColorAttrControl).addControl(TextColorComputedControl).addControl(FontFamilyControl).withSettingsPanelRegistry(PanelRegistry$1).build();
+const controlStyleReading = new ExtensionBuilder().addBlock(ContainerExtension3).addBlock(ContainerWithCustomRendererExtension).addControl(TextColorAttrControl).addControl(TextColorComputedControl).addControl(FontFamilyControl).withSettingsPanelRegistry(PanelRegistry$2).build();
 const generalSettingsStyles = new ExtensionBuilder().withStyles(".e2e-general-settings button {color: red;}").build();
 const previewStyles = new ExtensionBuilder().withPreviewStyles(`
     .ue-action-buttons-wrapper {
@@ -7418,6 +7718,99 @@ class ExternalSmartElementsLibrary {
   }
 }
 const externalSmartElementsLibrary = new ExtensionBuilder().withExternalSmartElementsLibrary(ExternalSmartElementsLibrary).build();
+const ID$3 = "general-panel-extension";
+const SWITCHER_NAME = "activate-copilot";
+const TEXT_AREA_MESSAGE = "copilot-message";
+const TEXT_AREA_ADDITIONAL_SETTINGS = "copilot-additional-settings";
+const CONTAINER_SETTINGS = "container-settings";
+class GeneralPanelTabExtension extends GeneralPanelTab {
+  getId() {
+    return ID$3;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("General Panel Extension");
+  }
+  getTemplate() {
+    const { LABEL, SWITCHER, TEXT, TEXTAREA } = UIElementType;
+    const {
+      LABEL: { text: labelTextAttr },
+      TEXTAREA: { name: textareaNameAttr, placeholder: textareaPlaceholderAttr },
+      SWITCHER: { name: switcherNameAttr },
+      TEXT: { name: textNameAttr, placeholder: textPlaceholderAttr },
+      DEFAULT: { name: defaultNameAttr }
+    } = UEAttr;
+    return `
+      <div class="container two-columns">
+        <${LABEL} ${labelTextAttr}="${this.api.translate("Enable controls")}"></${LABEL}>
+        <${SWITCHER} ${switcherNameAttr}="${SWITCHER_NAME}" class="e2e-general-ui-switcher"></${SWITCHER}>
+      </div>
+      
+      <div ${defaultNameAttr}="${CONTAINER_SETTINGS}" class="ui-container">
+        <div class="container">
+          <${LABEL} ${labelTextAttr}="${this.api.translate("UI textarea")}"></${LABEL}>
+          <${TEXTAREA} 
+            class="e2e-general-ui-textarea" 
+            ${textareaNameAttr}="${TEXT_AREA_MESSAGE}" 
+            ${textareaPlaceholderAttr}="${this.api.translate("Enter textarea here:")}"
+          ></${TEXTAREA}>
+        </div>
+        
+        <div class="container">
+          <${LABEL} ${labelTextAttr}="${this.api.translate("UI text")}"></${LABEL}>
+          <${TEXT} 
+            class="e2e-general-ui-text"
+            ${textNameAttr}="${TEXT_AREA_ADDITIONAL_SETTINGS}" 
+            ${textPlaceholderAttr}="${this.api.translate("Enter text here:")}"
+            ${UEAttr.TEXT.disabled}="true"
+          ></${TEXT}>
+        </div>
+      </div>
+    `;
+  }
+  getTabIndex() {
+    return 1;
+  }
+  onDocumentChanged() {
+    this.#updateUIVisibility();
+  }
+  onRender() {
+    this.#updateUIVisibility();
+    this.#registerListeners();
+  }
+  #registerListeners() {
+    this.api.onValueChanged(SWITCHER_NAME, (value) => {
+      this.#modifyConfigAndSave(SWITCHER_NAME, value);
+    });
+    this.api.onValueChanged(TEXT_AREA_MESSAGE, (value) => {
+      this.#modifyConfigAndSave(TEXT_AREA_MESSAGE, value);
+      this.api.setUIEAttribute(TEXT_AREA_ADDITIONAL_SETTINGS, UEAttr.TEXT.disabled, value.length === 0);
+    });
+    this.api.onValueChanged(TEXT_AREA_ADDITIONAL_SETTINGS, (value) => {
+      this.#modifyConfigAndSave(TEXT_AREA_ADDITIONAL_SETTINGS, value);
+    });
+  }
+  #updateUIVisibility() {
+    const rootNode = this.api.getDocumentRootHtmlNode();
+    const rootConfig = rootNode.getNodeConfig() ?? {};
+    this.api.updateValues({
+      [SWITCHER_NAME]: rootConfig?.[SWITCHER_NAME] ?? false,
+      [TEXT_AREA_MESSAGE]: rootConfig?.[TEXT_AREA_MESSAGE] ?? "",
+      [TEXT_AREA_ADDITIONAL_SETTINGS]: rootConfig?.[TEXT_AREA_ADDITIONAL_SETTINGS] ?? ""
+    });
+    this.api.setVisibility(CONTAINER_SETTINGS, rootConfig?.[SWITCHER_NAME] ?? false);
+  }
+  #modifyConfigAndSave(key, value) {
+    const modifier = this.api.getDocumentModifier();
+    const rootNode = this.api.getDocumentRootHtmlNode();
+    const rootConfig = rootNode.getNodeConfig() ?? {};
+    const newConfig = { ...rootConfig, [key]: value };
+    modifier.modifyHtml(rootNode).setNodeConfig(newConfig).apply(new ModificationDescription("Modify config"));
+  }
+}
+const generalPanelTabExtension = new ExtensionBuilder().addGeneralPanelTab(GeneralPanelTabExtension).build();
 const icon = '<?xml version="1.0" encoding="UTF-8"?>\n<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 353.94 273.09">\n  <defs>\n  </defs>\n  <path class="cls-1" d="m351.53,138.89c4.05-41.3,4.73-112.53-12.81-106.27-7.33,2.6-16.74,22.73-23.95,40.93-16.88-27.82-46.55-40.48-88.55-45.21C221.82,8.87,209.79,0,177.03,0h0c-32.76,0-44.79,8.87-49.19,28.31-.4.05-.8.09-1.19.14-.82.09-1.62.19-2.41.28-40.34,4.99-68.77,17.65-85.11,44.7-7.21-18.17-16.62-38.21-23.93-40.83C-2.34,26.34-1.68,97.56,2.39,138.87.84,143.71,0,148.84,0,154.13,0,173.89,11.5,191.26,28.68,200.98c9.08,31.75,28.21,50.32,56.99,60.64h.02c3.23,1.15,6.58,2.2,10.04,3.16.19.05.37.09.56.16,3.32.89,6.74,1.71,10.3,2.46.19.05.35.07.54.12h-.05c19.88,4.05,43.17,5.57,69.89,5.57,81.62,0,131.65-14.02,148.28-72.09,17.19-9.69,28.68-27.09,28.68-46.85,0-5.29-.84-10.42-2.39-15.27h-.02Zm-73.78,54.97c-3.39,8.5-8.08,14.61-14.73,19.29-15.01,10.54-42.33,15.43-86.02,15.43s-71.01-4.92-86.02-15.43c-6.65-4.66-11.33-10.79-14.73-19.29-4.35-10.91-6.56-25.83-6.56-44.32s2.06-32.17,6.06-42.94c.16-.47.33-.96.49-1.38,3.25-8.15,7.7-14.09,13.93-18.68.26-.19.52-.42.8-.61,10.86-7.61,28.21-12.29,53.5-14.28,9.67-.77,20.44-1.15,32.52-1.15s22.78.4,32.4,1.15c25.33,1.99,42.73,6.65,53.59,14.28.14.09.26.21.4.3,6.44,4.64,11,10.68,14.33,18.99.26.63.47,1.33.73,2.01,3.86,10.7,5.85,24.91,5.85,42.33,0,18.52-2.2,33.43-6.56,44.32v-.02Z"/>\n  <circle class="cls-1" cx="125.28" cy="149.54" r="25.99" transform="translate(-69.05 132.39) rotate(-45)"/>\n  <path class="cls-1" d="m238.84,133.62h-26.69c-8.78,0-15.92,7.12-15.92,15.92s7.12,15.92,15.92,15.92h26.69c8.78,0,15.92-7.12,15.92-15.92s-7.12-15.92-15.92-15.92Z"/>\n</svg>';
 const CLASSIC_BLOCK_ID = "classic-block";
 class ClassicBlockIcons extends IconsRegistry {
@@ -7586,7 +7979,7 @@ class ProductStructureBlock4 extends Block {
   }
 }
 const BUTTON_ALIGN_CONTROL_ID = "buttonAlignBuiltInControl";
-class ButtonAlignControl extends ButtonAlignBuiltInControl {
+class ButtonAlignControl2 extends ButtonAlignBuiltInControl {
   getId() {
     return BUTTON_ALIGN_CONTROL_ID;
   }
@@ -8307,7 +8700,7 @@ const controls = [
   ButtonHoverBorderColorControl,
   ButtonHoverColorControl,
   TextLineSpacingControl,
-  ButtonAlignControl,
+  ButtonAlignControl2,
   ButtonTextSizeControl,
   ButtonBorderRadiusControl,
   ButtonPaddingsControl,
@@ -8830,7 +9223,7 @@ const MessageIcon = {
   WARNING: "warning",
   INFO: IMG_URL
 };
-const CONTROL_ID$1 = "ui-elements-demo";
+const CONTROL_ID$2 = "ui-elements-demo";
 const MESSAGE_ELEMENT = "message";
 const TOGGLABLE_CONTAINER = "togglable";
 const RADIO_BUTTONS_ELEMENT = "radioButtons";
@@ -8846,12 +9239,12 @@ const TEXT_ELEMENT = "text";
 const TEXT_AREA_ELEMENT = "textArea";
 class TestUIElementsDemoPanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$1])];
+    controls2[BlockType.BLOCK_BUTTON] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$2])];
   }
 }
 class TestUIElementsDemoControl extends Control {
   getId() {
-    return CONTROL_ID$1;
+    return CONTROL_ID$2;
   }
   _getLabel(text, name = `${Math.random()}`) {
     const tag = UIElementType.LABEL;
@@ -10057,18 +10450,18 @@ class ExternalVideoLibrary {
   }
 }
 const externalVideosLibrary = new ExtensionBuilder().withExternalVideosLibrary(ExternalVideoLibrary).build();
-const BLOCK_ID = "orderable-block";
-const CONTROL_ID = "orderable-control-demo";
+const BLOCK_ID$1 = "orderable-block";
+const CONTROL_ID$1 = "orderable-control-demo";
 const BLOCKS_ORDER = "blocks-order";
 const BUTON_TEXT = "button-text";
 const HEADER_TEXT = "header-text";
 const SPACER_HEIGHT = "spacer-height";
 const DISABLE_BUTTON = "disable-button";
-class PanelRegistry45 extends SettingsPanelRegistry {
+let PanelRegistry$1 = class PanelRegistry45 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID])];
+    controls2[BLOCK_ID$1] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$1])];
   }
-}
+};
 class OrderableControl extends Control {
   disabled = false;
   /**
@@ -10077,7 +10470,7 @@ class OrderableControl extends Control {
    */
   node = void 0;
   getId() {
-    return CONTROL_ID;
+    return CONTROL_ID$1;
   }
   _getLabel(text, name = `${Math.random()}`) {
     const tag = UIElementType.LABEL;
@@ -10187,7 +10580,7 @@ class OrderableControl extends Control {
 }
 class OrderableBlock extends Block {
   getId() {
-    return BLOCK_ID;
+    return BLOCK_ID$1;
   }
   getIcon() {
     return "new-window";
@@ -10211,7 +10604,192 @@ class OrderableBlock extends Block {
             </td>`;
   }
 }
-const orderable = new ExtensionBuilder().addControl(OrderableControl).withSettingsPanelRegistry(PanelRegistry45).addBlock(OrderableBlock).build();
+const orderable = new ExtensionBuilder().addControl(OrderableControl).withSettingsPanelRegistry(PanelRegistry$1).addBlock(OrderableBlock).build();
+const BLOCK_ID = "repeatable-block";
+const CONTROL_ID = "repeatable-control-demo";
+const ELEMENTS = "elements";
+const ELEMENT_TEXT = "element-text";
+const ELEMENT_HEIGHT = "element-height";
+const ELEMENT_COLOUR = "element-colour";
+const DELETE_ELEMENT = "delete-element";
+const INSERT_ELEMENT = "insert-element";
+const DISABLE_DELETE_BUTTONS = "disable-delete-buttons";
+const REMOVE_DELETE_BUTTONS = "remove-delete-buttons";
+function getElement(name, height, colour) {
+  return `<div id="${name}" 
+               class="element" 
+               style="width: 100%; height: ${height}px; background: ${colour}; font-weight: bold;">
+                   ${name}
+          </div>`;
+}
+class PanelRegistry46 extends SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[BLOCK_ID] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID])];
+  }
+}
+class RepeatableControl extends Control {
+  /**
+   *
+   * @type {ImmutableHtmlNode}
+   */
+  _node = void 0;
+  _deleteButtonsDisabled = false;
+  _deleteButtonsRemoved = false;
+  getId() {
+    return CONTROL_ID;
+  }
+  _getLabel(text, name = `${Math.random()}`) {
+    const tag = UIElementType.LABEL;
+    const attr = UEAttr.LABEL;
+    return `<${tag} ${attr.text}="${text}" ${attr.name}="${name}" style="margin-top: 5px;"></${tag}>`;
+  }
+  _getText(name, label) {
+    const tag = UIElementType.TEXT;
+    const attr = UEAttr.TEXT;
+    return `
+      ${this._getLabel(label)}
+      <${tag} ${attr.name}="${name}" class="e2e-${name}"></${tag}>
+    `;
+  }
+  _getCounter(name, label) {
+    const tag = UIElementType.COUNTER;
+    const attr = UEAttr.COUNTER;
+    return `
+      ${this._getLabel(label)}
+      <${tag} ${attr.name}="${name}" ${attr.minValue}="1" ${attr.maxValue}="100" ${attr.step}="5" style="width: fit-content;" class="e2e-${name}"></${tag}>
+    `;
+  }
+  _getColourPicker(name, label) {
+    const tag = UIElementType.COLOR;
+    const attr = UEAttr.COLOR;
+    return `
+      ${this._getLabel(label)}
+      <${tag} ${attr.name}="${ELEMENT_COLOUR}" class="e2e-${name}"></${tag}>
+    `;
+  }
+  _getButton(name, text) {
+    const tag = UIElementType.BUTTON;
+    const attr = UEAttr.BUTTON;
+    return `<${tag} ${attr.name}="${name}" ${attr.caption}="${text}" style="margin-top: 5px;" class="e2e-${name}"></${tag}>`;
+  }
+  _getRepeatable() {
+    const { REPEATABLE } = UIElementType;
+    const attrs = UEAttr.REPEATABLE;
+    return `
+      <h4>Repeatable ui element allows you repeat other elements or their groups.</h4>
+      <hr>
+      ${this._getLabel("Block elements:")}
+      <br>
+      <${REPEATABLE} ${attrs.name}="${ELEMENTS}">
+        ${this._getText(ELEMENT_TEXT, "Element text:")}
+        ${this._getCounter(ELEMENT_HEIGHT, "Element height:")}
+        ${this._getColourPicker(ELEMENT_COLOUR, "Element colour:")}
+        ${this._getButton(DELETE_ELEMENT, "🗑")}
+        <hr>
+      </${REPEATABLE}>
+    `;
+  }
+  getTemplate() {
+    return `<div class="e2e-elements-container">
+                ${this._getRepeatable()}
+                ${this._getButton(INSERT_ELEMENT, "Insert new element")}<br>
+                ${this._getButton(DISABLE_DELETE_BUTTONS, "Disable delete buttons")}
+                ${this._getButton(REMOVE_DELETE_BUTTONS, "Remove delete buttons")}
+            </div>`;
+  }
+  onRender() {
+    this._listenToFormUpdates();
+  }
+  _listenToFormUpdates() {
+    this.api.onValueChanged(`${ELEMENTS}.${ELEMENT_TEXT}`, this._onTextChange.bind(this));
+    this.api.onValueChanged(`${ELEMENTS}.${ELEMENT_HEIGHT}`, this._onHeightChange.bind(this));
+    this.api.onValueChanged(`${ELEMENTS}.${ELEMENT_COLOUR}`, this._onColourChange.bind(this));
+    this.api.onValueChanged(`${ELEMENTS}.${DELETE_ELEMENT}`, this._onDeleteElement.bind(this));
+    this.api.onValueChanged(INSERT_ELEMENT, this._insertElement.bind(this));
+    this.api.onValueChanged(DISABLE_DELETE_BUTTONS, this._disableDeleteButtons.bind(this));
+    this.api.onValueChanged(REMOVE_DELETE_BUTTONS, this._removeDeleteButtons.bind(this));
+  }
+  _getElements() {
+    return this._node.querySelectorAll(".element");
+  }
+  _getElement(index) {
+    return this._getElements()?.[index];
+  }
+  _getElementModifier(index) {
+    return this.api.getDocumentModifier().modifyHtml(this._getElement(index));
+  }
+  _onTextChange(newValue, oldValue, index) {
+    this._getElementModifier(index).setInnerHtml(newValue).apply(new ModificationDescription("Text change."));
+  }
+  _onHeightChange(newValue, oldValue, index) {
+    this._getElementModifier(index).setStyle("height", `${newValue}px`).apply(new ModificationDescription("Height change."));
+  }
+  _onColourChange(newValue, oldValue, index) {
+    this._getElementModifier(index).setStyle("background", `${newValue}`).apply(new ModificationDescription("Colour change."));
+  }
+  _getElementsLength() {
+    return this._getElements()?.length || 0;
+  }
+  _onDeleteElement(newValue, oldValue, index) {
+    this._getElementModifier(index).delete().apply(new ModificationDescription("Delete element."));
+  }
+  _insertElement() {
+    const length = this._getElementsLength();
+    const html = this._node.getInnerHTML();
+    const newHtml = `${html}
+${getElement(`Element ${length + 1}`, 20, "yellow")}
+`;
+    this.api.getDocumentModifier().modifyHtml(this._node).setInnerHtml(newHtml).apply(new ModificationDescription("Insert new element."));
+  }
+  _disableDeleteButtons() {
+    this._deleteButtonsDisabled = !this._deleteButtonsDisabled;
+    this.api.setUIEAttribute(`${ELEMENTS}.${DELETE_ELEMENT}`, UEAttr.BUTTON.disabled, this._deleteButtonsDisabled);
+  }
+  _removeDeleteButtons() {
+    this._deleteButtonsRemoved = !this._deleteButtonsRemoved;
+    this.api.setVisibility(`${ELEMENTS}.${DELETE_ELEMENT}`, !this._deleteButtonsRemoved);
+  }
+  _setFormValues() {
+    const elements = this._node.querySelectorAll(".element").map((element) => {
+      return {
+        [ELEMENT_TEXT]: element.getInnerText().trim(),
+        [ELEMENT_HEIGHT]: element.getStyle("height").replace("px", ""),
+        [ELEMENT_COLOUR]: element.getStyle("background")
+      };
+    });
+    this.api.updateValues({ [ELEMENTS]: elements });
+  }
+  onTemplateNodeUpdated(node) {
+    this._node = node;
+    this._setFormValues();
+    this.api.setVisibility(`${ELEMENTS}[0].${DELETE_ELEMENT}`, this._getElementsLength() > 1);
+  }
+}
+class RepeatableBlock extends Block {
+  getId() {
+    return BLOCK_ID;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Repeatable Block");
+  }
+  getDescription() {
+    return this.api.translate("Repeatable Block Description");
+  }
+  isEnabled() {
+    return true;
+  }
+  getTemplate() {
+    return `<td style="display: flex; flex-direction: column; align-items: center;">
+                ${getElement("Red", 42, "red")}
+                ${getElement("Green", 42, "green")}
+                ${getElement("Blue", 42, "blue")}
+            </td>`;
+  }
+}
+const repeatable = new ExtensionBuilder().addControl(RepeatableControl).withSettingsPanelRegistry(PanelRegistry46).addBlock(RepeatableBlock).build();
 const ID = "text-override-ui-element";
 class TestTagRegistry extends UIElementTagRegistry {
   registerUiElements(uiElementsTagsMap) {
@@ -10260,6 +10838,7 @@ const extensionsMap = {
   textBlockWithRemovedControl,
   baseImageBlockExtension,
   containerExtension,
+  extensionNames,
   customBlockBasic,
   atomicBlockAlias,
   customBlockWithCustomRenderer,
@@ -10272,6 +10851,7 @@ const extensionsMap = {
   textUiElementOverridden,
   demoUiElement,
   orderable,
+  repeatable,
   generalSettingsStyles,
   previewStyles,
   emptyContainerLayouts,
@@ -10349,6 +10929,8 @@ const extensionsMap = {
   blockWithHtmlSettingsPanelName,
   getEditorConfigBlock,
   multipleCustomControlWithEmptyState,
+  generalPanelTabExtension,
+  structureWithCustomMarkupExtension,
   // new E2E lib type test extensions
   esmLib,
   cjsLib,

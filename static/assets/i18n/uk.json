@@ -1566,6 +1566,8 @@
 	"When synchronisation is enabled, any changes made to this module in the library will automatically appear in your current email template.": "Коли синхронізацію ввімкнено, усі зміни, внесені до цього модуля в бібліотеці, автоматично відображатимуться у вашому поточному шаблоні електронного листа.",
 	"When synchronisation is disabled, you can edit this module independently from the library version. Any changes you make will only affect your current email template.": "Коли синхронізацію вимкнено, ви можете редагувати цей модуль незалежно від версії в бібліотеці. Будь-які зміни, які ви внесете, впливатимуть лише на ваш поточний шаблон електронного листа.",
 	"Update Module": "Оновити модуль",
+	"Module Details": "Деталі модуля",
+	"Update Details": "Оновити деталі",
 	"Make Unsynchronized": "Зробити несінхронізованим",
 	"Changes detected in synchronized module": "В синхронізованому модулі виявлені зміни",
 	"Current changes will be saved in the library and applied to all templates with this module": "Поточні зміни будуть збережені в бібліотеці та застосовані до всіх шаблонах з цим модулем.",

@@ -1566,6 +1566,8 @@
 	"When synchronisation is enabled, any changes made to this module in the library will automatically appear in your current email template.": "When synchronisation is enabled, any changes made to this module in the library will automatically appear in your current email template.",
 	"When synchronisation is disabled, you can edit this module independently from the library version. Any changes you make will only affect your current email template.": "When synchronisation is disabled, you can edit this module independently from the library version. Any changes you make will only affect your current email template.",
 	"Update Module": "Update Module",
+	"Module Details": "Module Details",
+	"Update Details": "Update Details",
 	"Make Unsynchronized": "Make Unsynchronized",
 	"Changes detected in synchronized module": "Changes detected in synchronized module",
 	"Current changes will be saved in the library and applied to all templates with this module": "Current changes will be saved in the library and applied to all templates with this module",
