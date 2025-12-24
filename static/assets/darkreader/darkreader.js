@@ -1,5 +1,5 @@
 /**
- * Dark Reader v4.9.117
+ * Dark Reader v4.9.118
  * https://darkreader.org/
  */
 
@@ -189,7 +189,10 @@
         }
         if (
             mimeType &&
-            !response.headers.get("Content-Type").startsWith(mimeType)
+            !(
+                response.headers.get("Content-Type") === mimeType ||
+                response.headers.get("Content-Type").startsWith(`${mimeType};`)
+            )
         ) {
             throw new Error(`Mime type mismatch when loading ${url}`);
         }
@@ -2691,22 +2694,64 @@
         }
     });
     const ipV4RegExp = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/;
-    const MAX_CORS_DOMAINS = 16;
-    const corsDomains = new Set();
+    const MAX_CORS_HOSTS = 16;
+    const corsHosts = new Set();
+    const checkedHosts = new Set();
+    const localAliases = [
+        "127-0-0-1.org.uk",
+        "42foo.com",
+        "domaincontrol.com",
+        "fbi.com",
+        "fuf.me",
+        "lacolhost.com",
+        "local.sisteminha.com",
+        "localfabriek.nl",
+        "localhost",
+        "localhst.co.uk",
+        "localmachine.info",
+        "localmachine.name",
+        "localtest.me",
+        "lvh.me",
+        "mouse-potato.com",
+        "nip.io",
+        "sslip.io",
+        "vcap.me",
+        "xip.io",
+        "yoogle.com"
+    ];
+    const localSubDomains = [
+        ".corp",
+        ".direct",
+        ".home",
+        ".internal",
+        ".intranet",
+        ".lan",
+        ".local",
+        ".localdomain",
+        ".test",
+        ".zz",
+        ...localAliases.map((alias) => `.${alias}`)
+    ];
     function shouldIgnoreCors(url) {
-        const host = url.hostname;
-        if (!corsDomains.has(host)) {
-            corsDomains.add(host);
+        const {host, hostname, port, protocol} = url;
+        if (!corsHosts.has(host)) {
+            corsHosts.add(host);
+        }
+        if (checkedHosts.has(host)) {
+            return false;
         }
         if (
-            corsDomains.size >= MAX_CORS_DOMAINS ||
-            host === "localhost" ||
-            host.startsWith("[") ||
-            host.endsWith(".local") ||
-            host.match(ipV4RegExp)
+            corsHosts.size >= MAX_CORS_HOSTS ||
+            protocol !== "https:" ||
+            port !== "" ||
+            localAliases.includes(hostname) ||
+            localSubDomains.some((sub) => hostname.endsWith(sub)) ||
+            hostname.startsWith("[") ||
+            hostname.match(ipV4RegExp)
         ) {
             return true;
         }
+        checkedHosts.add(host);
         return false;
     }
 
@@ -4530,13 +4575,16 @@
     function isTextColorProperty(property) {
         return textColorProps.includes(property);
     }
-    const rawRGBSpaceRegex = /^(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})$/;
+    const rawRGBSpaceRegex =
+        /^(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})\s*(\/\s*\d+\.?\d*)?$/;
     const rawRGBCommaRegex = /^(\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})$/;
     function parseRawColorValue(input) {
         const match =
             input.match(rawRGBSpaceRegex) ?? input.match(rawRGBCommaRegex);
         if (match) {
-            const color = `rgb(${match[1]}, ${match[2]}, ${match[3]})`;
+            const color = match[4]
+                ? `rgb(${match[1]} ${match[2]} ${match[3]} / ${match[4]})`
+                : `rgb(${match[1]}, ${match[2]}, ${match[3]})`;
             return {isRaw: true, color};
         }
         return {isRaw: false, color: input};
