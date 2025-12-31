@@ -264,7 +264,6 @@ var BlocksPanel = class {
    * Determines whether a draggable handle should be displayed in modules panel
    * @returns True if the block panel should be reorderable
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isPanelPlacementChangeEnabled() {
     return true;
   }
@@ -2305,7 +2304,6 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
      * Determines whether a draggable handle should be displayed in modules panel
      * @returns True if the block panel should be reorderable
      */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     isPanelPlacementChangeEnabled() {
       return true;
     }
