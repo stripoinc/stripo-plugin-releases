@@ -2370,5 +2370,6 @@
 	"Using a merge tag within a banner is not supported, as the banner is rendered as a single image containing all its components.": "Использование merge-тега в баннере не поддерживается, поскольку баннер отображается как единое изображение, включающее все его компоненты.",
 	"Current Changes can't be saved. Contact support for further help": "Текущие изменения не могут быть сохранены. Обратитесь в службу поддержки для получения дополнительной помощи.",
 	"Using a merge tag within a video block is not supported, as the video is rendered as a single element.": "Использование merge tag в блоке видео не поддерживается, так как видео отображается как единый элемент.",
-	"Using a merge tag within a timer block is not supported, as the timer is rendered as a single element.": "Использование merge tag в блоке таймера не поддерживается, так как таймер отображается как единый элемент."
+	"Using a merge tag within a timer block is not supported, as the timer is rendered as a single element.": "Использование merge tag в блоке таймера не поддерживается, так как таймер отображается как единый элемент.",
+	"The editor can't save changes due to network issues (unstable or missing internet connection). Refresh the page and continue working.": "Редактор не может сохранить изменения из-за проблем с сетью (нестабильное или отсутствующее интернет-соединение). Обновите страницу и продолжайте работу."
 }

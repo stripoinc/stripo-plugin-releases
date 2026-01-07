@@ -2370,5 +2370,6 @@
 	"Using a merge tag within a banner is not supported, as the banner is rendered as a single image containing all its components.": "Використання merge-тега в банері не підтримується, оскільки банер відображається як єдине зображення, що містить усі його компоненти.",
 	"Current Changes can't be saved. Contact support for further help": "Поточні зміни не можуть бути збережені. Зверніться до служби підтримки для отримання додаткової допомоги.",
 	"Using a merge tag within a video block is not supported, as the video is rendered as a single element.": "Використання merge tag у блоці відео не підтримується, оскільки відео відображається як єдиний елемент.",
-	"Using a merge tag within a timer block is not supported, as the timer is rendered as a single element.": "Використання merge tag у блоці таймера не підтримується, оскільки таймер відображається як єдиний елемент."
+	"Using a merge tag within a timer block is not supported, as the timer is rendered as a single element.": "Використання merge tag у блоці таймера не підтримується, оскільки таймер відображається як єдиний елемент.",
+	"The editor can't save changes due to network issues (unstable or missing internet connection). Refresh the page and continue working.": "Редактор не може зберегти зміни через проблеми з мережею (нестабільне або відсутнє інтернет-з’єднання). Оновіть сторінку та продовжуйте роботу."
 }
