@@ -1,5 +1,5 @@
 /**
- * Dark Reader v4.9.118
+ * Dark Reader v4.9.119
  * https://darkreader.org/
  */
 
@@ -2759,14 +2759,59 @@
     async function getImageDetails(url) {
         return new Promise(async (resolve, reject) => {
             try {
-                const dataURL = url.startsWith("data:")
+                let dataURL = url.startsWith("data:")
                     ? url
                     : await getDataURL(url);
                 const blob =
                     tryConvertDataURLToBlobSync(dataURL) ??
                     (await loadAsBlob(url));
                 let image;
+                let useViewBox = false;
                 if (dataURL.startsWith("data:image/svg+xml")) {
+                    const commaIndex = dataURL.indexOf(",");
+                    if (commaIndex >= 0) {
+                        let svgText = dataURL.slice(commaIndex + 1);
+                        const encoding = dataURL
+                            .slice(0, commaIndex)
+                            .split(";")[1];
+                        if (encoding === "base64") {
+                            svgText = atob(svgText);
+                        }
+                        if (svgText.startsWith("<svg ")) {
+                            const closingIndex = svgText.indexOf(">");
+                            const svgOpening = svgText
+                                .slice(0, closingIndex + 1)
+                                .toLocaleLowerCase();
+                            if (
+                                svgOpening.includes("viewbox") &&
+                                !svgOpening.includes("width") &&
+                                !svgOpening.includes("height")
+                            ) {
+                                useViewBox = true;
+                                const viewboxIndex =
+                                    svgOpening.indexOf('viewbox="');
+                                const viewboxCloseIndex = svgOpening.indexOf(
+                                    'viewbox="',
+                                    viewboxIndex + 9
+                                );
+                                const viewBox = svgOpening
+                                    .slice(
+                                        viewboxIndex + 9,
+                                        viewboxCloseIndex - 1
+                                    )
+                                    .split(" ")
+                                    .map((x) => parseFloat(x));
+                                if (
+                                    viewBox.length === 4 &&
+                                    !viewBox.some((x) => isNaN(x))
+                                ) {
+                                    const width = viewBox[2] - viewBox[0];
+                                    const height = viewBox[3] - viewBox[1];
+                                    dataURL = `data:image/svg+xml;base64,${btoa(`<svg width="${width}" height="${height}" ${svgText.slice(5)}`)}`;
+                                }
+                            }
+                        }
+                    }
                     image = await loadImage(dataURL);
                 } else {
                     image =
@@ -2780,6 +2825,7 @@
                         dataURL: analysis.isLarge ? "" : dataURL,
                         width: image.width,
                         height: image.height,
+                        useViewBox,
                         ...analysis
                     });
                 });
@@ -2967,13 +3013,16 @@
     }
     document.addEventListener("securitypolicyviolation", onCSPError);
     const objectURLs = new Set();
-    function getFilteredImageURL({dataURL, width, height}, theme) {
+    function getFilteredImageURL({dataURL, width, height, useViewBox}, theme) {
         if (dataURL.startsWith("data:image/svg+xml")) {
             dataURL = escapeXML(dataURL);
         }
         const matrix = getSVGFilterMatrixValue(theme);
+        const size = useViewBox
+            ? `viewBox="0 0 ${width} ${height}"`
+            : `width="${width}" height="${height}"`;
         const svg = [
-            `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${width}" height="${height}">`,
+            `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ${size}>`,
             "<defs>",
             '<filter id="darkreader-image-filter">',
             `<feColorMatrix type="matrix" values="${matrix}" />`,
@@ -4235,8 +4284,8 @@
             this.definedVars.add(varName);
             const isColor = Boolean(
                 value.match(rawRGBSpaceRegex) ||
-                    value.match(rawRGBCommaRegex) ||
-                    parseColorWithCache(value)
+                value.match(rawRGBCommaRegex) ||
+                parseColorWithCache(value)
             );
             if (isColor) {
                 this.unknownColorVars.add(varName);
@@ -5629,8 +5678,8 @@
         }
         const shouldAnalyze = Boolean(
             svg &&
-                (svg.getAttribute("class")?.includes("logo") ||
-                    svg.parentElement?.getAttribute("class")?.includes("logo"))
+            (svg.getAttribute("class")?.includes("logo") ||
+                svg.parentElement?.getAttribute("class")?.includes("logo"))
         );
         svgAnalysisConditionCache.set(svg, shouldAnalyze);
         return shouldAnalyze;
@@ -5673,6 +5722,7 @@
         svgNodesRoots.set(svgElement, root);
         return root;
     }
+    const inlineStringValueCache = new Map();
     function overrideInlineStyle(
         element,
         theme,
@@ -5700,6 +5750,13 @@
         }
         const unsetProps = new Set(Object.keys(overrides));
         function setCustomProp(targetCSSProp, modifierCSSProp, cssVal) {
+            const cachedStringValue = inlineStringValueCache
+                .get(modifierCSSProp)
+                ?.get(cssVal);
+            if (cachedStringValue) {
+                setStaticValue(cachedStringValue);
+                return;
+            }
             const mod = getModifiableCSSDeclaration(
                 modifierCSSProp,
                 cssVal,
@@ -5766,6 +5823,10 @@
                 typeof mod.value === "function" ? mod.value(theme) : mod.value;
             if (typeof value === "string") {
                 setStaticValue(value);
+                if (!inlineStringValueCache.has(modifierCSSProp)) {
+                    inlineStringValueCache.set(modifierCSSProp, new Map());
+                }
+                inlineStringValueCache.get(modifierCSSProp).set(cssVal, value);
             } else if (value instanceof Promise) {
                 setAsyncValue(value, cssVal);
             } else if (typeof value === "object") {
@@ -5852,13 +5913,16 @@
                 value.match(/^[0-9a-f]{6}$/i)
             ) {
                 value = `#${value}`;
+            } else if (value.match(/^#?[0-9a-f]{4}$/i)) {
+                const hex = value.startsWith("#") ? value.substring(1) : value;
+                value = `#${hex}00`;
             }
             setCustomProp("color", "color", value);
         }
         if (isSVGElement) {
             if (element.hasAttribute("fill")) {
                 const value = element.getAttribute("fill");
-                if (value !== "none") {
+                if (value !== "none" && value !== "currentColor") {
                     if (!(element instanceof SVGTextElement)) {
                         const handleSVGElement = () => {
                             let isSVGSmall = false;
@@ -6190,7 +6254,7 @@
             forEach(node.querySelectorAll(STYLE_SELECTOR), (style) =>
                 getManageableStyles(style, results, false)
             );
-            if (deep) {
+            if (deep && (node.children?.length > 0 || node.shadowRoot)) {
                 iterateShadowHosts(node, (host) =>
                     getManageableStyles(host.shadowRoot, results, false)
                 );
@@ -7358,9 +7422,22 @@
                 removedStyles,
                 movedStyles
             });
+            const potentialHosts = new Set();
             additions.forEach((n) => {
+                if (n.parentElement) {
+                    potentialHosts.add(n.parentElement);
+                }
+                if (n.previousElementSibling) {
+                    potentialHosts.add(n.previousElementSibling);
+                }
                 deepObserve(n);
                 collectUndefinedElements(n);
+            });
+            potentialHosts.forEach((el) => {
+                if (el.shadowRoot && !observedRoots.has(el)) {
+                    subscribeForShadowRootChanges(el);
+                    deepObserve(el.shadowRoot);
+                }
             });
             additions.forEach(
                 (node) => isCustomElement(node) && recordUndefinedElement(node)
@@ -7475,6 +7552,14 @@
         });
         document.addEventListener("__darkreader__isDefined", handleIsDefined);
         collectUndefinedElements(document);
+        addDOMReadyListener(() => {
+            forEach(document.body.children, (el) => {
+                if (el.shadowRoot && !observedRoots.has(el)) {
+                    subscribeForShadowRootChanges(el);
+                    deepObserve(el.shadowRoot);
+                }
+            });
+        });
     }
     function resetObservers() {
         observers.forEach((o) => o.disconnect());
