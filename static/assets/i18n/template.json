@@ -781,7 +781,6 @@
 	"There are no saved images in the folder yet.": "There are no saved images in the folder yet.",
 	"Standard": "Standard",
 	"Non standard": "Non standard",
-	"Max size: {maxfileSize} or 4000 px in width": "Max size: {maxfileSize} or 4000 px in width",
 	"{count, plural, zero{Load {count} more modules} one{Load {count} more module} two{Load {count} more modules} few{Load {count} more modules} many{Load {count} more modules} other{Load {count} more modules}}": "{count, plural, zero{Load {count} more modules} one{Load {count} more module} two{Load {count} more modules} few{Load {count} more modules} many{Load {count} more modules} other{Load {count} more modules}}",
 	"Load more": "Load more",
 	"Load More Members": "Load More Members",

@@ -52,8 +52,9 @@ _BaseValidatedClass.validationErrors = /* @__PURE__ */ new Map();
 var BaseValidatedClass = _BaseValidatedClass;
 var BlockCompositionType = /* @__PURE__ */ ((BlockCompositionType2) => {
   BlockCompositionType2["BLOCK"] = "BLOCK";
-  BlockCompositionType2["STRUCTURE"] = "STRUCTURE";
   BlockCompositionType2["CONTAINER"] = "CONTAINER";
+  BlockCompositionType2["STRUCTURE"] = "STRUCTURE";
+  BlockCompositionType2["STRIPE"] = "STRIPE";
   return BlockCompositionType2;
 })(BlockCompositionType || {});
 var _Block = class _Block2 extends BaseValidatedClass {
@@ -156,6 +157,14 @@ var _Block = class _Block2 extends BaseValidatedClass {
    */
   shouldDisplayQuickAddIcon() {
     return false;
+  }
+  /**
+   * Determines if the block should be shown in the blocks panel.
+   * Override to hide the block from the blocks panel while keeping it available elsewhere.
+   * @returns True if the block should appear in the blocks panel. Defaults to true.
+   */
+  shouldDisplayInBlocksPanel() {
+    return true;
   }
   /**
    * @description Determines if nested blocks selection allowed in extension of type {@link BlockCompositionType.STRUCTURE}
@@ -1997,6 +2006,52 @@ let PanelRegistry$J = class PanelRegistry2 extends SettingsPanelRegistry {
   }
 };
 const blockWithDocumentChangedHook = new ExtensionBuilder().addBlock(StructureExtensionBlock$1).addControl(StructureExtensionControl$1).withSettingsPanelRegistry(PanelRegistry$J).build();
+const VISIBLE_ICON_SRC = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCI+PC9zdmc+";
+const HIDDEN_ICON_SRC = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMSIgaGVpZ2h0PSIxMSI+PC9zdmc+";
+const VISIBLE_BLOCK_ID = "blocks-panel-legacy-visible";
+const HIDDEN_BLOCK_ID = "blocks-panel-hidden";
+class BlocksPanelHiddenBlock extends Block {
+  getId() {
+    return HIDDEN_BLOCK_ID;
+  }
+  getIcon() {
+    return HIDDEN_ICON_SRC;
+  }
+  getName() {
+    return this.api.translate("Hidden blocks panel extension");
+  }
+  getDescription() {
+    return this.api.translate("Hidden blocks panel extension description");
+  }
+  shouldDisplayInBlocksPanel() {
+    return false;
+  }
+  getTemplate() {
+    return "<td>Hidden blocks panel extension</td>";
+  }
+}
+class BlocksPanelLegacyVisibleBlock extends Block {
+  constructor() {
+    super();
+    this.shouldDisplayInBlocksPanel = void 0;
+  }
+  getId() {
+    return VISIBLE_BLOCK_ID;
+  }
+  getIcon() {
+    return VISIBLE_ICON_SRC;
+  }
+  getName() {
+    return this.api.translate("Legacy blocks panel extension");
+  }
+  getDescription() {
+    return this.api.translate("Legacy blocks panel extension description");
+  }
+  getTemplate() {
+    return "<td>Legacy blocks panel extension</td>";
+  }
+}
+const blocksPanelVisibility = new ExtensionBuilder().addBlock(BlocksPanelLegacyVisibleBlock).addBlock(BlocksPanelHiddenBlock).build();
 const BUTTON_ID$2 = "button-id";
 class BlockExtensionButton extends Block {
   getId() {
@@ -2281,8 +2336,9 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
   var BaseValidatedClass2 = _BaseValidatedClass3;
   var BlockCompositionType2 = /* @__PURE__ */ ((BlockCompositionType22) => {
     BlockCompositionType22["BLOCK"] = "BLOCK";
-    BlockCompositionType22["STRUCTURE"] = "STRUCTURE";
     BlockCompositionType22["CONTAINER"] = "CONTAINER";
+    BlockCompositionType22["STRUCTURE"] = "STRUCTURE";
+    BlockCompositionType22["STRIPE"] = "STRIPE";
     return BlockCompositionType22;
   })(BlockCompositionType2 || {});
   var _Block3 = class _Block4 extends BaseValidatedClass2 {
@@ -2385,6 +2441,14 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
      */
     shouldDisplayQuickAddIcon() {
       return false;
+    }
+    /**
+     * Determines if the block should be shown in the blocks panel.
+     * Override to hide the block from the blocks panel while keeping it available elsewhere.
+     * @returns True if the block should appear in the blocks panel. Defaults to true.
+     */
+    shouldDisplayInBlocksPanel() {
+      return true;
     }
     /**
      * @description Determines if nested blocks selection allowed in extension of type {@link BlockCompositionType.STRUCTURE}
@@ -5864,6 +5928,53 @@ let StructureExtension$1 = class StructureExtension2 extends Block {
   }
 };
 const customStructure = new ExtensionBuilder().addBlock(StructureExtension$1).build();
+const STRIPE_ID = "stripe-extension";
+class StripeExtension extends Block {
+  getId() {
+    return STRIPE_ID;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Stripe Extension");
+  }
+  getDescription() {
+    return this.api.translate("Stripe Extension Description");
+  }
+  isEnabled() {
+    return true;
+  }
+  getCustomRenderer() {
+  }
+  canBeSavedAsModule() {
+    return true;
+  }
+  getTemplate() {
+    const { STRIPE, STRUCTURE, CONTAINER: CONTAINER2, BLOCK_TEXT, BLOCK_BUTTON } = BlockType;
+    const { widthPercent } = BlockAttr.CONTAINER;
+    return `<${STRIPE}>
+              <${STRUCTURE}>
+                <${CONTAINER2} ${widthPercent}="50"><${BLOCK_TEXT}><p>Hello world!</p></${BLOCK_TEXT}></${CONTAINER2}>
+                <${CONTAINER2} ${widthPercent}="50"><${BLOCK_BUTTON}></${BLOCK_BUTTON}></${CONTAINER2}>
+              </${STRUCTURE}>
+              <${STRUCTURE}>
+                <${CONTAINER2}><${BLOCK_TEXT}><p>Second structure</p></${BLOCK_TEXT}></${CONTAINER2}>
+              </${STRUCTURE}>
+            </${STRIPE}>`;
+  }
+  onDrop(node) {
+  }
+  onDelete(node) {
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.STRIPE;
+  }
+  allowInnerBlocksSelection() {
+    return true;
+  }
+}
+const customStripe = new ExtensionBuilder().addBlock(StripeExtension).build();
 const CUSTOM_BLOCK_ID = "custom-markup-block";
 const BUTTON_ALIGN_CONTROL_ID$1 = "buttonAlignBuiltInControl";
 let ButtonAlignControl$1 = class ButtonAlignControl extends ButtonAlignBuiltInControl {
@@ -10896,6 +11007,170 @@ class TestUIElementsDemoControl extends Control {
   }
 }
 const demoUiElement = new ExtensionBuilder().addControl(TestUIElementsDemoControl).withSettingsPanelRegistry(TestUIElementsDemoPanelRegistry).build();
+const STRUCTURE_ID = "structure-id";
+const CONTAINER_ID = "container-id";
+const BLOCK_ID$2 = "block-id";
+const CONTROL_ID$2 = "draggable-control";
+const DEFAULT_PREVIEW = "default-preview";
+const CUSTOM_PREVIEW = "custom-preview";
+const BLOCK_TO_DROP = "block-to-drop";
+const DISABLE_DRAGGABLE = "disable-draggable";
+const DISABLE_INSERTION = "disable-insertion";
+const defaultSelectedType = BlockType.BLOCK_BUTTON;
+const AVAILABLE_BLOCKS = [BlockType.BLOCK_TEXT, BlockType.BLOCK_IMAGE, BlockType.BLOCK_BUTTON, STRUCTURE_ID, CONTAINER_ID, BLOCK_ID$2];
+let blockInstance;
+let PanelRegistry$2 = class PanelRegistry45 extends SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[STRUCTURE_ID] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$2])];
+    controls2[CONTAINER_ID] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$2])];
+    controls2[BLOCK_ID$2] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$2])];
+  }
+};
+class DraggableBlockControl extends Control {
+  _draggableDisabled = false;
+  _extensionBlockInsertionDisabled = false;
+  getId() {
+    return CONTROL_ID$2;
+  }
+  _getLabel(text, name = `${Math.random()}`) {
+    const tag = UIElementType.LABEL;
+    const attr = UEAttr.LABEL;
+    return `<${tag} ${attr.text}="${text}" ${attr.name}="${name}" style="margin-top: 5px;"></${tag}>`;
+  }
+  _getSelectItem(item) {
+    const tag = UIElementType.SELECT_ITEM;
+    const attr = UEAttr.SELECT_ITEM;
+    return `<${tag} ${attr.text}="${item}" ${attr.value}="${item}"></${tag}>`;
+  }
+  _getAvailableBlocksSelect() {
+    const tag = UIElementType.SELECTPICKER;
+    const attr = UEAttr.SELECTPICKER;
+    return `
+        ${this._getLabel("Dragged block type:")}
+        <${tag} ${attr.name}="${BLOCK_TO_DROP}">
+            ${Object.values(AVAILABLE_BLOCKS).map((item) => this._getSelectItem(item)).join("")}
+        </${tag}>
+    `;
+  }
+  _getButton(name, text) {
+    const tag = UIElementType.BUTTON;
+    const attr = UEAttr.BUTTON;
+    return `<${tag} ${attr.name}="${name}" ${attr.caption}="${text}" style="margin-top: 5px;" class="e2e-${name}"></${tag}>`;
+  }
+  _getDraggableBlock() {
+    const { DRAGGABLE_BLOCK, ICON } = UIElementType;
+    const attrs = UEAttr.DRAGGABLE_BLOCK;
+    return `
+      <h4>Draggable Block UI element provides a customizable block preview element that can be dragged and dropped into any position within the document to insert the referenced block.</h4>
+      ${this._getLabel("Default draggable block preview:")}
+      <${DRAGGABLE_BLOCK} ${attrs.name}="${DEFAULT_PREVIEW}" ${attrs.blockId}="${defaultSelectedType}"></${DRAGGABLE_BLOCK}>
+      <br>
+      ${this._getLabel("Custom draggable block preview:")}
+      <${DRAGGABLE_BLOCK} ${attrs.name}="${CUSTOM_PREVIEW}" ${attrs.blockId}="${defaultSelectedType}">
+        <${ICON} class="icon-button" src="star"></${ICON}>
+        <h2 style="margin: 0;">Custom preview</h2>
+      </${DRAGGABLE_BLOCK}>
+      <br>    
+      ${this._getAvailableBlocksSelect()}
+      ${this._getButton(DISABLE_DRAGGABLE, "Disable draggable")}
+      ${this._getButton(DISABLE_INSERTION, `Disable ${BLOCK_ID$2} insertion`)}
+    `;
+  }
+  getTemplate() {
+    return `<div class="container e2e-elements-container">
+                ${this._getDraggableBlock()}
+            </div>`;
+  }
+  onRender() {
+    this._listenToFormUpdates();
+    this.api.updateValues({
+      [BLOCK_TO_DROP]: defaultSelectedType
+    });
+  }
+  _listenToFormUpdates() {
+    this.api.onValueChanged(BLOCK_TO_DROP, (newValue, oldValue) => this._onBlockTypeChange(newValue));
+    this.api.onValueChanged(DISABLE_DRAGGABLE, () => this._onDisableDraggable());
+    this.api.onValueChanged(DISABLE_INSERTION, () => this._onDisableExtensionBlockInsertion());
+  }
+  _onDisableDraggable() {
+    this._draggableDisabled = !this._draggableDisabled;
+    this.api.setUIEAttribute(DEFAULT_PREVIEW, UEAttr.DRAGGABLE_BLOCK.disabled, this._draggableDisabled);
+    this.api.setUIEAttribute(CUSTOM_PREVIEW, UEAttr.DRAGGABLE_BLOCK.disabled, this._draggableDisabled);
+  }
+  _onDisableExtensionBlockInsertion() {
+    this._extensionBlockInsertionDisabled = !this._extensionBlockInsertionDisabled;
+    blockInstance.api.setViewOnly(this._extensionBlockInsertionDisabled);
+  }
+  _onBlockTypeChange(type) {
+    const attr = UEAttr.DRAGGABLE_BLOCK.blockId;
+    this.api.setUIEAttribute(DEFAULT_PREVIEW, attr, type);
+    this.api.setUIEAttribute(CUSTOM_PREVIEW, attr, type);
+  }
+}
+class StructureExtension3 extends Block {
+  getId() {
+    return STRUCTURE_ID;
+  }
+  getIcon() {
+    return "plus";
+  }
+  getName() {
+    return this.api.translate("Structure extension");
+  }
+  getDescription() {
+    return this.api.translate("Structure extension description");
+  }
+  getTemplate() {
+    const { STRUCTURE, EMPTY_CONTAINER } = BlockType;
+    return `<${STRUCTURE}><${EMPTY_CONTAINER}></${EMPTY_CONTAINER}></${STRUCTURE}>`;
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.STRUCTURE;
+  }
+}
+class ContainerExtension4 extends Block {
+  getId() {
+    return CONTAINER_ID;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Container extension");
+  }
+  getDescription() {
+    return this.api.translate("Container extension description");
+  }
+  getTemplate() {
+    const { EMPTY_CONTAINER } = BlockType;
+    return `<${EMPTY_CONTAINER}></${EMPTY_CONTAINER}>`;
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.CONTAINER;
+  }
+}
+class BlockExtension2 extends Block {
+  getId() {
+    blockInstance = this;
+    return BLOCK_ID$2;
+  }
+  getIcon() {
+    return "plane";
+  }
+  getName() {
+    return this.api.translate("Block extension");
+  }
+  getDescription() {
+    return this.api.translate("Block extension description");
+  }
+  getTemplate() {
+    return "<td>Block extension</td>";
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.BLOCK;
+  }
+}
+const draggableBlock = new ExtensionBuilder().addControl(DraggableBlockControl).withSettingsPanelRegistry(PanelRegistry$2).addBlock(StructureExtension3).addBlock(ContainerExtension4).addBlock(BlockExtension2).build();
 class ExternalAiAssistant {
   externalAiAssistant;
   dataSelectCallback = () => {
@@ -11084,16 +11359,16 @@ class ExternalVideoLibrary {
   }
 }
 const externalVideosLibrary = new ExtensionBuilder().withExternalVideosLibrary(ExternalVideoLibrary).build();
-const BLOCK_ID$2 = "orderable-block";
-const CONTROL_ID$2 = "orderable-control-demo";
+const BLOCK_ID$1 = "orderable-block";
+const CONTROL_ID$1 = "orderable-control-demo";
 const BLOCKS_ORDER = "blocks-order";
 const BUTON_TEXT = "button-text";
 const HEADER_TEXT = "header-text";
 const SPACER_HEIGHT = "spacer-height";
 const DISABLE_BUTTON = "disable-button";
-let PanelRegistry$2 = class PanelRegistry45 extends SettingsPanelRegistry {
+let PanelRegistry$1 = class PanelRegistry46 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$2] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$2])];
+    controls2[BLOCK_ID$1] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$1])];
   }
 };
 class OrderableControl extends Control {
@@ -11104,7 +11379,7 @@ class OrderableControl extends Control {
    */
   node = void 0;
   getId() {
-    return CONTROL_ID$2;
+    return CONTROL_ID$1;
   }
   _getLabel(text, name = `${Math.random()}`) {
     const tag = UIElementType.LABEL;
@@ -11221,7 +11496,7 @@ class OrderableControl extends Control {
 }
 class OrderableBlock extends Block {
   getId() {
-    return BLOCK_ID$2;
+    return BLOCK_ID$1;
   }
   getIcon() {
     return "new-window";
@@ -11245,9 +11520,9 @@ class OrderableBlock extends Block {
             </td>`;
   }
 }
-const orderable = new ExtensionBuilder().addControl(OrderableControl).withSettingsPanelRegistry(PanelRegistry$2).addBlock(OrderableBlock).build();
-const BLOCK_ID$1 = "repeatable-block";
-const CONTROL_ID$1 = "repeatable-control-demo";
+const orderable = new ExtensionBuilder().addControl(OrderableControl).withSettingsPanelRegistry(PanelRegistry$1).addBlock(OrderableBlock).build();
+const BLOCK_ID = "repeatable-block";
+const CONTROL_ID = "repeatable-control-demo";
 const ELEMENTS = "elements";
 const ELEMENT_TEXT = "element-text";
 const ELEMENT_HEIGHT = "element-height";
@@ -11263,11 +11538,11 @@ function getElement(name, height, colour) {
                    ${name}
           </div>`;
 }
-let PanelRegistry$1 = class PanelRegistry46 extends SettingsPanelRegistry {
+class PanelRegistry47 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$1] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$1])];
+    controls2[BLOCK_ID] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID])];
   }
-};
+}
 class RepeatableControl extends Control {
   /**
    *
@@ -11277,7 +11552,7 @@ class RepeatableControl extends Control {
   _deleteButtonsDisabled = false;
   _deleteButtonsRemoved = false;
   getId() {
-    return CONTROL_ID$1;
+    return CONTROL_ID;
   }
   _getLabel(text, name = `${Math.random()}`) {
     const tag = UIElementType.LABEL;
@@ -11408,7 +11683,7 @@ ${getElement(`Element ${length + 1}`, 20, "yellow")}
 }
 class RepeatableBlock extends Block {
   getId() {
-    return BLOCK_ID$1;
+    return BLOCK_ID;
   }
   getIcon() {
     return "new-window";
@@ -11430,171 +11705,7 @@ class RepeatableBlock extends Block {
             </td>`;
   }
 }
-const repeatable = new ExtensionBuilder().addControl(RepeatableControl).withSettingsPanelRegistry(PanelRegistry$1).addBlock(RepeatableBlock).build();
-const STRUCTURE_ID = "structure-id";
-const CONTAINER_ID = "container-id";
-const BLOCK_ID = "block-id";
-const CONTROL_ID = "draggable-control";
-const DEFAULT_PREVIEW = "default-preview";
-const CUSTOM_PREVIEW = "custom-preview";
-const BLOCK_TO_DROP = "block-to-drop";
-const DISABLE_DRAGGABLE = "disable-draggable";
-const DISABLE_INSERTION = "disable-insertion";
-const defaultSelectedType = BlockType.BLOCK_BUTTON;
-const AVAILABLE_BLOCKS = [BlockType.BLOCK_TEXT, BlockType.BLOCK_IMAGE, BlockType.BLOCK_BUTTON, STRUCTURE_ID, CONTAINER_ID, BLOCK_ID];
-let blockInstance;
-class PanelRegistry47 extends SettingsPanelRegistry {
-  registerBlockControls(controls2) {
-    controls2[STRUCTURE_ID] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID])];
-    controls2[CONTAINER_ID] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID])];
-    controls2[BLOCK_ID] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID])];
-  }
-}
-class DraggableBlockControl extends Control {
-  _draggableDisabled = false;
-  _extensionBlockInsertionDisabled = false;
-  getId() {
-    return CONTROL_ID;
-  }
-  _getLabel(text, name = `${Math.random()}`) {
-    const tag = UIElementType.LABEL;
-    const attr = UEAttr.LABEL;
-    return `<${tag} ${attr.text}="${text}" ${attr.name}="${name}" style="margin-top: 5px;"></${tag}>`;
-  }
-  _getSelectItem(item) {
-    const tag = UIElementType.SELECT_ITEM;
-    const attr = UEAttr.SELECT_ITEM;
-    return `<${tag} ${attr.text}="${item}" ${attr.value}="${item}"></${tag}>`;
-  }
-  _getAvailableBlocksSelect() {
-    const tag = UIElementType.SELECTPICKER;
-    const attr = UEAttr.SELECTPICKER;
-    return `
-        ${this._getLabel("Dragged block type:")}
-        <${tag} ${attr.name}="${BLOCK_TO_DROP}">
-            ${Object.values(AVAILABLE_BLOCKS).map((item) => this._getSelectItem(item)).join("")}
-        </${tag}>
-    `;
-  }
-  _getButton(name, text) {
-    const tag = UIElementType.BUTTON;
-    const attr = UEAttr.BUTTON;
-    return `<${tag} ${attr.name}="${name}" ${attr.caption}="${text}" style="margin-top: 5px;" class="e2e-${name}"></${tag}>`;
-  }
-  _getDraggableBlock() {
-    const { DRAGGABLE_BLOCK, ICON } = UIElementType;
-    const attrs = UEAttr.DRAGGABLE_BLOCK;
-    return `
-      <h4>Draggable Block UI element provides a customizable block preview element that can be dragged and dropped into any position within the document to insert the referenced block.</h4>
-      ${this._getLabel("Default draggable block preview:")}
-      <${DRAGGABLE_BLOCK} ${attrs.name}="${DEFAULT_PREVIEW}" ${attrs.blockId}="${defaultSelectedType}"></${DRAGGABLE_BLOCK}>
-      <br>
-      ${this._getLabel("Custom draggable block preview:")}
-      <${DRAGGABLE_BLOCK} ${attrs.name}="${CUSTOM_PREVIEW}" ${attrs.blockId}="${defaultSelectedType}">
-        <${ICON} class="icon-button" src="star"></${ICON}>
-        <h2 style="margin: 0;">Custom preview</h2>
-      </${DRAGGABLE_BLOCK}>
-      <br>    
-      ${this._getAvailableBlocksSelect()}
-      ${this._getButton(DISABLE_DRAGGABLE, "Disable draggable")}
-      ${this._getButton(DISABLE_INSERTION, `Disable ${BLOCK_ID} insertion`)}
-    `;
-  }
-  getTemplate() {
-    return `<div class="container e2e-elements-container">
-                ${this._getDraggableBlock()}
-            </div>`;
-  }
-  onRender() {
-    this._listenToFormUpdates();
-    this.api.updateValues({
-      [BLOCK_TO_DROP]: defaultSelectedType
-    });
-  }
-  _listenToFormUpdates() {
-    this.api.onValueChanged(BLOCK_TO_DROP, (newValue, oldValue) => this._onBlockTypeChange(newValue));
-    this.api.onValueChanged(DISABLE_DRAGGABLE, () => this._onDisableDraggable());
-    this.api.onValueChanged(DISABLE_INSERTION, () => this._onDisableExtensionBlockInsertion());
-  }
-  _onDisableDraggable() {
-    this._draggableDisabled = !this._draggableDisabled;
-    this.api.setUIEAttribute(DEFAULT_PREVIEW, UEAttr.DRAGGABLE_BLOCK.disabled, this._draggableDisabled);
-    this.api.setUIEAttribute(CUSTOM_PREVIEW, UEAttr.DRAGGABLE_BLOCK.disabled, this._draggableDisabled);
-  }
-  _onDisableExtensionBlockInsertion() {
-    this._extensionBlockInsertionDisabled = !this._extensionBlockInsertionDisabled;
-    blockInstance.api.setViewOnly(this._extensionBlockInsertionDisabled);
-  }
-  _onBlockTypeChange(type) {
-    const attr = UEAttr.DRAGGABLE_BLOCK.blockId;
-    this.api.setUIEAttribute(DEFAULT_PREVIEW, attr, type);
-    this.api.setUIEAttribute(CUSTOM_PREVIEW, attr, type);
-  }
-}
-class StructureExtension3 extends Block {
-  getId() {
-    return STRUCTURE_ID;
-  }
-  getIcon() {
-    return "plus";
-  }
-  getName() {
-    return this.api.translate("Structure extension");
-  }
-  getDescription() {
-    return this.api.translate("Structure extension description");
-  }
-  getTemplate() {
-    const { STRUCTURE, EMPTY_CONTAINER } = BlockType;
-    return `<${STRUCTURE}><${EMPTY_CONTAINER}></${EMPTY_CONTAINER}></${STRUCTURE}>`;
-  }
-  getBlockCompositionType() {
-    return BlockCompositionType.STRUCTURE;
-  }
-}
-class ContainerExtension4 extends Block {
-  getId() {
-    return CONTAINER_ID;
-  }
-  getIcon() {
-    return "new-window";
-  }
-  getName() {
-    return this.api.translate("Container extension");
-  }
-  getDescription() {
-    return this.api.translate("Container extension description");
-  }
-  getTemplate() {
-    const { EMPTY_CONTAINER } = BlockType;
-    return `<${EMPTY_CONTAINER}></${EMPTY_CONTAINER}>`;
-  }
-  getBlockCompositionType() {
-    return BlockCompositionType.CONTAINER;
-  }
-}
-class BlockExtension2 extends Block {
-  getId() {
-    blockInstance = this;
-    return BLOCK_ID;
-  }
-  getIcon() {
-    return "plane";
-  }
-  getName() {
-    return this.api.translate("Block extension");
-  }
-  getDescription() {
-    return this.api.translate("Block extension description");
-  }
-  getTemplate() {
-    return "<td>Block extension</td>";
-  }
-  getBlockCompositionType() {
-    return BlockCompositionType.BLOCK;
-  }
-}
-const draggableBlock = new ExtensionBuilder().addControl(DraggableBlockControl).withSettingsPanelRegistry(PanelRegistry47).addBlock(StructureExtension3).addBlock(ContainerExtension4).addBlock(BlockExtension2).build();
+const repeatable = new ExtensionBuilder().addControl(RepeatableControl).withSettingsPanelRegistry(PanelRegistry47).addBlock(RepeatableBlock).build();
 const ID = "text-override-ui-element";
 class TestTagRegistry extends UIElementTagRegistry {
   registerUiElements(uiElementsTagsMap) {
@@ -11648,11 +11759,13 @@ const extensionsMap = {
   customBlockBasic,
   atomicBlockAlias,
   customBlockWithCustomRenderer,
+  blocksPanelVisibility,
   customBlockWithDeprecatedCustomRenderer,
   customRendererRestrictions,
   customRendererControls,
   customBlockWithCustomContextAction,
   customStructure,
+  customStripe,
   customEmptyContainer,
   textUiElementOverridden,
   demoUiElement,
