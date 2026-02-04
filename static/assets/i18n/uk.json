@@ -271,6 +271,7 @@
 	"The icon inside the button will not show in Outlook 2002, 2007, 2010, 2013, 2016, 2019 on Windows.": "Ця функція не підтримується для Windows Outlook 2002, 2007, 2010, 2013, 2016, 2019",
 	"Button label should not exceed more than 255 characters": "Назва кнопки не повинна перевищувати 255 символів",
 	"Block Background Color": "Фон блоку",
+	"Text Background Color": "Колір фону тексту",
 	"General Background Color": "Колір фону листа",
 	"Will be applied to the entire email": "Буде застосовано до всього листа",
 	"Responsive Design": "Адаптивний дизайн",
@@ -529,6 +530,7 @@
 	"Hover Link Color": "Колір посилань при наведені",
 	"Add Hover Link Color": "Додати колір посилань при наведенні",
 	"All Found": "Усі знайдені",
+	"All tags": "Усі теги",
 	"All categories": "Всі категорії",
 	"All styles": "Всі стилі",
 	"Abstract": "Абстракція",
@@ -1470,8 +1472,11 @@
 	"Signature": "Підпис",
 	"Changes made to this module will be applied to all templates / email messages where this module has been used with the synchronization option activated": "Зміни в даному модулі будуть відображені у всіх шаблонах / листах, де використовується цей модуль з активованою опцією синхронізації",
 	"Save": "Зберегти",
+	"Save now": "Save now",
+	"Save now": "Save now",
 	"Cancel": "Відмінити",
 	"Update": "Оновити",
+	"Reset to system screenshot": "Скинути до системного скріншоту",
 	"Failed to generate icon": "Не вдалося створити іконку",
 	"The module has been saved successfully": "Модуль успішно збережено",
 	"Can`t save the module": "Не вдається зберегти модуль",
@@ -2374,5 +2379,8 @@
 	"Using a merge tag within a timer block is not supported, as the timer is rendered as a single element.": "Використання merge tag у блоці таймера не підтримується, оскільки таймер відображається як єдиний елемент.",
 	"<b>No internet connection.</b> \nThe editor can’t save your changes, and some of them may be lost. \nPlease reconnect and refresh the page.": "<b>Немає підключення до Інтернету.</b> \nРедактор не може зберегти ваші зміни, і деякі з них можуть бути втрачені. \nБудь ласка, підключіться знову та оновлюйте сторінку.",
 	"Failed to save changes. Please try again.": "Не вдалося зберегти зміни. Спробуйте ще раз.",
-	"No": "Ні"
+	"No": "Ні",
+	"Shared to {project_str} project": "Надано доступ в проєкт {project_str}",
+	"Shared to projects: <br/> {project_str}": "Надано доступ в проєкти: <br/> {project_str}",
+	"Shared from {project_str} project": "Надано доступ з проєкту {project_str}"
 }
