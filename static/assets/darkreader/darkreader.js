@@ -1,5 +1,5 @@
 /**
- * Dark Reader v4.9.119
+ * Dark Reader v4.9.120
  * https://darkreader.org/
  */
 
@@ -1041,54 +1041,155 @@
         }
         return null;
     }
-    function getNumbers($color) {
+    const C_0 = "0".charCodeAt(0);
+    const C_9 = "9".charCodeAt(0);
+    const C_e = "e".charCodeAt(0);
+    const C_DOT = ".".charCodeAt(0);
+    const C_PLUS = "+".charCodeAt(0);
+    const C_MINUS = "-".charCodeAt(0);
+    const C_SPACE = " ".charCodeAt(0);
+    const C_COMMA = ",".charCodeAt(0);
+    const C_SLASH = "/".charCodeAt(0);
+    const C_PERCENT = "%".charCodeAt(0);
+    function getNumbersFromString(input, range, units) {
         const numbers = [];
-        let prevPos = 0;
-        let isMining = false;
-        const startIndex = $color.indexOf("(");
-        $color = $color.substring(startIndex + 1, $color.length - 1);
-        for (let i = 0; i < $color.length; i++) {
-            const c = $color[i];
-            if ((c >= "0" && c <= "9") || c === "." || c === "+" || c === "-") {
-                isMining = true;
-            } else if (isMining && (c === " " || c === "," || c === "/")) {
-                numbers.push($color.substring(prevPos, i));
-                isMining = false;
-                prevPos = i + 1;
-            } else if (!isMining) {
-                prevPos = i + 1;
+        const searchStart = input.indexOf("(") + 1;
+        const searchEnd = input.length - 1;
+        let numStart = -1;
+        let unitStart = -1;
+        const push = (matchEnd) => {
+            const numEnd = unitStart > -1 ? unitStart : matchEnd;
+            const $num = input.slice(numStart, numEnd);
+            let n = parseFloat($num);
+            const r = range[numbers.length];
+            if (unitStart > -1) {
+                const unit = input.slice(unitStart, matchEnd);
+                const u = units[unit];
+                if (u != null) {
+                    n *= r / u;
+                }
+            }
+            if (r > 1) {
+                n = Math.round(n);
+            }
+            numbers.push(n);
+            numStart = -1;
+            unitStart = -1;
+        };
+        for (let i = searchStart; i < searchEnd; i++) {
+            const c = input.charCodeAt(i);
+            const isNumChar =
+                (c >= C_0 && c <= C_9) ||
+                c === C_DOT ||
+                c === C_PLUS ||
+                c === C_MINUS ||
+                c === C_e;
+            const isDelimiter = c === C_SPACE || c === C_COMMA || c === C_SLASH;
+            if (isNumChar) {
+                if (numStart === -1) {
+                    numStart = i;
+                }
+            } else if (numStart > -1) {
+                if (isDelimiter) {
+                    push(i);
+                } else if (unitStart === -1) {
+                    unitStart = i;
+                }
             }
         }
-        if (isMining) {
-            numbers.push($color.substring(prevPos, $color.length));
+        if (numStart > -1) {
+            push(searchEnd);
         }
-        return numbers;
-    }
-    function getNumbersFromString(str, range, units) {
-        const raw = getNumbers(str);
-        const unitsList = Object.entries(units);
-        const numbers = raw
-            .map((r) => r.trim())
-            .map((r, i) => {
-                let n;
-                const unit = unitsList.find(([u]) => r.endsWith(u));
-                if (unit) {
-                    n =
-                        (parseFloat(r.substring(0, r.length - unit[0].length)) /
-                            unit[1]) *
-                        range[i];
-                } else {
-                    n = parseFloat(r);
-                }
-                if (range[i] > 1) {
-                    return Math.round(n);
-                }
-                return n;
-            });
         return numbers;
     }
     const rgbRange = [255, 255, 255, 1];
     const rgbUnits = {"%": 100};
+    function getRGBValues(input) {
+        const CHAR_CODE_0 = 48;
+        const length = input.length;
+        let i = 0;
+        let digitsCount = 0;
+        let digitSequence = false;
+        let floatDigitsCount = -1;
+        let delimiter = C_SPACE;
+        let channel = -1;
+        let result = null;
+        while (i < length) {
+            const c = input.charCodeAt(i);
+            if ((c >= C_0 && c <= C_9) || c === C_DOT) {
+                if (!digitSequence) {
+                    digitSequence = true;
+                    digitsCount = 0;
+                    floatDigitsCount = -1;
+                    channel++;
+                    if (channel === 3 && result) {
+                        result[3] = 0;
+                    }
+                    if (channel > 3) {
+                        return null;
+                    }
+                }
+                if (c === C_DOT) {
+                    if (floatDigitsCount > 0) {
+                        return null;
+                    }
+                    floatDigitsCount = 0;
+                } else {
+                    const d = c - CHAR_CODE_0;
+                    if (!result) {
+                        result = [0, 0, 0, 1];
+                    }
+                    if (floatDigitsCount > -1) {
+                        floatDigitsCount++;
+                        result[channel] += d / 10 ** floatDigitsCount;
+                    } else {
+                        digitsCount++;
+                        if (digitsCount > 3) {
+                            return null;
+                        }
+                        result[channel] = result[channel] * 10 + d;
+                    }
+                }
+            } else if (c === C_PERCENT) {
+                if (
+                    channel < 0 ||
+                    channel > 3 ||
+                    delimiter !== C_SPACE ||
+                    !result
+                ) {
+                    return null;
+                }
+                result[channel] =
+                    channel < 3
+                        ? Math.round((result[channel] * 255) / 100)
+                        : result[channel] / 100;
+                digitSequence = false;
+            } else {
+                digitSequence = false;
+                if (c === C_SPACE) {
+                    if (channel === 0) {
+                        delimiter = c;
+                    }
+                } else if (c === C_COMMA) {
+                    if (channel === -1) {
+                        return null;
+                    }
+                    delimiter = C_COMMA;
+                } else if (c === C_SLASH) {
+                    if (channel !== 2 || delimiter !== C_SPACE) {
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+            }
+            i++;
+        }
+        if (channel < 2 || channel > 3) {
+            return null;
+        }
+        return result;
+    }
     function parseRGB($rgb) {
         const [r, g, b, a = 1] = getNumbersFromString($rgb, rgbRange, rgbUnits);
         if (r == null || g == null || b == null || a == null) {
@@ -1105,29 +1206,48 @@
         }
         return hslToRGB({h, s, l, a});
     }
+    const C_A = "A".charCodeAt(0);
+    const C_F = "F".charCodeAt(0);
+    const C_a = "a".charCodeAt(0);
+    const C_f = "f".charCodeAt(0);
     function parseHex($hex) {
-        const h = $hex.substring(1);
-        switch (h.length) {
-            case 3:
-            case 4: {
-                const [r, g, b] = [0, 1, 2].map((i) =>
-                    parseInt(`${h[i]}${h[i]}`, 16)
-                );
-                const a =
-                    h.length === 3 ? 1 : parseInt(`${h[3]}${h[3]}`, 16) / 255;
-                return {r, g, b, a};
+        const length = $hex.length;
+        const digitCount = length - 1;
+        const isShort = digitCount === 3 || digitCount === 4;
+        const isLong = digitCount === 6 || digitCount === 8;
+        if (!isShort && !isLong) {
+            return null;
+        }
+        const hex = (i) => {
+            const c = $hex.charCodeAt(i);
+            if (c >= C_A && c <= C_F) {
+                return c + 10 - C_A;
             }
-            case 6:
-            case 8: {
-                const [r, g, b] = [0, 2, 4].map((i) =>
-                    parseInt(h.substring(i, i + 2), 16)
-                );
-                const a =
-                    h.length === 6 ? 1 : parseInt(h.substring(6, 8), 16) / 255;
-                return {r, g, b, a};
+            if (c >= C_a && c <= C_f) {
+                return c + 10 - C_a;
+            }
+            return c - C_0;
+        };
+        let r;
+        let g;
+        let b;
+        let a = 1;
+        if (isShort) {
+            r = hex(1) * 17;
+            g = hex(2) * 17;
+            b = hex(3) * 17;
+            if (digitCount === 4) {
+                a = (hex(4) * 17) / 255;
+            }
+        } else {
+            r = hex(1) * 16 + hex(2);
+            g = hex(3) * 16 + hex(4);
+            b = hex(5) * 16 + hex(6);
+            if (digitCount === 8) {
+                a = (hex(7) * 16 + hex(8)) / 255;
             }
         }
-        return null;
+        return {r, g, b, a};
     }
     function getColorByName($color) {
         const n = knownColors.get($color);
@@ -1921,13 +2041,6 @@
           })
         : null;
     function iterateCSSDeclarations(style, iterate) {
-        forEach(style, (property) => {
-            const value = style.getPropertyValue(property).trim();
-            if (!value) {
-                return;
-            }
-            iterate(property, value);
-        });
         const cssText = style.cssText;
         if (cssText.includes("var(")) {
             if (isSafari) {
@@ -1961,6 +2074,13 @@
         ) {
             handleEmptyShorthand("border", style, iterate);
         }
+        forEach(style, (property) => {
+            const value = style.getPropertyValue(property).trim();
+            if (!value) {
+                return;
+            }
+            iterate(property, value);
+        });
     }
     function handleEmptyShorthand(shorthand, style, iterate) {
         const parentRule = style.parentRule;
@@ -2775,7 +2895,12 @@
                             .slice(0, commaIndex)
                             .split(";")[1];
                         if (encoding === "base64") {
+                            if (svgText.includes("%")) {
+                                svgText = decodeURIComponent(svgText);
+                            }
                             svgText = atob(svgText);
+                        } else if (svgText.startsWith("%3c")) {
+                            svgText = decodeURIComponent(svgText);
                         }
                         if (svgText.startsWith("<svg ")) {
                             const closingIndex = svgText.indexOf(">");
@@ -2783,22 +2908,20 @@
                                 .slice(0, closingIndex + 1)
                                 .toLocaleLowerCase();
                             if (
-                                svgOpening.includes("viewbox") &&
-                                !svgOpening.includes("width") &&
-                                !svgOpening.includes("height")
+                                svgOpening.includes("viewbox=") &&
+                                !svgOpening.includes("width=") &&
+                                !svgOpening.includes("height=")
                             ) {
                                 useViewBox = true;
                                 const viewboxIndex =
-                                    svgOpening.indexOf('viewbox="');
+                                    svgOpening.indexOf("viewbox=");
+                                const quote = svgOpening[viewboxIndex + 8];
                                 const viewboxCloseIndex = svgOpening.indexOf(
-                                    'viewbox="',
+                                    quote,
                                     viewboxIndex + 9
                                 );
                                 const viewBox = svgOpening
-                                    .slice(
-                                        viewboxIndex + 9,
-                                        viewboxCloseIndex - 1
-                                    )
+                                    .slice(viewboxIndex + 9, viewboxCloseIndex)
                                     .split(" ")
                                     .map((x) => parseFloat(x));
                                 if (
@@ -3065,7 +3188,11 @@
         if (encoding !== "base64" || !mediaType) {
             return null;
         }
-        const characters = atob(dataURL.substring(commaIndex + 1));
+        let base64Content = dataURL.substring(commaIndex + 1);
+        if (base64Content.includes("%")) {
+            base64Content = decodeURIComponent(base64Content);
+        }
+        const characters = atob(base64Content);
         const bytes = new Uint8Array(characters.length);
         for (let i = 0; i < characters.length; i++) {
             bytes[i] = characters.charCodeAt(i);
@@ -3102,6 +3229,12 @@
     function getPriority(ruleStyle, property) {
         return Boolean(ruleStyle && ruleStyle.getPropertyPriority(property));
     }
+    const bgPropsToCopy = [
+        "background-clip",
+        "background-position",
+        "background-repeat",
+        "background-size"
+    ];
     function getModifiableCSSDeclaration(
         property,
         value,
@@ -3172,6 +3305,8 @@
             );
         } else if (property.includes("shadow")) {
             modifier = getShadowModifier(value);
+        } else if (bgPropsToCopy.includes(property) && value !== "initial") {
+            modifier = value;
         }
         if (!modifier) {
             return null;
@@ -4283,9 +4418,7 @@
             }
             this.definedVars.add(varName);
             const isColor = Boolean(
-                value.match(rawRGBSpaceRegex) ||
-                value.match(rawRGBCommaRegex) ||
-                parseColorWithCache(value)
+                getRGBValues(value) || parseColorWithCache(value)
             );
             if (isColor) {
                 this.unknownColorVars.add(varName);
@@ -4624,16 +4757,13 @@
     function isTextColorProperty(property) {
         return textColorProps.includes(property);
     }
-    const rawRGBSpaceRegex =
-        /^(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})\s*(\/\s*\d+\.?\d*)?$/;
-    const rawRGBCommaRegex = /^(\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})$/;
     function parseRawColorValue(input) {
-        const match =
-            input.match(rawRGBSpaceRegex) ?? input.match(rawRGBCommaRegex);
-        if (match) {
-            const color = match[4]
-                ? `rgb(${match[1]} ${match[2]} ${match[3]} / ${match[4]})`
-                : `rgb(${match[1]}, ${match[2]}, ${match[3]})`;
+        const v = getRGBValues(input);
+        if (v) {
+            const color =
+                v[3] < 1
+                    ? `rgb(${v[0]} ${v[1]} ${v[2]} / ${v[3]})`
+                    : `rgb(${v[0]} ${v[1]} ${v[2]})`;
             return {isRaw: true, color};
         }
         return {isRaw: false, color: input};
@@ -4646,7 +4776,9 @@
             if (isRaw) {
                 const outputInRGB = parseColorWithCache(outputColor);
                 return outputInRGB
-                    ? `${outputInRGB.r}, ${outputInRGB.g}, ${outputInRGB.b}`
+                    ? Number.isNaN(outputInRGB.a) || outputInRGB.a === 1
+                        ? `${outputInRGB.r}, ${outputInRGB.g}, ${outputInRGB.b}`
+                        : `${outputInRGB.r}, ${outputInRGB.g}, ${outputInRGB.b}, ${outputInRGB.a}`
                     : outputColor;
             }
             return outputColor;
@@ -6205,17 +6337,28 @@
     }
 
     const STYLE_SELECTOR = 'style, link[rel*="stylesheet" i]:not([disabled])';
-    function isFontsGoogleApiStyle(element) {
-        if (!element.href) {
+    let ignoredCSSURLPatterns = [];
+    function setIgnoredCSSURLs(patterns) {
+        ignoredCSSURLPatterns = patterns || [];
+    }
+    function shouldIgnoreCSSURL(url) {
+        if (!url || ignoredCSSURLPatterns.length === 0) {
             return false;
         }
-        try {
-            const elementURL = new URL(element.href);
-            return elementURL.hostname === "fonts.googleapis.com";
-        } catch (err) {
-            logInfo(`Couldn't construct ${element.href} as URL`);
-            return false;
+        for (const pattern of ignoredCSSURLPatterns) {
+            if (pattern.startsWith("^")) {
+                if (url.startsWith(pattern.slice(1))) {
+                    return true;
+                }
+            } else if (pattern.endsWith("$")) {
+                if (url.endsWith(pattern.slice(0, -1))) {
+                    return true;
+                }
+            } else if (url.includes(pattern)) {
+                return true;
+            }
         }
+        return false;
     }
     const hostsBreakingOnSVGStyleOverride = [
         "account.containerstore.com",
@@ -6237,7 +6380,7 @@
                     (isFirefox
                         ? !element.href.startsWith("moz-extension://")
                         : true) &&
-                    !isFontsGoogleApiStyle(element))) &&
+                    !shouldIgnoreCSSURL(element.href))) &&
             !element.classList.contains("darkreader") &&
             !ignoredMedia.includes(element.media.toLowerCase()) &&
             !element.classList.contains("stylus")
@@ -8267,9 +8410,13 @@
             ignoredInlineSelectors = Array.isArray(fixes.ignoreInlineStyle)
                 ? fixes.ignoreInlineStyle
                 : [];
+            setIgnoredCSSURLs(
+                Array.isArray(fixes.ignoreCSSUrl) ? fixes.ignoreCSSUrl : []
+            );
         } else {
             ignoredImageAnalysisSelectors = [];
             ignoredInlineSelectors = [];
+            setIgnoredCSSURLs([]);
         }
         if (theme.immediateModify) {
             setIsDOMReady(() => {

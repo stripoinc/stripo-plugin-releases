@@ -1244,10 +1244,10 @@ var _SettingsPanelRegistry = class _SettingsPanelRegistry2 extends BaseValidated
 };
 _SettingsPanelRegistry.REQUIRED_METHODS = ["registerBlockControls"];
 var SettingsPanelRegistry = _SettingsPanelRegistry;
-var SettingsPanelTab = class {
-  constructor(tabId, controlsIds) {
+var SettingsPanelTab = class _SettingsPanelTab {
+  constructor(tabId, controls2) {
     this.tabId = tabId;
-    this.controlsIds = controlsIds;
+    this.controls = controls2.map(_SettingsPanelTab.normalizeControl);
   }
   getTabId() {
     return this.tabId;
@@ -1256,27 +1256,43 @@ var SettingsPanelTab = class {
     return this.label;
   }
   getControlsIds() {
-    return this.controlsIds;
+    return this.controls.map((c) => c.id);
+  }
+  getControls() {
+    return this.controls;
   }
   withLabel(label) {
     this.label = label;
     return this;
   }
-  addControl(controlId, position) {
+  addControl(control, position) {
+    const normalized = _SettingsPanelTab.normalizeControl(control);
     if (position < 0) {
-      this.controlsIds.unshift(controlId);
-    } else if (position > this.controlsIds.length) {
-      this.controlsIds.push(controlId);
+      this.controls.unshift(normalized);
+    } else if (position > this.controls.length) {
+      this.controls.push(normalized);
     } else {
-      this.controlsIds.splice(position, 0, controlId);
+      this.controls.splice(position, 0, normalized);
     }
     return this;
   }
   deleteControl(controlId) {
-    const index = this.controlsIds.indexOf(controlId);
+    const index = this.controls.findIndex((c) => c.id === controlId);
     if (index !== -1) {
-      this.controlsIds.splice(index, 1);
+      this.controls.splice(index, 1);
     }
+  }
+  static normalizeControl(control) {
+    if (typeof control === "string") {
+      return { id: control };
+    }
+    if (!control.id) {
+      throw new Error("SettingsPanelTabControlConfig.id is required");
+    }
+    return {
+      ...control,
+      id: control.id
+    };
   }
 };
 var SpacerBuildInControl = class extends BuiltInControl {
@@ -3014,6 +3030,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     CarouselControls2["THUMBNAIL_CONTAINER"] = "ampCarouselThumbnailContainerForm";
     CarouselControls2["THUMBNAIL_CUSTOM_REVIEW"] = "ampCarouselThumbnailCustomPreviewImageForm";
     CarouselControls2["THUMBNAIL_RADIUS"] = "ampCarouselThumbnailRadiusForm";
+    CarouselControls2["THUMBNAIL_COLOR"] = "ampCarouselThumbnailColorForm";
     CarouselControls2["AMP_GENERAL_LINK"] = "AMP_GENERAL_LINK_CONTROLLER";
     CarouselControls2["AMP_GENERAL_LINK_SWITCHER"] = "AMP_GENERAL_LINK_SWITCHER";
     return CarouselControls2;
@@ -3099,6 +3116,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     GeneralStylesControls2["MESSAGE_ALIGNMENT"] = "messageAlignment";
     GeneralStylesControls2["MESSAGE_CONTENT_WIDTH"] = "messageContentWidth";
     GeneralStylesControls2["RESPONSIVE_DESIGN"] = "responsiveDesign";
+    GeneralStylesControls2["DEFAULT_STYLES"] = "defaultStyles";
     GeneralStylesControls2["RIGHT_TO_LEFT_CONTAINER"] = "rightToLeftContainer";
     GeneralStylesControls2["STRIPES_CONTENT_CONTROLS_CONTAINER"] = "stripesContentControlsContainer";
     GeneralStylesControls2["STRIPES_FONT_FAMILY_CONTAINER"] = "stripesFontFamilyFormContainer";
@@ -3889,10 +3907,10 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
   };
   _SettingsPanelRegistry3.REQUIRED_METHODS = ["registerBlockControls"];
   var SettingsPanelRegistry2 = _SettingsPanelRegistry3;
-  var SettingsPanelTab2 = class {
-    constructor(tabId, controlsIds) {
+  var SettingsPanelTab2 = class _SettingsPanelTab2 {
+    constructor(tabId, controls2) {
       this.tabId = tabId;
-      this.controlsIds = controlsIds;
+      this.controls = controls2.map(_SettingsPanelTab2.normalizeControl);
     }
     getTabId() {
       return this.tabId;
@@ -3901,27 +3919,43 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       return this.label;
     }
     getControlsIds() {
-      return this.controlsIds;
+      return this.controls.map((c) => c.id);
+    }
+    getControls() {
+      return this.controls;
     }
     withLabel(label) {
       this.label = label;
       return this;
     }
-    addControl(controlId, position) {
+    addControl(control, position) {
+      const normalized = _SettingsPanelTab2.normalizeControl(control);
       if (position < 0) {
-        this.controlsIds.unshift(controlId);
-      } else if (position > this.controlsIds.length) {
-        this.controlsIds.push(controlId);
+        this.controls.unshift(normalized);
+      } else if (position > this.controls.length) {
+        this.controls.push(normalized);
       } else {
-        this.controlsIds.splice(position, 0, controlId);
+        this.controls.splice(position, 0, normalized);
       }
       return this;
     }
     deleteControl(controlId) {
-      const index = this.controlsIds.indexOf(controlId);
+      const index = this.controls.findIndex((c) => c.id === controlId);
       if (index !== -1) {
-        this.controlsIds.splice(index, 1);
+        this.controls.splice(index, 1);
       }
+    }
+    static normalizeControl(control) {
+      if (typeof control === "string") {
+        return { id: control };
+      }
+      if (!control.id) {
+        throw new Error("SettingsPanelTabControlConfig.id is required");
+      }
+      return {
+        ...control,
+        id: control.id
+      };
     }
   };
   var SpacerBuildInControl2 = class extends BuiltInControl2 {
@@ -9166,6 +9200,55 @@ class ExternalSmartElementsLibrary {
   }
 }
 const externalSmartElementsLibrary = new ExtensionBuilder().withExternalSmartElementsLibrary(ExternalSmartElementsLibrary).build();
+const TAB_FIRST_ID = "general-panel-extension-1";
+const TAB_SECOND_ID = "general-panel-extension-2";
+class GeneralPanelFirstTabExtension extends GeneralPanelTab {
+  getId() {
+    return TAB_FIRST_ID;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("General Panel Extension 1");
+  }
+  getTemplate() {
+    const { LABEL } = UIElementType;
+    const { LABEL: { text: labelTextAttr } } = UEAttr;
+    return `
+      <div class="container two-columns">
+        <${LABEL} ${labelTextAttr}="${this.api.translate("Enable controls tab 1")}"></${LABEL}>
+      </div>
+    `;
+  }
+  getTabIndex() {
+    return 1;
+  }
+}
+class GeneralPanelSecondTabExtension extends GeneralPanelTab {
+  getId() {
+    return TAB_SECOND_ID;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("General Panel Extension 2");
+  }
+  getTemplate() {
+    const { LABEL } = UIElementType;
+    const { LABEL: { text: labelTextAttr } } = UEAttr;
+    return `
+      <div class="container two-columns">
+        <${LABEL} ${labelTextAttr}="${this.api.translate("Enable controls tab 2")}"></${LABEL}>
+      </div>
+    `;
+  }
+  getTabIndex() {
+    return 1;
+  }
+}
+const generalMultipleTabsExtension = new ExtensionBuilder().addGeneralPanelTab(GeneralPanelFirstTabExtension).addGeneralPanelTab(GeneralPanelSecondTabExtension).build();
 const ID$4 = "general-panel-extension";
 const SWITCHER_NAME$1 = "activate-copilot";
 const TEXT_AREA_MESSAGE = "copilot-message";
@@ -10618,7 +10701,7 @@ const extension = new ExtensionBuilder().withExternalImageLibraryTab(MyExternalI
 class TextCustomControls extends SettingsPanelRegistry {
   registerBlockControls(blockControlsMap) {
     blockControlsMap["BLOCK_TEXT"] = [
-      new SettingsPanelTab("customStyles", ["backgroundColor"]).withLabel(this.api.translate("Custom styles")),
+      new SettingsPanelTab("customStyles", [{ "id": "backgroundColor", "withFullHeight": true }]).withLabel(this.api.translate("Custom styles")),
       new SettingsPanelTab("settings", ["paragraphStyleForm"]),
       new SettingsPanelTab("customSettings", ["backgroundColor"]).withLabel(this.api.translate("Custom settings"))
     ];
@@ -11878,6 +11961,7 @@ const extensionsMap = {
   getEditorConfigBlock,
   multipleCustomControlWithEmptyState,
   generalPanelTabExtension,
+  generalMultipleTabsExtension,
   modulesPanelTabExtension,
   structureWithCustomMarkupExtension,
   imageMarginsControlExtension,
