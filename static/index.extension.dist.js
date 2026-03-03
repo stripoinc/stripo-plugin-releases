@@ -7218,6 +7218,7 @@ class CustomControl extends Control {
     this.#node = node;
     const customPropValue = this.#node.getNodeConfig()?.customProp;
     this.api.updateValues({ customPropValue });
+    console.log("%conTemplateNodeUpdated calls:", "font-weight: bold; font-size: 20px; color: red;", node);
   }
 }
 class CustomBlock2 extends Block {
