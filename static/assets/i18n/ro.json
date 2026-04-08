@@ -1605,6 +1605,7 @@
 	"The file {fileName} size exceeds the allowed size {maxFileSize}": "Imaginea fișierului {fileName} depășește dimensiunea maximă permisă de {maxFileSize}",
 	"The file should not exceed the maximum size of {maxFileSize} and resolution of {maxImageDimensions}.": "Fișierul nu trebuie să depășească dimensiunea maximă de {maxFileSize} și rezoluția de {maxImageDimensions}.",
 	"The file should not be less than {minImageDimensions}.": "Fișierul nu trebuie să fie mai mic decât {minImageDimensions}.",
+	"Image size must be at least {minPixels}px on one side.": "Image size must be at least {minPixels}px on one side.",
 	"The aspect ratio of image is wrong. The image should be in the ratio of {ratio}.": "Raportul de aspect al imaginii este greşit. Imaginea trebuie să fie în raportul de {ratio}.",
 	"Image upload failed. The image storage service is unavailable. Please check storage configuration on <a href=\"https://my.stripo.email/account/settings/workspace/image-server\" target=\"_blank\">workspace settings page.</a>": "Încărcarea imaginii a eșuat. Serviciul de stocare a imaginii nu este disponibil. Verificați configurația stocării pe <a href=\"https://my.stripo.email/account/settings/workspace/image-server\" target=\"_blank\">pagina cu setările spațiului de lucru.</a>",
 	"Select All": "Selectare toate",

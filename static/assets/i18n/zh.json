@@ -1613,6 +1613,7 @@
 	"The file {fileName} size exceeds the allowed size {maxFileSize}": "檔案 {fileName} 的大小超出允許的大小 {maxFileSize}",
 	"The file should not exceed the maximum size of {maxFileSize} and resolution of {maxImageDimensions}.": "檔案不得超過 {maxFileSize} 的大小上限和 {maxImageDimensions} 的解析度上限。",
 	"The file should not be less than {minImageDimensions}.": "檔案不得小於 {minImageDimensions}。",
+	"Image size must be at least {minPixels}px on one side.": "Image size must be at least {minPixels}px on one side.",
 	"The aspect ratio of image is wrong. The image should be in the ratio of {ratio}.": "圖片的長寬比不正確。圖片比例應為 {ratio}。",
 	"Image upload failed. The image storage service is unavailable. Please check storage configuration on <a href=\"https://my.stripo.email/account/settings/workspace/image-server\" target=\"_blank\">workspace settings page.</a>": "無法圖片上傳。無法使用圖片儲存服務。請至<a href=\"https://my.stripo.email/account/settings/workspace/image-server\" target=\"_blank\">工作區設定頁面</a>檢查儲存設定。",
 	"Select All": "選擇全部",

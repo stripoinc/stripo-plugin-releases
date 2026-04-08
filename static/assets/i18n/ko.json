@@ -1605,6 +1605,7 @@
 	"The file {fileName} size exceeds the allowed size {maxFileSize}": "{fileName} 파일 크기는 허용된 크기({maxFileSize})를 초과할 수 없습니다",
 	"The file should not exceed the maximum size of {maxFileSize} and resolution of {maxImageDimensions}.": "파일은 최대 크기({maxFileSize})와 해상도({maxImageDimensions})를 초과할 수 없습니다.",
 	"The file should not be less than {minImageDimensions}.": "파일은 {minImageDimensions} 이상이어야 합니다.",
+	"Image size must be at least {minPixels}px on one side.": "Image size must be at least {minPixels}px on one side.",
 	"The aspect ratio of image is wrong. The image should be in the ratio of {ratio}.": "이미지의 가로세로 비율이 잘못되었습니다. 이미지의 비율은 {ratio}이어야 합니다.",
 	"Image upload failed. The image storage service is unavailable. Please check storage configuration on <a href=\"https://my.stripo.email/account/settings/workspace/image-server\" target=\"_blank\">workspace settings page.</a>": "이미지를 업로드하지 못했습니다. 이미지 저장 서비스를 이용할 수 없습니다. <a href=\"https://my.stripo.email/account/settings/workspace/image-server\" target=\"_blank\">워크스페이스 설정 페이지</a>에서 저장 구성을 확인하세요.",
 	"Select All": "모두 선택",

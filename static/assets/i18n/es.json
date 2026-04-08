@@ -1613,6 +1613,7 @@
 	"The file {fileName} size exceeds the allowed size {maxFileSize}": "El tamaño del archivo {fileName} supera el tamaño permitido de {maxFileSize}",
 	"The file should not exceed the maximum size of {maxFileSize} and resolution of {maxImageDimensions}.": "El archivo no debe exceder el tamaño máximo de {maxFileSize} y la resolución máxima de {maxImageDimensions}.",
 	"The file should not be less than {minImageDimensions}.": "El archivo no debería tener un tamaño menor que {minImageDimensions}.",
+	"Image size must be at least {minPixels}px on one side.": "Image size must be at least {minPixels}px on one side.",
 	"The aspect ratio of image is wrong. The image should be in the ratio of {ratio}.": "La relación de aspecto de la imagen no es correcto. La imagen debe presentar la relación de {ratio}.",
 	"Image upload failed. The image storage service is unavailable. Please check storage configuration on <a href=\"https://my.stripo.email/account/settings/workspace/image-server\" target=\"_blank\">workspace settings page.</a>": "No se ha podido cargar la imagen. El servicio de almacenamiento de imágenes no está disponible. Compruebe la configuración de almacenamiento en <a href=\"https://my.stripo.email/account/settings/workspace/image-server\" target=\"_blank\">la página de configuración del espacio de trabajo</a>.",
 	"Select All": "Seleccionar todo",

@@ -1613,6 +1613,7 @@
 	"The file {fileName} size exceeds the allowed size {maxFileSize}": "Het bestand {fileName} is groter dan de toegestane grootte {maxFileSize}",
 	"The file should not exceed the maximum size of {maxFileSize} and resolution of {maxImageDimensions}.": "Het bestand mag de maximale grootte van {maxFileSize} en een resolutie van {maxImageDimensions} niet overschrijden.",
 	"The file should not be less than {minImageDimensions}.": "Het bestand mag niet kleiner zijn dan {minImageDimensions}.",
+	"Image size must be at least {minPixels}px on one side.": "Image size must be at least {minPixels}px on one side.",
 	"The aspect ratio of image is wrong. The image should be in the ratio of {ratio}.": "De beeldverhouding van de afbeelding is verkeerd. De afbeelding moet de beeldverhouding {ratio} hebben.",
 	"Image upload failed. The image storage service is unavailable. Please check storage configuration on <a href=\"https://my.stripo.email/account/settings/workspace/image-server\" target=\"_blank\">workspace settings page.</a>": "Afbeelding uploaden mislukt. De afbeeldingopslagservice is niet beschikbaar. Controleer de opslagconfiguratie op de <a href=\"https://my.stripo.email/account/settings/workspace/image-server\" target=\"_blank\">pagina met de werkruimte-instellingen</a>.",
 	"Select All": "Alles selecteren",

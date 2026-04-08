@@ -1613,6 +1613,7 @@
 	"The file {fileName} size exceeds the allowed size {maxFileSize}": "Velikost souboru {fileName} překračuje povolenou velikost {maxFileSize}",
 	"The file should not exceed the maximum size of {maxFileSize} and resolution of {maxImageDimensions}.": "Soubor by neměl překročit maximální velikost {maxFileSize} a rozlišení {maxImageDimensions}.",
 	"The file should not be less than {minImageDimensions}.": "Soubor by neměl být menší než {minImageDimensions}.",
+	"Image size must be at least {minPixels}px on one side.": "Image size must be at least {minPixels}px on one side.",
 	"The aspect ratio of image is wrong. The image should be in the ratio of {ratio}.": "Poměr stran obrázku je špatný. Obrázek by měl být v poměru {ratio}.",
 	"Image upload failed. The image storage service is unavailable. Please check storage configuration on <a href=\"https://my.stripo.email/account/settings/workspace/image-server\" target=\"_blank\">workspace settings page.</a>": "Nahrání obrázku se nezdařilo. Služba pro ukládání obrázků není k dispozici. Zkontrolujte konfiguraci úložiště na <a href=\"https://my.stripo.email/account/settings/workspace/image-server\" target=\"_blank\">stránce nastavení pracovního prostoru.</a>",
 	"Select All": "Vybrat vše",
