@@ -185,6 +185,9 @@ var _Block = class _Block2 extends BaseValidatedClass {
   allowInnerBlocksDND() {
     return true;
   }
+  allowInteractWithAMPWhenSelected() {
+    return true;
+  }
   /**
    * Gets the unique identifier for this block type.
    * This ID is used for registration and referencing the block.
@@ -503,6 +506,7 @@ var TextControls = /* @__PURE__ */ ((TextControls2) => {
   TextControls2["TEXT_BLOCK_FONT_FAMILY"] = "textBlockFontFamily";
   TextControls2["FONT_FAMILY"] = "textFontFamily";
   TextControls2["FONT_SIZE"] = "textBlockFontSize";
+  TextControls2["FONT_WEIGHT"] = "textBlockFontWeight";
   TextControls2["DIRECTION"] = "textBlockDirectionForm";
   TextControls2["INSERT_FORM"] = "textBlockInsertForm";
   TextControls2["LINK_DATA"] = "textBlockLinkDataForm";
@@ -2507,6 +2511,9 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     allowInnerBlocksDND() {
       return true;
     }
+    allowInteractWithAMPWhenSelected() {
+      return true;
+    }
     /**
      * Gets the unique identifier for this block type.
      * This ID is used for registration and referencing the block.
@@ -2875,6 +2882,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     TextControls22["TEXT_BLOCK_FONT_FAMILY"] = "textBlockFontFamily";
     TextControls22["FONT_FAMILY"] = "textFontFamily";
     TextControls22["FONT_SIZE"] = "textBlockFontSize";
+    TextControls22["FONT_WEIGHT"] = "textBlockFontWeight";
     TextControls22["DIRECTION"] = "textBlockDirectionForm";
     TextControls22["INSERT_FORM"] = "textBlockInsertForm";
     TextControls22["LINK_DATA"] = "textBlockLinkDataForm";
@@ -5104,6 +5112,9 @@ let CustomRendererStructureExtension$1 = class CustomRendererStructureExtension 
   getCustomRenderer() {
     return CustomRenderer$2;
   }
+  allowInteractWithAMPWhenSelected() {
+    return false;
+  }
   canBeSavedAsModule() {
     return true;
   }
@@ -5142,6 +5153,9 @@ class CustomRendererImageBlockExtension extends Block {
   }
   getCustomRenderer() {
     return CustomRenderer$2;
+  }
+  allowInteractWithAMPWhenSelected() {
+    return false;
   }
   getTemplate() {
     const { BLOCK_IMAGE } = BlockType;
@@ -6358,6 +6372,9 @@ let ContainerExtension$1 = class ContainerExtension3 extends Block {
   allowInnerBlocksSelection() {
     return false;
   }
+  allowInteractWithAMPWhenSelected() {
+    return false;
+  }
 };
 class ContainerWithCustomRendererExtension extends ContainerExtension$1 {
   getId() {
@@ -6371,6 +6388,9 @@ class ContainerWithCustomRendererExtension extends ContainerExtension$1 {
   }
   getCustomRenderer() {
     return CustomRenderer4;
+  }
+  allowInteractWithAMPWhenSelected() {
+    return false;
   }
 }
 class TextColorAttrControl extends TextColorBuiltInControl {
@@ -9619,6 +9639,9 @@ class ClassicBlock extends Block {
   getContextActionsIds() {
     return [ContextActionType.REMOVE, CONTEXT_ACTION_ID];
   }
+  allowInteractWithAMPWhenSelected() {
+    return false;
+  }
 }
 const CLASSIC_STRUCTURE_ID = "classic-structure";
 class ClassicStructureBlock extends Block {
@@ -9641,6 +9664,9 @@ class ClassicStructureBlock extends Block {
     return false;
   }
   allowInnerBlocksDND() {
+    return false;
+  }
+  allowInteractWithAMPWhenSelected() {
     return false;
   }
   getTemplate() {
@@ -9688,6 +9714,9 @@ class ProductStructureBlock4 extends Block {
     return this.api.translate("Product description");
   }
   allowInnerBlocksSelection() {
+    return false;
+  }
+  allowInteractWithAMPWhenSelected() {
     return false;
   }
   allowInnerBlocksDND() {
