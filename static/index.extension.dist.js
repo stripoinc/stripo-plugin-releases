@@ -479,6 +479,7 @@ var ButtonControls = /* @__PURE__ */ ((ButtonControls2) => {
   ButtonControls2["FONT_COLOR"] = "buttonFontColor";
   ButtonControls2["FONT_FAMILY"] = "buttonFontFamily";
   ButtonControls2["FONT_SIZE"] = "buttonFontSize";
+  ButtonControls2["FONT_WEIGHT"] = "buttonFontWeight";
   ButtonControls2["ICON"] = "buttonIconContainer";
   ButtonControls2["ICON_ALIGN"] = "buttonIconAlign";
   ButtonControls2["ICON_INDENT"] = "buttonIconIndent";
@@ -629,6 +630,11 @@ var SettingsTab = /* @__PURE__ */ ((SettingsTab2) => {
   SettingsTab2["DATA"] = "data";
   return SettingsTab2;
 })(SettingsTab || {});
+var ThemeMode = /* @__PURE__ */ ((ThemeMode2) => {
+  ThemeMode2["LIGHT"] = "LIGHT";
+  ThemeMode2["DARK"] = "DARK";
+  return ThemeMode2;
+})(ThemeMode || {});
 var UIElementAttributes = {
   name: "name",
   disabled: "disabled"
@@ -1967,11 +1973,11 @@ class AtomicBlockTextAlias extends Block {
   }
 }
 const atomicBlockAlias = new ExtensionBuilder().addBlock(AtomicBlockImageAlias).withSettingsPanelRegistry(PanelRegistry$L).addBlock(AtomicBlockTextAlias).build();
-const BLOCK_ID$k = "structure-wth-ondocumentChange-hook";
-const CONTROL_ID$8 = "structure-wth-ondocumentChange-hook-control";
+const BLOCK_ID$l = "structure-wth-ondocumentChange-hook";
+const CONTROL_ID$9 = "structure-wth-ondocumentChange-hook-control";
 let StructureExtensionControl$1 = class StructureExtensionControl extends StructureMarginsBuiltInControl {
   getId() {
-    return CONTROL_ID$8;
+    return CONTROL_ID$9;
   }
   getLabels() {
     return {
@@ -1981,7 +1987,7 @@ let StructureExtensionControl$1 = class StructureExtensionControl extends Struct
 };
 let StructureExtensionBlock$1 = class StructureExtensionBlock extends Block {
   getId() {
-    return BLOCK_ID$k;
+    return BLOCK_ID$l;
   }
   getIcon() {
     return "new-window";
@@ -2033,9 +2039,9 @@ let StructureExtensionBlock$1 = class StructureExtensionBlock extends Block {
 };
 let PanelRegistry$K = class PanelRegistry2 extends SettingsPanelRegistry {
   registerBlockControls(_blockControlsMap) {
-    _blockControlsMap[BLOCK_ID$k] = [
+    _blockControlsMap[BLOCK_ID$l] = [
       new SettingsPanelTab("Settings", [
-        CONTROL_ID$8
+        CONTROL_ID$9
       ]).withLabel("Settings")
     ];
   }
@@ -2130,7 +2136,7 @@ class BlockExtensionButton extends Block {
   }
 }
 const buttonExtensionBlock = new ExtensionBuilder().addBlock(BlockExtensionButton).build();
-const BLOCK_ID$j = "callbacks-block-extension";
+const BLOCK_ID$k = "callbacks-block-extension";
 const CALLBACK_COUNTER_KEY = "__extensionCallbackCounts";
 const getCallbackStore = () => {
   const root = typeof window === "undefined" ? globalThis : window;
@@ -2141,14 +2147,14 @@ const getCallbackStore = () => {
 };
 const getCallbackCounts = () => {
   const store = getCallbackStore();
-  if (!store[BLOCK_ID$j]) {
-    store[BLOCK_ID$j] = {
+  if (!store[BLOCK_ID$k]) {
+    store[BLOCK_ID$k] = {
       onCreated: 0,
       onCopy: 0,
       onDelete: 0
     };
   }
-  return store[BLOCK_ID$j];
+  return store[BLOCK_ID$k];
 };
 const incrementCount = (callbackName) => {
   const counts = getCallbackCounts();
@@ -2157,7 +2163,7 @@ const incrementCount = (callbackName) => {
 };
 class BlockExtensionCallbackLifecycle extends Block {
   getId() {
-    return BLOCK_ID$j;
+    return BLOCK_ID$k;
   }
   getIcon() {
     return "new-window";
@@ -2315,7 +2321,7 @@ function requireCjs() {
     TextSizeBuiltInControl: () => TextSizeBuiltInControl2,
     TextStyleBuiltInControl: () => TextStyleBuiltInControl2,
     TextVisibilityBuiltInControl: () => TextVisibilityBuiltInControl2,
-    ThemeMode: () => ThemeMode,
+    ThemeMode: () => ThemeMode2,
     TimerControls: () => TimerControls,
     UEAttr: () => UEAttr2,
     UIElement: () => UIElement2,
@@ -2855,6 +2861,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     ButtonControls22["FONT_COLOR"] = "buttonFontColor";
     ButtonControls22["FONT_FAMILY"] = "buttonFontFamily";
     ButtonControls22["FONT_SIZE"] = "buttonFontSize";
+    ButtonControls22["FONT_WEIGHT"] = "buttonFontWeight";
     ButtonControls22["ICON"] = "buttonIconContainer";
     ButtonControls22["ICON_ALIGN"] = "buttonIconAlign";
     ButtonControls22["ICON_INDENT"] = "buttonIconIndent";
@@ -3287,11 +3294,11 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     SettingsTab22["DATA"] = "data";
     return SettingsTab22;
   })(SettingsTab2 || {});
-  var ThemeMode = /* @__PURE__ */ ((ThemeMode2) => {
-    ThemeMode2["LIGHT"] = "LIGHT";
-    ThemeMode2["DARK"] = "DARK";
-    return ThemeMode2;
-  })(ThemeMode || {});
+  var ThemeMode2 = /* @__PURE__ */ ((ThemeMode22) => {
+    ThemeMode22["LIGHT"] = "LIGHT";
+    ThemeMode22["DARK"] = "DARK";
+    return ThemeMode22;
+  })(ThemeMode2 || {});
   var UIElementAttributes2 = {
     name: "name",
     disabled: "disabled"
@@ -4581,10 +4588,10 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
   return cjs;
 }
 var cjsExports = /* @__PURE__ */ requireCjs();
-const BLOCK_ID$i = "e2e-cjs-block";
+const BLOCK_ID$j = "e2e-cjs-block";
 class E2eCjsBlock extends cjsExports.Block {
   getId() {
-    return BLOCK_ID$i;
+    return BLOCK_ID$j;
   }
   getIcon() {
     return "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
@@ -4599,7 +4606,7 @@ class E2eCjsBlock extends cjsExports.Block {
     return true;
   }
   getTemplate() {
-    return `<td class="esd-${BLOCK_ID$i}"><h1>E2E CJS</h1></td>`;
+    return `<td class="esd-${BLOCK_ID$j}"><h1>E2E CJS</h1></td>`;
   }
 }
 const cjsLib = new cjsExports.ExtensionBuilder().addBlock(E2eCjsBlock).build();
@@ -4807,10 +4814,10 @@ let ContainersColumn$1 = class ContainersColumn extends BaseBlockExtension$3 {
   }
 };
 const containerLayouts = new ExtensionBuilder().addBlock(SingleContainer$1).addBlock(ContainersRow$1).addBlock(ContainersRow2$1).addBlock(ContainersRow3).addBlock(ContainersColumn$1).build();
-const BLOCK_ID$h = "test-block-extension";
+const BLOCK_ID$i = "test-block-extension";
 class BlockExtensionCustomBlockBasic extends Block {
   getId() {
-    return BLOCK_ID$h;
+    return BLOCK_ID$i;
   }
   getIcon() {
     return "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
@@ -4838,11 +4845,11 @@ class BlockExtensionCustomBlockBasic extends Block {
   }
 }
 const customBlockBasic = new ExtensionBuilder().addBlock(BlockExtensionCustomBlockBasic).build();
-const BLOCK_ID$g = "test-context-action-block-extension";
+const BLOCK_ID$h = "test-context-action-block-extension";
 const CONTEXT_ACTION_ID$1 = "test-block-context-action";
 class BlockExtensionCustomBlockWithCustomContextAction extends Block {
   getId() {
-    return BLOCK_ID$g;
+    return BLOCK_ID$h;
   }
   getIcon() {
     return "new-window";
@@ -4883,10 +4890,10 @@ let TestBlockContextAction$1 = class TestBlockContextAction extends ContextActio
   }
 };
 const customBlockWithCustomContextAction = new ExtensionBuilder().addBlock(BlockExtensionCustomBlockWithCustomContextAction).addContextAction(TestBlockContextAction$1).build();
-const BLOCK_ID$f = "test-custom-renderer-block-extension";
+const BLOCK_ID$g = "test-custom-renderer-block-extension";
 class BlockExtensionCustomBlockWithCustomRenderer extends Block {
   getId() {
-    return BLOCK_ID$f;
+    return BLOCK_ID$g;
   }
   getIcon() {
     return "new-window";
@@ -5019,10 +5026,10 @@ class CardOrientationControl extends Control {
   }
 }
 const extensionCustomBlockMultiRowModifier = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$J).addBlock(CustomBlock$1).addControl(CardOrientationControl).build();
-const BLOCK_ID$e = "custom-nested-blocks-extension";
+const BLOCK_ID$f = "custom-nested-blocks-extension";
 class CustomNestedBlocksExtension extends Block {
   getId() {
-    return BLOCK_ID$e;
+    return BLOCK_ID$f;
   }
   getIcon() {
     return "new-window";
@@ -5312,7 +5319,7 @@ let CustomRenderer$1 = class CustomRenderer3 extends BlockRenderer {
   }
 };
 const customRendererRestrictions = new ExtensionBuilder().addBlock(CustomRendererStructureExtension2).addBlock(CustomRendererTextBlockExtension).build();
-const BLOCK_ID$d = "test-deprecated-custom-renderer-block-extension";
+const BLOCK_ID$e = "test-deprecated-custom-renderer-block-extension";
 class DeprecatedCustomRenderer extends BlockRenderer {
   getPreviewHtml(_node) {
     return "<td><h1>Deprecated custom content</h1></td>";
@@ -5320,7 +5327,7 @@ class DeprecatedCustomRenderer extends BlockRenderer {
 }
 class BlockExtensionWithDeprecatedCustomRenderer extends Block {
   getId() {
-    return BLOCK_ID$d;
+    return BLOCK_ID$e;
   }
   getIcon() {
     return "new-window";
@@ -5512,10 +5519,10 @@ class ContainersColumn2 extends BaseBlockExtension$1 {
   }
 }
 const emptyContainerLayouts = new ExtensionBuilder().addBlock(SingleContainer2).addBlock(ContainersRow4).addBlock(ContainersRow22).addBlock(ContainersColumn2).build();
-const BLOCK_ID$c = "e2e-esm-block";
+const BLOCK_ID$d = "e2e-esm-block";
 class E2eEsmBlock extends Block {
   getId() {
-    return BLOCK_ID$c;
+    return BLOCK_ID$d;
   }
   getIcon() {
     return "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
@@ -5530,15 +5537,15 @@ class E2eEsmBlock extends Block {
     return true;
   }
   getTemplate() {
-    return `<td class="esd-${BLOCK_ID$c}"><h1>E2E ESM</h1></td>`;
+    return `<td class="esd-${BLOCK_ID$d}"><h1>E2E ESM</h1></td>`;
   }
 }
 const esmLib = new ExtensionBuilder().addBlock(E2eEsmBlock).build();
-const BLOCK_ID$b = "structure-wth-ondocumentChange-hook";
-const CONTROL_ID$7 = "structure-wth-ondocumentChange-hook-control";
+const BLOCK_ID$c = "structure-wth-ondocumentChange-hook";
+const CONTROL_ID$8 = "structure-wth-ondocumentChange-hook-control";
 class StructureExtensionControl2 extends StructureMarginsBuiltInControl {
   getId() {
-    return CONTROL_ID$7;
+    return CONTROL_ID$8;
   }
   getLabels() {
     return {
@@ -5548,7 +5555,7 @@ class StructureExtensionControl2 extends StructureMarginsBuiltInControl {
 }
 class StructureExtensionBlock2 extends Block {
   getId() {
-    return BLOCK_ID$b;
+    return BLOCK_ID$c;
   }
   getIcon() {
     return "new-window";
@@ -5605,9 +5612,9 @@ class StructureExtensionBlock2 extends Block {
 }
 let PanelRegistry$H = class PanelRegistry5 extends SettingsPanelRegistry {
   registerBlockControls(_blockControlsMap) {
-    _blockControlsMap[BLOCK_ID$b] = [
+    _blockControlsMap[BLOCK_ID$c] = [
       new SettingsPanelTab("Settings", [
-        CONTROL_ID$7
+        CONTROL_ID$8
       ]).withLabel("Settings")
     ];
   }
@@ -5620,7 +5627,7 @@ const blockWithHtmlSettingsPanelName = new ExtensionBuilder().addBlock(Structure
     "CUSTOM STRUCTURE": "DE CUSTOM STRUCTURE"
   }
 }).build();
-const BLOCK_ID$a = "get-editor-config-block";
+const BLOCK_ID$b = "get-editor-config-block";
 const EXTERNAL_CONFIG_KEY = "getEditorConfigExternalOnly";
 const INTERNAL_OVERRIDE_KEY = "name";
 const VARIABLE_KEY = "--getEditorConfigVariable";
@@ -5629,7 +5636,7 @@ const EMAIL_CONTENT_WIDTH = "--common__emailContentWidth";
 const ICON_URL = "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
 class GetEditorConfigBlock extends Block {
   getId() {
-    return BLOCK_ID$a;
+    return BLOCK_ID$b;
   }
   getIcon() {
     return ICON_URL;
@@ -5701,10 +5708,10 @@ class BlockExtensionImage extends Block {
   }
 }
 const baseImageBlockExtension = new ExtensionBuilder().addBlock(BlockExtensionImage).build();
-const BLOCK_ID$9 = "init-actions-block";
+const BLOCK_ID$a = "init-actions-block";
 class InitActionsBlock extends Block {
   getId() {
-    return BLOCK_ID$9;
+    return BLOCK_ID$a;
   }
   getIcon() {
     return "new-window";
@@ -5920,12 +5927,12 @@ let PanelRegistry$G = class PanelRegistry6 extends SettingsPanelRegistry {
   }
 };
 const extensionMultirowModifierBlock = new ExtensionBuilder().addBlock(ProductBlock).addControl(SelectProductItemsControl).withSettingsPanelRegistry(PanelRegistry$G).build();
-const BLOCK_ID$8 = "block-extension";
+const BLOCK_ID$9 = "block-extension";
 const CONTAINER_ID$2 = "container-extension";
 const STRUCTURE_ID$1 = "structure-extension";
 let BlockExtension$1 = class BlockExtension extends Block {
   getId() {
-    return BLOCK_ID$8;
+    return BLOCK_ID$9;
   }
   getIcon() {
     return "new-window";
@@ -6081,10 +6088,10 @@ class StripeExtension extends Block {
   }
 }
 const customStripe = new ExtensionBuilder().addBlock(StripeExtension).build();
-const BLOCK_ID$7 = "structure-extension";
+const BLOCK_ID$8 = "structure-extension";
 let StructureExtension$1 = class StructureExtension2 extends Block {
   getId() {
-    return BLOCK_ID$7;
+    return BLOCK_ID$8;
   }
   getIcon() {
     return "new-window";
@@ -6132,11 +6139,11 @@ let StructureExtension$1 = class StructureExtension2 extends Block {
   }
 };
 const customStructure = new ExtensionBuilder().addBlock(StructureExtension$1).build();
-const BLOCK_ID$6 = "block-name";
+const BLOCK_ID$7 = "block-name";
 const CONTAINER_ID$1 = "container-id";
 class ExtendedBlock extends Block {
   getId() {
-    return BLOCK_ID$6;
+    return BLOCK_ID$7;
   }
   isEnabled() {
     return true;
@@ -6215,7 +6222,7 @@ class ExtensionControl extends Control {
 }
 let PanelRegistry$F = class PanelRegistry7 extends SettingsPanelRegistry {
   registerBlockControls(_blockControlsMap) {
-    _blockControlsMap[BLOCK_ID$6] = [
+    _blockControlsMap[BLOCK_ID$7] = [
       new SettingsPanelTab("Settings", [
         "control-id"
       ]).withLabel("Settings")
@@ -6279,10 +6286,10 @@ class SettingsPanel extends SettingsPanelRegistry {
   }
 }
 const structureWithCustomMarkupExtension = new ExtensionBuilder().addBlock(BlockExtensionCustomMarkup).addControl(ButtonAlignControl$1).withSettingsPanelRegistry(SettingsPanel).build();
-const BLOCK_ID$5 = "modifications-custom-css";
+const BLOCK_ID$6 = "modifications-custom-css";
 class BlockExtensionModificationsCustomCss extends Block {
   getId() {
-    return BLOCK_ID$5;
+    return BLOCK_ID$6;
   }
   getIcon() {
     return "new-window";
@@ -7329,6 +7336,88 @@ let PanelRegistry$s = class PanelRegistry20 extends SettingsPanelRegistry {
   }
 };
 const extensionFixedHeightControl = new ExtensionBuilder().addBlock(ProductStructureBlock$3).addControl(TextFixedHeightControl$1).withSettingsPanelRegistry(PanelRegistry$s).build();
+const BLOCK_ID$5 = "hidden-element-state-block-id";
+const BLOCK_CLASS = "esd-hidden-element-state-block-extension";
+const CONTROL_ID$7 = "hidden-element-state-control-id";
+const TAB_ID = "hidden-element-state-tab-id";
+const UI_NAME = "hiddenElementState";
+class HiddenElementStateControl extends Control {
+  node = void 0;
+  getId() {
+    return CONTROL_ID$7;
+  }
+  getTemplate() {
+    return `
+      <div class="container e2e-hidden-element-state-select">
+        <${UIElementType.LABEL} ${UEAttr.LABEL.text}="${this.api.translate("Hidden element state")}"></${UIElementType.LABEL}>
+        <${UIElementType.SELECTPICKER}
+          ${UEAttr.SELECTPICKER.name}="${UI_NAME}"
+          ${UEAttr.SELECTPICKER.placeholder}="${this.api.translate("Select hidden element state")}">
+        </${UIElementType.SELECTPICKER}>
+      </div>`;
+  }
+  onRender() {
+    this.api.setUIEAttribute(UI_NAME, UEAttr.SELECTPICKER.items, [
+      {
+        [UEAttr.SELECT_ITEM.text]: this.api.translate("Visible"),
+        [UEAttr.SELECT_ITEM.value]: "none"
+      },
+      {
+        [UEAttr.SELECT_ITEM.text]: this.api.translate("Hide on Mobile"),
+        [UEAttr.SELECT_ITEM.value]: "mobile"
+      },
+      {
+        [UEAttr.SELECT_ITEM.text]: this.api.translate("Hide on Desktop"),
+        [UEAttr.SELECT_ITEM.value]: "desktop"
+      }
+    ]);
+    this.api.onValueChanged(UI_NAME, (newValue) => {
+      this.api.getDocumentModifier().modifyHtml(this.node).setHiddenElementState(newValue === "none" ? void 0 : newValue).apply(new ModificationDescription(`Set hidden element state to ${newValue}`));
+    });
+  }
+  onTemplateNodeUpdated(node) {
+    this.node = node;
+    this.api.updateValues({
+      [UI_NAME]: this.api.getValues()[UI_NAME] ?? "none"
+    });
+  }
+}
+class HiddenElementStateBlock extends Block {
+  getId() {
+    return BLOCK_ID$5;
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.STRUCTURE;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Hidden Element State Block");
+  }
+  getCustomRenderer() {
+  }
+  getDescription() {
+    return this.api.translate("Test block extension for hidden element state");
+  }
+  isEnabled() {
+    return true;
+  }
+  getTemplate() {
+    return `<td class="${BLOCK_CLASS}"><h1>Hidden element state block</h1></td>`;
+  }
+}
+class HiddenElementStatePanelRegistry extends SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[BLOCK_ID$5] = [
+      new SettingsPanelTab(
+        TAB_ID,
+        [CONTROL_ID$7]
+      ).withLabel(this.api.translate("Hidden state"))
+    ];
+  }
+}
+const hiddenElementStateBlock = new ExtensionBuilder().withSettingsPanelRegistry(HiddenElementStatePanelRegistry).addBlock(HiddenElementStateBlock).addControl(HiddenElementStateControl).build();
 const CONTROL_ID$6 = "custom-control-id";
 const BLOCK_ID$4 = "custom-block-id";
 class CustomControl extends Control {
@@ -7888,6 +7977,7 @@ let PanelRegistry$n = class PanelRegistry25 extends SettingsPanelRegistry {
 const extensionSettingsPanelTitleHtml = new ExtensionBuilder().addBlock(ExtensionBlock).addControl(SelectChangeFirstPanel).addControl(SelectChangeSecondPanel).withSettingsPanelRegistry(PanelRegistry$n).build();
 const ID$s = "stateChangeSubscriberExtension";
 const LABEL_NAME = "label";
+const LABEL_THEME_NAME = "labelTheme";
 const SWITCHER_NAME$3 = "switcher";
 let PanelRegistry$m = class PanelRegistry26 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
@@ -7901,26 +7991,37 @@ class StateChangeSubscriberExtension extends Control {
   getTemplate() {
     const { LABEL, SWITCHER } = UIElementType;
     return `<div class="e2e-mode-class-control">
-                <${LABEL} ${UEAttr.LABEL.name}="${LABEL_NAME}"></${LABEL}>
+                <${LABEL} class="e2e-label-view-mode" ${UEAttr.LABEL.name}="${LABEL_NAME}"></${LABEL}>
+                <${LABEL} class="e2e-label-theme-mode" ${UEAttr.LABEL.name}="${LABEL_THEME_NAME}"></${LABEL}>
                 <${SWITCHER} ${UEAttr.SWITCHER.name}="${SWITCHER_NAME$3}"></${SWITCHER}>
             </div>`;
   }
   onRender() {
     this.api.onValueChanged(SWITCHER_NAME$3, this._toggleClass.bind(this));
     this.api.onEditorStatePropUpdated(EditorStatePropertyType.previewDeviceMode, () => this._updateForm());
+    this.api.onEditorStatePropUpdated(EditorStatePropertyType.themeMode, () => this._updateFormByTheme());
   }
   onTemplateNodeUpdated(node) {
     this.link = node.querySelector("a");
     this._updateForm();
   }
+  _updateFormByTheme() {
+    this.api.updateValues({
+      [LABEL_THEME_NAME]: this._getThemeMode() === ThemeMode.DARK ? "Dark theme" : "Light theme"
+    });
+  }
   _updateForm() {
     this.api.updateValues({
+      [LABEL_THEME_NAME]: this._getThemeMode() === ThemeMode.DARK ? "Dark theme" : "Light theme",
       [LABEL_NAME]: this._getViewMode() === PreviewDeviceMode.DESKTOP ? "Set desktop class" : "Set mobile class",
       [SWITCHER_NAME$3]: this.link.hasClass(this._getClass())
     });
   }
   _getViewMode() {
     return this.api.getEditorState()[EditorStatePropertyType.previewDeviceMode];
+  }
+  _getThemeMode() {
+    return this.api.getEditorState()[EditorStatePropertyType.themeMode];
   }
   _getClass() {
     return this._getViewMode() === PreviewDeviceMode.DESKTOP ? "extension-desktop-class" : "extension-mobile-class";
@@ -8598,6 +8699,255 @@ const previewStyles = new ExtensionBuilder().withPreviewStyles(`
       background-color: orange;
     }
   `).build();
+const AVAILABLE_CONDITION_NAMES$3 = [
+  { label: "Email Address", value: "$EMAIL" },
+  { label: "Phone number", value: "$PHONE" }
+];
+const AVAILABLE_CONDITION_OPERATIONS$3 = [
+  { label: "Equals (Is)", value: "equals" },
+  { label: "Contains", value: "in_array" }
+];
+const AVAILABLE_CONDITION_CONCATENATIONS$3 = [
+  { label: "all", value: "&&" },
+  { label: "any", value: "||" }
+];
+const DEFAULT_CONDITION$3 = {
+  name: AVAILABLE_CONDITION_NAMES$3[0].value,
+  operation: AVAILABLE_CONDITION_OPERATIONS$3[0].value,
+  value: ""
+};
+const DROPDOWN_CONDITION_NAME_CLASS$3 = "dropdownConditionField";
+const DROPDOWN_CONDITION_OPERATION_CLASS$3 = "dropdownConditionOperation";
+const DROPDOWN_CONDITION_CONCATENATION_CLASS$3 = "dropdownConcatenation";
+class ExternalDisplayConditionsConditionCount extends ExternalDisplayConditionsLibrary {
+  selectConditionsCallback = (..._args) => {
+  };
+  conditionsPopupElement = null;
+  getDropdownProps(baseElement, identifierClass) {
+    const resolvedBaseElement = baseElement || this.conditionsPopupElement;
+    const el = resolvedBaseElement.querySelector(`select.${identifierClass}`);
+    if (!el.props) {
+      el.props = {};
+    }
+    return el.props;
+  }
+  setDropdownOptions(baseElement, identifierClass, newValue) {
+    const resolvedBaseElement = baseElement || this.conditionsPopupElement;
+    const selectElement = resolvedBaseElement.querySelector(`select.${identifierClass}`);
+    newValue.forEach(function(option) {
+      const optionElement = document.createElement("option");
+      optionElement.value = option.value;
+      optionElement.innerHTML = option.label;
+      selectElement.appendChild(optionElement);
+    });
+  }
+  closePopup() {
+    this.conditionsPopupElement.style.visibility = "hidden";
+  }
+  cancelConditions() {
+    this.onCancelCallback();
+    this.closePopup();
+  }
+  applyConditions() {
+    const conditions = [];
+    const rows = this.conditionsPopupElement.querySelectorAll(".conditionsTable .condition-row");
+    for (const element of rows) {
+      const value = element.querySelector(".condition-value").value;
+      if (value?.length) {
+        conditions.push({
+          name: this.getDropdownProps(element, DROPDOWN_CONDITION_NAME_CLASS$3).value,
+          operation: this.getDropdownProps(element, DROPDOWN_CONDITION_OPERATION_CLASS$3).value,
+          value
+        });
+      }
+    }
+    if (conditions.length) {
+      const concatenation = this.getDropdownProps(this.conditionsPopupElement, DROPDOWN_CONDITION_CONCATENATION_CLASS$3).value;
+      const finalCondition = conditions.map(function(condition) {
+        return `${condition.operation}('${condition.value}', ${condition.name})`;
+      }).join(` ${concatenation} `);
+      this.selectConditionsCallback({
+        name: "Conditions applied",
+        description: "Only users that fit conditions will see this part of the email.",
+        conditionsCount: conditions.length + 10,
+        beforeScript: `%IF ${finalCondition}%`,
+        afterScript: "%/IF%"
+      });
+    }
+    this.closePopup();
+  }
+  addConditionRow(e, conditionValue) {
+    const resolvedConditionValue = conditionValue || DEFAULT_CONDITION$3;
+    const deleteActionClass = `condition-delete-action-${Math.random().toString().replace(".", "d")}`;
+    const tr = document.createElement("tr");
+    tr.classList.add("condition-row");
+    tr.innerHTML = `<td style="width: 150px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_NAME_CLASS$3)}</td>                <td style="width: 110px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_OPERATION_CLASS$3)}</td>                <td style="padding: 0 5px 10px 0;"><input type="text" class="form-control condition-value"></td>                <td style="width: 18px; padding-bottom: 10px;"><span class="es-icon-delete ${deleteActionClass}"></span></td>`;
+    this.conditionsPopupElement.querySelector(".conditionsTable").appendChild(tr);
+    const nameProps = this.getDropdownProps(tr, DROPDOWN_CONDITION_NAME_CLASS$3);
+    this.setDropdownOptions(tr, DROPDOWN_CONDITION_NAME_CLASS$3, AVAILABLE_CONDITION_NAMES$3);
+    nameProps.value = resolvedConditionValue.name;
+    const operationProps = this.getDropdownProps(tr, DROPDOWN_CONDITION_OPERATION_CLASS$3);
+    this.setDropdownOptions(tr, DROPDOWN_CONDITION_OPERATION_CLASS$3, AVAILABLE_CONDITION_OPERATIONS$3);
+    operationProps.value = resolvedConditionValue.operation;
+    tr.querySelector(".condition-value").value = resolvedConditionValue.value;
+    this.conditionsPopupElement.querySelector(`.${deleteActionClass}`).addEventListener("click", this.deleteConditionRow);
+    this.updateDeleteActionVisibility();
+  }
+  setExtraOptionsValues(appliedCondition) {
+    let extraDataObject;
+    try {
+      extraDataObject = JSON.parse(appliedCondition?.extraData || "{}");
+    } catch (e) {
+      console.error(e);
+      return;
+    }
+    const inputs = this.conditionsPopupElement.querySelectorAll(".extraOptionsTable input");
+    inputs.forEach(function(input) {
+      const name = input.name;
+      if (extraDataObject[name]) {
+        input.value = extraDataObject[name];
+      }
+    });
+  }
+  getExtraOptionsValues() {
+    const inputs = this.conditionsPopupElement.querySelectorAll(".extraOptionsTable input");
+    const extraDataObject = {};
+    inputs.forEach(function(input) {
+      const name = input.name;
+      extraDataObject[name] = input.value;
+    });
+    return extraDataObject;
+  }
+  removeConditions() {
+    this.selectConditionsCallback(null);
+    this.closePopup();
+  }
+  updateDeleteActionVisibility() {
+    const rows = this.conditionsPopupElement.querySelectorAll(".conditionsTable .condition-row");
+    rows[0].querySelector(".es-icon-delete").style.display = rows.length > 1 ? "block" : "none";
+  }
+  getDropdownMarkup(className) {
+    return `<select style="padding: 0" class="${className}"></select>`;
+  }
+  deleteConditionRow(e) {
+    e.target.closest(".condition-row").remove();
+    this.updateDeleteActionVisibility();
+  }
+  openExternalDisplayConditionsDialog(currentCondition, onSelectCallback, onCancelCallback) {
+    this.selectConditionsCallback = onSelectCallback;
+    this.onCancelCallback = onCancelCallback;
+    this.activateConditionsPopup(currentCondition);
+  }
+  getCategoryName() {
+    return "External display conditions";
+  }
+  getIsContextActionEnabled() {
+    return false;
+  }
+  getContextActionIndex() {
+    return 1;
+  }
+  activateConditionsPopup(appliedCondition) {
+    if (!this.conditionsPopupElement) {
+      this.createConditionsPopup();
+    }
+    this.initConditions(appliedCondition);
+    this.setExtraOptionsValues(appliedCondition);
+    this.conditionsPopupElement.style.visibility = "visible";
+  }
+  createConditionsPopup() {
+    const div = document.createElement("div");
+    div.innerHTML = `<div id="externalDisplayConditionsPopup" style="background-color: rgba(0,0,0,.5); overflow: hidden; 
+                    position: fixed; top: 0; right: 0;  bottom: 0; left: 0; z-index: 1050; font-family: sans-serif; visibility: hidden;" 
+                    class="esdev-app">
+                <div style="margin: 10px;">
+                <div style="background-color: #f6f6f6; border-radius: 17px 17px 30px 30px; max-width: 800px; margin: 0 auto;">
+                    <div style="padding: 15px; border-bottom: 1px solid #e5e5e5;">
+                        <div>
+                           <button id="closePopupButton" type="button" style="cursor: pointer; background: transparent; border: 0; float: right; font-size: 21px; font-weight: bold; opacity: .2;">
+                                <span>×</span>
+                            </button>
+                            <h4 style="margin: 0; font-size: 18px; color: rgb(85, 85, 85);">Display conditions</h4>
+                        </div>
+                    </div>
+                    <div style="padding: 15px;">
+                        <table class="conditionsTable" style="border-collapse: collapse" width="100%"></table>
+                        <table class="extraOptionsTable" style="border-collapse: collapse" width="100%">
+                            <tr>
+                                <th> Extra option 1 </th>
+                                <td> <input type="text" name="extraOption1" value=""> </td> 
+                            </tr>
+                            <tr>
+                                <th> Extra option 2 </th>
+                                <td><input type="text" name="extraOption2" value=""></td>
+                             </tr>
+                        </table>
+</table>
+                        <button id="addNewCondition" class="btn btn-primary btn-sm">Add Condition</button>
+                        <div style="margin-top: 20px;">
+                            Show this content if
+                            <span style="width: 65px;display: inline-block;">
+                                ${this.getDropdownMarkup(DROPDOWN_CONDITION_CONCATENATION_CLASS$3)}
+                            </span>
+                            conditions are met.
+                        </div>
+                        <div>
+                            <table style="width: 100%; margin-top: 20px;">
+                                <tr>
+                                    <td>
+                                        <a id="removeConditionsPopup" target="_blank">Remove all conditions and close modal</a>
+                                    </td>
+                                    <td width="80px">
+                                        <button id="closeConditionsPopup" class="btn btn-secondary">Cancel</button>
+                                    </td>
+                                    <td width="45px">
+                                        <button id="applyConditionsAction" class="btn btn-success">Ok</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+    document.body.appendChild(div);
+    this.conditionsPopupElement = document.getElementById("externalDisplayConditionsPopup");
+    this.conditionsPopupElement.querySelector("#closePopupButton").addEventListener("click", this.closePopup.bind(this));
+    this.conditionsPopupElement.querySelector("#closeConditionsPopup").addEventListener("click", this.cancelConditions.bind(this));
+    this.conditionsPopupElement.querySelector("#applyConditionsAction").addEventListener("click", this.applyConditions.bind(this));
+    this.conditionsPopupElement.querySelector("#addNewCondition").addEventListener("click", this.addConditionRow.bind(this));
+    this.conditionsPopupElement.querySelector("#removeConditionsPopup").addEventListener("click", this.removeConditions.bind(this));
+    this.setDropdownOptions(this.conditionsPopupElement, DROPDOWN_CONDITION_CONCATENATION_CLASS$3, AVAILABLE_CONDITION_CONCATENATIONS$3);
+    this.getDropdownProps(this.conditionsPopupElement, DROPDOWN_CONDITION_CONCATENATION_CLASS$3).values = AVAILABLE_CONDITION_CONCATENATIONS$3;
+  }
+  initConditions(appliedCondition) {
+    this.conditionsPopupElement.querySelector(".conditionsTable").innerHTML = "";
+    const initialConditions = this.parseAppliedCondition(appliedCondition.beforeScript);
+    for (const element of initialConditions.conditions) {
+      this.addConditionRow(null, element);
+    }
+    this.getDropdownProps(this.conditionsPopupElement, DROPDOWN_CONDITION_CONCATENATION_CLASS$3).value = initialConditions.concatenation;
+  }
+  parseAppliedCondition(appliedCondition) {
+    const str = appliedCondition.trim().replace("%IF ", "").replace("%/IF%", "");
+    const concatenation = this.findConditionOptionValue(str, AVAILABLE_CONDITION_CONCATENATIONS$3);
+    const conditions = str.split(concatenation).map((str2) => {
+      return {
+        name: this.findConditionOptionValue(str2, AVAILABLE_CONDITION_NAMES$3),
+        operation: this.findConditionOptionValue(str2, AVAILABLE_CONDITION_OPERATIONS$3),
+        value: str2.substring(str2.indexOf("'") + 1, str2.lastIndexOf("'"))
+      };
+    });
+    return {
+      conditions,
+      concatenation
+    };
+  }
+  findConditionOptionValue(str, options) {
+    const option = options.find((i) => str.includes(i.value)) ?? options[0];
+    return option.value;
+  }
+}
+const externalDisplayConditionsConditionsCount = new ExtensionBuilder().withExternalDisplayCondition(ExternalDisplayConditionsConditionCount).build();
 const AVAILABLE_CONDITION_NAMES$2 = [
   { label: "Email Address", value: "$EMAIL" },
   { label: "Phone number", value: "$PHONE" }
@@ -9542,7 +9892,7 @@ class ModulesPanelTabExtension extends ModulesPanelTab {
     return 2;
   }
   getTemplate() {
-    const { LABEL, SWITCHER } = UIElementType;
+    const { LABEL, SWITCHER, TEXT } = UIElementType;
     const {
       LABEL: { text: labelTextAttr },
       SWITCHER: { name: switcherNameAttr },
@@ -9555,6 +9905,10 @@ class ModulesPanelTabExtension extends ModulesPanelTab {
       </div>
       
       <div ${defaultNameAttr}="${CONTAINER_WIDGETS}" class="ui-container-widgets">
+        <div class="widgets-panel-filter-container">
+            <${TEXT} name="searchFilter"></${TEXT}>
+        </div>
+      
         ${widgets.map((widget) => `
           <div class="widget" id="${widget.id}" style="margin-bottom: 10px; border: 1px solid grey;">
             <h3>${widget.name}</h3>
@@ -12087,6 +12441,7 @@ const extensionsMap = {
   customBlockWithCustomContextAction,
   customStructure,
   customStripe,
+  hiddenElementStateBlock,
   customNestedBlocks,
   customEmptyContainer,
   textUiElementOverridden,
@@ -12118,6 +12473,7 @@ const extensionsMap = {
   externalDisplayConditions,
   externalDisplayConditionsContextMenu,
   externalDisplayConditionsExtraData,
+  externalDisplayConditionsConditionsCount,
   externalVideosLibrary,
   extendedBlockPaddingsControl,
   extendedStructurePaddingsControl,
