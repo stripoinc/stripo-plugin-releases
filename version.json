@@ -3,7 +3,7 @@
    "stripo/screenshot-service": "20260415-1345_c6f8d24",
    "stripo/stripe-html-cleaner-service": "20260427-1022_9b28360",
    "stripo/stripe-html-gen-service": "20260427-1022_9b28360",
-   "stripo/stripo-plugin-api-gateway": "20260427-1028_9b28360",
+   "stripo/stripo-plugin-api-gateway": "20260430-0757_25b8b3d",
    "stripo/stripo-plugin-custom-blocks-service": "20260427-1017_9b28360",
    "stripo/stripo-plugin-details-service": "20260427-1017_9b28360",
    "stripo/stripo-plugin-documents-service": "20260427-1017_9b28360",
@@ -13,7 +13,7 @@
    "stripo/stripo-security-service": "20260417-1250_6156855",
    "stripo/stripo-timer-api": "20260427-1024_9b28360",
    "stripo/countdowntimer": "20260327-r1544_8752caa_master",
-   "stripo/merge-service": "20260428-1019_5cbf91f",
+   "stripo/merge-service": "20260504-0744_ffb4162",
    "stripo/env-adapter-service": "20260417-2036_7be78da",
    "stripo/ai-service": "20260427-1032_9b28360",
    "stripo/coediting-core-service": "20260417-2036_7be78da"
