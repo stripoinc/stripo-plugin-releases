@@ -791,6 +791,7 @@ var UIElementType = /* @__PURE__ */ ((UIElementType2) => {
   UIElementType2["AMP_FORM_SERVICE_PICKER"] = "UE-AMP-FORM-SERVICE-PICKER";
   UIElementType2["MULTIPLE_SELECT"] = "UE-MULTIPLE_SELECT";
   UIElementType2["SCROLLABLE"] = "UE-SCROLLABLE-CONTAINER";
+  UIElementType2["POPUP_PANEL"] = "UE-POPUP-PANEL";
   return UIElementType2;
 })(UIElementType || {});
 var BuiltInControl = class {
@@ -2031,7 +2032,8 @@ let StructureExtensionBlock$1 = class StructureExtensionBlock extends Block {
             </td>`;
   }
   onDocumentChanged(_node) {
-    console.count("onDocumentChanged");
+    this._documentChangedCount = (this._documentChangedCount || 0) + 1;
+    console.warn(`onDocumentChanged: ${this._documentChangedCount}`);
   }
   getBlockCompositionType() {
     return BlockCompositionType.STRUCTURE;
@@ -3487,6 +3489,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     UIElementType22["AMP_FORM_SERVICE_PICKER"] = "UE-AMP-FORM-SERVICE-PICKER";
     UIElementType22["MULTIPLE_SELECT"] = "UE-MULTIPLE_SELECT";
     UIElementType22["SCROLLABLE"] = "UE-SCROLLABLE-CONTAINER";
+    UIElementType22["POPUP_PANEL"] = "UE-POPUP-PANEL";
     return UIElementType22;
   })(UIElementType2 || {});
   var BuiltInControl2 = class {
