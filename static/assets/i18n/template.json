@@ -300,6 +300,7 @@
 	"Hover Button Styles": "Hover Button Styles",
 	"The {tag} inherits background color from the element <span id=\"linkTrigger\">{parentTag}</span>": "The {tag} inherits background color from the element <span id=\"linkTrigger\">{parentTag}</span>",
 	"Make Entire Element Clickable": "Make Entire Element Clickable",
+	"Make Entire Element Clickable Hint Text": "This option wraps the entire element into a single clickable link. Some email service providers (e.g., Mailchimp) and legacy email clients (e.g., older Outlook versions) may strip nested links or remove image attributes, which can break the layout. We recommend testing the email before sending.",
 	"This link will be ignored because a general link has already been set for the entire <span id=\"linkTrigger\">container</span>.": "This link will be ignored because a general link has already been set for the entire <span id=\"linkTrigger\">container</span>.",
 	"This link will be ignored because a general link has already been set for the entire <span id=\"linkTrigger\">structure</span>.": "This link will be ignored because a general link has already been set for the entire <span id=\"linkTrigger\">structure</span>.",
 	"This link will be ignored because a general link has already been set for the entire <span id=\"linkTrigger\">stripe</span>.": "This link will be ignored because a general link has already been set for the entire <span id=\"linkTrigger\">stripe</span>.",
