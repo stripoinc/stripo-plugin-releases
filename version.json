@@ -12,9 +12,9 @@
    "stripo/stripo-plugin-statistics-service": "20260507-0724_443c96b",
    "stripo/stripo-security-service": "20260507-0724_443c96b",
    "stripo/stripo-timer-api": "20260507-0737_443c96b",
-   "stripo/countdowntimer": "20260327-r1544_8752caa_master",
-   "stripo/merge-service": "20260519-0840_aacd6d6",
-   "stripo/env-adapter-service": "20260507-1627_29e1a61",
+   "stripo/countdowntimer": "20260527-r0630_ab78856_master",
+   "stripo/merge-service": "20260608-2059_d15c1de",
+   "stripo/env-adapter-service": "20260521-2347_ca1cc49",
    "stripo/ai-service": "20260513-1429_acd1394",
-   "stripo/coediting-core-service": "20260507-1628_29e1a61"
+   "stripo/coediting-core-service": "20260521-2349_ca1cc49"
 }
