@@ -6040,6 +6040,128 @@ class BlockExtensionCustomBlocks extends Block {
   }
 }
 const onlyBlocksExtensionBlock = new ExtensionBuilder().addBlock(BlockExtensionCustomBlocks).build();
+const RECOMMENDATION_CONTAINER_ID = "recommendation-block";
+let nextRecommendationId = 0;
+function getRecommendationProductCardTemplate(recommendationId, productIndex) {
+  return `<tr class="recommendation-product-row">
+            <td>
+              <table height="100%" cellpadding="0" cellspacing="0" border="0" width="100%" class="product-card-wrapper" style="table-layout: fixed">
+                <tbody>
+                  <tr data-visibility="1" data-attribute="product-card-${recommendationId}-${productIndex}">
+                    <td align="center" class="product-card">
+                      <table cellpadding="0" cellspacing="0" width="100%" role="presentation">
+                        <tbody>
+                          <tr>
+                            <td align="left" esd-extension-block-id="recommendation-block-name" class="esd-block-text esd-extension-block">
+                              <p>Recommendation ${recommendationId}.${productIndex}</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left" esd-extension-block-id="recommendation-block-old-price" class="esd-block-text esd-extension-block">
+                              <p>SGD ${productIndex}9.00</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left" esd-extension-block-id="recommendation-block-price" class="esd-block-text esd-extension-block">
+                              <p>SGD ${productIndex}.00</p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="center" esd-extension-block-id="recommendation-block-button" class="esd-block-button esd-extension-block">
+                              <span class="es-button-border"><a href="" target="_blank" class="es-button">Shop now</a></span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>`;
+}
+function getRecommendationProductCardsTemplate(recommendationId) {
+  return [1, 2, 3, 4, 5, 6].map((productIndex) => getRecommendationProductCardTemplate(recommendationId, productIndex)).join("");
+}
+function getRecommendationContainerTemplate(recommendationId = "1", width = "520") {
+  return `<td align="left" esd-extension-block-id="${RECOMMENDATION_CONTAINER_ID}" width="${width}" recommendation-id="${recommendationId}" currency="SGD" currency-symbol="SGD" currency-alignment="1" currency-thousand-separator="," currency-decimal-separator="." currency-decimal-count="2" class="recommendation-block-v2 esd-block-recommendation-v3-block es-p20 ins-recommendation-v3-block-${recommendationId} esd-recommendation-block esd-extension-block esd-container-frame ins-recommendation-no-mobile-layout">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tbody>
+                <tr>
+                  <td align="center">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="container">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                              <tbody>
+                                <tr>
+                                  <td align="center" class="esd-block-text es-p10t es-p10b es-p20l es-p20r">
+                                    <p style="color: #333333; font-size: 28px"><strong>You May Also Like!</strong></p>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="spacer" style="height: 10px"></td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0" class="ins-recommendation-product-container ins-recommendation-desktop-container">
+                              <tbody>${getRecommendationProductCardsTemplate(recommendationId)}</tbody>
+                            </table>
+                          </td>
+                        </tr>
+                        <tr class="ins-recommendation-mobile-row"></tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>`;
+}
+class RecommendationContainerExtension extends Block {
+  getId() {
+    return RECOMMENDATION_CONTAINER_ID;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Recommendation Container");
+  }
+  getDescription() {
+    return this.api.translate("Recommendation Container Description");
+  }
+  isEnabled() {
+    return true;
+  }
+  canBeSavedAsModule() {
+    return true;
+  }
+  getTemplate() {
+    const template = getRecommendationContainerTemplate(String(nextRecommendationId), "520");
+    nextRecommendationId++;
+    return template;
+  }
+  onDrop(_node) {
+  }
+  onDelete(_node) {
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.CONTAINER;
+  }
+  allowInnerBlocksSelection() {
+    return false;
+  }
+  allowInnerBlocksDND() {
+    return false;
+  }
+}
+const recommendationContainerExtension = new ExtensionBuilder().addBlock(RecommendationContainerExtension).build();
 const BLOCK_ID$9 = "responsive-width-widget-extension";
 const WIDGET_CLASS = "w-pref-d68dc93b62c84c7d";
 const COOKIE_IMAGE_RESPONSIVE_WIDTH = "calc(33% - 30px)";
@@ -12677,6 +12799,7 @@ const extensionsMap = {
   baseImageBlockExtension,
   callbackLifecycleBlock,
   containerExtension,
+  recommendationContainerExtension,
   extensionNames,
   customBlockBasic,
   responsiveWidthWidget,

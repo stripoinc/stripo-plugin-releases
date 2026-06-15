@@ -1,5 +1,5 @@
 /**
- * Dark Reader v4.9.120
+ * Dark Reader v4.9.125
  * https://darkreader.org/
  */
 
@@ -31,18 +31,8 @@
         MessageTypeUItoBG["MARK_NEWS_AS_DISPLAYED"] =
             "ui-bg-mark-news-as-displayed";
         MessageTypeUItoBG["LOAD_CONFIG"] = "ui-bg-load-config";
-        MessageTypeUItoBG["APPLY_DEV_DYNAMIC_THEME_FIXES"] =
-            "ui-bg-apply-dev-dynamic-theme-fixes";
-        MessageTypeUItoBG["RESET_DEV_DYNAMIC_THEME_FIXES"] =
-            "ui-bg-reset-dev-dynamic-theme-fixes";
-        MessageTypeUItoBG["APPLY_DEV_INVERSION_FIXES"] =
-            "ui-bg-apply-dev-inversion-fixes";
-        MessageTypeUItoBG["RESET_DEV_INVERSION_FIXES"] =
-            "ui-bg-reset-dev-inversion-fixes";
-        MessageTypeUItoBG["APPLY_DEV_STATIC_THEMES"] =
-            "ui-bg-apply-dev-static-themes";
-        MessageTypeUItoBG["RESET_DEV_STATIC_THEMES"] =
-            "ui-bg-reset-dev-static-themes";
+        MessageTypeUItoBG["APPLY_DEV_FIXES"] = "ui-bg-apply-dev-fixes";
+        MessageTypeUItoBG["RESET_DEV_FIXES"] = "ui-bg-reset-dev-fixes";
         MessageTypeUItoBG["START_ACTIVATION"] = "ui-bg-start-activation";
         MessageTypeUItoBG["RESET_ACTIVATION"] = "ui-bg-reset-activation";
         MessageTypeUItoBG["COLOR_SCHEME_CHANGE"] = "ui-bg-color-scheme-change";
@@ -1657,12 +1647,6 @@
 
     function logInfo(...args) {}
     function logWarn(...args) {}
-    function logAssert(...args) {}
-    function ASSERT(description, condition) {
-        if (!condition) {
-            logAssert(description);
-        }
-    }
 
     function removeNode(node) {
         node && node.parentNode && node.parentNode.removeChild(node);
@@ -2256,7 +2240,7 @@
             types.forEach((type) => {
                 if (registered[type]) {
                     const {variable, value} = registered[type];
-                    variablesSheet?.cssRules[0].style.setProperty(
+                    variablesSheet?.cssRules[0]?.style.setProperty(
                         variable,
                         value
                     );
@@ -2347,7 +2331,7 @@
         "lightSchemeBackgroundColor",
         "lightSchemeTextColor"
     ];
-    function getCacheId(rgb, theme) {
+    function getCacheId(rgb, theme, poleA, poleB) {
         let resultId = "";
         rgbCacheKeys.forEach((key) => {
             resultId += `${rgb[key]};`;
@@ -2355,6 +2339,7 @@
         themeCacheKeys.forEach((key) => {
             resultId += `${theme[key]};`;
         });
+        resultId += `${poleA};${poleB}`;
         return resultId;
     }
     function modifyColorWithCache(
@@ -2371,7 +2356,7 @@
             fnCache = new Map();
             colorModificationCache.set(modifyHSL, fnCache);
         }
-        const id = getCacheId(rgb, theme);
+        const id = getCacheId(rgb, theme, poleColor, anotherPoleColor);
         if (fnCache.has(id)) {
             return fnCache.get(id);
         }
@@ -3273,7 +3258,7 @@
             if (
                 property.startsWith("border") &&
                 property !== "border-color" &&
-                value === "initial"
+                (value === "initial" || value === "currentcolor")
             ) {
                 const borderSideProp = property.substring(
                     0,
@@ -3281,9 +3266,12 @@
                 );
                 const borderSideVal =
                     rule.style.getPropertyValue(borderSideProp);
+                const borderStyleVal =
+                    rule.style.getPropertyValue("border-style");
                 if (
                     borderSideVal.startsWith("0px") ||
-                    borderSideVal === "none"
+                    borderSideVal === "none" ||
+                    borderStyleVal === "none"
                 ) {
                     property = borderSideProp;
                     modifier = borderSideVal;
@@ -3519,14 +3507,11 @@
             return null;
         }
         if (prop.includes("background")) {
+            const maskImageValue = rule.style.maskImage ?? rule.style.mask;
             if (
-                (rule.style.webkitMaskImage &&
-                    rule.style.webkitMaskImage !== "none") ||
-                (rule.style.webkitMask &&
-                    !rule.style.webkitMask.startsWith("none")) ||
-                (rule.style.mask && rule.style.mask !== "none") ||
-                (rule.style.getPropertyValue("mask-image") &&
-                    rule.style.getPropertyValue("mask-image") !== "none")
+                maskImageValue &&
+                !maskImageValue.startsWith("none") &&
+                !maskImageValue.startsWith("linear-gradient")
             ) {
                 return (theme) => modifyForegroundColor(rgb, theme);
             }
@@ -3809,7 +3794,11 @@
                     logInfo(`Dimming light image ${logSrc}`);
                     const dimmed = getFilteredImageURL(imageDetails, theme);
                     result = `url("${dimmed}")`;
-                } else if (theme.mode === 0 && isLight) {
+                } else if (
+                    theme.mode === 0 &&
+                    isLight &&
+                    imageDetails.dataURL
+                ) {
                     logInfo(`Applying filter to image ${logSrc}`);
                     const filtered = getFilteredImageURL(imageDetails, {
                         ...theme,
@@ -5462,6 +5451,7 @@
     }
 
     const hostsBreakingOnStylePosition = [
+        "chat.google.com",
         "gogoprivate.com",
         "gprivate.com",
         "www.berlingske.dk",
@@ -5715,10 +5705,10 @@
                 elementStyleDidChange(el);
             });
             iterateShadowHosts(node, (n) => {
-                if (discoveredNodes.has(node)) {
+                if (discoveredNodes.has(n)) {
                     return;
                 }
-                discoveredNodes.add(node);
+                discoveredNodes.add(n);
                 shadowRootDiscovered(n.shadowRoot);
                 deepWatchForInlineStyles(
                     n.shadowRoot,
@@ -5868,6 +5858,8 @@
             ) {
                 const cycles = elementsLoopCycles.get(element) ?? 0;
                 elementsLoopCycles.set(element, cycles + 1);
+            } else {
+                elementsLoopCycles.delete(element);
             }
             if ((elementsLoopCycles.get(element) ?? 0) >= MAX_LOOP_CYCLES) {
                 return;
@@ -7364,10 +7356,6 @@
             customElementsWhenDefined(tag).then(() => {
                 if (elementsDefinitionCallback) {
                     const elements = undefinedGroups.get(tag);
-                    ASSERT(
-                        "recordUndefinedElement() undefined groups should not be empty",
-                        elements
-                    );
                     undefinedGroups.delete(tag);
                     elementsDefinitionCallback(Array.from(elements));
                 }
@@ -7410,10 +7398,6 @@
     function handleIsDefined(e) {
         canOptimizeUsingProxy = true;
         const tag = e.detail.tag;
-        ASSERT(
-            "handleIsDefined() expects lower-case node names",
-            () => tag.toLowerCase() === tag
-        );
         definedCustomElements.add(tag);
         if (resolvers.has(tag)) {
             const r = resolvers.get(tag);
@@ -7422,10 +7406,6 @@
         }
     }
     async function customElementsWhenDefined(tag) {
-        ASSERT(
-            "customElementsWhenDefined() expects lower-case node names",
-            () => tag.toLowerCase() === tag
-        );
         if (definedCustomElements.has(tag)) {
             return;
         }
@@ -7787,6 +7767,26 @@
             injectStyleAway(style);
         }
     }
+    function setInversionStyleValue(invertStyle) {
+        if (fixes && Array.isArray(fixes.invert) && fixes.invert.length > 0) {
+            const filter = getCSSFilterValue({
+                ...theme,
+                contrast:
+                    theme.mode === 0
+                        ? theme.contrast
+                        : clamp(theme.contrast - 10, 0, 100)
+            });
+            if (filter) {
+                invertStyle.textContent = [
+                    `${fixes.invert.join(", ")} {`,
+                    `    filter: ${filter} !important;`,
+                    "}"
+                ].join("\n");
+                return;
+            }
+        }
+        invertStyle.textContent = "";
+    }
     function createStaticStyleOverrides() {
         const fallbackStyle = createOrUpdateStyle(
             "darkreader--fallback",
@@ -7811,21 +7811,7 @@
         }
         injectStaticStyle(textStyle, userAgentStyle, "text");
         const invertStyle = createOrUpdateStyle("darkreader--invert");
-        if (fixes && Array.isArray(fixes.invert) && fixes.invert.length > 0) {
-            invertStyle.textContent = [
-                `${fixes.invert.join(", ")} {`,
-                `    filter: ${getCSSFilterValue({
-                    ...theme,
-                    contrast:
-                        theme.mode === 0
-                            ? theme.contrast
-                            : clamp(theme.contrast - 10, 0, 100)
-                })} !important;`,
-                "}"
-            ].join("\n");
-        } else {
-            invertStyle.textContent = "";
-        }
+        setInversionStyleValue(invertStyle);
         injectStaticStyle(invertStyle, textStyle, "invert");
         const inlineStyle = createOrUpdateStyle("darkreader--inline");
         inlineStyle.textContent = getInlineOverrideStyle();
@@ -7886,21 +7872,7 @@
             fixes && fixes.css ? replaceCSSTemplates(fixes.css) : "";
         root.insertBefore(overrideStyle, inlineStyle.nextSibling);
         const invertStyle = createOrUpdateStyle("darkreader--invert", root);
-        if (fixes && Array.isArray(fixes.invert) && fixes.invert.length > 0) {
-            invertStyle.textContent = [
-                `${fixes.invert.join(", ")} {`,
-                `    filter: ${getCSSFilterValue({
-                    ...theme,
-                    contrast:
-                        theme.mode === 0
-                            ? theme.contrast
-                            : clamp(theme.contrast - 10, 0, 100)
-                })} !important;`,
-                "}"
-            ].join("\n");
-        } else {
-            invertStyle.textContent = "";
-        }
+        setInversionStyleValue(invertStyle);
         root.insertBefore(invertStyle, overrideStyle.nextSibling);
         shadowRootsWithOverrides.add(root);
     }
@@ -8005,6 +7977,7 @@
         );
         handleAdoptedStyleSheets(document);
         variablesStore.matchVariablesAndDependents();
+        tryInvertChromePDF();
         if (isFirefox) {
             const onAdoptedCssChange = (e) => {
                 const {sheets} = e.detail;
@@ -8344,6 +8317,26 @@
                 attributeFilter: ["class", "data-wp-dark-mode-active"]
             });
         }
+    }
+    function tryInvertChromePDF() {
+        if (!document.body || !chrome.dom) {
+            return;
+        }
+        const root = chrome.dom.openOrClosedShadowRoot(document.body);
+        if (!root || !root.querySelector('link[href$="/pdf_embedder.css"]')) {
+            return;
+        }
+        const sheet = new CSSStyleSheet();
+        sheet.replaceSync(
+            '[type="application/pdf"] { filter: invert(1) contrast(0.9); }'
+        );
+        root.adoptedStyleSheets.push(sheet);
+        cleaners.push(() => {
+            const index = root.adoptedStyleSheets.indexOf(sheet);
+            if (index >= 0) {
+                root.adoptedStyleSheets.splice(index, 1);
+            }
+        });
     }
     let prevTheme = null;
     let prevFixes = null;
