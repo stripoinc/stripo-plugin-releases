@@ -11402,6 +11402,14 @@ class CustomFontFamilySelect extends UIElement {
       <input id="fontFamily">
       URL:
       <input id="url">
+      Import method:
+      <select id="importMethod">
+        <option value="">(auto)</option>
+        <option value="link">link</option>
+        <option value="import">import</option>
+        <option value="fontFace">fontFace</option>
+        <option value="local">local</option>
+      </select>
       <button id="confirm">OK</button>
     </div>`;
   }
@@ -11413,10 +11421,13 @@ class CustomFontFamilySelect extends UIElement {
     this.dialog.querySelector("#confirm").addEventListener("click", () => this._submitDialog());
   }
   _submitDialog() {
+    const importMethod = this.dialog.querySelector("#importMethod").value;
     const newFont = {
       name: this.dialog.querySelector("#name").value,
       fontFamily: this.dialog.querySelector("#fontFamily").value,
-      url: this.dialog.querySelector("#url").value
+      url: this.dialog.querySelector("#url").value,
+      // Optional ED-8052 connection method; omitted => editor falls back (link when url set, else local).
+      ...importMethod ? { importMethod } : {}
     };
     this.api.addCustomFont(newFont);
     this.dialog.remove();
