@@ -510,6 +510,7 @@ var TextControls = /* @__PURE__ */ ((TextControls2) => {
   TextControls2["FONT_WEIGHT"] = "textBlockFontWeight";
   TextControls2["DIRECTION"] = "textBlockDirectionForm";
   TextControls2["INSERT_FORM"] = "textBlockInsertForm";
+  TextControls2["LETTER_SPACING"] = "textBlockLetterSpacing";
   TextControls2["LINK_DATA"] = "textBlockLinkDataForm";
   TextControls2["FORMAT"] = "textBlockTextFormatForm";
   TextControls2["FIXED_HEIGHT"] = "textFixedHeightForm";
@@ -2860,6 +2861,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     TextControls22["FONT_WEIGHT"] = "textBlockFontWeight";
     TextControls22["DIRECTION"] = "textBlockDirectionForm";
     TextControls22["INSERT_FORM"] = "textBlockInsertForm";
+    TextControls22["LETTER_SPACING"] = "textBlockLetterSpacing";
     TextControls22["LINK_DATA"] = "textBlockLinkDataForm";
     TextControls22["FORMAT"] = "textBlockTextFormatForm";
     TextControls22["FIXED_HEIGHT"] = "textFixedHeightForm";
@@ -5705,6 +5707,9 @@ class BlockExtensionImage extends Block {
   getDescription() {
     return this.api.translate("Image");
   }
+  allowInnerBlocksSelection() {
+    return false;
+  }
 }
 const baseImageBlockExtension = new ExtensionBuilder().addBlock(BlockExtensionImage).build();
 const BLOCK_ID$b = "init-actions-block";
@@ -5999,10 +6004,10 @@ let StructureExtension$2 = class StructureExtension extends Block {
   }
 };
 const extensionNames = new ExtensionBuilder().addBlock(StructureExtension$2).addBlock(ContainerExtension$2).addBlock(BlockExtension$1).build();
-const ID$Q = "custom-blocks";
+const ID$R = "custom-blocks";
 class BlockExtensionCustomBlocks extends Block {
   getId() {
-    return ID$Q;
+    return ID$R;
   }
   getBlockCompositionType() {
     return BlockCompositionType.BLOCK;
@@ -6636,6 +6641,53 @@ class CustomRenderer4 extends BlockRenderer {
   }
 }
 const controlStyleReading = new ExtensionBuilder().addBlock(ContainerExtension$1).addBlock(ContainerWithCustomRendererExtension).addControl(TextColorAttrControl).addControl(TextColorComputedControl).addControl(FontFamilyControl).withSettingsPanelRegistry(PanelRegistry$F).build();
+const ID$Q = "unresolved-link-repro";
+const IMAGE_URL = "https://rf.stripocdn.email/content/guids/CABINET_a72abd995606a03654e2f4a6dac6aa4199889bd9c4261c4b3200c3d1b63c8700/images/g9fa3a8f2503b5df8ba9eb4f115ad6503e44d19921df74d38db793e722379a0b4fb3a097c9e80ededb83d0406223a755f_640.jpeg";
+class UnresolvedLinkReproBlock extends Block {
+  getId() {
+    return ID$Q;
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.BLOCK;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Unresolved link repro");
+  }
+  getDescription() {
+    return this.api.translate("Reproduces unresolved href navigation inside restricted extension block");
+  }
+  allowInnerBlocksSelection() {
+    return false;
+  }
+  allowInnerBlocksDND() {
+    return false;
+  }
+  getTemplate() {
+    return `
+      <td type="unresolved-link-repro" class="esd-unresolved-link-repro">
+        <table width="100%" role="presentation" cellspacing="0" cellpadding="0" border="0" align="center">
+          <tbody>
+            <tr>
+              <td align="center" class="internal-block">
+                <a href="{{product.url}}" target="_blank" class="product-image-link">
+                  <img
+                    alt="{{product.name}}"
+                    width="220"
+                    src="${IMAGE_URL}"
+                    style="display: block; max-width: 100%">
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    `;
+  }
+}
+const unresolvedLinkRepro = new ExtensionBuilder().addBlock(UnresolvedLinkReproBlock).build();
 const ID$P = "extendedButtonAlign";
 let ButonPanelRegistry$3 = class ButonPanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
@@ -12826,6 +12878,7 @@ const extensionsMap = {
   hiddenElementStateBlock,
   customNestedBlocks,
   customEmptyContainer,
+  unresolvedLinkRepro,
   textUiElementOverridden,
   demoUiElement,
   orderable,
