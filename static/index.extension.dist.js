@@ -6004,10 +6004,10 @@ let StructureExtension$2 = class StructureExtension extends Block {
   }
 };
 const extensionNames = new ExtensionBuilder().addBlock(StructureExtension$2).addBlock(ContainerExtension$2).addBlock(BlockExtension$1).build();
-const ID$R = "custom-blocks";
+const ID$S = "custom-blocks";
 class BlockExtensionCustomBlocks extends Block {
   getId() {
-    return ID$R;
+    return ID$S;
   }
   getBlockCompositionType() {
     return BlockCompositionType.BLOCK;
@@ -6237,6 +6237,49 @@ class ResponsiveWidthWidgetExtension extends Block {
   }
 }
 const responsiveWidthWidget = new ExtensionBuilder().addBlock(ResponsiveWidthWidgetExtension).build();
+const ALWAYS_VISIBLE_BLOCK_ID = "runtime-permissions-visible";
+const RUNTIME_VISIBLE_BLOCK_ID = "runtime-permissions-runtime-visible";
+class RuntimePermissionsVisibleBlock extends Block {
+  getId() {
+    return ALWAYS_VISIBLE_BLOCK_ID;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return "Runtime permissions visible block";
+  }
+  getDescription() {
+    return "Always visible custom block used to verify disabled state in read-only mode";
+  }
+  isEnabled() {
+    return true;
+  }
+  getTemplate() {
+    return '<td class="esd-runtime-permissions-visible">Runtime permissions visible block</td>';
+  }
+}
+class RuntimePermissionsRuntimeVisibleBlock extends Block {
+  getId() {
+    return RUNTIME_VISIBLE_BLOCK_ID;
+  }
+  getIcon() {
+    return "magic";
+  }
+  getName() {
+    return "Runtime permissions block";
+  }
+  getDescription() {
+    return "Always visible custom block used to verify runtime permission updates";
+  }
+  isEnabled() {
+    return true;
+  }
+  getTemplate() {
+    return '<td class="esd-runtime-permissions-runtime-visible">Runtime permissions block</td>';
+  }
+}
+const runtimePermissionsBlocks = new ExtensionBuilder().addBlock(RuntimePermissionsVisibleBlock).addBlock(RuntimePermissionsRuntimeVisibleBlock).build();
 const STRIPE_ID = "stripe-extension";
 class StripeExtension extends Block {
   getId() {
@@ -6641,6 +6684,60 @@ class CustomRenderer4 extends BlockRenderer {
   }
 }
 const controlStyleReading = new ExtensionBuilder().addBlock(ContainerExtension$1).addBlock(ContainerWithCustomRendererExtension).addControl(TextColorAttrControl).addControl(TextColorComputedControl).addControl(FontFamilyControl).withSettingsPanelRegistry(PanelRegistry$F).build();
+const ID$R = "unresolved-button-link-repro";
+class UnresolvedButtonLinkReproBlock extends Block {
+  getId() {
+    return ID$R;
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.BLOCK;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Unresolved button link repro");
+  }
+  getDescription() {
+    return this.api.translate("Reproduces submit button navigation inside restricted extension block");
+  }
+  allowInnerBlocksSelection() {
+    return false;
+  }
+  allowInnerBlocksDND() {
+    return false;
+  }
+  getTemplate() {
+    return `
+      <td type="unresolved-button-link-repro" class="esd-unresolved-button-link-repro">
+        <form action="{{event.submit_url}}" target="_blank">
+          <table width="100%" role="presentation" cellspacing="0" cellpadding="0" border="0" align="center">
+            <tbody>
+              <tr>
+                <td align="center" class="submit-button-container">
+                  <button
+                    type="submit"
+                    style="background: none; color: inherit; border: none; padding: 0; font: inherit; cursor: pointer; outline: inherit; width: 100%">
+                    <span align="center" class="esd-button-block es-p15t" style="display: block;">
+                      <span class="es-button-border es-fw es-m-fw" style="background: #6a6f7f;">
+                        <a
+                          class="es-button"
+                          style="display: block; border: none; text-decoration: none; background: #6a6f7f; mso-border-alt: 10px solid #6a6f7f;">
+                          Submit Your Review
+                        </a>
+                      </span>
+                    </span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </td>
+    `;
+  }
+}
+const unresolvedButtonLinkRepro = new ExtensionBuilder().addBlock(UnresolvedButtonLinkReproBlock).build();
 const ID$Q = "unresolved-link-repro";
 const IMAGE_URL = "https://rf.stripocdn.email/content/guids/CABINET_a72abd995606a03654e2f4a6dac6aa4199889bd9c4261c4b3200c3d1b63c8700/images/g9fa3a8f2503b5df8ba9eb4f115ad6503e44d19921df74d38db793e722379a0b4fb3a097c9e80ededb83d0406223a755f_640.jpeg";
 class UnresolvedLinkReproBlock extends Block {
@@ -12878,6 +12975,7 @@ const extensionsMap = {
   hiddenElementStateBlock,
   customNestedBlocks,
   customEmptyContainer,
+  unresolvedButtonLinkRepro,
   unresolvedLinkRepro,
   textUiElementOverridden,
   demoUiElement,
@@ -12961,6 +13059,7 @@ const extensionsMap = {
   blockWithDocumentChangedHook,
   blockWithHtmlSettingsPanelName,
   getEditorConfigBlock,
+  runtimePermissionsBlocks,
   multipleCustomControlWithEmptyState,
   generalPanelTabExtension,
   generalMultipleTabsExtension,
