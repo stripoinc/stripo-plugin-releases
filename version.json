@@ -1,7 +1,7 @@
 {
    "stripo/amp-validator-service": "20260707-1200_9aa127b",
    "stripo/screenshot-service": "20260708-1254_d2c1231",
-   "stripo/stripe-html-cleaner-service": "20260721-1036_904fdbf",
+   "stripo/stripe-html-cleaner-service": "20260729-1617_38e02a7",
    "stripo/stripe-html-gen-service": "20260721-1038_904fdbf",
    "stripo/stripo-plugin-api-gateway": "20260721-1034_904fdbf",
    "stripo/stripo-plugin-custom-blocks-service": "20260721-1028_904fdbf",
