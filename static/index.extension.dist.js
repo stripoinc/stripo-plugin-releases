@@ -6001,8 +6001,11 @@ const BLOCK_ID$c = "multi-row-root-attributes";
 const CONTROL_ID$a = "multi-row-root-attributes-layout";
 const ORIENTATION_FIELD = "multiRowRootAttributesOrientation";
 const productCard = (index) => `
-  <${BlockType.BLOCK_TEXT} class="multi-row-product-card" data-product-index="${index}">
-    <p>Product ${index}</p>
+  <${BlockType.BLOCK_TEXT}
+    class="multi-row-product-card${index === 1 ? " entity-&amp;euro;" : ""}"
+    data-product-index="${index}"
+    ${index === 1 ? 'data-entity-literal="literal &amp;euro;" style="--entity-literal: &amp;euro;"' : ""}>
+    <p>Product ${index}${index === 1 ? " Text &amp;euro;" : ""}</p>
   </${BlockType.BLOCK_TEXT}>
 `;
 class MultiRowRootAttributesBlock extends Block {
@@ -6759,6 +6762,65 @@ class SettingsPanel extends SettingsPanelRegistry {
   }
 }
 const structureWithCustomMarkupExtension = new ExtensionBuilder().addBlock(BlockExtensionCustomMarkup).addControl(ButtonAlignControl$1).withSettingsPanelRegistry(SettingsPanel).build();
+const CUSTOM_PRODUCT_BUTTONS_BLOCK_ID = "custom-product-buttons";
+class CustomProductButtonsBlock extends Block {
+  getId() {
+    return CUSTOM_PRODUCT_BUTTONS_BLOCK_ID;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return "Custom product buttons";
+  }
+  getDescription() {
+    return "Product cards with custom full-width buttons";
+  }
+  isEnabled() {
+    return true;
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.CONTAINER;
+  }
+  allowInnerBlocksSelection() {
+    return false;
+  }
+  allowInnerBlocksDND() {
+    return false;
+  }
+  getTemplate() {
+    const productCards = ["One", "Two", "Three"].map((productName) => `
+        <td width="33.33%" height="130" valign="top" class="custom-product-cell" style="height: 130px;">
+          <table width="100%" height="100%" role="presentation" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+              <tr>
+                <td align="center" valign="top">
+                  <p style="margin: 0;">Product ${productName}</p>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" valign="bottom" height="100%" class="esd-block-button custom-product-button-cell">
+                  <span class="es-button-border" style="display: block; width: auto;">
+                    <a href="https://example.com" target="_blank" class="es-button custom-product-button" style="display: block; width: auto; line-height: 120%;">
+                      Buy
+                    </a>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>`).join("");
+    return `
+      <td width="520" class="custom-product-buttons esd-extension-block esd-container-frame">
+        <table width="520" role="presentation" cellpadding="0" cellspacing="0" border="0">
+          <tbody>
+            <tr>${productCards}</tr>
+          </tbody>
+        </table>
+      </td>`;
+  }
+}
+const customProductButtons = new ExtensionBuilder().addBlock(CustomProductButtonsBlock).build();
 const BLOCK_ID$7 = "modifications-custom-css";
 class BlockExtensionModificationsCustomCss extends Block {
   getId() {
@@ -13460,6 +13522,7 @@ const extensionsMap = {
   // gitSample_11_Blocks_Panel,
   // gitSample_12_Logo_Block,
   gitSample_10_built_in_controls,
+  customProductButtons,
   getSample_externalImageGalleryTab: extension
 };
 export {
