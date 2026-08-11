@@ -9,12 +9,12 @@
    "stripo/stripo-plugin-documents-service": "20260729-1612_38e02a7",
    "stripo/stripo-plugin-image-bank-service": "20260729-1611_38e02a7",
    "stripo/stripo-plugin-proxy-service": "20260725-1017_1a71aeb",
-   "stripo/stripo-plugin-statistics-service": "20260725-1015_1a71aeb",
+   "stripo/stripo-plugin-statistics-service": "20260728-1941_64ab8bb",
    "stripo/stripo-security-service": "20260724-2007_18acad0",
    "stripo/stripo-timer-api": "20260729-1632_38e02a7",
    "stripo/countdowntimer": "20260731-r0732_bd984e4_develop",
-   "stripo/merge-service": "20260801-0913_ee9564d",
-   "stripo/env-adapter-service": "20260724-1731_f123045",
+   "stripo/merge-service": "20260807-1241_86e7c43",
+   "stripo/env-adapter-service": "20260806-0929_25df84c",
    "stripo/ai-service": "20260729-1632_38e02a7",
-   "stripo/coediting-core-service": "20260724-1732_f123045"
+   "stripo/coediting-core-service": "20260806-0930_25df84c"
 }

@@ -5889,6 +5889,43 @@ class RestrictedSelection extends BaseBlockExtension4 {
   }
 }
 const interactionConstraints = new ExtensionBuilder().addBlock(RestrictedDND).addBlock(RestrictedSelection).build();
+const MERGE_TAGS_CUSTOM_RENDERER_BLOCK_ID = "merge-tags-custom-renderer";
+class MergeTagsCustomRenderer extends BlockRenderer {
+  getPreviewInnerHtml(node) {
+    return node.getInnerHTML();
+  }
+}
+class MergeTagsCustomRendererBlock extends Block {
+  getId() {
+    return MERGE_TAGS_CUSTOM_RENDERER_BLOCK_ID;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Merge tags custom renderer");
+  }
+  getDescription() {
+    return this.api.translate("Restricted extension block with merge tags rendered by a custom renderer");
+  }
+  getCustomRenderer() {
+    return MergeTagsCustomRenderer;
+  }
+  allowInnerBlocksSelection() {
+    return false;
+  }
+  allowInnerBlocksDND() {
+    return false;
+  }
+  getTemplate() {
+    return `<td class="esd-extension-block esd-block-text">
+      <p>Product: {{product.name}}</p>
+      <p>URL: {{product.url}}</p>
+      <p>Image: {{product.image_url}}</p>
+    </td>`;
+  }
+}
+const mergeTagsCustomRenderer = new ExtensionBuilder().addBlock(MergeTagsCustomRendererBlock).build();
 const IMAGE_ALT = "image_alt";
 const IMAGE_HREF = "image_href";
 const PRODUCT_BLOCK_ID = "product-block";
@@ -6162,10 +6199,10 @@ let StructureExtension$2 = class StructureExtension extends Block {
   }
 };
 const extensionNames = new ExtensionBuilder().addBlock(StructureExtension$2).addBlock(ContainerExtension$2).addBlock(BlockExtension$1).build();
-const ID$T = "custom-blocks";
+const ID$U = "custom-blocks";
 class BlockExtensionCustomBlocks extends Block {
   getId() {
-    return ID$T;
+    return ID$U;
   }
   getBlockCompositionType() {
     return BlockCompositionType.BLOCK;
@@ -6821,6 +6858,42 @@ class CustomProductButtonsBlock extends Block {
   }
 }
 const customProductButtons = new ExtensionBuilder().addBlock(CustomProductButtonsBlock).build();
+const ID$T = "interactive-radio-repro";
+class InteractiveRadioReproBlock extends Block {
+  getId() {
+    return ID$T;
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.BLOCK;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Interactive radio repro");
+  }
+  getDescription() {
+    return this.api.translate("Reproduces interactive controls inside a restricted AMP extension block");
+  }
+  allowInnerBlocksSelection() {
+    return false;
+  }
+  allowInnerBlocksDND() {
+    return false;
+  }
+  allowInteractWithAMPWhenSelected() {
+    return true;
+  }
+  getTemplate() {
+    return `
+      <td type="interactive-radio-repro" class="esd-interactive-radio-repro">
+        <input id="interactive-radio-repro-option" name="interactive-radio-repro" type="radio">
+        <label for="interactive-radio-repro-option">Choose answer</label>
+      </td>
+    `;
+  }
+}
+const interactiveRadioRepro = new ExtensionBuilder().addBlock(InteractiveRadioReproBlock).build();
 const BLOCK_ID$7 = "modifications-custom-css";
 class BlockExtensionModificationsCustomCss extends Block {
   getId() {
@@ -13397,12 +13470,14 @@ const extensionsMap = {
   customBlockWithDeprecatedCustomRenderer,
   customRendererRestrictions,
   customRendererControls,
+  mergeTagsCustomRenderer,
   customBlockWithCustomContextAction,
   customStructure,
   customStripe,
   hiddenElementStateBlock,
   customNestedBlocks,
   customEmptyContainer,
+  interactiveRadioRepro,
   unresolvedButtonLinkRepro,
   unresolvedLinkRepro,
   textUiElementOverridden,
