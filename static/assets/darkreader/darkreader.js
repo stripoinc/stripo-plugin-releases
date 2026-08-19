@@ -1,5 +1,5 @@
 /**
- * Dark Reader v4.9.125
+ * Dark Reader v4.9.128
  * https://darkreader.org/
  */
 
@@ -1533,17 +1533,6 @@
         }
         return {add, cancel};
     }
-    const delayTokens = new Set();
-    function requestAnimationFrameOnce(token, callback) {
-        if (delayTokens.has(token)) {
-            return;
-        }
-        delayTokens.add(token);
-        requestAnimationFrame(() => {
-            delayTokens.delete(token);
-            callback();
-        });
-    }
 
     function hexify(number) {
         return (number < 16 ? "0" : "") + number.toString(16);
@@ -3016,7 +3005,8 @@
                 isDark: false,
                 isLight: false,
                 isTransparent: false,
-                isLarge: false
+                isLarge: false,
+                averageColor: null
             };
         }
         const isLarge = sw * sh > LARGE_IMAGE_PIXELS_COUNT;
@@ -3037,6 +3027,12 @@
         let transparentPixelsCount = 0;
         let darkPixelsCount = 0;
         let lightPixelsCount = 0;
+        let minLightness = 1;
+        let maxLightness = 0;
+        let sumR = 0;
+        let sumG = 0;
+        let sumB = 0;
+        let sumA = 0;
         let i, x, y;
         let r, g, b, a;
         let l;
@@ -3047,6 +3043,10 @@
                 g = d[i + 1];
                 b = d[i + 2];
                 a = d[i + 3];
+                sumR += r;
+                sumG += g;
+                sumB += b;
+                sumA += a;
                 if (a / 255 < TRANSPARENT_ALPHA_THRESHOLD) {
                     transparentPixelsCount++;
                 } else {
@@ -3057,6 +3057,12 @@
                     if (l > LIGHT_LIGHTNESS_THRESHOLD) {
                         lightPixelsCount++;
                     }
+                    if (l < minLightness) {
+                        minLightness = l;
+                    }
+                    if (l > maxLightness) {
+                        maxLightness = l;
+                    }
                 }
             }
         }
@@ -3065,6 +3071,18 @@
         const DARK_IMAGE_THRESHOLD = 0.7;
         const LIGHT_IMAGE_THRESHOLD = 0.7;
         const TRANSPARENT_IMAGE_THRESHOLD = 0.1;
+        const SOLID_LIGHTNESS_DIFF_THRESHOLD = 0.1;
+        const isSolid =
+            sumA === totalPixelsCount * 255 &&
+            maxLightness - minLightness < SOLID_LIGHTNESS_DIFF_THRESHOLD;
+        const solidColor = isSolid
+            ? {
+                  r: Math.round(sumR / opaquePixelsCount),
+                  g: Math.round(sumG / opaquePixelsCount),
+                  b: Math.round(sumB / opaquePixelsCount),
+                  a: transparentPixelsCount / totalPixelsCount
+              }
+            : null;
         return {
             isDark: darkPixelsCount / opaquePixelsCount >= DARK_IMAGE_THRESHOLD,
             isLight:
@@ -3072,7 +3090,8 @@
             isTransparent:
                 transparentPixelsCount / totalPixelsCount >=
                 TRANSPARENT_IMAGE_THRESHOLD,
-            isLarge
+            isLarge,
+            solidColor
         };
     }
     let isBlobURLSupported = null;
@@ -3151,6 +3170,17 @@
         objectURLs.add(objectURL);
         return objectURL;
     }
+    function getSolidColorImageURL({width, height, useViewBox}, color) {
+        const size = useViewBox
+            ? `viewBox="0 0 ${width} ${height}"`
+            : `width="${width}" height="${height}"`;
+        const svg = [
+            `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ${size}>`,
+            `<rect width="100%" height="100%" fill="${escapeXML(color)}" />`,
+            "</svg>"
+        ].join("");
+        return `data:image/svg+xml;base64,${btoa(svg)}`;
+    }
     const xmlEscapeChars = {
         "<": "&lt;",
         ">": "&gt;",
@@ -3214,6 +3244,16 @@
     function getPriority(ruleStyle, property) {
         return Boolean(ruleStyle && ruleStyle.getPropertyPriority(property));
     }
+    function canFilterImage(url) {
+        if (url.startsWith("data:")) {
+            return true;
+        }
+        try {
+            return new URL(url).origin === location.origin;
+        } catch {
+            return false;
+        }
+    }
     const bgPropsToCopy = [
         "background-clip",
         "background-position",
@@ -3242,7 +3282,8 @@
             modifier = getVariableDependantModifier(
                 variablesStore,
                 property,
-                value
+                value,
+                rule
             );
         } else if (property === "color-scheme") {
             modifier = getColorSchemeModifier();
@@ -3285,11 +3326,16 @@
             property === "background-image" ||
             property === "list-style-image"
         ) {
+            const selectorText = rule.selectorText;
+            const pushFilter = selectorText
+                ? (type) => pushFilterSelector(selectorText, type)
+                : null;
             modifier = getBgImageModifier(
                 value,
                 rule,
                 ignoreImageSelectors,
-                isCancelled
+                isCancelled,
+                pushFilter
             );
         } else if (property.includes("shadow")) {
             modifier = getShadowModifier(value);
@@ -3480,6 +3526,23 @@
         lines.push("}");
         return lines.join("\n");
     }
+    let addFilterSelector$1 = null;
+    function setFilterSelectorHandler(fn) {
+        addFilterSelector$1 = fn;
+    }
+    function pushFilterSelector(selector, type) {
+        if (selector && addFilterSelector$1) {
+            addFilterSelector$1(selector, type);
+        }
+    }
+    const filterCompatibleProps = new Set([
+        "background",
+        "background-image",
+        "list-style-image"
+    ]);
+    function isFilterCompatibleProp(property) {
+        return filterCompatibleProps.has(property);
+    }
     const unparsableColors = new Set([
         "inherit",
         "transparent",
@@ -3597,7 +3660,8 @@
         value,
         rule,
         ignoreImageSelectors,
-        isCancelled
+        isCancelled,
+        pushFilter = null
     ) {
         try {
             if (shouldIgnoreImage(rule.selectorText, ignoreImageSelectors)) {
@@ -3768,10 +3832,31 @@
                     return `url("${url}")`;
                 };
             };
+            const isSafeToInvert = () => {
+                const repeat = (
+                    rule.style.backgroundRepeat || ""
+                ).toLowerCase();
+                const size = (rule.style.backgroundSize || "").toLowerCase();
+                const isTiled =
+                    repeat.length > 0 &&
+                    repeat !== "no-repeat" &&
+                    !repeat.includes("no-repeat");
+                const isStretched =
+                    size.includes("cover") ||
+                    size.includes("contain") ||
+                    size.includes("100%");
+                return !isTiled && !isStretched;
+            };
             const getBgImageValue = (imageDetails, theme) => {
-                const {isDark, isLight, isTransparent, isLarge, width} =
-                    imageDetails;
-                let result;
+                const {
+                    isDark,
+                    isLight,
+                    isTransparent,
+                    isLarge,
+                    solidColor,
+                    width
+                } = imageDetails;
+                let result = null;
                 const logSrc = imageDetails.src.startsWith("data:")
                     ? "data:"
                     : imageDetails.src;
@@ -3785,30 +3870,59 @@
                     width > 2
                 ) {
                     logInfo(`Inverting dark image ${logSrc}`);
-                    const inverted = getFilteredImageURL(imageDetails, {
-                        ...theme,
-                        sepia: clamp(theme.sepia + 10, 0, 100)
-                    });
-                    result = `url("${inverted}")`;
+                    if (canFilterImage(imageDetails.src)) {
+                        const inverted = getFilteredImageURL(imageDetails, {
+                            ...theme,
+                            sepia: clamp(theme.sepia + 10, 0, 100)
+                        });
+                        result = `url("${inverted}")`;
+                    } else if (isSafeToInvert()) {
+                        pushFilter?.("invert");
+                    }
                 } else if (isLight && !isTransparent && theme.mode === 1) {
-                    logInfo(`Dimming light image ${logSrc}`);
-                    const dimmed = getFilteredImageURL(imageDetails, theme);
-                    result = `url("${dimmed}")`;
+                    if (solidColor) {
+                        logInfo(`Replacing image with a solid color ${logSrc}`);
+                        const darkColor = modifyBackgroundColor(
+                            solidColor,
+                            theme,
+                            false
+                        );
+                        const solid = getSolidColorImageURL(
+                            imageDetails,
+                            darkColor
+                        );
+                        result = `url("${solid}")`;
+                    } else if (canFilterImage(imageDetails.src)) {
+                        logInfo(`Inverting light image ${logSrc}`);
+                        const inverted = getFilteredImageURL(
+                            imageDetails,
+                            theme
+                        );
+                        result = `url("${inverted}")`;
+                    } else if (isSafeToInvert()) {
+                        pushFilter?.("invert");
+                    }
                 } else if (
                     theme.mode === 0 &&
                     isLight &&
                     imageDetails.dataURL
                 ) {
                     logInfo(`Applying filter to image ${logSrc}`);
-                    const filtered = getFilteredImageURL(imageDetails, {
-                        ...theme,
-                        brightness: clamp(theme.brightness - 10, 5, 200),
-                        sepia: clamp(theme.sepia + 10, 0, 100)
-                    });
-                    result = `url("${filtered}")`;
+                    if (canFilterImage(imageDetails.src)) {
+                        const filtered = getFilteredImageURL(imageDetails, {
+                            ...theme,
+                            brightness: clamp(theme.brightness - 10, 5, 200),
+                            sepia: clamp(theme.sepia + 10, 0, 100)
+                        });
+                        result = `url("${filtered}")`;
+                    } else {
+                        pushFilter?.("dim");
+                    }
                 } else {
+                    if (theme.mode === 1 && !canFilterImage(imageDetails.src)) {
+                        pushFilter?.("none");
+                    }
                     logInfo(`Not modifying the image ${logSrc}`);
-                    result = null;
                 }
                 return result;
             };
@@ -3960,8 +4074,8 @@
             isCancelled
         });
     }
-    function getVariableDependantModifier(variablesStore, prop, value) {
-        return variablesStore.getModifierForVarDependant(prop, value);
+    function getVariableDependantModifier(variablesStore, prop, value, rule) {
+        return variablesStore.getModifierForVarDependant(prop, value, rule);
     }
     function cleanModificationCache() {
         clearColorModificationCache();
@@ -3994,6 +4108,8 @@
             this.changedTypeVars = new Set();
             this.typeChangeSubscriptions = new Map();
             this.unstableVarValues = new Map();
+            this.varFilterTypes = new Map();
+            this.notifyingVarFilterTypes = new Set();
         }
         clear() {
             this.varTypes.clear();
@@ -4008,6 +4124,8 @@
             this.changedTypeVars.clear();
             this.typeChangeSubscriptions.clear();
             this.unstableVarValues.clear();
+            this.varFilterTypes.clear();
+            this.notifyingVarFilterTypes.clear();
         }
         isVarType(varName, typeNum) {
             return (
@@ -4168,11 +4286,15 @@
                                 (fallback) => tryModifyBgColor(fallback, theme)
                             );
                         }
+                        const pushFilter = rule.selectorText
+                            ? (type) => this.setVarFilterType(varName, type)
+                            : null;
                         const bgModifier = getBgImageModifier(
                             modifiedValue,
                             rule,
                             ignoredImgSelectors,
-                            isCancelled
+                            isCancelled,
+                            pushFilter
                         );
                         modifiedValue =
                             typeof bgModifier === "function"
@@ -4187,6 +4309,9 @@
                 };
                 const callbacks = new Set();
                 const addListener = (onTypeChange) => {
+                    if (!rule.selectorText) {
+                        return;
+                    }
                     const callback = () => {
                         const decs = getDeclarations();
                         onTypeChange(decs);
@@ -4208,7 +4333,10 @@
                 };
             };
         }
-        getModifierForVarDependant(property, sourceValue) {
+        getModifierForVarDependant(property, sourceValue, rule) {
+            if (rule && rule.selectorText && isFilterCompatibleProp(property)) {
+                this.watchFilterVars(sourceValue, rule.selectorText);
+            }
             const isConstructedColor = sourceValue.match(/^\s*(rgb|hsl)a?\(/);
             const isSimpleConstructedColor = sourceValue.match(
                 /^rgba?\(var\(--[\-_A-Za-z0-9]+\)(\s*,?\/?\s*0?\.\d+)?\)$/
@@ -4352,6 +4480,49 @@
             if (this.typeChangeSubscriptions.has(varName)) {
                 this.typeChangeSubscriptions.get(varName).delete(callback);
             }
+        }
+        setVarFilterType(varName, type) {
+            if (this.varFilterTypes.get(varName) === type) {
+                return;
+            }
+            this.varFilterTypes.set(varName, type);
+            if (this.notifyingVarFilterTypes.has(varName)) {
+                return;
+            }
+            const subs = this.typeChangeSubscriptions.get(varName);
+            if (subs && subs.size > 0) {
+                this.notifyingVarFilterTypes.add(varName);
+                subs.forEach((callback) => callback());
+                this.notifyingVarFilterTypes.delete(varName);
+            }
+        }
+        pushFilterSelectorsForValue(sourceValue, selector) {
+            const directRefs = new Set();
+            iterateVarDependencies(sourceValue, (v) => directRefs.add(v));
+            const allRefs = new Set();
+            directRefs.forEach((v) => {
+                allRefs.add(v);
+                this.iterateVarRefs(v, (ref) => allRefs.add(ref));
+            });
+            allRefs.forEach((v) => {
+                const type = this.varFilterTypes.get(v);
+                if (type) {
+                    pushFilterSelector(selector, type);
+                }
+            });
+        }
+        watchFilterVars(sourceValue, selector) {
+            const directRefs = new Set();
+            iterateVarDependencies(sourceValue, (v) => directRefs.add(v));
+            const allRefs = new Set();
+            directRefs.forEach((v) => {
+                allRefs.add(v);
+                this.iterateVarRefs(v, (ref) => allRefs.add(ref));
+            });
+            this.pushFilterSelectorsForValue(sourceValue, selector);
+            const callback = () =>
+                this.pushFilterSelectorsForValue(sourceValue, selector);
+            allRefs.forEach((v) => this.subscribeForVarTypeChange(v, callback));
         }
         collectVariablesAndVarDep() {
             this.rulesQueue.forEach((rules) => {
@@ -4538,10 +4709,6 @@
             this.onRootVariableDefined = callback;
         }
         putRootVars(styleElement, theme) {
-            const sheet = styleElement.sheet;
-            if (sheet.cssRules.length > 0) {
-                sheet.deleteRule(0);
-            }
             const declarations = new Map();
             iterateCSSDeclarations(
                 document.documentElement.style,
@@ -4579,7 +4746,15 @@
             }
             cssLines.push("}");
             const cssText = cssLines.join("\n");
-            sheet.insertRule(cssText);
+            const sheet = styleElement.sheet;
+            if (sheet) {
+                if (sheet.cssRules.length > 0) {
+                    sheet.deleteRule(0);
+                }
+                sheet.insertRule(cssText);
+            } else {
+                styleElement.textContent = cssText;
+            }
         }
     }
     const variablesStore = new VariablesStore();
@@ -5214,10 +5389,20 @@
     function canHaveAdoptedStyleSheets(node) {
         return Array.isArray(node.adoptedStyleSheets);
     }
+    const getAdoptedSheets = isFirefox
+        ? (node) =>
+              node.adoptedStyleSheets.wrappedJSObject ?? node.adoptedStyleSheets
+        : (node) => node.adoptedStyleSheets;
+    const createOverrideSheet = isFirefox
+        ? () => {
+              const pageWindow = window.wrappedJSObject ?? window;
+              return new pageWindow.CSSStyleSheet();
+          }
+        : () => new CSSStyleSheet();
     function createAdoptedStyleSheetOverride(node) {
         let cancelAsyncOperations = false;
         function iterateSourceSheets(iterator) {
-            node.adoptedStyleSheets.forEach((sheet) => {
+            forEach(getAdoptedSheets(node), (sheet) => {
                 if (!overrides$1.has(sheet)) {
                     iterator(sheet);
                 }
@@ -5225,24 +5410,33 @@
             });
         }
         function injectSheet(sheet, override) {
-            const newSheets = [...node.adoptedStyleSheets];
+            const newSheets = isFirefox
+                ? getAdoptedSheets(node)
+                : [...node.adoptedStyleSheets];
             const sheetIndex = newSheets.indexOf(sheet);
             const overrideIndex = newSheets.indexOf(override);
             if (overrideIndex >= 0) {
                 newSheets.splice(overrideIndex, 1);
             }
             newSheets.splice(sheetIndex + 1, 0, override);
-            node.adoptedStyleSheets = newSheets;
+            if (!isFirefox) {
+                node.adoptedStyleSheets = newSheets;
+            }
         }
         function clear() {
-            const newSheets = [...node.adoptedStyleSheets];
+            const newSheets = isFirefox
+                ? getAdoptedSheets(node)
+                : [...node.adoptedStyleSheets];
             for (let i = newSheets.length - 1; i >= 0; i--) {
                 const sheet = newSheets[i];
                 if (overrides$1.has(sheet)) {
                     newSheets.splice(i, 1);
                 }
             }
-            if (node.adoptedStyleSheets.length !== newSheets.length) {
+            if (
+                !isFirefox &&
+                node.adoptedStyleSheets.length !== newSheets.length
+            ) {
                 node.adoptedStyleSheets = newSheets;
             }
             sourceSheets = new WeakSet();
@@ -5266,7 +5460,7 @@
                 count += sheet.cssRules.length;
             });
             if (count === 1) {
-                const rule = node.adoptedStyleSheets[0].cssRules[0];
+                const rule = getAdoptedSheets(node)[0].cssRules[0];
                 return rule instanceof CSSStyleRule ? rule.style.length : count;
             }
             return count;
@@ -5275,8 +5469,9 @@
         let sourceDeclarations = new WeakSet();
         function render(theme, ignoreImageAnalysis) {
             clear();
-            for (let i = node.adoptedStyleSheets.length - 1; i >= 0; i--) {
-                const sheet = node.adoptedStyleSheets[i];
+            const sheets = getAdoptedSheets(node);
+            for (let i = sheets.length - 1; i >= 0; i--) {
+                const sheet = sheets[i];
                 if (overrides$1.has(sheet)) {
                     continue;
                 }
@@ -5288,7 +5483,7 @@
                     continue;
                 }
                 const rules = sheet.cssRules;
-                const override = new CSSStyleSheet();
+                const override = createOverrideSheet();
                 overridesBySource.set(sheet, override);
                 iterateCSSRules(rules, (rule) =>
                     sourceDeclarations.add(rule.style)
@@ -5322,7 +5517,7 @@
             callbackRequested = true;
             queueMicrotask(() => {
                 callbackRequested = false;
-                const sheets = node.adoptedStyleSheets.filter(
+                const sheets = getAdoptedSheets(node).filter(
                     (s) => !overrides$1.has(s)
                 );
                 sheets.forEach((sheet) => overridesBySource.delete(sheet));
@@ -5375,79 +5570,6 @@
             destroy,
             watch
         };
-    }
-    class StyleSheetCommandBuilder {
-        constructor() {
-            this.cssRules = [];
-            this.commands = [];
-        }
-        insertRule(cssText, index = 0) {
-            this.commands.push({type: "insert", index, cssText});
-            this.cssRules.splice(index, 0, new StyleSheetCommandBuilder());
-            return index;
-        }
-        deleteRule(index) {
-            this.commands.push({type: "delete", index});
-            this.cssRules.splice(index, 1);
-        }
-        replaceSync(cssText) {
-            this.commands.splice(0);
-            this.commands.push({type: "replace", cssText});
-            if (cssText === "") {
-                this.cssRules.splice(0);
-            } else {
-                throw new Error(
-                    "StyleSheetCommandBuilder.replaceSync() is not fully supported"
-                );
-            }
-        }
-        getDeepCSSCommands() {
-            const deep = [];
-            this.commands.forEach((command) => {
-                deep.push({
-                    type: command.type,
-                    cssText: command.type !== "delete" ? command.cssText : "",
-                    path: command.type === "replace" ? [] : [command.index]
-                });
-            });
-            this.cssRules.forEach((rule, i) => {
-                const childCommands = rule.getDeepCSSCommands();
-                childCommands.forEach((c) => c.path.unshift(i));
-            });
-            return deep;
-        }
-        clearDeepCSSCommands() {
-            this.commands.splice(0);
-            this.cssRules.forEach((rule) => rule.clearDeepCSSCommands());
-        }
-    }
-    function createAdoptedStyleSheetFallback() {
-        let cancelAsyncOperations = false;
-        const builder = new StyleSheetCommandBuilder();
-        function render(options) {
-            const prepareSheet = () => {
-                builder.replaceSync("");
-                return builder;
-            };
-            const sheetModifier = createStyleSheetModifier();
-            sheetModifier.modifySheet({
-                prepareSheet,
-                sourceCSSRules: options.cssRules,
-                theme: options.theme,
-                ignoreImageAnalysis: options.ignoreImageAnalysis,
-                force: false,
-                isAsyncCancelled: () => cancelAsyncOperations
-            });
-        }
-        function commands() {
-            const commands = builder.getDeepCSSCommands();
-            builder.clearDeepCSSCommands();
-            return commands;
-        }
-        function destroy() {
-            cancelAsyncOperations = true;
-        }
-        return {render, destroy, commands};
     }
 
     const hostsBreakingOnStylePosition = [
@@ -5672,6 +5794,10 @@
     }
     const treeObservers = new Map();
     const attrObservers = new Map();
+    let asyncCancelled = true;
+    function isAsyncCancelled() {
+        return asyncCancelled;
+    }
     function watchForInlineStyles(elementStyleDidChange, shadowRootDiscovered) {
         deepWatchForInlineStyles(
             document,
@@ -5785,6 +5911,7 @@
         attrObservers.set(root, attrObserver);
     }
     function stopWatchingForInlineStyles() {
+        asyncCancelled = true;
         treeObservers.forEach((o) => o.disconnect());
         attrObservers.forEach((o) => o.disconnect());
         treeObservers.clear();
@@ -5881,13 +6008,14 @@
                 setStaticValue(cachedStringValue);
                 return;
             }
+            asyncCancelled = false;
             const mod = getModifiableCSSDeclaration(
                 modifierCSSProp,
                 cssVal,
                 {style: element.style},
                 variablesStore,
                 ignoreImageSelectors,
-                null
+                isAsyncCancelled
             );
             if (!mod) {
                 return;
@@ -6021,7 +6149,8 @@
         if (
             (element === document.documentElement ||
                 element === document.body) &&
-            element.hasAttribute("background")
+            element.hasAttribute("background") &&
+            element.getAttribute("background") !== ""
         ) {
             const url = getAbsoluteURL(
                 location.href,
@@ -6217,6 +6346,65 @@
         if (meta && srcMetaThemeColor) {
             meta.content = srcMetaThemeColor;
         }
+    }
+
+    const filterSelectors = {
+        invert: new Set(),
+        dim: new Set(),
+        none: new Set()
+    };
+    function addFilterSelector(selector, type) {
+        if (!selector) {
+            return;
+        }
+        const selectors = filterSelectors[type];
+        let changed = false;
+        selector.split(",").forEach((part) => {
+            const s = part.trim();
+            if (!s || selectors.has(s)) {
+                return;
+            }
+            for (const existing of selectors) {
+                if (isSelectorWithin(s, existing)) {
+                    return;
+                }
+            }
+            for (const existing of [...selectors]) {
+                if (isSelectorWithin(existing, s)) {
+                    selectors.delete(existing);
+                }
+            }
+            selectors.add(s);
+            changed = true;
+        });
+        return changed;
+    }
+    function isSelectorWithin(sub, parent) {
+        const parentLength = parent.length;
+        const subLength = sub.length;
+        if (subLength < parentLength || !sub.startsWith(parent)) {
+            return false;
+        }
+        if (subLength === parentLength) {
+            return true;
+        }
+        let i = parentLength;
+        const c = sub[i];
+        if (c === "." || c === ":" || c === "#" || c === "[" || c === ">") {
+            return true;
+        }
+        if (c === "+" || c === "~" || c !== " ") {
+            return false;
+        }
+        while (sub[i] === " ") {
+            i++;
+        }
+        return sub[i] !== "+" && sub[i] !== "~";
+    }
+    function cleanFilterSelectors() {
+        filterSelectors.invert.clear();
+        filterSelectors.dim.clear();
+        filterSelectors.none.clear();
     }
 
     const cssCommentsRegex = /\/\*[\s\S]*?\*\//g;
@@ -7212,124 +7400,119 @@
                     }
             });
         }
-        {
-            const adoptedSheetsSourceProxies = new WeakMap();
-            const adoptedSheetsProxySources = new WeakMap();
-            const adoptedSheetsChangeEvent = new CustomEvent(
-                "__darkreader__adoptedStyleSheetsChange"
-            );
-            const adoptedSheetOverrideCache = new WeakSet();
-            const adoptedSheetsSnapshots = new WeakMap();
-            const isDRAdoptedSheetOverride = (sheet) => {
-                if (!sheet || !sheet.cssRules) {
-                    return false;
-                }
-                if (adoptedSheetOverrideCache.has(sheet)) {
-                    return true;
-                }
-                if (
-                    sheet.cssRules.length > 0 &&
-                    sheet.cssRules[0].cssText.startsWith(
-                        "#__darkreader__adoptedOverride"
-                    )
-                ) {
-                    adoptedSheetOverrideCache.add(sheet);
-                    return true;
-                }
+        const adoptedSheetsSourceProxies = new WeakMap();
+        const adoptedSheetsProxySources = new WeakMap();
+        const adoptedSheetsChangeEvent = new CustomEvent(
+            "__darkreader__adoptedStyleSheetsChange"
+        );
+        const adoptedSheetOverrideCache = new WeakSet();
+        const adoptedSheetsSnapshots = new WeakMap();
+        const isDRAdoptedSheetOverride = (sheet) => {
+            if (!sheet || !sheet.cssRules) {
                 return false;
-            };
-            const areArraysEqual = (a, b) => {
-                return a.length === b.length && a.every((x, i) => x === b[i]);
-            };
-            const onAdoptedSheetsChange = (node) => {
-                const prev = adoptedSheetsSnapshots.get(node);
-                const curr = (node.adoptedStyleSheets || []).filter(
-                    (s) => !isDRAdoptedSheetOverride(s)
-                );
-                adoptedSheetsSnapshots.set(node, curr);
-                if (!prev || !areArraysEqual(prev, curr)) {
-                    curr.forEach((sheet) => {
-                        if (!adoptedSheetOwners.has(sheet)) {
-                            adoptedSheetOwners.set(sheet, new Set());
+            }
+            if (adoptedSheetOverrideCache.has(sheet)) {
+                return true;
+            }
+            if (
+                sheet.cssRules.length > 0 &&
+                sheet.cssRules[0].cssText.startsWith(
+                    "#__darkreader__adoptedOverride"
+                )
+            ) {
+                adoptedSheetOverrideCache.add(sheet);
+                return true;
+            }
+            return false;
+        };
+        const areArraysEqual = (a, b) => {
+            return a.length === b.length && a.every((x, i) => x === b[i]);
+        };
+        const onAdoptedSheetsChange = (node) => {
+            const prev = adoptedSheetsSnapshots.get(node);
+            const curr = (node.adoptedStyleSheets || []).filter(
+                (s) => !isDRAdoptedSheetOverride(s)
+            );
+            adoptedSheetsSnapshots.set(node, curr);
+            if (!prev || !areArraysEqual(prev, curr)) {
+                curr.forEach((sheet) => {
+                    if (!adoptedSheetOwners.has(sheet)) {
+                        adoptedSheetOwners.set(sheet, new Set());
+                    }
+                    adoptedSheetOwners.get(sheet).add(node);
+                    for (const rule of sheet.cssRules) {
+                        const declaration = rule.style;
+                        if (declaration) {
+                            adoptedDeclarationSheets.set(declaration, sheet);
                         }
-                        adoptedSheetOwners.get(sheet).add(node);
-                        for (const rule of sheet.cssRules) {
-                            const declaration = rule.style;
-                            if (declaration) {
-                                adoptedDeclarationSheets.set(
-                                    declaration,
-                                    sheet
-                                );
-                            }
-                        }
-                    });
-                    node.dispatchEvent(adoptedSheetsChangeEvent);
-                }
-            };
-            const proxyAdoptedSheetsArray = (node, source) => {
-                if (adoptedSheetsProxySources.has(source)) {
-                    return source;
-                }
-                if (adoptedSheetsSourceProxies.has(source)) {
-                    return adoptedSheetsSourceProxies.get(source);
-                }
-                const proxy = new Proxy(source, {
-                    deleteProperty(target, property) {
-                        delete target[property];
-                        return true;
-                    },
-                    set(target, property, value) {
-                        target[property] = value;
-                        if (property === "length") {
-                            onAdoptedSheetsChange(node);
-                        }
-                        return true;
                     }
                 });
-                adoptedSheetsSourceProxies.set(source, proxy);
-                adoptedSheetsProxySources.set(proxy, source);
-                return proxy;
-            };
-            [Document, ShadowRoot].forEach((ctor) => {
-                overrideProperty(ctor, "adoptedStyleSheets", {
-                    get: (native) =>
-                        function () {
-                            const source = native.call(this);
-                            return proxyAdoptedSheetsArray(this, source);
-                        },
-                    set: (native) =>
-                        function (source) {
-                            if (adoptedSheetsProxySources.has(source)) {
-                                source = adoptedSheetsProxySources.get(source);
-                            }
-                            native.call(this, source);
-                            onAdoptedSheetsChange(this);
-                        }
-                });
+                node.dispatchEvent(adoptedSheetsChangeEvent);
+            }
+        };
+        const proxyAdoptedSheetsArray = (node, source) => {
+            if (adoptedSheetsProxySources.has(source)) {
+                return source;
+            }
+            if (adoptedSheetsSourceProxies.has(source)) {
+                return adoptedSheetsSourceProxies.get(source);
+            }
+            const proxy = new Proxy(source, {
+                deleteProperty(target, property) {
+                    delete target[property];
+                    return true;
+                },
+                set(target, property, value) {
+                    target[property] = value;
+                    if (property === "length") {
+                        onAdoptedSheetsChange(node);
+                    }
+                    return true;
+                }
             });
-            const adoptedDeclarationChangeEvent = new CustomEvent(
-                "__darkreader__adoptedStyleDeclarationChange"
-            );
-            ["setProperty", "removeProperty"].forEach((key) => {
-                override(CSSStyleDeclaration, key, (native) => {
-                    return function (...args) {
-                        const returnValue = native.apply(this, args);
-                        const sheet = adoptedDeclarationSheets.get(this);
-                        if (sheet) {
-                            const owners = adoptedSheetOwners.get(sheet);
-                            if (owners) {
-                                owners.forEach((node) => {
-                                    node.dispatchEvent(
-                                        adoptedDeclarationChangeEvent
-                                    );
-                                });
-                            }
+            adoptedSheetsSourceProxies.set(source, proxy);
+            adoptedSheetsProxySources.set(proxy, source);
+            return proxy;
+        };
+        [Document, ShadowRoot].forEach((ctor) => {
+            overrideProperty(ctor, "adoptedStyleSheets", {
+                get: (native) =>
+                    function () {
+                        const source = native.call(this);
+                        return proxyAdoptedSheetsArray(this, source);
+                    },
+                set: (native) =>
+                    function (source) {
+                        if (adoptedSheetsProxySources.has(source)) {
+                            source = adoptedSheetsProxySources.get(source);
                         }
-                        return returnValue;
-                    };
-                });
+                        native.call(this, source);
+                        onAdoptedSheetsChange(this);
+                    }
             });
-        }
+        });
+        const adoptedDeclarationChangeEvent = new CustomEvent(
+            "__darkreader__adoptedStyleDeclarationChange"
+        );
+        ["setProperty", "removeProperty"].forEach((key) => {
+            override(CSSStyleDeclaration, key, (native) => {
+                return function (...args) {
+                    const returnValue = native.apply(this, args);
+                    const sheet = adoptedDeclarationSheets.get(this);
+                    if (sheet) {
+                        const owners = adoptedSheetOwners.get(sheet);
+                        if (owners) {
+                            owners.forEach((node) => {
+                                node.dispatchEvent(
+                                    adoptedDeclarationChangeEvent
+                                );
+                            });
+                        }
+                    }
+                    return returnValue;
+                };
+            });
+        });
     }
 
     const definedCustomElements = new Set();
@@ -7705,8 +7888,6 @@
     const INSTANCE_ID = generateUID();
     const styleManagers = new Map();
     const adoptedStyleManagers = [];
-    const adoptedStyleFallbacks = new Map();
-    const adoptedStyleChangeTokens = new WeakMap();
     let theme = null;
     let fixes = null;
     let isIFrame$1 = null;
@@ -7767,25 +7948,115 @@
             injectStyleAway(style);
         }
     }
+    const scheduleInversionStyleUpdate = throttle(() => {
+        const invertStyle = document.head?.querySelector(".darkreader--invert");
+        if (invertStyle) {
+            setInversionStyleValue(invertStyle);
+        }
+        shadowRootsWithOverrides.forEach((root) => {
+            const shadowInvertStyle = root.querySelector(".darkreader--invert");
+            if (shadowInvertStyle) {
+                setInversionStyleValue(shadowInvertStyle);
+            }
+        });
+    });
+    setFilterSelectorHandler((selector, type) => {
+        const changed = addFilterSelector(selector, type);
+        if (changed) {
+            scheduleInversionStyleUpdate();
+        }
+    });
     function setInversionStyleValue(invertStyle) {
-        if (fixes && Array.isArray(fixes.invert) && fixes.invert.length > 0) {
-            const filter = getCSSFilterValue({
+        if (!theme) {
+            return;
+        }
+        const rules = [];
+        const appendRule = (selectors, filter) => {
+            if (!filter || selectors.length === 0) {
+                return;
+            }
+            rules.push(
+                [
+                    `${selectors.join(", ")} {`,
+                    `    filter: ${filter} !important;`,
+                    "}"
+                ].join("\n")
+            );
+        };
+        const appendCounterInversion = (selectors) => {
+            if (theme.mode === 0 || selectors.length === 0) {
+                return;
+            }
+            rules.push(
+                [
+                    `${selectors.join(", ")} {`,
+                    `    color: black !important;`,
+                    "}",
+                    `${selectors.map((s) => `${s} > *`).join(", ")} {`,
+                    `    filter: invert(100%) hue-rotate(180deg) !important;`,
+                    "}"
+                ].join("\n")
+            );
+        };
+        const appendInversionCancellation = (selectors) => {
+            if (theme.mode === 0 || selectors.length === 0) {
+                return;
+            }
+            rules.push(
+                [
+                    `${selectors.join(", ")} {`,
+                    `    filter: none !important;`,
+                    `    color: var(--darkreader-neutral-text) !important;`,
+                    "}",
+                    `${selectors.map((s) => `${s} > *`).join(", ")} {`,
+                    `    filter: none !important;`,
+                    "}"
+                ].join("\n")
+            );
+        };
+        if (
+            (fixes && Array.isArray(fixes.invert) && fixes.invert.length > 0) ||
+            filterSelectors.invert.size > 0
+        ) {
+            const extraInversionSelectors = [...filterSelectors.invert];
+            const invertSelectors = [
+                ...(fixes?.invert ?? []),
+                ...extraInversionSelectors
+            ];
+            const invertFilter = getCSSFilterValue({
                 ...theme,
                 contrast:
                     theme.mode === 0
                         ? theme.contrast
                         : clamp(theme.contrast - 10, 0, 100)
             });
-            if (filter) {
-                invertStyle.textContent = [
-                    `${fixes.invert.join(", ")} {`,
-                    `    filter: ${filter} !important;`,
-                    "}"
-                ].join("\n");
-                return;
+            appendRule(invertSelectors, invertFilter);
+            appendCounterInversion(extraInversionSelectors);
+            if (filterSelectors.none.size > 0) {
+                const noneSelectors = [...filterSelectors.none];
+                appendInversionCancellation(noneSelectors);
+                if (theme.mode === 1) {
+                    const invertedChildSelectors = [];
+                    noneSelectors.forEach((parent) => {
+                        extraInversionSelectors.forEach((child) =>
+                            invertedChildSelectors.push(`${parent} > ${child}`)
+                        );
+                    });
+                    appendRule(invertedChildSelectors, invertFilter);
+                }
             }
         }
-        invertStyle.textContent = "";
+        if (filterSelectors.dim.size > 0) {
+            appendRule(
+                [...filterSelectors.dim],
+                getCSSFilterValue({
+                    ...theme,
+                    brightness: clamp(theme.brightness - 10, 5, 200),
+                    sepia: clamp(theme.sepia + 10, 0, 100)
+                })
+            );
+        }
+        invertStyle.textContent = rules.join("\n");
     }
     function createStaticStyleOverrides() {
         const fallbackStyle = createOrUpdateStyle(
@@ -7978,55 +8249,6 @@
         handleAdoptedStyleSheets(document);
         variablesStore.matchVariablesAndDependents();
         tryInvertChromePDF();
-        if (isFirefox) {
-            const onAdoptedCssChange = (e) => {
-                const {sheets} = e.detail;
-                if (!Array.isArray(sheets) || sheets.length === 0) {
-                    return;
-                }
-                sheets.forEach(({sheet}) => {
-                    const {cssRules} = sheet;
-                    variablesStore.addRulesForMatching(cssRules);
-                });
-                variablesStore.matchVariablesAndDependents();
-                const response = [];
-                sheets.forEach(({sheetId, sheet}) => {
-                    const fallback = getAdoptedStyleSheetFallback(sheet);
-                    const cssRules = sheet.cssRules;
-                    fallback.render({
-                        theme: theme,
-                        ignoreImageAnalysis: ignoredImageAnalysisSelectors,
-                        cssRules
-                    });
-                    const commands = fallback.commands();
-                    response.push({sheetId, commands});
-                });
-                requestAnimationFrameOnce(
-                    getAdoptedStyleChangeToken(sheets[0].sheet),
-                    () => {
-                        document.dispatchEvent(
-                            new CustomEvent(
-                                "__darkreader__adoptedStyleSheetCommands",
-                                {detail: JSON.stringify(response)}
-                            )
-                        );
-                    }
-                );
-            };
-            document.addEventListener(
-                "__darkreader__adoptedStyleSheetsChange",
-                onAdoptedCssChange
-            );
-            cleaners.push(() =>
-                document.removeEventListener(
-                    "__darkreader__adoptedStyleSheetsChange",
-                    onAdoptedCssChange
-                )
-            );
-            document.dispatchEvent(
-                new CustomEvent("__darkreader__startAdoptedStyleSheetsWatcher")
-            );
-        }
     }
     let loadingStylesCounter = 0;
     const loadingStyles = new Set();
@@ -8117,14 +8339,19 @@
         }
         changeMetaThemeColorWhenAvailable(theme);
     }
+    function unwrap(value) {
+        return value?.wrappedJSObject ?? value;
+    }
     function handleAdoptedStyleSheets(node) {
-        if (isFirefox) {
-            return;
-        }
         if (canHaveAdoptedStyleSheets(node)) {
-            node.adoptedStyleSheets.forEach((s) => {
-                variablesStore.addRulesForMatching(s.cssRules);
-            });
+            forEach(
+                isFirefox
+                    ? unwrap(node.adoptedStyleSheets)
+                    : node.adoptedStyleSheets,
+                (s) => {
+                    variablesStore.addRulesForMatching(s.cssRules);
+                }
+            );
             const newManger = createAdoptedStyleSheetOverride(node);
             adoptedStyleManagers.push(newManger);
             newManger.render(theme, ignoredImageAnalysisSelectors);
@@ -8136,22 +8363,6 @@
                 newManger.render(theme, ignoredImageAnalysisSelectors);
             });
         }
-    }
-    function getAdoptedStyleChangeToken(sheet) {
-        if (adoptedStyleChangeTokens.has(sheet)) {
-            return adoptedStyleChangeTokens.get(sheet);
-        }
-        const token = Symbol();
-        adoptedStyleChangeTokens.set(sheet, token);
-        return token;
-    }
-    function getAdoptedStyleSheetFallback(sheet) {
-        let fallback = adoptedStyleFallbacks.get(sheet);
-        if (!fallback) {
-            fallback = createAdoptedStyleSheetFallback();
-            adoptedStyleFallbacks.set(sheet, fallback);
-        }
-        return fallback;
     }
     function watchForUpdates() {
         const managedStyles = Array.from(styleManagers.keys());
@@ -8227,6 +8438,7 @@
             }
         );
         addDOMReadyListener(onDOMReady);
+        setupDocumentPiPFontFix();
     }
     function stopWatchingForUpdates() {
         styleManagers.forEach((manager) => manager.pause());
@@ -8477,6 +8689,82 @@
         removeNode(document.head.querySelector(".darkreader--proxy"));
     }
     const cleaners = [];
+    let pipListenerRegistered = false;
+    function setupDocumentPiPFontFix() {
+        if (pipListenerRegistered) {
+            return;
+        }
+        const docPiP = window.documentPictureInPicture;
+        if (!docPiP) {
+            return;
+        }
+        pipListenerRegistered = true;
+        function collectFontSheetCSS() {
+            const fontSheetRules = [];
+            for (const sheet of document.styleSheets) {
+                try {
+                    const rules = Array.from(sheet.cssRules);
+                    if (rules.some((rule) => rule instanceof CSSFontFaceRule)) {
+                        rules.forEach((rule) =>
+                            fontSheetRules.push(rule.cssText)
+                        );
+                    }
+                } catch (e) {}
+            }
+            return fontSheetRules.join("\n");
+        }
+        function getPipDoc() {
+            return docPiP.window?.document ?? null;
+        }
+        function injectFontCSS(fontCSS) {
+            const pipDoc = getPipDoc();
+            if (!pipDoc || pipDoc.querySelector(".darkreader--font-fix")) {
+                return;
+            }
+            const style = pipDoc.createElement("style");
+            style.classList.add("darkreader");
+            style.classList.add("darkreader--font-fix");
+            style.textContent = fontCSS;
+            (pipDoc.head || pipDoc.documentElement).appendChild(style);
+        }
+        function removeFontCSS() {
+            getPipDoc()?.querySelector(".darkreader--font-fix")?.remove();
+        }
+        function onPiPEnter() {
+            const pipDoc = getPipDoc();
+            if (
+                !pipDoc ||
+                pipDoc.querySelector('meta[name="darkreader-lock"]')
+            ) {
+                return;
+            }
+            const fontCSS = collectFontSheetCSS();
+            if (!fontCSS) {
+                return;
+            }
+            injectFontCSS(fontCSS);
+            const observer = new MutationObserver(() => {
+                if (pipDoc.querySelector('meta[name="darkreader-lock"]')) {
+                    observer.disconnect();
+                    docPiP.removeEventListener("enter", onPiPEnter);
+                    removeFontCSS();
+                    return;
+                }
+                injectFontCSS(fontCSS);
+            });
+            observer.observe(pipDoc, {childList: true, subtree: true});
+            cleaners.push(() => observer.disconnect());
+            docPiP.window.addEventListener("unload", () =>
+                observer.disconnect()
+            );
+        }
+        docPiP.addEventListener("enter", onPiPEnter);
+        cleaners.push(() => {
+            docPiP.removeEventListener("enter", onPiPEnter);
+            removeFontCSS();
+            pipListenerRegistered = false;
+        });
+    }
     function removeDynamicTheme() {
         document.documentElement.removeAttribute(`data-darkreader-mode`);
         document.documentElement.removeAttribute(`data-darkreader-scheme`);
@@ -8512,15 +8800,15 @@
         removeStyleContainer();
         adoptedStyleManagers.forEach((manager) => manager.destroy());
         adoptedStyleManagers.splice(0);
-        adoptedStyleFallbacks.forEach((fallback) => fallback.destroy());
-        adoptedStyleFallbacks.clear();
         metaObserver && metaObserver.disconnect();
+        scheduleInversionStyleUpdate.cancel();
         cleaners.forEach((clean) => clean());
         cleaners.splice(0);
     }
     function cleanDynamicThemeCache() {
         variablesStore.clear();
         parsedURLCache.clear();
+        cleanFilterSelectors();
         removeDocumentVisibilityListener();
         cancelRendering();
         stopWatchingForUpdates();
