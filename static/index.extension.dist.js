@@ -1,15 +1,15 @@
-var _BaseValidatedClass = class _BaseValidatedClass2 {
+var _BaseValidatedClass$1 = class _BaseValidatedClass {
   /**
    * Validates that all required methods are properly implemented in the subclass.
    * @param requiredMethods - Array of method names that must be implemented
    * @param classRef - Reference to the class constructor for validation caching
    */
   constructor(requiredMethods, classRef) {
-    if (classRef !== _BaseValidatedClass2) {
-      if (!_BaseValidatedClass2.validatedClasses.has(classRef)) {
+    if (classRef !== _BaseValidatedClass) {
+      if (!_BaseValidatedClass.validatedClasses.has(classRef)) {
         this.validateImplementation(requiredMethods, classRef);
       }
-      const errors = _BaseValidatedClass2.validationErrors.get(classRef);
+      const errors = _BaseValidatedClass.validationErrors.get(classRef);
       if (errors && errors.length > 0) {
         throw new Error(
           `${classRef.name} has validation errors:
@@ -36,9 +36,9 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
         errors.push(`Method ${methodName}() must be implemented (currently using base class error-throwing implementation)`);
       }
     });
-    _BaseValidatedClass2.validatedClasses.add(classRef);
+    _BaseValidatedClass.validatedClasses.add(classRef);
     if (errors.length > 0) {
-      _BaseValidatedClass2.validationErrors.set(classRef, errors);
+      _BaseValidatedClass.validationErrors.set(classRef, errors);
       console.error(`[${className} Validation] ${className} validation failed:`, errors);
     } else {
       if (typeof process !== "undefined" && process.env?.NODE_ENV === "development") {
@@ -54,9 +54,9 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
   destroy() {
   }
 };
-_BaseValidatedClass.validatedClasses = /* @__PURE__ */ new Set();
-_BaseValidatedClass.validationErrors = /* @__PURE__ */ new Map();
-var BaseValidatedClass = _BaseValidatedClass;
+_BaseValidatedClass$1.validatedClasses = /* @__PURE__ */ new Set();
+_BaseValidatedClass$1.validationErrors = /* @__PURE__ */ new Map();
+var BaseValidatedClass$1 = _BaseValidatedClass$1;
 var BlockCompositionType = /* @__PURE__ */ ((BlockCompositionType2) => {
   BlockCompositionType2["BLOCK"] = "BLOCK";
   BlockCompositionType2["CONTAINER"] = "CONTAINER";
@@ -64,9 +64,9 @@ var BlockCompositionType = /* @__PURE__ */ ((BlockCompositionType2) => {
   BlockCompositionType2["STRIPE"] = "STRIPE";
   return BlockCompositionType2;
 })(BlockCompositionType || {});
-var _Block = class _Block2 extends BaseValidatedClass {
+var _Block$1 = class _Block extends BaseValidatedClass$1 {
   constructor() {
-    super(_Block2.REQUIRED_METHODS, _Block2);
+    super(_Block.REQUIRED_METHODS, _Block);
   }
   /**
    * Determines if the block should be available for use in the editor.
@@ -185,6 +185,14 @@ var _Block = class _Block2 extends BaseValidatedClass {
   allowInnerBlocksDND() {
     return true;
   }
+  /**
+   * Determines whether standard image blocks nested anywhere inside this extension block
+   * expose the on-canvas resize control.
+   * @returns True to allow nested image resize. Defaults to true.
+   */
+  isNestedImageResizeEnabled() {
+    return true;
+  }
   allowInteractWithAMPWhenSelected() {
     return true;
   }
@@ -246,11 +254,11 @@ var _Block = class _Block2 extends BaseValidatedClass {
     throw new Error("Method getDescription() must be implemented by the subclass");
   }
 };
-_Block.REQUIRED_METHODS = ["getId", "getTemplate", "getIcon", "getName", "getDescription"];
-var Block = _Block;
-var _BlockRenderer = class _BlockRenderer2 extends BaseValidatedClass {
+_Block$1.REQUIRED_METHODS = ["getId", "getTemplate", "getIcon", "getName", "getDescription"];
+var Block$1 = _Block$1;
+var _BlockRenderer$1 = class _BlockRenderer extends BaseValidatedClass$1 {
   constructor() {
-    super(_BlockRenderer2.REQUIRED_METHODS, _BlockRenderer2);
+    super(_BlockRenderer.REQUIRED_METHODS, _BlockRenderer);
   }
   /**
    * @deprecated - use {@link getPreviewInnerHtml} instead
@@ -265,8 +273,8 @@ var _BlockRenderer = class _BlockRenderer2 extends BaseValidatedClass {
     throw new Error("Method getPreviewInnerHtml() must be implemented by the subclass");
   }
 };
-_BlockRenderer.REQUIRED_METHODS = ["getPreviewInnerHtml"];
-var BlockRenderer = _BlockRenderer;
+_BlockRenderer$1.REQUIRED_METHODS = ["getPreviewInnerHtml"];
+var BlockRenderer = _BlockRenderer$1;
 var BlocksPanel = class {
   /**
    * Generates HTML representation for a block item
@@ -348,9 +356,9 @@ var BlocksPanel = class {
     return void 0;
   }
 };
-var _ContextAction = class _ContextAction2 extends BaseValidatedClass {
+var _ContextAction$1 = class _ContextAction extends BaseValidatedClass$1 {
   constructor() {
-    super(_ContextAction2.REQUIRED_METHODS, _ContextAction2);
+    super(_ContextAction.REQUIRED_METHODS, _ContextAction);
   }
   getId() {
     throw new Error("Method getId() must be implemented by the subclass");
@@ -365,8 +373,8 @@ var _ContextAction = class _ContextAction2 extends BaseValidatedClass {
     throw new Error("Method onClick() must be implemented by the subclass");
   }
 };
-_ContextAction.REQUIRED_METHODS = ["getId", "getIcon", "getLabel", "onClick"];
-var ContextAction = _ContextAction;
+_ContextAction$1.REQUIRED_METHODS = ["getId", "getIcon", "getLabel", "onClick"];
+var ContextAction = _ContextAction$1;
 var ADD_CUSTOM_FONT_OPTION = "ADD_CUSTOM_FONT_OPTION";
 var containerAttributes = {
   widthPercent: "width-percent"
@@ -391,37 +399,37 @@ var BlockAttr = {
   BLOCK_IMAGE: imageAttributes,
   BLOCK_BUTTON: buttonAttributes
 };
-var ESD_BLOCK_BUTTON = "esd-block-button";
-var ESD_BLOCK_TEXT = "esd-block-text";
-var ESD_BLOCK_IMAGE = "esd-block-image";
-var ESD_BLOCK_STRUCTURE = "esd-structure";
-var ESD_BLOCK_VIDEO = "esd-block-video";
-var ESD_BLOCK_SOCIAL = "esd-block-social";
-var ESD_BLOCK_BANNER = "esd-block-banner";
-var ESD_BLOCK_TIMER = "esd-block-timer";
-var ESD_BLOCK_MENU = "esd-block-menu";
-var ESD_BLOCK_HTML = "esd-block-html";
-var ESD_BLOCK_SPACER = "esd-block-spacer";
-var ESD_BLOCK_CONTAINER = "esd-container-frame";
-var ESD_BLOCK_STRIPE = "esd-stripe";
-var ESD_BLOCK_FORM = "esd-amp-form";
-var BlockSelector = ((BlockSelector2) => {
-  BlockSelector2["BUTTON"] = `.${ESD_BLOCK_BUTTON}`;
-  BlockSelector2["TEXT"] = `.${ESD_BLOCK_TEXT}`;
-  BlockSelector2["IMAGE"] = `.${ESD_BLOCK_IMAGE}`;
-  BlockSelector2["STRUCTURE"] = `.${ESD_BLOCK_STRUCTURE}`;
-  BlockSelector2["VIDEO"] = `.${ESD_BLOCK_VIDEO}`;
-  BlockSelector2["SOCIAL"] = `.${ESD_BLOCK_SOCIAL}`;
-  BlockSelector2["BANNER"] = `.${ESD_BLOCK_BANNER}`;
-  BlockSelector2["TIMER"] = `.${ESD_BLOCK_TIMER}`;
-  BlockSelector2["MENU"] = `.${ESD_BLOCK_MENU}`;
-  BlockSelector2["HTML"] = `.${ESD_BLOCK_HTML}`;
-  BlockSelector2["SPACER"] = `.${ESD_BLOCK_SPACER}`;
-  BlockSelector2["CONTAINER"] = `.${ESD_BLOCK_CONTAINER}`;
-  BlockSelector2["STRIPE"] = `.${ESD_BLOCK_STRIPE}`;
-  BlockSelector2["FORM"] = `.${ESD_BLOCK_FORM}`;
+var ESD_BLOCK_BUTTON$1 = "esd-block-button";
+var ESD_BLOCK_TEXT$1 = "esd-block-text";
+var ESD_BLOCK_IMAGE$1 = "esd-block-image";
+var ESD_BLOCK_STRUCTURE$1 = "esd-structure";
+var ESD_BLOCK_VIDEO$1 = "esd-block-video";
+var ESD_BLOCK_SOCIAL$1 = "esd-block-social";
+var ESD_BLOCK_BANNER$1 = "esd-block-banner";
+var ESD_BLOCK_TIMER$1 = "esd-block-timer";
+var ESD_BLOCK_MENU$1 = "esd-block-menu";
+var ESD_BLOCK_HTML$1 = "esd-block-html";
+var ESD_BLOCK_SPACER$1 = "esd-block-spacer";
+var ESD_BLOCK_CONTAINER$1 = "esd-container-frame";
+var ESD_BLOCK_STRIPE$1 = "esd-stripe";
+var ESD_BLOCK_FORM$1 = "esd-amp-form";
+var BlockSelector$1 = ((BlockSelector2) => {
+  BlockSelector2["BUTTON"] = `.${ESD_BLOCK_BUTTON$1}`;
+  BlockSelector2["TEXT"] = `.${ESD_BLOCK_TEXT$1}`;
+  BlockSelector2["IMAGE"] = `.${ESD_BLOCK_IMAGE$1}`;
+  BlockSelector2["STRUCTURE"] = `.${ESD_BLOCK_STRUCTURE$1}`;
+  BlockSelector2["VIDEO"] = `.${ESD_BLOCK_VIDEO$1}`;
+  BlockSelector2["SOCIAL"] = `.${ESD_BLOCK_SOCIAL$1}`;
+  BlockSelector2["BANNER"] = `.${ESD_BLOCK_BANNER$1}`;
+  BlockSelector2["TIMER"] = `.${ESD_BLOCK_TIMER$1}`;
+  BlockSelector2["MENU"] = `.${ESD_BLOCK_MENU$1}`;
+  BlockSelector2["HTML"] = `.${ESD_BLOCK_HTML$1}`;
+  BlockSelector2["SPACER"] = `.${ESD_BLOCK_SPACER$1}`;
+  BlockSelector2["CONTAINER"] = `.${ESD_BLOCK_CONTAINER$1}`;
+  BlockSelector2["STRIPE"] = `.${ESD_BLOCK_STRIPE$1}`;
+  BlockSelector2["FORM"] = `.${ESD_BLOCK_FORM$1}`;
   return BlockSelector2;
-})(BlockSelector || {});
+})(BlockSelector$1 || {});
 var BlockType = /* @__PURE__ */ ((BlockType2) => {
   BlockType2["BLOCK_IMAGE"] = "BLOCK_IMAGE";
   BlockType2["BLOCK_TEXT"] = "BLOCK_TEXT";
@@ -641,43 +649,43 @@ var ThemeMode = /* @__PURE__ */ ((ThemeMode2) => {
   ThemeMode2["DARK"] = "DARK";
   return ThemeMode2;
 })(ThemeMode || {});
-var UIElementAttributes = {
+var UIElementAttributes$1 = {
   name: "name",
   disabled: "disabled"
 };
 var buttonAttributes2 = {
-  ...UIElementAttributes,
+  ...UIElementAttributes$1,
   caption: "caption",
   icon: "icon"
 };
 var checkBoxAttributes = {
-  ...UIElementAttributes,
+  ...UIElementAttributes$1,
   caption: "caption"
 };
 var counterAttributes = {
-  ...UIElementAttributes,
+  ...UIElementAttributes$1,
   minValue: "min-value",
   maxValue: "max-value",
   step: "step"
 };
 var datePickerAttributes = {
-  ...UIElementAttributes
+  ...UIElementAttributes$1
 };
 var labelAttributes = {
-  ...UIElementAttributes,
+  ...UIElementAttributes$1,
   text: "text"
 };
 var messageAttributes = {
-  ...UIElementAttributes,
+  ...UIElementAttributes$1,
   type: "type",
   icon: "icon"
 };
 var radioButtonsAttributes = {
-  ...UIElementAttributes,
+  ...UIElementAttributes$1,
   buttons: "buttons"
 };
 var selectAttributes = {
-  ...UIElementAttributes,
+  ...UIElementAttributes$1,
   multiSelect: "multi-select",
   placeholder: "placeholder",
   items: "items"
@@ -696,17 +704,17 @@ var checkItemAttributes = {
   value: "value"
 };
 var checkButtonsAttributes = {
-  ...UIElementAttributes
+  ...UIElementAttributes$1
 };
 var radioItemAttributes = {
-  ...UIElementAttributes,
+  ...UIElementAttributes$1,
   text: "text",
   hint: "hint",
   icon: "icon",
   value: "value"
 };
 var textAttributes = {
-  ...UIElementAttributes,
+  ...UIElementAttributes$1,
   placeholder: "placeholder"
 };
 var richTextAttributes = {
@@ -716,19 +724,19 @@ var richTextAttributes = {
   singleLine: "single-line"
 };
 var textAreaAttributes = {
-  ...UIElementAttributes,
+  ...UIElementAttributes$1,
   placeholder: "placeholder"
 };
 var nestedControlAttributes = {
-  ...UIElementAttributes,
+  ...UIElementAttributes$1,
   controlId: "control-id"
 };
 var expandableAttributes = {
-  ...UIElementAttributes,
+  ...UIElementAttributes$1,
   expanded: "expanded"
 };
 var orderableAttributes = {
-  ...UIElementAttributes,
+  ...UIElementAttributes$1,
   icon: "icon",
   position: "position"
 };
@@ -736,22 +744,25 @@ var orderableIconAttributes = {
   icon: "icon"
 };
 var repeatableAttributes = {
-  ...UIElementAttributes
+  ...UIElementAttributes$1
 };
-var draggableBlockAttributes = {
-  ...UIElementAttributes,
+var draggableBlockAttributes$1 = {
+  ...UIElementAttributes$1,
   blockId: "block-id"
 };
+var ampFormServicePickerAttributes = {
+  ...UIElementAttributes$1
+};
 var MultipleSelectAttributes = {
-  ...UIElementAttributes,
+  ...UIElementAttributes$1,
   placeholder: "placeholder"
 };
-var UEAttr = {
-  DEFAULT: UIElementAttributes,
+var UEAttr$1 = {
+  DEFAULT: UIElementAttributes$1,
   BUTTON: buttonAttributes2,
   CHECKBOX: checkBoxAttributes,
   CHECK_BUTTONS: checkButtonsAttributes,
-  COLOR: UIElementAttributes,
+  COLOR: UIElementAttributes$1,
   COUNTER: counterAttributes,
   DATEPICKER: datePickerAttributes,
   LABEL: labelAttributes,
@@ -759,7 +770,7 @@ var UEAttr = {
   RADIO_BUTTONS: radioButtonsAttributes,
   SELECTPICKER: selectAttributes,
   FONT_FAMILY_SELECT: fontFamilySelectAttributes,
-  SWITCHER: UIElementAttributes,
+  SWITCHER: UIElementAttributes$1,
   TEXT: textAttributes,
   RICH_TEXT: richTextAttributes,
   TEXTAREA: textAreaAttributes,
@@ -771,10 +782,11 @@ var UEAttr = {
   ORDERABLE: orderableAttributes,
   ORDERABLE_ICON: orderableIconAttributes,
   REPEATABLE: repeatableAttributes,
-  DRAGGABLE_BLOCK: draggableBlockAttributes,
+  DRAGGABLE_BLOCK: draggableBlockAttributes$1,
+  AMP_FORM_SERVICE_PICKER: ampFormServicePickerAttributes,
   MULTIPLE_SELECT: MultipleSelectAttributes
 };
-var UIElementType = /* @__PURE__ */ ((UIElementType2) => {
+var UIElementType$1 = /* @__PURE__ */ ((UIElementType2) => {
   UIElementType2["BUTTON"] = "UE-BUTTON";
   UIElementType2["CHECKBOX"] = "UE-CHECKBOX";
   UIElementType2["CHECK_BUTTONS"] = "UE-CHECK-BUTTONS";
@@ -809,7 +821,7 @@ var UIElementType = /* @__PURE__ */ ((UIElementType2) => {
   UIElementType2["SCROLLABLE"] = "UE-SCROLLABLE-CONTAINER";
   UIElementType2["POPUP_PANEL"] = "UE-POPUP-PANEL";
   return UIElementType2;
-})(UIElementType || {});
+})(UIElementType$1 || {});
 var BuiltInControl = class {
   /**
    * @description returns map of nodes parent control operates on
@@ -856,8 +868,8 @@ var BuiltInControl = class {
 };
 var ButtonBuiltInControl = class extends BuiltInControl {
   getTargetNodes(root) {
-    const buttons = root.querySelectorAll(BlockSelector.BUTTON);
-    const button = root.asElement().hasClass(ESD_BLOCK_BUTTON) ? [root] : [];
+    const buttons = root.querySelectorAll(BlockSelector$1.BUTTON);
+    const button = root.asElement().hasClass(ESD_BLOCK_BUTTON$1) ? [root] : [];
     return buttons.length ? buttons : button;
   }
 };
@@ -1013,8 +1025,8 @@ var ButtonVisibilityBuiltInControl = class extends ButtonBuiltInControl {
 };
 var ContainerBuiltInControl = class extends BuiltInControl {
   getTargetNodes(root) {
-    const containers = root.querySelectorAll(BlockSelector.CONTAINER);
-    const container = root.asElement().hasClass(ESD_BLOCK_CONTAINER) ? [root] : [];
+    const containers = root.querySelectorAll(BlockSelector$1.CONTAINER);
+    const container = root.asElement().hasClass(ESD_BLOCK_CONTAINER$1) ? [root] : [];
     return containers.length ? containers : container;
   }
 };
@@ -1064,9 +1076,9 @@ var ContainerVisibilityBuiltInControl = class extends ContainerBuiltInControl {
     ].HIDDEN_NODE;
   }
 };
-var _Control = class _Control2 extends BaseValidatedClass {
+var _Control$1 = class _Control extends BaseValidatedClass$1 {
   constructor() {
-    super(_Control2.REQUIRED_METHODS, _Control2);
+    super(_Control.REQUIRED_METHODS, _Control);
   }
   /**
    * @description Allows to determine if control should be visible or hidden in control panel.
@@ -1129,11 +1141,11 @@ var _Control = class _Control2 extends BaseValidatedClass {
     return "content";
   }
 };
-_Control.REQUIRED_METHODS = ["getId", "getTemplate"];
-var Control = _Control;
-var _GeneralPanelTab = class _GeneralPanelTab2 extends BaseValidatedClass {
+_Control$1.REQUIRED_METHODS = ["getId", "getTemplate"];
+var Control = _Control$1;
+var _GeneralPanelTab$1 = class _GeneralPanelTab extends BaseValidatedClass$1 {
   constructor() {
-    super(_GeneralPanelTab2.REQUIRED_METHODS, _GeneralPanelTab2);
+    super(_GeneralPanelTab.REQUIRED_METHODS, _GeneralPanelTab);
   }
   /**
    * Gets the unique identifier for this tab.
@@ -1200,12 +1212,12 @@ var _GeneralPanelTab = class _GeneralPanelTab2 extends BaseValidatedClass {
   onDestroy() {
   }
 };
-_GeneralPanelTab.REQUIRED_METHODS = ["getId", "getIcon", "getName", "getTemplate", "getTabIndex"];
-var GeneralPanelTab = _GeneralPanelTab;
+_GeneralPanelTab$1.REQUIRED_METHODS = ["getId", "getIcon", "getName", "getTemplate", "getTabIndex"];
+var GeneralPanelTab = _GeneralPanelTab$1;
 var ImageBuiltInControl = class extends BuiltInControl {
   getTargetNodes(root) {
-    const images = root.querySelectorAll(BlockSelector.IMAGE);
-    const image = root.asElement().hasClass(ESD_BLOCK_IMAGE) ? [root] : [];
+    const images = root.querySelectorAll(BlockSelector$1.IMAGE);
+    const image = root.asElement().hasClass(ESD_BLOCK_IMAGE$1) ? [root] : [];
     return images.length ? images : image;
   }
 };
@@ -1238,9 +1250,9 @@ var ImageVisibilityBuiltInControl = class extends ImageBuiltInControl {
     return BuiltInControlTypes.GENERAL.HIDDEN_NODE;
   }
 };
-var _ModulesPanelTab = class _ModulesPanelTab2 extends BaseValidatedClass {
+var _ModulesPanelTab$1 = class _ModulesPanelTab extends BaseValidatedClass$1 {
   constructor() {
-    super(_ModulesPanelTab2.REQUIRED_METHODS, _ModulesPanelTab2);
+    super(_ModulesPanelTab.REQUIRED_METHODS, _ModulesPanelTab);
   }
   /**
    * Gets the unique identifier for this tab.
@@ -1302,18 +1314,18 @@ var _ModulesPanelTab = class _ModulesPanelTab2 extends BaseValidatedClass {
   onDocumentChanged() {
   }
 };
-_ModulesPanelTab.REQUIRED_METHODS = ["getId", "getIcon", "getName", "getTemplate", "getTabIndex"];
-var ModulesPanelTab = _ModulesPanelTab;
-var _SettingsPanelRegistry = class _SettingsPanelRegistry2 extends BaseValidatedClass {
+_ModulesPanelTab$1.REQUIRED_METHODS = ["getId", "getIcon", "getName", "getTemplate", "getTabIndex"];
+var ModulesPanelTab$1 = _ModulesPanelTab$1;
+var _SettingsPanelRegistry$1 = class _SettingsPanelRegistry extends BaseValidatedClass$1 {
   constructor() {
-    super(_SettingsPanelRegistry2.REQUIRED_METHODS, _SettingsPanelRegistry2);
+    super(_SettingsPanelRegistry.REQUIRED_METHODS, _SettingsPanelRegistry);
   }
   registerBlockControls(_blockControlsMap) {
     throw new Error("Method registerBlockControls() must be implemented by the subclass");
   }
 };
-_SettingsPanelRegistry.REQUIRED_METHODS = ["registerBlockControls"];
-var SettingsPanelRegistry = _SettingsPanelRegistry;
+_SettingsPanelRegistry$1.REQUIRED_METHODS = ["registerBlockControls"];
+var SettingsPanelRegistry = _SettingsPanelRegistry$1;
 var SettingsPanelTab = class _SettingsPanelTab {
   constructor(tabId, controls2) {
     this.tabId = tabId;
@@ -1367,8 +1379,8 @@ var SettingsPanelTab = class _SettingsPanelTab {
 };
 var SpacerBuildInControl = class extends BuiltInControl {
   getTargetNodes(root) {
-    const spacers = root.querySelectorAll(BlockSelector.SPACER);
-    const spacer = root.asElement().hasClass(ESD_BLOCK_SPACER) ? [root] : [];
+    const spacers = root.querySelectorAll(BlockSelector$1.SPACER);
+    const spacer = root.asElement().hasClass(ESD_BLOCK_SPACER$1) ? [root] : [];
     return spacers.length ? spacers : spacer;
   }
 };
@@ -1390,8 +1402,8 @@ var SpacerMarginsBuiltInControl = class extends SpacerBuildInControl {
 };
 var StructureBuiltInControl = class extends BuiltInControl {
   getTargetNodes(root) {
-    const structures = root.querySelectorAll(BlockSelector.STRUCTURE);
-    const structure = root.asElement().hasClass(ESD_BLOCK_STRUCTURE) ? [root] : [];
+    const structures = root.querySelectorAll(BlockSelector$1.STRUCTURE);
+    const structure = root.asElement().hasClass(ESD_BLOCK_STRUCTURE$1) ? [root] : [];
     return structures.length ? structures : structure;
   }
 };
@@ -1456,8 +1468,8 @@ var StructureVisibilityBuiltInControl = class extends StructureBuiltInControl {
 };
 var TextBuiltInControl = class extends BuiltInControl {
   getTargetNodes(root) {
-    const texts = root.querySelectorAll(BlockSelector.TEXT);
-    const text = root.asElement().hasClass(ESD_BLOCK_TEXT) ? [root] : [];
+    const texts = root.querySelectorAll(BlockSelector$1.TEXT);
+    const text = root.asElement().hasClass(ESD_BLOCK_TEXT$1) ? [root] : [];
     return texts.length ? texts : text;
   }
 };
@@ -1736,18 +1748,18 @@ var ExtensionBuilder = class {
     });
   }
 };
-var _ExternalAiAssistant = class _ExternalAiAssistant2 extends BaseValidatedClass {
+var _ExternalAiAssistant$1 = class _ExternalAiAssistant extends BaseValidatedClass$1 {
   constructor() {
-    super(_ExternalAiAssistant2.REQUIRED_METHODS, _ExternalAiAssistant2);
+    super(_ExternalAiAssistant.REQUIRED_METHODS, _ExternalAiAssistant);
   }
   openAiAssistant(_options) {
     throw new Error("Method openAiAssistant() must be implemented by the subclass");
   }
 };
-_ExternalAiAssistant.REQUIRED_METHODS = ["openAiAssistant"];
-var _ExternalDisplayConditionsLibrary = class _ExternalDisplayConditionsLibrary2 extends BaseValidatedClass {
+_ExternalAiAssistant$1.REQUIRED_METHODS = ["openAiAssistant"];
+var _ExternalDisplayConditionsLibrary$1 = class _ExternalDisplayConditionsLibrary extends BaseValidatedClass$1 {
   constructor() {
-    super(_ExternalDisplayConditionsLibrary2.REQUIRED_METHODS, _ExternalDisplayConditionsLibrary2);
+    super(_ExternalDisplayConditionsLibrary.REQUIRED_METHODS, _ExternalDisplayConditionsLibrary);
   }
   /**
    * Retrieves the name of the category.
@@ -1785,20 +1797,20 @@ var _ExternalDisplayConditionsLibrary = class _ExternalDisplayConditionsLibrary2
     throw new Error("Method getContextActionIndex() must be implemented by the subclass");
   }
 };
-_ExternalDisplayConditionsLibrary.REQUIRED_METHODS = ["getCategoryName", "openExternalDisplayConditionsDialog"];
-var ExternalDisplayConditionsLibrary = _ExternalDisplayConditionsLibrary;
-var _ExternalImageLibrary = class _ExternalImageLibrary2 extends BaseValidatedClass {
+_ExternalDisplayConditionsLibrary$1.REQUIRED_METHODS = ["getCategoryName", "openExternalDisplayConditionsDialog"];
+var ExternalDisplayConditionsLibrary = _ExternalDisplayConditionsLibrary$1;
+var _ExternalImageLibrary$1 = class _ExternalImageLibrary extends BaseValidatedClass$1 {
   constructor() {
-    super(_ExternalImageLibrary2.REQUIRED_METHODS, _ExternalImageLibrary2);
+    super(_ExternalImageLibrary.REQUIRED_METHODS, _ExternalImageLibrary);
   }
   openImageLibrary(_currentImageUrl, _onImageSelectCallback, _onCancelCallback) {
     throw new Error("Method openImageLibrary() must be implemented by the subclass");
   }
 };
-_ExternalImageLibrary.REQUIRED_METHODS = ["openImageLibrary"];
-var _ExternalImageLibraryTab = class _ExternalImageLibraryTab2 extends BaseValidatedClass {
+_ExternalImageLibrary$1.REQUIRED_METHODS = ["openImageLibrary"];
+var _ExternalImageLibraryTab$1 = class _ExternalImageLibraryTab extends BaseValidatedClass$1 {
   constructor() {
-    super(_ExternalImageLibraryTab2.REQUIRED_METHODS, _ExternalImageLibraryTab2);
+    super(_ExternalImageLibraryTab.REQUIRED_METHODS, _ExternalImageLibraryTab);
   }
   /**
    * @description Returns the translated name/label for the tab
@@ -1817,43 +1829,74 @@ var _ExternalImageLibraryTab = class _ExternalImageLibraryTab2 extends BaseValid
     throw new Error("Method openImageLibraryTab() must be implemented by the subclass");
   }
 };
-_ExternalImageLibraryTab.REQUIRED_METHODS = ["getName", "openImageLibraryTab"];
-var ExternalImageLibraryTab = _ExternalImageLibraryTab;
-var _ExternalSmartElementsLibrary = class _ExternalSmartElementsLibrary2 extends BaseValidatedClass {
+_ExternalImageLibraryTab$1.REQUIRED_METHODS = ["getName", "openImageLibraryTab"];
+var ExternalImageLibraryTab = _ExternalImageLibraryTab$1;
+var _ExternalSmartElementsLibrary$1 = class _ExternalSmartElementsLibrary extends BaseValidatedClass$1 {
   constructor() {
-    super(_ExternalSmartElementsLibrary2.REQUIRED_METHODS, _ExternalSmartElementsLibrary2);
+    super(_ExternalSmartElementsLibrary.REQUIRED_METHODS, _ExternalSmartElementsLibrary);
   }
   openSmartElementsLibrary(_onDataSelectCallback, _onCancelCallback) {
     throw new Error("Method openSmartElementsLibrary() must be implemented by the subclass");
   }
 };
-_ExternalSmartElementsLibrary.REQUIRED_METHODS = ["openSmartElementsLibrary"];
-var _ExternalVideosLibrary = class _ExternalVideosLibrary2 extends BaseValidatedClass {
+_ExternalSmartElementsLibrary$1.REQUIRED_METHODS = ["openSmartElementsLibrary"];
+var _ExternalVideosLibrary$1 = class _ExternalVideosLibrary extends BaseValidatedClass$1 {
   constructor() {
-    super(_ExternalVideosLibrary2.REQUIRED_METHODS, _ExternalVideosLibrary2);
+    super(_ExternalVideosLibrary.REQUIRED_METHODS, _ExternalVideosLibrary);
   }
   openExternalVideosLibraryDialog(_currentValue, _successCallback, _cancelCallback) {
     throw new Error("Method openExternalVideosLibraryDialog() must be implemented by the subclass");
   }
 };
-_ExternalVideosLibrary.REQUIRED_METHODS = ["openExternalVideosLibraryDialog"];
-var _IconsRegistry = class _IconsRegistry2 extends BaseValidatedClass {
+_ExternalVideosLibrary$1.REQUIRED_METHODS = ["openExternalVideosLibraryDialog"];
+var _IconsRegistry$1 = class _IconsRegistry extends BaseValidatedClass$1 {
   constructor() {
-    super(_IconsRegistry2.REQUIRED_METHODS, _IconsRegistry2);
+    super(_IconsRegistry.REQUIRED_METHODS, _IconsRegistry);
   }
   registerIconsSvg(_iconsMap) {
     throw new Error("Method registerIconsSvg() must be implemented by the subclass");
   }
 };
-_IconsRegistry.REQUIRED_METHODS = ["registerIconsSvg"];
-var IconsRegistry = _IconsRegistry;
+_IconsRegistry$1.REQUIRED_METHODS = ["registerIconsSvg"];
+var IconsRegistry = _IconsRegistry$1;
 var ModificationDescription = class {
   constructor(key) {
+    this.hidden = false;
     this.key = key;
   }
   withParams(params) {
     this.params = params;
     return this;
+  }
+  /**
+   * Marks the modification as a background change.
+   *
+   * @description
+   * The modification is applied to the template as usual, but the patch it produces is kept out of
+   * the version history UI and out of undo/redo, so the user never sees (nor can accidentally undo)
+   * a change they did not make. The change still belongs to the document, so restoring an older
+   * version keeps it consistent with the rest of the template.
+   *
+   * The patch is saved like any other, but the host application is not notified about it: the
+   * `onDataChanged` callback stays silent for background modifications. Do not rely on it to track
+   * changes an extension makes this way.
+   *
+   * @summary Hides the modification from version history and undo/redo.
+   *
+   * @param hidden - Pass false to keep the modification visible. Defaults to true.
+   * @returns The current ModificationDescription instance for method chaining.
+   */
+  asHidden(hidden = true) {
+    this.hidden = hidden;
+    return this;
+  }
+  /**
+   * Tells whether the modification was marked as a background change via {@link asHidden}.
+   *
+   * @returns True when the produced patch must stay out of version history and undo/redo.
+   */
+  isHidden() {
+    return this.hidden;
   }
   getValue() {
     return {
@@ -1862,9 +1905,9 @@ var ModificationDescription = class {
     };
   }
 };
-var _UIElement = class _UIElement2 extends BaseValidatedClass {
+var _UIElement$1 = class _UIElement extends BaseValidatedClass$1 {
   constructor() {
-    super(_UIElement2.REQUIRED_METHODS, _UIElement2);
+    super(_UIElement.REQUIRED_METHODS, _UIElement);
   }
   /**
    * Called when the UI element should render its content into the provided container.
@@ -1917,18 +1960,107 @@ var _UIElement = class _UIElement2 extends BaseValidatedClass {
     throw new Error("Method getTemplate() must be implemented by the subclass");
   }
 };
-_UIElement.REQUIRED_METHODS = ["onRender", "getId", "getTemplate"];
-var UIElement = _UIElement;
-var _UIElementTagRegistry = class _UIElementTagRegistry2 extends BaseValidatedClass {
+_UIElement$1.REQUIRED_METHODS = ["onRender", "getId", "getTemplate"];
+var UIElement$1 = _UIElement$1;
+var _UIElementTagRegistry$1 = class _UIElementTagRegistry extends BaseValidatedClass$1 {
   constructor() {
-    super(_UIElementTagRegistry2.REQUIRED_METHODS, _UIElementTagRegistry2);
+    super(_UIElementTagRegistry.REQUIRED_METHODS, _UIElementTagRegistry);
   }
   registerUiElements(_uiElementsTagsMap) {
     throw new Error("Method registerUiElements() must be implemented by the subclass");
   }
 };
-_UIElementTagRegistry.REQUIRED_METHODS = ["registerUiElements"];
-var UIElementTagRegistry = _UIElementTagRegistry;
+_UIElementTagRegistry$1.REQUIRED_METHODS = ["registerUiElements"];
+var UIElementTagRegistry = _UIElementTagRegistry$1;
+const BLOCK_ID$p = "amp-data-service-widget-extension";
+const CONTROL_ID$f = "amp-data-service-widget-control";
+function getServiceUrl(nodeConfig) {
+  return nodeConfig?.jsonConfig?.amp_service_url;
+}
+function getWidgetNodeConfig(serviceUrl = "") {
+  return {
+    jsonConfig: {
+      amp_service_url: serviceUrl
+    }
+  };
+}
+function getWidgetMarkup(serviceUrl = "") {
+  return `
+    <table width="100%" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr class="es-visible-amp-html-only">
+          <td align="left">
+            <form class="e2e-widget-amp-form" method="post" action-xhr="${serviceUrl}">
+              <button type="submit">Send AMP</button>
+            </form>
+          </td>
+        </tr>
+        <tr class="es-visible-simple-html-only">
+          <td align="left">
+            <form class="e2e-widget-html-form" method="post" action="${serviceUrl}">
+              <button type="submit">Send HTML</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+}
+class AmpDataServiceWidgetPanelRegistry extends SettingsPanelRegistry {
+  registerBlockControls(controls2) {
+    controls2[BLOCK_ID$p] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$f])];
+  }
+}
+class AmpDataServiceWidgetControl extends Control {
+  getId() {
+    return CONTROL_ID$f;
+  }
+  getTemplate() {
+    return `
+      <div class="container e2e-widget-data-service-control">
+        <${UIElementType$1.AMP_FORM_SERVICE_PICKER} ${UEAttr$1.AMP_FORM_SERVICE_PICKER.name}="dataService"></${UIElementType$1.AMP_FORM_SERVICE_PICKER}>
+      </div>
+    `;
+  }
+  onRender() {
+    this.api.onValueChanged("dataService", (serviceUrl) => {
+      this.api.getDocumentModifier().modifyHtml(this.node).setAttribute("data-widget-service-url", serviceUrl).setNodeConfig(getWidgetNodeConfig(serviceUrl)).setInnerHtml(getWidgetMarkup(serviceUrl)).apply(new ModificationDescription("Widget data service has been updated"));
+    });
+  }
+  onTemplateNodeUpdated(node) {
+    this.node = node;
+    this.api.updateValues({
+      dataService: getServiceUrl(this.node.getNodeConfig())
+    });
+  }
+}
+class AmpDataServiceWidgetBlock extends Block$1 {
+  getId() {
+    return BLOCK_ID$p;
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.BLOCK;
+  }
+  getIcon() {
+    return "data";
+  }
+  getName() {
+    return this.api.translate("AMP Data Service Widget");
+  }
+  getDescription() {
+    return this.api.translate("Widget with AMP data service control");
+  }
+  getTemplate() {
+    return `<td class="e2e-amp-data-service-widget">${getWidgetMarkup()}</td>`;
+  }
+  isEnabled() {
+    return true;
+  }
+  onCreated(node) {
+    this.api.getDocumentModifier().modifyHtml(node).setNodeConfig(getWidgetNodeConfig()).apply(new ModificationDescription("Initialized widget data service config"));
+  }
+}
+const ampDataServiceWidget = new ExtensionBuilder().addControl(AmpDataServiceWidgetControl).withSettingsPanelRegistry(AmpDataServiceWidgetPanelRegistry).addBlock(AmpDataServiceWidgetBlock).build();
 const IMAGE_BLOCK_ID = "atomic-block-image-alias-extension";
 const TEXT_BLOCK_ID$1 = "atomic-block-text-alias-extension";
 let PanelRegistry$P = class PanelRegistry extends SettingsPanelRegistry {
@@ -1938,7 +2070,7 @@ let PanelRegistry$P = class PanelRegistry extends SettingsPanelRegistry {
     ];
   }
 };
-class AtomicBlockImageAlias extends Block {
+class AtomicBlockImageAlias extends Block$1 {
   getId() {
     return IMAGE_BLOCK_ID;
   }
@@ -1959,7 +2091,7 @@ class AtomicBlockImageAlias extends Block {
     return `<${BlockType.BLOCK_IMAGE} ${attrs.src}="src.jpg" ${attrs.alt}="alt" style="border: 2px solid blueviolet;"></${BlockType.BLOCK_IMAGE}>`;
   }
 }
-class AtomicBlockTextAlias extends Block {
+class AtomicBlockTextAlias extends Block$1 {
   getId() {
     return TEXT_BLOCK_ID$1;
   }
@@ -1992,7 +2124,7 @@ let StructureExtensionControl$1 = class StructureExtensionControl extends Struct
     };
   }
 };
-let StructureExtensionBlock$1 = class StructureExtensionBlock extends Block {
+let StructureExtensionBlock$1 = class StructureExtensionBlock extends Block$1 {
   getId() {
     return BLOCK_ID$o;
   }
@@ -2059,7 +2191,7 @@ const VISIBLE_ICON_SRC = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3
 const HIDDEN_ICON_SRC = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMSIgaGVpZ2h0PSIxMSI+PC9zdmc+";
 const VISIBLE_BLOCK_ID = "blocks-panel-legacy-visible";
 const HIDDEN_BLOCK_ID = "blocks-panel-hidden";
-class BlocksPanelHiddenBlock extends Block {
+class BlocksPanelHiddenBlock extends Block$1 {
   getId() {
     return HIDDEN_BLOCK_ID;
   }
@@ -2079,7 +2211,7 @@ class BlocksPanelHiddenBlock extends Block {
     return "<td>Hidden blocks panel extension</td>";
   }
 }
-class BlocksPanelLegacyVisibleBlock extends Block {
+class BlocksPanelLegacyVisibleBlock extends Block$1 {
   constructor() {
     super();
     this.shouldDisplayInBlocksPanel = void 0;
@@ -2102,7 +2234,7 @@ class BlocksPanelLegacyVisibleBlock extends Block {
 }
 const blocksPanelVisibility = new ExtensionBuilder().addBlock(BlocksPanelLegacyVisibleBlock).addBlock(BlocksPanelHiddenBlock).build();
 const BUTTON_ID$2 = "button-id";
-class BlockExtensionButton extends Block {
+class BlockExtensionButton extends Block$1 {
   getId() {
     return BUTTON_ID$2;
   }
@@ -2169,7 +2301,7 @@ const incrementCount = (callbackName) => {
   counts[callbackName] += 1;
   return counts[callbackName];
 };
-class BlockExtensionCallbackLifecycle extends Block {
+class BlockExtensionCallbackLifecycle extends Block$1 {
   getId() {
     return BLOCK_ID$n;
   }
@@ -2340,18 +2472,18 @@ function requireCjs() {
     VideoControls: () => VideoControls
   });
   cjs = __toCommonJS(index_exports);
-  var _BaseValidatedClass3 = class _BaseValidatedClass4 {
+  var _BaseValidatedClass4 = class _BaseValidatedClass5 {
     /**
      * Validates that all required methods are properly implemented in the subclass.
      * @param requiredMethods - Array of method names that must be implemented
      * @param classRef - Reference to the class constructor for validation caching
      */
     constructor(requiredMethods, classRef) {
-      if (classRef !== _BaseValidatedClass4) {
-        if (!_BaseValidatedClass4.validatedClasses.has(classRef)) {
+      if (classRef !== _BaseValidatedClass5) {
+        if (!_BaseValidatedClass5.validatedClasses.has(classRef)) {
           this.validateImplementation(requiredMethods, classRef);
         }
-        const errors = _BaseValidatedClass4.validationErrors.get(classRef);
+        const errors = _BaseValidatedClass5.validationErrors.get(classRef);
         if (errors && errors.length > 0) {
           throw new Error(
             `${classRef.name} has validation errors:
@@ -2378,9 +2510,9 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
           errors.push(`Method ${methodName}() must be implemented (currently using base class error-throwing implementation)`);
         }
       });
-      _BaseValidatedClass4.validatedClasses.add(classRef);
+      _BaseValidatedClass5.validatedClasses.add(classRef);
       if (errors.length > 0) {
-        _BaseValidatedClass4.validationErrors.set(classRef, errors);
+        _BaseValidatedClass5.validationErrors.set(classRef, errors);
         console.error(`[${className} Validation] ${className} validation failed:`, errors);
       } else {
         if (typeof process !== "undefined" && process.env?.NODE_ENV === "development") {
@@ -2396,9 +2528,9 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     destroy() {
     }
   };
-  _BaseValidatedClass3.validatedClasses = /* @__PURE__ */ new Set();
-  _BaseValidatedClass3.validationErrors = /* @__PURE__ */ new Map();
-  var BaseValidatedClass2 = _BaseValidatedClass3;
+  _BaseValidatedClass4.validatedClasses = /* @__PURE__ */ new Set();
+  _BaseValidatedClass4.validationErrors = /* @__PURE__ */ new Map();
+  var BaseValidatedClass2 = _BaseValidatedClass4;
   var BlockCompositionType2 = /* @__PURE__ */ ((BlockCompositionType22) => {
     BlockCompositionType22["BLOCK"] = "BLOCK";
     BlockCompositionType22["CONTAINER"] = "CONTAINER";
@@ -2406,9 +2538,9 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     BlockCompositionType22["STRIPE"] = "STRIPE";
     return BlockCompositionType22;
   })(BlockCompositionType2 || {});
-  var _Block3 = class _Block4 extends BaseValidatedClass2 {
+  var _Block4 = class _Block5 extends BaseValidatedClass2 {
     constructor() {
-      super(_Block4.REQUIRED_METHODS, _Block4);
+      super(_Block5.REQUIRED_METHODS, _Block5);
     }
     /**
      * Determines if the block should be available for use in the editor.
@@ -2527,6 +2659,14 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     allowInnerBlocksDND() {
       return true;
     }
+    /**
+     * Determines whether standard image blocks nested anywhere inside this extension block
+     * expose the on-canvas resize control.
+     * @returns True to allow nested image resize. Defaults to true.
+     */
+    isNestedImageResizeEnabled() {
+      return true;
+    }
     allowInteractWithAMPWhenSelected() {
       return true;
     }
@@ -2588,11 +2728,11 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       throw new Error("Method getDescription() must be implemented by the subclass");
     }
   };
-  _Block3.REQUIRED_METHODS = ["getId", "getTemplate", "getIcon", "getName", "getDescription"];
-  var Block2 = _Block3;
-  var _BlockRenderer3 = class _BlockRenderer4 extends BaseValidatedClass2 {
+  _Block4.REQUIRED_METHODS = ["getId", "getTemplate", "getIcon", "getName", "getDescription"];
+  var Block2 = _Block4;
+  var _BlockRenderer4 = class _BlockRenderer5 extends BaseValidatedClass2 {
     constructor() {
-      super(_BlockRenderer4.REQUIRED_METHODS, _BlockRenderer4);
+      super(_BlockRenderer5.REQUIRED_METHODS, _BlockRenderer5);
     }
     /**
      * @deprecated - use {@link getPreviewInnerHtml} instead
@@ -2607,8 +2747,8 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       throw new Error("Method getPreviewInnerHtml() must be implemented by the subclass");
     }
   };
-  _BlockRenderer3.REQUIRED_METHODS = ["getPreviewInnerHtml"];
-  var BlockRenderer2 = _BlockRenderer3;
+  _BlockRenderer4.REQUIRED_METHODS = ["getPreviewInnerHtml"];
+  var BlockRenderer2 = _BlockRenderer4;
   var BlocksPanel2 = class {
     /**
      * Generates HTML representation for a block item
@@ -2690,9 +2830,9 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       return void 0;
     }
   };
-  var _ContextAction3 = class _ContextAction4 extends BaseValidatedClass2 {
+  var _ContextAction4 = class _ContextAction5 extends BaseValidatedClass2 {
     constructor() {
-      super(_ContextAction4.REQUIRED_METHODS, _ContextAction4);
+      super(_ContextAction5.REQUIRED_METHODS, _ContextAction5);
     }
     getId() {
       throw new Error("Method getId() must be implemented by the subclass");
@@ -2707,8 +2847,8 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       throw new Error("Method onClick() must be implemented by the subclass");
     }
   };
-  _ContextAction3.REQUIRED_METHODS = ["getId", "getIcon", "getLabel", "onClick"];
-  var ContextAction2 = _ContextAction3;
+  _ContextAction4.REQUIRED_METHODS = ["getId", "getIcon", "getLabel", "onClick"];
+  var ContextAction2 = _ContextAction4;
   var ADD_CUSTOM_FONT_OPTION2 = "ADD_CUSTOM_FONT_OPTION";
   var AiAssistantValueType = /* @__PURE__ */ ((AiAssistantValueType2) => {
     AiAssistantValueType2["SUBJECT"] = "subject";
@@ -2854,6 +2994,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     BannerChildControls2["CHILD_FLIP"] = "bannerChildFlipForm";
     BannerChildControls2["CHILD_OPACITY"] = "bannerChildOpacityForm";
     BannerChildControls2["TEXT_ALIGNMENT"] = "bannerTextAlignmentForm";
+    BannerChildControls2["TEXT_DIRECTION"] = "bannerTextDirectionForm";
     BannerChildControls2["TEXT_FONT"] = "bannerTextFontContainer";
     BannerChildControls2["TEXT_LETTER_CASE"] = "bannerTextLetterCaseForm";
     BannerChildControls2["TEXT_STYLE"] = "bannerTextStyleForm";
@@ -2926,8 +3067,10 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     VideoControls2["ALIGNMENT"] = "videoAlignment";
     VideoControls2["ALT_TEXT"] = "videoAltText";
     VideoControls2["EXTERNAL_INDENTS"] = "videoExternalIndents";
+    VideoControls2["FALLBACK_GIF"] = "videoFallbackGif";
     VideoControls2["MIME_TYPE"] = "videoMimeTypeForm";
     VideoControls2["MODE"] = "videoMode";
+    VideoControls2["MODE_NOTICE"] = "videoModeNotice";
     VideoControls2["PLAYBACK"] = "videoPlayback";
     VideoControls2["RESPONSIVE"] = "videoResponsive";
     VideoControls2["SIZE"] = "videoSizeContainer";
@@ -3058,6 +3201,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     AccordionControls2["TITLES_BACKGROUND_COLOR"] = "ampAccordionTitlesBackgroundColor";
     AccordionControls2["TITLE_ALIGNMENT_FORM"] = "ampAccordionTitleAlignmentForm";
     AccordionControls2["TITLE_FONT_SIZE"] = "AmpAccordionTitleFontSizeController";
+    AccordionControls2["TITLE_RADIUS"] = "ampAccordionTitleRadiusForm";
     AccordionControls2["TITLE_ICON_IMAGE"] = "ampAccordionTitleIconImageForm";
     AccordionControls2["TITLE_ICON_SWITCHER"] = "ampAccordionTitleIconSwitcherForm";
     AccordionControls2["TITLE_TEXT_STYLE_AND_COLOR"] = "AmpAccordionTitleTextStyleAndColorController";
@@ -3444,7 +3588,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     ...UIElementAttributes2,
     blockId: "block-id"
   };
-  var ampFormServicePickerAttributes = {
+  var ampFormServicePickerAttributes2 = {
     ...UIElementAttributes2
   };
   var MultipleSelectAttributes2 = {
@@ -3479,7 +3623,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     ORDERABLE_ICON: orderableIconAttributes2,
     REPEATABLE: repeatableAttributes2,
     DRAGGABLE_BLOCK: draggableBlockAttributes2,
-    AMP_FORM_SERVICE_PICKER: ampFormServicePickerAttributes,
+    AMP_FORM_SERVICE_PICKER: ampFormServicePickerAttributes2,
     MULTIPLE_SELECT: MultipleSelectAttributes2
   };
   var UIElementType2 = /* @__PURE__ */ ((UIElementType22) => {
@@ -3772,9 +3916,9 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       ].HIDDEN_NODE;
     }
   };
-  var _Control3 = class _Control4 extends BaseValidatedClass2 {
+  var _Control4 = class _Control5 extends BaseValidatedClass2 {
     constructor() {
-      super(_Control4.REQUIRED_METHODS, _Control4);
+      super(_Control5.REQUIRED_METHODS, _Control5);
     }
     /**
      * @description Allows to determine if control should be visible or hidden in control panel.
@@ -3837,11 +3981,11 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       return "content";
     }
   };
-  _Control3.REQUIRED_METHODS = ["getId", "getTemplate"];
-  var Control2 = _Control3;
-  var _GeneralPanelTab3 = class _GeneralPanelTab4 extends BaseValidatedClass2 {
+  _Control4.REQUIRED_METHODS = ["getId", "getTemplate"];
+  var Control2 = _Control4;
+  var _GeneralPanelTab4 = class _GeneralPanelTab5 extends BaseValidatedClass2 {
     constructor() {
-      super(_GeneralPanelTab4.REQUIRED_METHODS, _GeneralPanelTab4);
+      super(_GeneralPanelTab5.REQUIRED_METHODS, _GeneralPanelTab5);
     }
     /**
      * Gets the unique identifier for this tab.
@@ -3908,8 +4052,8 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     onDestroy() {
     }
   };
-  _GeneralPanelTab3.REQUIRED_METHODS = ["getId", "getIcon", "getName", "getTemplate", "getTabIndex"];
-  var GeneralPanelTab2 = _GeneralPanelTab3;
+  _GeneralPanelTab4.REQUIRED_METHODS = ["getId", "getIcon", "getName", "getTemplate", "getTabIndex"];
+  var GeneralPanelTab2 = _GeneralPanelTab4;
   var ImageBuiltInControl2 = class extends BuiltInControl2 {
     getTargetNodes(root) {
       const images = root.querySelectorAll(BlockSelector2.IMAGE);
@@ -3946,9 +4090,9 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       return BuiltInControlTypes2.GENERAL.HIDDEN_NODE;
     }
   };
-  var _ModulesPanelTab3 = class _ModulesPanelTab4 extends BaseValidatedClass2 {
+  var _ModulesPanelTab4 = class _ModulesPanelTab5 extends BaseValidatedClass2 {
     constructor() {
-      super(_ModulesPanelTab4.REQUIRED_METHODS, _ModulesPanelTab4);
+      super(_ModulesPanelTab5.REQUIRED_METHODS, _ModulesPanelTab5);
     }
     /**
      * Gets the unique identifier for this tab.
@@ -4010,18 +4154,18 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     onDocumentChanged() {
     }
   };
-  _ModulesPanelTab3.REQUIRED_METHODS = ["getId", "getIcon", "getName", "getTemplate", "getTabIndex"];
-  var ModulesPanelTab2 = _ModulesPanelTab3;
-  var _SettingsPanelRegistry3 = class _SettingsPanelRegistry4 extends BaseValidatedClass2 {
+  _ModulesPanelTab4.REQUIRED_METHODS = ["getId", "getIcon", "getName", "getTemplate", "getTabIndex"];
+  var ModulesPanelTab2 = _ModulesPanelTab4;
+  var _SettingsPanelRegistry4 = class _SettingsPanelRegistry5 extends BaseValidatedClass2 {
     constructor() {
-      super(_SettingsPanelRegistry4.REQUIRED_METHODS, _SettingsPanelRegistry4);
+      super(_SettingsPanelRegistry5.REQUIRED_METHODS, _SettingsPanelRegistry5);
     }
     registerBlockControls(_blockControlsMap) {
       throw new Error("Method registerBlockControls() must be implemented by the subclass");
     }
   };
-  _SettingsPanelRegistry3.REQUIRED_METHODS = ["registerBlockControls"];
-  var SettingsPanelRegistry2 = _SettingsPanelRegistry3;
+  _SettingsPanelRegistry4.REQUIRED_METHODS = ["registerBlockControls"];
+  var SettingsPanelRegistry2 = _SettingsPanelRegistry4;
   var SettingsPanelTab2 = class _SettingsPanelTab2 {
     constructor(tabId, controls2) {
       this.tabId = tabId;
@@ -4444,19 +4588,19 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       });
     }
   };
-  var _ExternalAiAssistant3 = class _ExternalAiAssistant4 extends BaseValidatedClass2 {
+  var _ExternalAiAssistant4 = class _ExternalAiAssistant5 extends BaseValidatedClass2 {
     constructor() {
-      super(_ExternalAiAssistant4.REQUIRED_METHODS, _ExternalAiAssistant4);
+      super(_ExternalAiAssistant5.REQUIRED_METHODS, _ExternalAiAssistant5);
     }
     openAiAssistant(_options) {
       throw new Error("Method openAiAssistant() must be implemented by the subclass");
     }
   };
-  _ExternalAiAssistant3.REQUIRED_METHODS = ["openAiAssistant"];
-  var ExternalAiAssistant2 = _ExternalAiAssistant3;
-  var _ExternalDisplayConditionsLibrary3 = class _ExternalDisplayConditionsLibrary4 extends BaseValidatedClass2 {
+  _ExternalAiAssistant4.REQUIRED_METHODS = ["openAiAssistant"];
+  var ExternalAiAssistant2 = _ExternalAiAssistant4;
+  var _ExternalDisplayConditionsLibrary4 = class _ExternalDisplayConditionsLibrary5 extends BaseValidatedClass2 {
     constructor() {
-      super(_ExternalDisplayConditionsLibrary4.REQUIRED_METHODS, _ExternalDisplayConditionsLibrary4);
+      super(_ExternalDisplayConditionsLibrary5.REQUIRED_METHODS, _ExternalDisplayConditionsLibrary5);
     }
     /**
      * Retrieves the name of the category.
@@ -4494,21 +4638,21 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       throw new Error("Method getContextActionIndex() must be implemented by the subclass");
     }
   };
-  _ExternalDisplayConditionsLibrary3.REQUIRED_METHODS = ["getCategoryName", "openExternalDisplayConditionsDialog"];
-  var ExternalDisplayConditionsLibrary2 = _ExternalDisplayConditionsLibrary3;
-  var _ExternalImageLibrary3 = class _ExternalImageLibrary4 extends BaseValidatedClass2 {
+  _ExternalDisplayConditionsLibrary4.REQUIRED_METHODS = ["getCategoryName", "openExternalDisplayConditionsDialog"];
+  var ExternalDisplayConditionsLibrary2 = _ExternalDisplayConditionsLibrary4;
+  var _ExternalImageLibrary4 = class _ExternalImageLibrary5 extends BaseValidatedClass2 {
     constructor() {
-      super(_ExternalImageLibrary4.REQUIRED_METHODS, _ExternalImageLibrary4);
+      super(_ExternalImageLibrary5.REQUIRED_METHODS, _ExternalImageLibrary5);
     }
     openImageLibrary(_currentImageUrl, _onImageSelectCallback, _onCancelCallback) {
       throw new Error("Method openImageLibrary() must be implemented by the subclass");
     }
   };
-  _ExternalImageLibrary3.REQUIRED_METHODS = ["openImageLibrary"];
-  var ExternalImageLibrary = _ExternalImageLibrary3;
-  var _ExternalImageLibraryTab3 = class _ExternalImageLibraryTab4 extends BaseValidatedClass2 {
+  _ExternalImageLibrary4.REQUIRED_METHODS = ["openImageLibrary"];
+  var ExternalImageLibrary = _ExternalImageLibrary4;
+  var _ExternalImageLibraryTab4 = class _ExternalImageLibraryTab5 extends BaseValidatedClass2 {
     constructor() {
-      super(_ExternalImageLibraryTab4.REQUIRED_METHODS, _ExternalImageLibraryTab4);
+      super(_ExternalImageLibraryTab5.REQUIRED_METHODS, _ExternalImageLibraryTab5);
     }
     /**
      * @description Returns the translated name/label for the tab
@@ -4527,45 +4671,76 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       throw new Error("Method openImageLibraryTab() must be implemented by the subclass");
     }
   };
-  _ExternalImageLibraryTab3.REQUIRED_METHODS = ["getName", "openImageLibraryTab"];
-  var ExternalImageLibraryTab2 = _ExternalImageLibraryTab3;
-  var _ExternalSmartElementsLibrary3 = class _ExternalSmartElementsLibrary4 extends BaseValidatedClass2 {
+  _ExternalImageLibraryTab4.REQUIRED_METHODS = ["getName", "openImageLibraryTab"];
+  var ExternalImageLibraryTab2 = _ExternalImageLibraryTab4;
+  var _ExternalSmartElementsLibrary4 = class _ExternalSmartElementsLibrary5 extends BaseValidatedClass2 {
     constructor() {
-      super(_ExternalSmartElementsLibrary4.REQUIRED_METHODS, _ExternalSmartElementsLibrary4);
+      super(_ExternalSmartElementsLibrary5.REQUIRED_METHODS, _ExternalSmartElementsLibrary5);
     }
     openSmartElementsLibrary(_onDataSelectCallback, _onCancelCallback) {
       throw new Error("Method openSmartElementsLibrary() must be implemented by the subclass");
     }
   };
-  _ExternalSmartElementsLibrary3.REQUIRED_METHODS = ["openSmartElementsLibrary"];
-  var ExternalSmartElementsLibrary2 = _ExternalSmartElementsLibrary3;
-  var _ExternalVideosLibrary3 = class _ExternalVideosLibrary4 extends BaseValidatedClass2 {
+  _ExternalSmartElementsLibrary4.REQUIRED_METHODS = ["openSmartElementsLibrary"];
+  var ExternalSmartElementsLibrary2 = _ExternalSmartElementsLibrary4;
+  var _ExternalVideosLibrary4 = class _ExternalVideosLibrary5 extends BaseValidatedClass2 {
     constructor() {
-      super(_ExternalVideosLibrary4.REQUIRED_METHODS, _ExternalVideosLibrary4);
+      super(_ExternalVideosLibrary5.REQUIRED_METHODS, _ExternalVideosLibrary5);
     }
     openExternalVideosLibraryDialog(_currentValue, _successCallback, _cancelCallback) {
       throw new Error("Method openExternalVideosLibraryDialog() must be implemented by the subclass");
     }
   };
-  _ExternalVideosLibrary3.REQUIRED_METHODS = ["openExternalVideosLibraryDialog"];
-  var ExternalVideosLibrary = _ExternalVideosLibrary3;
-  var _IconsRegistry3 = class _IconsRegistry4 extends BaseValidatedClass2 {
+  _ExternalVideosLibrary4.REQUIRED_METHODS = ["openExternalVideosLibraryDialog"];
+  var ExternalVideosLibrary = _ExternalVideosLibrary4;
+  var _IconsRegistry4 = class _IconsRegistry5 extends BaseValidatedClass2 {
     constructor() {
-      super(_IconsRegistry4.REQUIRED_METHODS, _IconsRegistry4);
+      super(_IconsRegistry5.REQUIRED_METHODS, _IconsRegistry5);
     }
     registerIconsSvg(_iconsMap) {
       throw new Error("Method registerIconsSvg() must be implemented by the subclass");
     }
   };
-  _IconsRegistry3.REQUIRED_METHODS = ["registerIconsSvg"];
-  var IconsRegistry2 = _IconsRegistry3;
+  _IconsRegistry4.REQUIRED_METHODS = ["registerIconsSvg"];
+  var IconsRegistry2 = _IconsRegistry4;
   var ModificationDescription2 = class {
     constructor(key) {
+      this.hidden = false;
       this.key = key;
     }
     withParams(params) {
       this.params = params;
       return this;
+    }
+    /**
+     * Marks the modification as a background change.
+     *
+     * @description
+     * The modification is applied to the template as usual, but the patch it produces is kept out of
+     * the version history UI and out of undo/redo, so the user never sees (nor can accidentally undo)
+     * a change they did not make. The change still belongs to the document, so restoring an older
+     * version keeps it consistent with the rest of the template.
+     *
+     * The patch is saved like any other, but the host application is not notified about it: the
+     * `onDataChanged` callback stays silent for background modifications. Do not rely on it to track
+     * changes an extension makes this way.
+     *
+     * @summary Hides the modification from version history and undo/redo.
+     *
+     * @param hidden - Pass false to keep the modification visible. Defaults to true.
+     * @returns The current ModificationDescription instance for method chaining.
+     */
+    asHidden(hidden = true) {
+      this.hidden = hidden;
+      return this;
+    }
+    /**
+     * Tells whether the modification was marked as a background change via {@link asHidden}.
+     *
+     * @returns True when the produced patch must stay out of version history and undo/redo.
+     */
+    isHidden() {
+      return this.hidden;
     }
     getValue() {
       return {
@@ -4574,9 +4749,9 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       };
     }
   };
-  var _UIElement3 = class _UIElement4 extends BaseValidatedClass2 {
+  var _UIElement4 = class _UIElement5 extends BaseValidatedClass2 {
     constructor() {
-      super(_UIElement4.REQUIRED_METHODS, _UIElement4);
+      super(_UIElement5.REQUIRED_METHODS, _UIElement5);
     }
     /**
      * Called when the UI element should render its content into the provided container.
@@ -4629,18 +4804,18 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       throw new Error("Method getTemplate() must be implemented by the subclass");
     }
   };
-  _UIElement3.REQUIRED_METHODS = ["onRender", "getId", "getTemplate"];
-  var UIElement2 = _UIElement3;
-  var _UIElementTagRegistry3 = class _UIElementTagRegistry4 extends BaseValidatedClass2 {
+  _UIElement4.REQUIRED_METHODS = ["onRender", "getId", "getTemplate"];
+  var UIElement2 = _UIElement4;
+  var _UIElementTagRegistry4 = class _UIElementTagRegistry5 extends BaseValidatedClass2 {
     constructor() {
-      super(_UIElementTagRegistry4.REQUIRED_METHODS, _UIElementTagRegistry4);
+      super(_UIElementTagRegistry5.REQUIRED_METHODS, _UIElementTagRegistry5);
     }
     registerUiElements(_uiElementsTagsMap) {
       throw new Error("Method registerUiElements() must be implemented by the subclass");
     }
   };
-  _UIElementTagRegistry3.REQUIRED_METHODS = ["registerUiElements"];
-  var UIElementTagRegistry2 = _UIElementTagRegistry3;
+  _UIElementTagRegistry4.REQUIRED_METHODS = ["registerUiElements"];
+  var UIElementTagRegistry2 = _UIElementTagRegistry4;
   return cjs;
 }
 var cjsExports = /* @__PURE__ */ requireCjs();
@@ -4668,7 +4843,7 @@ class E2eCjsBlock extends cjsExports.Block {
 const cjsLib = new cjsExports.ExtensionBuilder().addBlock(E2eCjsBlock).build();
 const EMPTY_CONTAINER_ID = "empty-container-extension";
 const CONTAINER_ID$3 = "container-extension";
-class EmptyContainerExtension extends Block {
+class EmptyContainerExtension extends Block$1 {
   getId() {
     return EMPTY_CONTAINER_ID;
   }
@@ -4712,7 +4887,7 @@ class EmptyContainerExtension extends Block {
     return true;
   }
 }
-let ContainerExtension$3 = class ContainerExtension extends Block {
+let ContainerExtension$3 = class ContainerExtension extends Block$1 {
   getId() {
     return CONTAINER_ID$3;
   }
@@ -4754,7 +4929,7 @@ const CONTAINERS_ROW$1 = "containers-row";
 const CONTAINERS_ROW2$1 = "containers-row2";
 const CONTAINERS_ROW3 = "containers-row3";
 const CONTAINERS_COLUMN$1 = "containers-column";
-let BaseBlockExtension$3 = class BaseBlockExtension extends Block {
+let BaseBlockExtension$3 = class BaseBlockExtension extends Block$1 {
   constructor(id, name, icon2) {
     super();
     this.id = id;
@@ -4882,7 +5057,7 @@ class BlockControl extends Control {
     return CONTROL_ID$d;
   }
   getTemplate() {
-    const tag = UIElementType.SELECTPICKER;
+    const tag = UIElementType$1.SELECTPICKER;
     const list = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc vel bibendum bibendum, nisl nunc bibendum nisl, vel bibendum nisl nunc vel bibendum nisl.",
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc vel bibendum bibendum, nisl nunc bibendum nisl, vel bibendum nisl nunc vel bibendum nisl. 2"
@@ -4894,12 +5069,12 @@ class BlockControl extends Control {
             </div>`;
   }
   _getSelectItem(item) {
-    const tag = UIElementType.SELECT_ITEM;
-    const attr = UEAttr.SELECT_ITEM;
+    const tag = UIElementType$1.SELECT_ITEM;
+    const attr = UEAttr$1.SELECT_ITEM;
     return `<${tag} ${attr.text}="${item}" ${attr.value}="${item}"></${tag}>`;
   }
 }
-class BlockExtensionCustomBlockBasic extends Block {
+class BlockExtensionCustomBlockBasic extends Block$1 {
   getId() {
     return BLOCK_ID$l;
   }
@@ -4931,7 +5106,7 @@ class BlockExtensionCustomBlockBasic extends Block {
 const customBlockBasic = new ExtensionBuilder().addControl(BlockControl).withSettingsPanelRegistry(PanelRegistry$N).addBlock(BlockExtensionCustomBlockBasic).build();
 const BLOCK_ID$k = "test-context-action-block-extension";
 const CONTEXT_ACTION_ID$1 = "test-block-context-action";
-class BlockExtensionCustomBlockWithCustomContextAction extends Block {
+class BlockExtensionCustomBlockWithCustomContextAction extends Block$1 {
   getId() {
     return BLOCK_ID$k;
   }
@@ -4975,7 +5150,7 @@ let TestBlockContextAction$1 = class TestBlockContextAction extends ContextActio
 };
 const customBlockWithCustomContextAction = new ExtensionBuilder().addBlock(BlockExtensionCustomBlockWithCustomContextAction).addContextAction(TestBlockContextAction$1).build();
 const BLOCK_ID$j = "test-custom-renderer-block-extension";
-class BlockExtensionCustomBlockWithCustomRenderer extends Block {
+class BlockExtensionCustomBlockWithCustomRenderer extends Block$1 {
   getId() {
     return BLOCK_ID$j;
   }
@@ -5011,7 +5186,7 @@ const customBlockWithCustomRenderer = new ExtensionBuilder().addBlock(BlockExten
 const TEST_STRUCTURE_ID = "test-structure";
 const CONTROL_PRODUCT_BLOCK_CARD_ORIENTATION_ID = "product-block-card-orientation-control";
 const ORIENTATION_UI_ELEMENT_NAME = "cardOrientation";
-let CustomBlock$1 = class CustomBlock extends Block {
+let CustomBlock$1 = class CustomBlock extends Block$1 {
   getId() {
     return TEST_STRUCTURE_ID;
   }
@@ -5068,21 +5243,21 @@ class CardOrientationControl extends Control {
   getTemplate() {
     return `
             <div class="container two-columns">
-                <${UIElementType.LABEL} ${UEAttr.LABEL.text}="${this.api.translate("Orientation")}:"></${UIElementType.LABEL}>
+                <${UIElementType$1.LABEL} ${UEAttr$1.LABEL.text}="${this.api.translate("Orientation")}:"></${UIElementType$1.LABEL}>
                 
-                <${UIElementType.RADIO_BUTTONS} ${UEAttr.RADIO_BUTTONS.name}="${ORIENTATION_UI_ELEMENT_NAME}">
-                    <${UIElementType.RADIO_ITEM} 
-                        ${UEAttr.RADIO_ITEM.hint}="${this.api.translate("Horizontal")}" 
-                        ${UEAttr.RADIO_ITEM.text}="${this.api.translate("Horizontal")}"
-                        ${UEAttr.RADIO_ITEM.value}="horizontal">
-                    </${UIElementType.RADIO_ITEM}>  
+                <${UIElementType$1.RADIO_BUTTONS} ${UEAttr$1.RADIO_BUTTONS.name}="${ORIENTATION_UI_ELEMENT_NAME}">
+                    <${UIElementType$1.RADIO_ITEM} 
+                        ${UEAttr$1.RADIO_ITEM.hint}="${this.api.translate("Horizontal")}" 
+                        ${UEAttr$1.RADIO_ITEM.text}="${this.api.translate("Horizontal")}"
+                        ${UEAttr$1.RADIO_ITEM.value}="horizontal">
+                    </${UIElementType$1.RADIO_ITEM}>  
                     
-                    <${UIElementType.RADIO_ITEM} 
-                        ${UEAttr.RADIO_ITEM.hint}="${this.api.translate("Vertical")}" 
-                        ${UEAttr.RADIO_ITEM.text}="${this.api.translate("Vertical")}" 
-                        ${UEAttr.RADIO_ITEM.value}="vertical">
-                    </${UIElementType.RADIO_ITEM}>                
-                </${UIElementType.RADIO_BUTTONS}>
+                    <${UIElementType$1.RADIO_ITEM} 
+                        ${UEAttr$1.RADIO_ITEM.hint}="${this.api.translate("Vertical")}" 
+                        ${UEAttr$1.RADIO_ITEM.text}="${this.api.translate("Vertical")}" 
+                        ${UEAttr$1.RADIO_ITEM.value}="vertical">
+                    </${UIElementType$1.RADIO_ITEM}>                
+                </${UIElementType$1.RADIO_BUTTONS}>
             </div>`;
   }
   onRender() {
@@ -5111,7 +5286,7 @@ class CardOrientationControl extends Control {
 }
 const extensionCustomBlockMultiRowModifier = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$M).addBlock(CustomBlock$1).addControl(CardOrientationControl).build();
 const BLOCK_ID$i = "custom-nested-blocks-extension";
-class CustomNestedBlocksExtension extends Block {
+class CustomNestedBlocksExtension extends Block$1 {
   getId() {
     return BLOCK_ID$i;
   }
@@ -5184,7 +5359,7 @@ let CustomRenderer$2 = class CustomRenderer2 extends BlockRenderer {
     return node.getInnerHTML();
   }
 };
-let CustomRendererStructureExtension$1 = class CustomRendererStructureExtension extends Block {
+let CustomRendererStructureExtension$1 = class CustomRendererStructureExtension extends Block$1 {
   getId() {
     return STRUCTURE_ID$3;
   }
@@ -5226,7 +5401,7 @@ let CustomRendererStructureExtension$1 = class CustomRendererStructureExtension 
     return BlockCompositionType.STRUCTURE;
   }
 };
-class CustomRendererImageBlockExtension extends Block {
+class CustomRendererImageBlockExtension extends Block$1 {
   getId() {
     return IMG_BLOCK_ID;
   }
@@ -5330,7 +5505,7 @@ let TextFixedHeightControl$2 = class TextFixedHeightControl extends TextFixedHei
 const customRendererControls = new ExtensionBuilder().addBlock(CustomRendererStructureExtension$1).addBlock(CustomRendererImageBlockExtension).addControl(ExtendedImageSizeControl$1).addControl(ExtendedFontFamilyControl).addControl(TextFixedHeightControl$2).addControl(ExtendedTextColorControl$1).withSettingsPanelRegistry(PanelRegistry$L).build();
 const STRUCTURE_ID$2 = "custom-renderer-structure";
 const TEXT_BLOCK_ID = "custom-renderer-text-block";
-class CustomRendererStructureExtension2 extends Block {
+class CustomRendererStructureExtension2 extends Block$1 {
   getId() {
     return STRUCTURE_ID$2;
   }
@@ -5369,7 +5544,7 @@ class CustomRendererStructureExtension2 extends Block {
     return BlockCompositionType.STRUCTURE;
   }
 }
-class CustomRendererTextBlockExtension extends Block {
+class CustomRendererTextBlockExtension extends Block$1 {
   getId() {
     return TEXT_BLOCK_ID;
   }
@@ -5409,7 +5584,7 @@ class DeprecatedCustomRenderer extends BlockRenderer {
     return "<td><h1>Deprecated custom content</h1></td>";
   }
 }
-class BlockExtensionWithDeprecatedCustomRenderer extends Block {
+class BlockExtensionWithDeprecatedCustomRenderer extends Block$1 {
   getId() {
     return BLOCK_ID$h;
   }
@@ -5440,7 +5615,7 @@ const customBlockWithDeprecatedCustomRenderer = new ExtensionBuilder().addBlock(
 const MEDIA_STRUCTURE_ID = "media-structure";
 const MEDIA_BLOCK_ID = "media-block";
 const QUICK_INSERT_BLOCK_ID = "quick-insert-block";
-let BaseBlockExtension$2 = class BaseBlockExtension2 extends Block {
+let BaseBlockExtension$2 = class BaseBlockExtension2 extends Block$1 {
   constructor(id, name, icon2, type) {
     super();
     this.id = id;
@@ -5514,7 +5689,7 @@ const SINGLE_CONTAINER = "single-empty-container";
 const CONTAINERS_ROW = "containers-row";
 const CONTAINERS_ROW2 = "containers-row2";
 const CONTAINERS_COLUMN = "containers-column";
-let BaseBlockExtension$1 = class BaseBlockExtension3 extends Block {
+let BaseBlockExtension$1 = class BaseBlockExtension3 extends Block$1 {
   constructor(id, name, icon2) {
     super();
     this.id = id;
@@ -5604,7 +5779,7 @@ class ContainersColumn2 extends BaseBlockExtension$1 {
 }
 const emptyContainerLayouts = new ExtensionBuilder().addBlock(SingleContainer2).addBlock(ContainersRow4).addBlock(ContainersRow22).addBlock(ContainersColumn2).build();
 const BLOCK_ID$g = "e2e-esm-block";
-class E2eEsmBlock extends Block {
+class E2eEsmBlock extends Block$1 {
   getId() {
     return BLOCK_ID$g;
   }
@@ -5637,7 +5812,7 @@ class StructureExtensionControl2 extends StructureMarginsBuiltInControl {
     };
   }
 }
-class StructureExtensionBlock2 extends Block {
+class StructureExtensionBlock2 extends Block$1 {
   getId() {
     return BLOCK_ID$f;
   }
@@ -5650,7 +5825,7 @@ class StructureExtensionBlock2 extends Block {
   getSettingsPanelTitleHtml() {
     return `<div style="display:flex;">
                 <p style="margin: 0; margin-right: 10px">${this.api.translate("CUSTOM STRUCTURE")}</p>
-                <${UIElementType.ICON} class="icon-button" src="new-window" hint="Some hint"></${UIElementType.ICON}>
+                <${UIElementType$1.ICON} class="icon-button" src="new-window" hint="Some hint"></${UIElementType$1.ICON}>
             </div>`;
   }
   getDescription() {
@@ -5718,7 +5893,7 @@ const VARIABLE_KEY = "--getEditorConfigVariable";
 const MASTER_COLOR_KEY = "--stripes__contentFontColor";
 const EMAIL_CONTENT_WIDTH = "--common__emailContentWidth";
 const ICON_URL = "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
-class GetEditorConfigBlock extends Block {
+class GetEditorConfigBlock extends Block$1 {
   getId() {
     return BLOCK_ID$e;
   }
@@ -5761,7 +5936,7 @@ class GetEditorConfigBlock extends Block {
 }
 const getEditorConfigBlock = new ExtensionBuilder().addBlock(GetEditorConfigBlock).build();
 const IMAGE_ID = "image-id";
-class BlockExtensionImage extends Block {
+class BlockExtensionImage extends Block$1 {
   getId() {
     return IMAGE_ID;
   }
@@ -5796,7 +5971,7 @@ class BlockExtensionImage extends Block {
 }
 const baseImageBlockExtension = new ExtensionBuilder().addBlock(BlockExtensionImage).build();
 const BLOCK_ID$d = "init-actions-block";
-class InitActionsBlock extends Block {
+class InitActionsBlock extends Block$1 {
   getId() {
     return BLOCK_ID$d;
   }
@@ -5825,7 +6000,7 @@ class InitActionsBlock extends Block {
 const initActionsBlock = new ExtensionBuilder().addBlock(InitActionsBlock).build();
 const RESTRICTED_DND = "restricted_dnd";
 const RESTRICTED_SELECTION = "restricted_selection";
-class BaseBlockExtension4 extends Block {
+class BaseBlockExtension4 extends Block$1 {
   constructor(id, name, icon2) {
     super();
     this.id = id;
@@ -5912,7 +6087,7 @@ class MergeTagsCustomRenderer extends BlockRenderer {
     return node.getInnerHTML();
   }
 }
-class MergeTagsCustomRendererBlock extends Block {
+class MergeTagsCustomRendererBlock extends Block$1 {
   getId() {
     return MERGE_TAGS_CUSTOM_RENDERER_BLOCK_ID;
   }
@@ -5971,7 +6146,7 @@ function getProductCardTemplate() {
                 BUY
             </${BlockType.BLOCK_BUTTON}>`;
 }
-class ProductBlock extends Block {
+class ProductBlock extends Block$1 {
   getId() {
     return PRODUCT_BLOCK_ID;
   }
@@ -6009,11 +6184,11 @@ class SelectProductItemsControl extends Control {
   getTemplate() {
     return `
             <div class="container">
-                <${UIElementType.LABEL} ${UEAttr.LABEL.text}="${this.api.translate("Number of Product Cards")}:"></${UIElementType.LABEL}>
-                <${UIElementType.SELECTPICKER} ${UEAttr.SELECTPICKER.name}="productItemsCount"
-                    ${UEAttr.SELECTPICKER.placeholder}="${this.api.translate("Select the number of product cards")}">
-                    ${[1, 2].map((key) => `<${UIElementType.SELECT_ITEM} ${UEAttr.SELECT_ITEM.text}="${key}" ${UEAttr.SELECT_ITEM.value}="${key}"></${UIElementType.SELECT_ITEM}>`).join("")}
-                </${UIElementType.SELECTPICKER}>
+                <${UIElementType$1.LABEL} ${UEAttr$1.LABEL.text}="${this.api.translate("Number of Product Cards")}:"></${UIElementType$1.LABEL}>
+                <${UIElementType$1.SELECTPICKER} ${UEAttr$1.SELECTPICKER.name}="productItemsCount"
+                    ${UEAttr$1.SELECTPICKER.placeholder}="${this.api.translate("Select the number of product cards")}">
+                    ${[1, 2].map((key) => `<${UIElementType$1.SELECT_ITEM} ${UEAttr$1.SELECT_ITEM.text}="${key}" ${UEAttr$1.SELECT_ITEM.value}="${key}"></${UIElementType$1.SELECT_ITEM}>`).join("")}
+                </${UIElementType$1.SELECTPICKER}>
             </div>`;
   }
   onRender() {
@@ -6062,7 +6237,7 @@ const productCard = (index) => `
     <p>Product ${index}${index === 1 ? " Text &amp;euro;" : ""}</p>
   </${BlockType.BLOCK_TEXT}>
 `;
-class MultiRowRootAttributesBlock extends Block {
+class MultiRowRootAttributesBlock extends Block$1 {
   getId() {
     return BLOCK_ID$c;
   }
@@ -6107,17 +6282,17 @@ class MultiRowRootAttributesControl extends Control {
   getTemplate() {
     return `
       <div class="container two-columns">
-        <${UIElementType.LABEL} ${UEAttr.LABEL.text}="Orientation:"></${UIElementType.LABEL}>
-        <${UIElementType.RADIO_BUTTONS} ${UEAttr.RADIO_BUTTONS.name}="${ORIENTATION_FIELD}">
-          <${UIElementType.RADIO_ITEM}
-            ${UEAttr.RADIO_ITEM.text}="Horizontal"
-            ${UEAttr.RADIO_ITEM.value}="horizontal">
-          </${UIElementType.RADIO_ITEM}>
-          <${UIElementType.RADIO_ITEM}
-            ${UEAttr.RADIO_ITEM.text}="Vertical"
-            ${UEAttr.RADIO_ITEM.value}="vertical">
-          </${UIElementType.RADIO_ITEM}>
-        </${UIElementType.RADIO_BUTTONS}>
+        <${UIElementType$1.LABEL} ${UEAttr$1.LABEL.text}="Orientation:"></${UIElementType$1.LABEL}>
+        <${UIElementType$1.RADIO_BUTTONS} ${UEAttr$1.RADIO_BUTTONS.name}="${ORIENTATION_FIELD}">
+          <${UIElementType$1.RADIO_ITEM}
+            ${UEAttr$1.RADIO_ITEM.text}="Horizontal"
+            ${UEAttr$1.RADIO_ITEM.value}="horizontal">
+          </${UIElementType$1.RADIO_ITEM}>
+          <${UIElementType$1.RADIO_ITEM}
+            ${UEAttr$1.RADIO_ITEM.text}="Vertical"
+            ${UEAttr$1.RADIO_ITEM.value}="vertical">
+          </${UIElementType$1.RADIO_ITEM}>
+        </${UIElementType$1.RADIO_BUTTONS}>
       </div>
     `;
   }
@@ -6146,7 +6321,7 @@ const multiRowRootAttributes = new ExtensionBuilder().addBlock(MultiRowRootAttri
 const BLOCK_ID$b = "block-extension";
 const CONTAINER_ID$2 = "container-extension";
 const STRUCTURE_ID$1 = "structure-extension";
-let BlockExtension$1 = class BlockExtension extends Block {
+let BlockExtension$1 = class BlockExtension extends Block$1 {
   getId() {
     return BLOCK_ID$b;
   }
@@ -6163,7 +6338,7 @@ let BlockExtension$1 = class BlockExtension extends Block {
     return "<td>Block extension</td>";
   }
 };
-let ContainerExtension$2 = class ContainerExtension2 extends Block {
+let ContainerExtension$2 = class ContainerExtension2 extends Block$1 {
   getId() {
     return CONTAINER_ID$2;
   }
@@ -6183,7 +6358,7 @@ let ContainerExtension$2 = class ContainerExtension2 extends Block {
     return BlockCompositionType.CONTAINER;
   }
 };
-let StructureExtension$2 = class StructureExtension extends Block {
+let StructureExtension$2 = class StructureExtension extends Block$1 {
   getId() {
     return STRUCTURE_ID$1;
   }
@@ -6216,10 +6391,10 @@ let StructureExtension$2 = class StructureExtension extends Block {
   }
 };
 const extensionNames = new ExtensionBuilder().addBlock(StructureExtension$2).addBlock(ContainerExtension$2).addBlock(BlockExtension$1).build();
-const ID$U = "custom-blocks";
-class BlockExtensionCustomBlocks extends Block {
+const ID$V = "custom-blocks";
+class BlockExtensionCustomBlocks extends Block$1 {
   getId() {
-    return ID$U;
+    return ID$V;
   }
   getBlockCompositionType() {
     return BlockCompositionType.BLOCK;
@@ -6303,7 +6478,7 @@ function getProductBlockTemplate(blockNumber) {
             </table>
           </td>`;
 }
-class ProductBlockFromContainerExtension extends Block {
+class ProductBlockFromContainerExtension extends Block$1 {
   getId() {
     return PRODUCT_BLOCK_FROM_CONTAINER_ID;
   }
@@ -6419,7 +6594,7 @@ function getRecommendationContainerTemplate(recommendationId = "1", width = "520
             </table>
           </td>`;
 }
-class RecommendationContainerExtension extends Block {
+class RecommendationContainerExtension extends Block$1 {
   getId() {
     return RECOMMENDATION_CONTAINER_ID;
   }
@@ -6461,7 +6636,7 @@ const recommendationContainerExtension = new ExtensionBuilder().addBlock(Recomme
 const BLOCK_ID$a = "responsive-width-widget-extension";
 const WIDGET_CLASS = "w-pref-d68dc93b62c84c7d";
 const COOKIE_IMAGE_RESPONSIVE_WIDTH = "calc(33% - 30px)";
-class ResponsiveWidthWidgetExtension extends Block {
+class ResponsiveWidthWidgetExtension extends Block$1 {
   getId() {
     return BLOCK_ID$a;
   }
@@ -6530,7 +6705,7 @@ class ResponsiveWidthWidgetExtension extends Block {
 const responsiveWidthWidget = new ExtensionBuilder().addBlock(ResponsiveWidthWidgetExtension).build();
 const ALWAYS_VISIBLE_BLOCK_ID = "runtime-permissions-visible";
 const RUNTIME_VISIBLE_BLOCK_ID = "runtime-permissions-runtime-visible";
-class RuntimePermissionsVisibleBlock extends Block {
+class RuntimePermissionsVisibleBlock extends Block$1 {
   getId() {
     return ALWAYS_VISIBLE_BLOCK_ID;
   }
@@ -6550,7 +6725,7 @@ class RuntimePermissionsVisibleBlock extends Block {
     return '<td class="esd-runtime-permissions-visible">Runtime permissions visible block</td>';
   }
 }
-class RuntimePermissionsRuntimeVisibleBlock extends Block {
+class RuntimePermissionsRuntimeVisibleBlock extends Block$1 {
   getId() {
     return RUNTIME_VISIBLE_BLOCK_ID;
   }
@@ -6572,7 +6747,7 @@ class RuntimePermissionsRuntimeVisibleBlock extends Block {
 }
 const runtimePermissionsBlocks = new ExtensionBuilder().addBlock(RuntimePermissionsVisibleBlock).addBlock(RuntimePermissionsRuntimeVisibleBlock).build();
 const STRIPE_ID = "stripe-extension";
-class StripeExtension extends Block {
+class StripeExtension extends Block$1 {
   getId() {
     return STRIPE_ID;
   }
@@ -6619,7 +6794,7 @@ class StripeExtension extends Block {
 }
 const customStripe = new ExtensionBuilder().addBlock(StripeExtension).build();
 const BLOCK_ID$9 = "structure-extension";
-let StructureExtension$1 = class StructureExtension2 extends Block {
+let StructureExtension$1 = class StructureExtension2 extends Block$1 {
   getId() {
     return BLOCK_ID$9;
   }
@@ -6671,7 +6846,7 @@ let StructureExtension$1 = class StructureExtension2 extends Block {
 const customStructure = new ExtensionBuilder().addBlock(StructureExtension$1).build();
 const BLOCK_ID$8 = "block-name";
 const CONTAINER_ID$1 = "container-id";
-class ExtendedBlock extends Block {
+class ExtendedBlock extends Block$1 {
   getId() {
     return BLOCK_ID$8;
   }
@@ -6697,7 +6872,7 @@ class ExtendedBlock extends Block {
           </td>`;
   }
 }
-class ExtensionContainer extends Block {
+class ExtensionContainer extends Block$1 {
   getId() {
     return CONTAINER_ID$1;
   }
@@ -6730,11 +6905,11 @@ class ExtensionControl extends Control {
     return "control-id";
   }
   getTemplate() {
-    const { LABEL, TEXT } = UIElementType;
+    const { LABEL, TEXT } = UIElementType$1;
     return `
       <div class="container">
-        <${LABEL} ${UEAttr.LABEL.text}="Button link:">Control Label</${LABEL}>
-        <${TEXT} ${UEAttr.TEXT.placeholder}="Button link value:" ${UEAttr.TEXT.name}="valueControl"></${TEXT}>
+        <${LABEL} ${UEAttr$1.LABEL.text}="Button link:">Control Label</${LABEL}>
+        <${TEXT} ${UEAttr$1.TEXT.placeholder}="Button link value:" ${UEAttr$1.TEXT.name}="valueControl"></${TEXT}>
       </div>
     `;
   }
@@ -6773,7 +6948,7 @@ let ButtonAlignControl$1 = class ButtonAlignControl extends ButtonAlignBuiltInCo
     };
   }
 };
-class BlockExtensionCustomMarkup extends Block {
+class BlockExtensionCustomMarkup extends Block$1 {
   getId() {
     return CUSTOM_BLOCK_ID;
   }
@@ -6817,7 +6992,7 @@ class SettingsPanel extends SettingsPanelRegistry {
 }
 const structureWithCustomMarkupExtension = new ExtensionBuilder().addBlock(BlockExtensionCustomMarkup).addControl(ButtonAlignControl$1).withSettingsPanelRegistry(SettingsPanel).build();
 const CUSTOM_PRODUCT_BUTTONS_BLOCK_ID = "custom-product-buttons";
-class CustomProductButtonsBlock extends Block {
+class CustomProductButtonsBlock extends Block$1 {
   getId() {
     return CUSTOM_PRODUCT_BUTTONS_BLOCK_ID;
   }
@@ -6875,10 +7050,10 @@ class CustomProductButtonsBlock extends Block {
   }
 }
 const customProductButtons = new ExtensionBuilder().addBlock(CustomProductButtonsBlock).build();
-const ID$T = "interactive-radio-repro";
-class InteractiveRadioReproBlock extends Block {
+const ID$U = "interactive-radio-repro";
+class InteractiveRadioReproBlock extends Block$1 {
   getId() {
-    return ID$T;
+    return ID$U;
   }
   getBlockCompositionType() {
     return BlockCompositionType.BLOCK;
@@ -6912,7 +7087,7 @@ class InteractiveRadioReproBlock extends Block {
 }
 const interactiveRadioRepro = new ExtensionBuilder().addBlock(InteractiveRadioReproBlock).build();
 const BLOCK_ID$7 = "modifications-custom-css";
-class BlockExtensionModificationsCustomCss extends Block {
+class BlockExtensionModificationsCustomCss extends Block$1 {
   getId() {
     return BLOCK_ID$7;
   }
@@ -6959,6 +7134,42 @@ class BlockExtensionModificationsCustomCss extends Block {
   }
 }
 const extensionBlockModificationsCustomCss = new ExtensionBuilder().addBlock(BlockExtensionModificationsCustomCss).build();
+const IMAGE_URL$1 = "https://my.stripo.email/content/guids/CABINET_68e9de9122dfe101e465207065722d54/images/9091542014595406.png";
+class NestedImageResizeDisabledBlock extends Block$1 {
+  getId() {
+    return "nested-image-resize-disabled";
+  }
+  getIcon() {
+    return "image";
+  }
+  getName() {
+    return this.api.translate("Nested images without resize");
+  }
+  getDescription() {
+    return this.api.translate("Extension block with disabled resize for nested images");
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.STRUCTURE;
+  }
+  isNestedImageResizeEnabled() {
+    return false;
+  }
+  getTemplate() {
+    return `<${BlockType.STRUCTURE}>
+      <${BlockType.CONTAINER} ${BlockAttr.CONTAINER.widthPercent}="100">
+        <${BlockType.BLOCK_IMAGE}
+          ${BlockAttr.BLOCK_IMAGE.src}="${IMAGE_URL$1}"
+          ${BlockAttr.BLOCK_IMAGE.alt}="First nested image">
+        </${BlockType.BLOCK_IMAGE}>
+        <${BlockType.BLOCK_IMAGE}
+          ${BlockAttr.BLOCK_IMAGE.src}="${IMAGE_URL$1}"
+          ${BlockAttr.BLOCK_IMAGE.alt}="Second nested image">
+        </${BlockType.BLOCK_IMAGE}>
+      </${BlockType.CONTAINER}>
+    </${BlockType.STRUCTURE}>`;
+  }
+}
+const nestedImageResizeDisabled = new ExtensionBuilder().addBlock(NestedImageResizeDisabledBlock).build();
 const TEXT_COLOR_ATTR = "textColorAttr";
 const TEXT_COLOR_COMPUTED = "textColorComputed";
 const FONT_FAMILY_ATTR = "fontFamilyAttr";
@@ -6974,7 +7185,7 @@ let PanelRegistry$H = class PanelRegistry9 extends SettingsPanelRegistry {
     ];
   }
 };
-let ContainerExtension$1 = class ContainerExtension3 extends Block {
+let ContainerExtension$1 = class ContainerExtension3 extends Block$1 {
   getId() {
     return CONTAINER;
   }
@@ -7070,10 +7281,10 @@ class CustomRenderer4 extends BlockRenderer {
   }
 }
 const controlStyleReading = new ExtensionBuilder().addBlock(ContainerExtension$1).addBlock(ContainerWithCustomRendererExtension).addControl(TextColorAttrControl).addControl(TextColorComputedControl).addControl(FontFamilyControl).withSettingsPanelRegistry(PanelRegistry$H).build();
-const ID$S = "unresolved-button-link-repro";
-class UnresolvedButtonLinkReproBlock extends Block {
+const ID$T = "unresolved-button-link-repro";
+class UnresolvedButtonLinkReproBlock extends Block$1 {
   getId() {
-    return ID$S;
+    return ID$T;
   }
   getBlockCompositionType() {
     return BlockCompositionType.BLOCK;
@@ -7124,11 +7335,11 @@ class UnresolvedButtonLinkReproBlock extends Block {
   }
 }
 const unresolvedButtonLinkRepro = new ExtensionBuilder().addBlock(UnresolvedButtonLinkReproBlock).build();
-const ID$R = "unresolved-link-repro";
+const ID$S = "unresolved-link-repro";
 const IMAGE_URL = "https://rf.stripocdn.email/content/guids/CABINET_a72abd995606a03654e2f4a6dac6aa4199889bd9c4261c4b3200c3d1b63c8700/images/g9fa3a8f2503b5df8ba9eb4f115ad6503e44d19921df74d38db793e722379a0b4fb3a097c9e80ededb83d0406223a755f_640.jpeg";
-class UnresolvedLinkReproBlock extends Block {
+class UnresolvedLinkReproBlock extends Block$1 {
   getId() {
-    return ID$R;
+    return ID$S;
   }
   getBlockCompositionType() {
     return BlockCompositionType.BLOCK;
@@ -7171,14 +7382,14 @@ class UnresolvedLinkReproBlock extends Block {
   }
 }
 const unresolvedLinkRepro = new ExtensionBuilder().addBlock(UnresolvedLinkReproBlock).build();
-const ID$Q = "extendedButtonAlign";
+const ID$R = "extendedButtonAlign";
 let ButonPanelRegistry$3 = class ButonPanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$Q
+          ID$R
         ]
       )
     ];
@@ -7186,7 +7397,7 @@ let ButonPanelRegistry$3 = class ButonPanelRegistry extends SettingsPanelRegistr
 };
 class ExtendedButtonAlignControl extends ButtonAlignBuiltInControl {
   getId() {
-    return ID$Q;
+    return ID$R;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -7199,15 +7410,15 @@ class ExtendedButtonAlignControl extends ButtonAlignBuiltInControl {
   }
 }
 const buttonAlignControlExtension = new ExtensionBuilder().addControl(ExtendedButtonAlignControl).withSettingsPanelRegistry(ButonPanelRegistry$3).build();
-const ID$P = "extendedButtonBackground";
+const ID$Q = "extendedButtonBackground";
 let PanelRegistry$G = class PanelRegistry10 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$P, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$Q, 0);
   }
 };
 class ExtendedButtonBackgroundControl extends ButtonBackgroundColorBuiltInControl {
   getId() {
-    return ID$P;
+    return ID$Q;
   }
   getLabels() {
     return {
@@ -7219,17 +7430,17 @@ class ExtendedButtonBackgroundControl extends ButtonBackgroundColorBuiltInContro
   }
 }
 const extensionButtonBackgroundControl = new ExtensionBuilder().addControl(ExtendedButtonBackgroundControl).withSettingsPanelRegistry(PanelRegistry$G).build();
-const ID$O = "extendedButtonBorder";
+const ID$P = "extendedButtonBorder";
 let PanelRegistry$F = class PanelRegistry11 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(SettingsTab.STYLES, [ID$O])
+      new SettingsPanelTab(SettingsTab.STYLES, [ID$P])
     ];
   }
 };
 class ExtendedButtonBorderControl extends ButtonBorderBuiltInControl {
   getId() {
-    return ID$O;
+    return ID$P;
   }
   getLabels() {
     return {
@@ -7245,14 +7456,14 @@ class ExtendedButtonBorderControl extends ButtonBorderBuiltInControl {
   }
 }
 const buttonBorderControlExtension = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$F).addControl(ExtendedButtonBorderControl).build();
-const ID$N = "extendedButtonBorderRadius";
+const ID$O = "extendedButtonBorderRadius";
 let ButonPanelRegistry$2 = class ButonPanelRegistry2 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.STYLES,
         [
-          ID$N
+          ID$O
         ]
       )
     ];
@@ -7260,7 +7471,7 @@ let ButonPanelRegistry$2 = class ButonPanelRegistry2 extends SettingsPanelRegist
 };
 class ExtendedButtonBorderRadiusControl extends ButtonBorderRadiusBuiltInControl {
   getId() {
-    return ID$N;
+    return ID$O;
   }
   getLabels() {
     return {
@@ -7273,15 +7484,15 @@ class ExtendedButtonBorderRadiusControl extends ButtonBorderRadiusBuiltInControl
   }
 }
 const buttonBorderRadiusExtension = new ExtensionBuilder().addControl(ExtendedButtonBorderRadiusControl).withSettingsPanelRegistry(ButonPanelRegistry$2).build();
-const ID$M = "extendedButtonColor";
+const ID$N = "extendedButtonColor";
 let PanelRegistry$E = class PanelRegistry12 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$M, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$N, 0);
   }
 };
 class ExtendedButtonColorControl extends ButtonColorBuiltInControl {
   getId() {
-    return ID$M;
+    return ID$N;
   }
   getLabels() {
     return {
@@ -7293,14 +7504,14 @@ class ExtendedButtonColorControl extends ButtonColorBuiltInControl {
   }
 }
 const buttonColorControlExtension = new ExtensionBuilder().addControl(ExtendedButtonColorControl).withSettingsPanelRegistry(PanelRegistry$E).build();
-const ID$L = "builtInButtonFitToContainer";
+const ID$M = "builtInButtonFitToContainer";
 let ButtonPanelRegistry$f = class ButtonPanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$L
+          ID$M
         ]
       )
     ];
@@ -7308,7 +7519,7 @@ let ButtonPanelRegistry$f = class ButtonPanelRegistry extends SettingsPanelRegis
 };
 class ExtendedButtonFitToContainerControl extends ButtonFitToContainerBuiltInControl {
   getId() {
-    return ID$L;
+    return ID$M;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -7322,14 +7533,14 @@ class ExtendedButtonFitToContainerControl extends ButtonFitToContainerBuiltInCon
   }
 }
 const extensionBuiltInButtonFitToContainer = new ExtensionBuilder().addControl(ExtendedButtonFitToContainerControl).withSettingsPanelRegistry(ButtonPanelRegistry$f).build();
-const ID$K = "extendedButtonFixedHeight";
+const ID$L = "extendedButtonFixedHeight";
 let ButonPanelRegistry$1 = class ButonPanelRegistry3 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$K
+          ID$L
         ]
       )
     ];
@@ -7337,7 +7548,7 @@ let ButonPanelRegistry$1 = class ButonPanelRegistry3 extends SettingsPanelRegist
 };
 class ExtendedButtonFixedHeightControl extends ButtonFixedHeightBuiltInControl {
   getId() {
-    return ID$K;
+    return ID$L;
   }
   getLabels() {
     return {
@@ -7406,7 +7617,7 @@ class ExtensionBuiltInButtonHoverTextColor extends ButtonHoverTextColorBuiltInCo
   }
 }
 const extensionBuiltInButtonHoverTextColor = new ExtensionBuilder().addControl(ExtensionBuiltInButtonHoverTextColor).withSettingsPanelRegistry(ButtonPanelRegistry$d).build();
-const ID$J = "builtInButtonBorderHover";
+const ID$K = "builtInButtonBorderHover";
 const BUTTON_BORDER_ID$1 = "extendedButtonBorder";
 let ButtonPanelRegistry$c = class ButtonPanelRegistry4 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
@@ -7414,7 +7625,7 @@ let ButtonPanelRegistry$c = class ButtonPanelRegistry4 extends SettingsPanelRegi
       new SettingsPanelTab(
         SettingsTab.STYLES,
         [
-          ID$J,
+          ID$K,
           BUTTON_HOVER_TEXT_COLOR_ID$1,
           BUTTON_BORDER_ID$1,
           BUILT_IN_BUTTON_HOVER_COLOR
@@ -7425,7 +7636,7 @@ let ButtonPanelRegistry$c = class ButtonPanelRegistry4 extends SettingsPanelRegi
 };
 class ExtensionBuiltInButtonBorderHover extends ButtonHoverBorderColorBuiltInControl {
   getId() {
-    return ID$J;
+    return ID$K;
   }
   getLabels() {
     return {
@@ -7456,15 +7667,15 @@ let ButtonBorderControl$1 = class ButtonBorderControl extends ButtonBorderBuiltI
   }
 };
 const extensionBuiltInButtonBorderHover = new ExtensionBuilder().addControl(ExtensionBuiltInButtonBorderHover).addControl(ExtensionBuiltInButtonHoverTextColor).addControl(ButtonBorderControl$1).addControl(ExtensionBuiltInButtonHoverColor).withSettingsPanelRegistry(ButtonPanelRegistry$c).build();
-const ID$I = "extendedButtonMargins";
+const ID$J = "extendedButtonMargins";
 class ButonPanelRegistry4 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRIPE][0].addControl(ID$I, 0);
+    controls2[BlockType.STRIPE][0].addControl(ID$J, 0);
   }
 }
 class ExtendedButtonMarginsControl extends ButtonMarginsBuiltInControl {
   getId() {
-    return ID$I;
+    return ID$J;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -7477,15 +7688,15 @@ class ExtendedButtonMarginsControl extends ButtonMarginsBuiltInControl {
   }
 }
 const extensionButtonMarginsControl = new ExtensionBuilder().addControl(ExtendedButtonMarginsControl).withSettingsPanelRegistry(ButonPanelRegistry4).build();
-const ID$H = "extendedButtonPaddingsControl";
+const ID$I = "extendedButtonPaddingsControl";
 let PanelRegistry$D = class PanelRegistry13 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRIPE][0].addControl(ID$H, 0);
+    controls2[BlockType.STRIPE][0].addControl(ID$I, 0);
   }
 };
 class ExtendedButtonInternalIndents extends ButtonPaddingsBuiltInControl {
   getId() {
-    return ID$H;
+    return ID$I;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -7503,14 +7714,14 @@ const extendedButtonPaddingsControl = new ExtensionBuilder().addControl(Extended
   "Extended buttons paddings desktop": "EN Extended buttons paddings desktop",
   "Extended buttons paddings mobile": "EN Extended buttons paddings mobile"
 } }).withSettingsPanelRegistry(PanelRegistry$D).build();
-const ID$G = "extendedButtonText";
+const ID$H = "extendedButtonText";
 let ButtonPanelRegistry$b = class ButtonPanelRegistry5 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$G
+          ID$H
         ]
       )
     ];
@@ -7518,7 +7729,7 @@ let ButtonPanelRegistry$b = class ButtonPanelRegistry5 extends SettingsPanelRegi
 };
 class ExtendedButtonTextControl extends ButtonTextBuiltInControl {
   getId() {
-    return ID$G;
+    return ID$H;
   }
   getLabels() {
     return {
@@ -7530,14 +7741,14 @@ class ExtendedButtonTextControl extends ButtonTextBuiltInControl {
   }
 }
 const buttonTextControlExtension = new ExtensionBuilder().addControl(ExtendedButtonTextControl).withSettingsPanelRegistry(ButtonPanelRegistry$b).build();
-const ID$F = "extendedButtonTextSize";
+const ID$G = "extendedButtonTextSize";
 let ButtonPanelRegistry$a = class ButtonPanelRegistry6 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.STYLES,
         [
-          ID$F
+          ID$G
         ]
       )
     ];
@@ -7545,7 +7756,7 @@ let ButtonPanelRegistry$a = class ButtonPanelRegistry6 extends SettingsPanelRegi
 };
 class ExtendedButtonTextSizeControl extends ButtonTextSizeBuiltInControl {
   getId() {
-    return ID$F;
+    return ID$G;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -7562,14 +7773,14 @@ class ExtendedButtonTextSizeControl extends ButtonTextSizeBuiltInControl {
   }
 }
 const extensionButtonTextSizeControl = new ExtensionBuilder().addControl(ExtendedButtonTextSizeControl).withSettingsPanelRegistry(ButtonPanelRegistry$a).build();
-const ID$E = "extendedButtonVisibility";
+const ID$F = "extendedButtonVisibility";
 let ButtonPanelRegistry$9 = class ButtonPanelRegistry7 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$E
+          ID$F
         ]
       )
     ];
@@ -7577,7 +7788,7 @@ let ButtonPanelRegistry$9 = class ButtonPanelRegistry7 extends SettingsPanelRegi
 };
 class ExtendedButtonVisibilityControl extends ButtonVisibilityBuiltInControl {
   getId() {
-    return ID$E;
+    return ID$F;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -7590,14 +7801,14 @@ class ExtendedButtonVisibilityControl extends ButtonVisibilityBuiltInControl {
   }
 }
 const extensionButtonVisibilityControl = new ExtensionBuilder().addControl(ExtendedButtonVisibilityControl).withSettingsPanelRegistry(ButtonPanelRegistry$9).build();
-const ID$D = "builtInTextStyleAndColor";
+const ID$E = "builtInTextStyleAndColor";
 let ButtonPanelRegistry$8 = class ButtonPanelRegistry8 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
       new SettingsPanelTab(
         SettingsTab.STYLES,
         [
-          ID$D
+          ID$E
         ]
       )
     ];
@@ -7605,7 +7816,7 @@ let ButtonPanelRegistry$8 = class ButtonPanelRegistry8 extends SettingsPanelRegi
 };
 class ExtensionBuiltInButtonTextStyleAndColor extends ButtonTextStyleAndFontColorBuiltInControl {
   getId() {
-    return ID$D;
+    return ID$E;
   }
   getLabels() {
     return {
@@ -7619,15 +7830,15 @@ class ExtensionBuiltInButtonTextStyleAndColor extends ButtonTextStyleAndFontColo
   }
 }
 const extensionButtonTextStyleAndColorControl = new ExtensionBuilder().addControl(ExtensionBuiltInButtonTextStyleAndColor).withSettingsPanelRegistry(ButtonPanelRegistry$8).build();
-const ID$C = "extendedContainerBackgroundColor";
+const ID$D = "extendedContainerBackgroundColor";
 let PanelRegistry$C = class PanelRegistry14 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.CONTAINER][0].addControl(ID$C, 0);
+    controls2[BlockType.CONTAINER][0].addControl(ID$D, 0);
   }
 };
 class ExtendedContainerBackgroundColorControl extends ContainerBackgroundColorBuiltInControl {
   getId() {
-    return ID$C;
+    return ID$D;
   }
   getLabels() {
     return {
@@ -7639,15 +7850,15 @@ class ExtendedContainerBackgroundColorControl extends ContainerBackgroundColorBu
   }
 }
 const extensionContainerBackgroundControl = new ExtensionBuilder().addControl(ExtendedContainerBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$C).build();
-const ID$B = "extendedContainerBackgroundImage";
+const ID$C = "extendedContainerBackgroundImage";
 let PanelRegistry$B = class PanelRegistry15 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.CONTAINER][0].addControl(ID$B, 0);
+    controls2[BlockType.CONTAINER][0].addControl(ID$C, 0);
   }
 };
 class ExtendedContainerBackgroundImageControl extends ContainerBackgroundImageBuiltInControl {
   getId() {
-    return ID$B;
+    return ID$C;
   }
   getLabels() {
     return {
@@ -7666,20 +7877,20 @@ class ExtendedContainerBackgroundImageControl extends ContainerBackgroundImageBu
   }
 }
 const extensionContainerBackgroundImageControl = new ExtensionBuilder().addControl(ExtendedContainerBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$B).build();
-const ID$A = "extendedContainerBorder";
+const ID$B = "extendedContainerBorder";
 let PanelRegistry$A = class PanelRegistry16 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.CONTAINER] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$A])
+      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$B])
     ];
     controls2[BlockType.STRUCTURE] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$A])
+      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$B])
     ];
   }
 };
 class ExtendedContainerBorderControl extends ContainerBorderBuiltInControl {
   getId() {
-    return ID$A;
+    return ID$B;
   }
   getLabels() {
     return {
@@ -7698,17 +7909,17 @@ class ExtendedContainerBorderControl extends ContainerBorderBuiltInControl {
   }
 }
 const extensionContainerBorderControl = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$A).addControl(ExtendedContainerBorderControl).build();
-const ID$z = "extendedContainerBorderRadius";
+const ID$A = "extendedContainerBorderRadius";
 let PanelRegistry$z = class PanelRegistry17 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE] = [
-      new SettingsPanelTab(SettingsTab.STYLES, [ID$z])
+      new SettingsPanelTab(SettingsTab.STYLES, [ID$A])
     ];
   }
 };
 class ExtendedContainerBorderRadiusControl extends ContainerBorderRadiusBuiltInControl {
   getId() {
-    return ID$z;
+    return ID$A;
   }
   getLabels() {
     return {
@@ -7724,14 +7935,14 @@ class ExtendedContainerBorderRadiusControl extends ContainerBorderRadiusBuiltInC
   }
 }
 const extensionContainerBorderRadiusControl = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$z).addControl(ExtendedContainerBorderRadiusControl).build();
-const ID$y = "extendedContainerVisibility";
+const ID$z = "extendedContainerVisibility";
 let ButtonPanelRegistry$7 = class ButtonPanelRegistry9 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.CONTAINER] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$y
+          ID$z
         ]
       )
     ];
@@ -7739,7 +7950,7 @@ let ButtonPanelRegistry$7 = class ButtonPanelRegistry9 extends SettingsPanelRegi
 };
 class ExtendedContainerVisibilityControl extends ContainerVisibilityBuiltInControl {
   getId() {
-    return ID$y;
+    return ID$z;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -7752,17 +7963,17 @@ class ExtendedContainerVisibilityControl extends ContainerVisibilityBuiltInContr
   }
 }
 const extensionContainerVisibilityControl = new ExtensionBuilder().addControl(ExtendedContainerVisibilityControl).withSettingsPanelRegistry(ButtonPanelRegistry$7).build();
-const ID$x = "extendedBlockPaddings_text";
+const ID$y = "extendedBlockPaddings_text";
 let PanelRegistry$y = class PanelRegistry18 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0] = new SettingsPanelTab(SettingsTab.SETTINGS, [
-      ID$x
+      ID$y
     ]);
   }
 };
 class ExtendedBlockPaddingsControl extends TextPaddingsBuiltInControl {
   getId() {
-    return ID$x;
+    return ID$y;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -7830,11 +8041,11 @@ class CustomTitleControl extends Control {
     return CUSTOM_TITLE_CONTROL_ID;
   }
   getTemplate() {
-    const { LABEL, TEXTAREA } = UIElementType;
+    const { LABEL, TEXTAREA } = UIElementType$1;
     const {
       LABEL: { text: labelTextAttr },
       TEXTAREA: { name: textareaNameAttr, placeholder: textareaPlaceholderAttr }
-    } = UEAttr;
+    } = UEAttr$1;
     return `
       <div class="container e2e-custom-title-extension">
         <${LABEL} ${labelTextAttr}="${this.api.translate("Custom subject|title control")}:"></${LABEL}>
@@ -7866,14 +8077,14 @@ class CustomTitleControl extends Control {
   }
 }
 const extensionCustomTitle = new ExtensionBuilder().addControl(CustomTitleControl).withSettingsPanelRegistry(PanelRegistry$w).build();
-const ID$w = "custom-title";
+const ID$x = "custom-title";
 class CustomTitleWithPopoverPanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2["MESSAGE_SETTINGS"][0].addControl(ID$w, 0);
+    controls2["MESSAGE_SETTINGS"][0].addControl(ID$x, 0);
   }
 }
 const customTitleElementId = "custom-title-element";
-class CustomTitleElement extends UIElement {
+class CustomTitleElement extends UIElement$1 {
   getId() {
     return customTitleElementId;
   }
@@ -7942,7 +8153,7 @@ class CustomTitleElement extends UIElement {
 }
 class CustomTitle extends Control {
   getId() {
-    return ID$w;
+    return ID$x;
   }
   getTemplate() {
     return `
@@ -7972,9 +8183,9 @@ class StyleControl extends Control {
     return ElementLockCategory.STYLE;
   }
   getTemplate() {
-    const { SWITCHER } = UIElementType;
+    const { SWITCHER } = UIElementType$1;
     return `<div class="container e2e-el-lock-style-control">
-              <${SWITCHER} ${UEAttr.SWITCHER.name}="${STYLE_SWITCHER_NAME}"></${SWITCHER}>
+              <${SWITCHER} ${UEAttr$1.SWITCHER.name}="${STYLE_SWITCHER_NAME}"></${SWITCHER}>
             </div>`;
   }
   onRender() {
@@ -7994,9 +8205,9 @@ class ContentControl extends Control {
   }
   // No getElementLockCategory() override -> defaults to CONTENT.
   getTemplate() {
-    const { SWITCHER } = UIElementType;
+    const { SWITCHER } = UIElementType$1;
     return `<div class="container e2e-el-lock-content-control">
-              <${SWITCHER} ${UEAttr.SWITCHER.name}="${CONTENT_SWITCHER_NAME}"></${SWITCHER}>
+              <${SWITCHER} ${UEAttr$1.SWITCHER.name}="${CONTENT_SWITCHER_NAME}"></${SWITCHER}>
             </div>`;
   }
   onRender() {
@@ -8010,7 +8221,7 @@ class ContentControl extends Control {
     });
   }
 }
-class ElementLockCategoryBlock extends Block {
+class ElementLockCategoryBlock extends Block$1 {
   getId() {
     return BLOCK_ID$6;
   }
@@ -8044,51 +8255,51 @@ class ElementLockCategoryBlock extends Block {
 }
 const elementLockCategoryControl = new ExtensionBuilder().addControl(StyleControl).addControl(ContentControl).withSettingsPanelRegistry(PanelRegistry$v).addBlock(ElementLockCategoryBlock).build();
 const BACKGROUND_CONTROL$2 = "backgroundControl";
-const ID$v = "expandableControlExtension";
+const ID$w = "expandableControlExtension";
 let PanelRegistry$u = class PanelRegistry22 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$v, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$w, 0);
   }
 };
 class expandableControlExtension extends Control {
   disabled = false;
   getId() {
-    return ID$v;
+    return ID$w;
   }
   getTemplate() {
-    const { NESTED_CONTROL } = UIElementType;
+    const { NESTED_CONTROL } = UIElementType$1;
     return `
-            <${UIElementType.EXPANDABLE} ${UEAttr.EXPANDABLE.expanded}="false" ${UEAttr.EXPANDABLE.disabled}="${this.disabled}" name="exp1">
+            <${UIElementType$1.EXPANDABLE} ${UEAttr$1.EXPANDABLE.expanded}="false" ${UEAttr$1.EXPANDABLE.disabled}="${this.disabled}" name="exp1">
             
-                <${UIElementType.EXPANDABLE_HEADER}>
+                <${UIElementType$1.EXPANDABLE_HEADER}>
                 
                   Product name
                        
-                </${UIElementType.EXPANDABLE_HEADER}>
+                </${UIElementType$1.EXPANDABLE_HEADER}>
                 
-                <${UIElementType.EXPANDABLE_CONTENT}>
+                <${UIElementType$1.EXPANDABLE_CONTENT}>
                 
                    <${NESTED_CONTROL} 
-                        ${UEAttr.NESTED_CONTROL.name}="${BACKGROUND_CONTROL$2}" 
-                        ${UEAttr.NESTED_CONTROL.controlId}="${BuiltInControlTypes.GENERAL.BACKGROUND_COLOR}">                               
+                        ${UEAttr$1.NESTED_CONTROL.name}="${BACKGROUND_CONTROL$2}" 
+                        ${UEAttr$1.NESTED_CONTROL.controlId}="${BuiltInControlTypes.GENERAL.BACKGROUND_COLOR}">                               
                    </{NESTED_CONTROL}>
               
                    
-                </${UIElementType.EXPANDABLE_CONTENT}> 
+                </${UIElementType$1.EXPANDABLE_CONTENT}> 
                 
-            </${UIElementType.EXPANDABLE}>
+            </${UIElementType$1.EXPANDABLE}>
     `;
   }
   onDocumentChanged(_node) {
     super.onDocumentChanged(_node);
     this.disabled = !this.disabled;
-    this.api.setUIEAttribute("exp1", UEAttr.EXPANDABLE.disabled, this.disabled);
+    this.api.setUIEAttribute("exp1", UEAttr$1.EXPANDABLE.disabled, this.disabled);
   }
 }
 const expandableControlExtension$1 = new ExtensionBuilder().addControl(expandableControlExtension).withSettingsPanelRegistry(PanelRegistry$u).build();
 const PRODUCT_STRUCTURE_ID$3 = "product-block-id";
 const TEXT_FIXED_HEIGHT_ID = "text-fixed-height-id";
-let ProductStructureBlock$3 = class ProductStructureBlock extends Block {
+let ProductStructureBlock$3 = class ProductStructureBlock extends Block$1 {
   getId() {
     return PRODUCT_STRUCTURE_ID$3;
   }
@@ -8160,6 +8371,12 @@ let TextFixedHeightControl$1 = class TextFixedHeightControl2 extends TextFixedHe
   getId() {
     return TEXT_FIXED_HEIGHT_ID;
   }
+  getTargetNodes(root) {
+    return root.querySelectorAll(".esd-block-text");
+  }
+  getAdditionalModifications(root) {
+    return this.api.getDocumentModifier().modifyHtml(root).setClass("fixed-height-root-updated");
+  }
   getLabels() {
     return {
       title: "Text switcher title",
@@ -8191,26 +8408,26 @@ class HiddenElementStateControl extends Control {
   getTemplate() {
     return `
       <div class="container e2e-hidden-element-state-select">
-        <${UIElementType.LABEL} ${UEAttr.LABEL.text}="${this.api.translate("Hidden element state")}"></${UIElementType.LABEL}>
-        <${UIElementType.SELECTPICKER}
-          ${UEAttr.SELECTPICKER.name}="${UI_NAME}"
-          ${UEAttr.SELECTPICKER.placeholder}="${this.api.translate("Select hidden element state")}">
-        </${UIElementType.SELECTPICKER}>
+        <${UIElementType$1.LABEL} ${UEAttr$1.LABEL.text}="${this.api.translate("Hidden element state")}"></${UIElementType$1.LABEL}>
+        <${UIElementType$1.SELECTPICKER}
+          ${UEAttr$1.SELECTPICKER.name}="${UI_NAME}"
+          ${UEAttr$1.SELECTPICKER.placeholder}="${this.api.translate("Select hidden element state")}">
+        </${UIElementType$1.SELECTPICKER}>
       </div>`;
   }
   onRender() {
-    this.api.setUIEAttribute(UI_NAME, UEAttr.SELECTPICKER.items, [
+    this.api.setUIEAttribute(UI_NAME, UEAttr$1.SELECTPICKER.items, [
       {
-        [UEAttr.SELECT_ITEM.text]: this.api.translate("Visible"),
-        [UEAttr.SELECT_ITEM.value]: "none"
+        [UEAttr$1.SELECT_ITEM.text]: this.api.translate("Visible"),
+        [UEAttr$1.SELECT_ITEM.value]: "none"
       },
       {
-        [UEAttr.SELECT_ITEM.text]: this.api.translate("Hide on Mobile"),
-        [UEAttr.SELECT_ITEM.value]: "mobile"
+        [UEAttr$1.SELECT_ITEM.text]: this.api.translate("Hide on Mobile"),
+        [UEAttr$1.SELECT_ITEM.value]: "mobile"
       },
       {
-        [UEAttr.SELECT_ITEM.text]: this.api.translate("Hide on Desktop"),
-        [UEAttr.SELECT_ITEM.value]: "desktop"
+        [UEAttr$1.SELECT_ITEM.text]: this.api.translate("Hide on Desktop"),
+        [UEAttr$1.SELECT_ITEM.value]: "desktop"
       }
     ]);
     this.api.onValueChanged(UI_NAME, (newValue) => {
@@ -8224,7 +8441,7 @@ class HiddenElementStateControl extends Control {
     });
   }
 }
-class HiddenElementStateBlock extends Block {
+class HiddenElementStateBlock extends Block$1 {
   getId() {
     return BLOCK_ID$5;
   }
@@ -8270,24 +8487,24 @@ let CustomControl$1 = class CustomControl extends Control {
   getTemplate() {
     return `
             <div class="container">
-                <${UIElementType.LABEL} ${UEAttr.LABEL.text}="${this.api.translate("Test empty placeholder")}:"></${UIElementType.LABEL}>
+                <${UIElementType$1.LABEL} ${UEAttr$1.LABEL.text}="${this.api.translate("Test empty placeholder")}:"></${UIElementType$1.LABEL}>
 
-                <${UIElementType.SELECTPICKER} ${UEAttr.SELECTPICKER.name}="customPropValue"
-                    ${UEAttr.SELECTPICKER.placeholder}="${this.api.translate("Test empty placeholder")}">
-                </${UIElementType.SELECTPICKER}>
+                <${UIElementType$1.SELECTPICKER} ${UEAttr$1.SELECTPICKER.name}="customPropValue"
+                    ${UEAttr$1.SELECTPICKER.placeholder}="${this.api.translate("Test empty placeholder")}">
+                </${UIElementType$1.SELECTPICKER}>
             </div>`;
   }
   onRender() {
     const selectItems = [];
     for (let i = 1; i <= 5; i++) {
       selectItems.push({
-        [UEAttr.SELECT_ITEM.text]: i,
-        [UEAttr.SELECT_ITEM.value]: i
+        [UEAttr$1.SELECT_ITEM.text]: i,
+        [UEAttr$1.SELECT_ITEM.value]: i
       });
     }
     this.api.setUIEAttribute(
       "customPropValue",
-      UEAttr.SELECTPICKER.items,
+      UEAttr$1.SELECTPICKER.items,
       selectItems
     );
     this.api.onValueChanged("customPropValue", (newValue, _) => {
@@ -8303,7 +8520,7 @@ let CustomControl$1 = class CustomControl extends Control {
     this.api.updateValues({ customPropValue });
   }
 };
-class CustomBlock2 extends Block {
+class CustomBlock2 extends Block$1 {
   getId() {
     return BLOCK_ID$4;
   }
@@ -8388,7 +8605,7 @@ let SampleSettingsPanelRegistry$2 = class SampleSettingsPanelRegistry extends Se
     ];
   }
 };
-let ProductStructureBlock$2 = class ProductStructureBlock2 extends Block {
+let ProductStructureBlock$2 = class ProductStructureBlock2 extends Block$1 {
   getId() {
     return PRODUCT_STRUCTURE_ID$2;
   }
@@ -8499,7 +8716,7 @@ let SampleSettingsPanelRegistry$1 = class SampleSettingsPanelRegistry2 extends S
     ];
   }
 };
-let ProductStructureBlock$1 = class ProductStructureBlock3 extends Block {
+let ProductStructureBlock$1 = class ProductStructureBlock3 extends Block$1 {
   getId() {
     return PRODUCT_STRUCTURE_ID$1;
   }
@@ -8558,31 +8775,31 @@ let ProductStructureBlock$1 = class ProductStructureBlock3 extends Block {
   }
 };
 const multipleTextStyleExtension = new ExtensionBuilder().withSettingsPanelRegistry(SampleSettingsPanelRegistry$1).addBlock(ProductStructureBlock$1).addControl(CardNameTextStyleControl).addControl(CardPriceTextStyleControl).build();
-const ID$u = "nestedControlExtension";
+const ID$v = "nestedControlExtension";
 const DISABLED_ID = "disabledNestedControlExtension";
 const BACKGROUND_CONTROL$1 = "backgroundControl";
 const DISABLED_BACKGROUND_CONTROL = "disabledBackgroundControl";
 const BACKGROUND_SWITCHER = "backgroundSwitcher";
 let PanelRegistry$r = class PanelRegistry25 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$u, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$v, 0);
     controls2[BlockType.BLOCK_TEXT][0].addControl(DISABLED_ID, 0);
   }
 };
 let NestedControlExtension$1 = class NestedControlExtension extends Control {
   #switcher;
   getId() {
-    return ID$u;
+    return ID$v;
   }
   getTemplate() {
-    const { LABEL, SWITCHER, NESTED_CONTROL } = UIElementType;
+    const { LABEL, SWITCHER, NESTED_CONTROL } = UIElementType$1;
     return `
             <div>
-                <${LABEL} ${UEAttr.LABEL.text}="Enable background control:"></${LABEL}>
-                <${SWITCHER} ${UEAttr.SWITCHER.name}="${BACKGROUND_SWITCHER}" class="e2e-background-switcher"></${SWITCHER}>
+                <${LABEL} ${UEAttr$1.LABEL.text}="Enable background control:"></${LABEL}>
+                <${SWITCHER} ${UEAttr$1.SWITCHER.name}="${BACKGROUND_SWITCHER}" class="e2e-background-switcher"></${SWITCHER}>
             </div>
-            <${NESTED_CONTROL} ${UEAttr.NESTED_CONTROL.name}="${BACKGROUND_CONTROL$1}" 
-                               ${UEAttr.NESTED_CONTROL.controlId}="${BuiltInControlTypes.GENERAL.BACKGROUND_COLOR}">                               
+            <${NESTED_CONTROL} ${UEAttr$1.NESTED_CONTROL.name}="${BACKGROUND_CONTROL$1}" 
+                               ${UEAttr$1.NESTED_CONTROL.controlId}="${BuiltInControlTypes.GENERAL.BACKGROUND_COLOR}">                               
             </{NESTED_CONTROL}>`;
   }
   onRender() {
@@ -8603,11 +8820,11 @@ class DisabledNestedControlExtension extends Control {
     return DISABLED_ID;
   }
   getTemplate() {
-    const { NESTED_CONTROL, LABEL } = UIElementType;
-    return `<${LABEL} ${UEAttr.LABEL.text}="Disabled nested control:"></${LABEL}>
-            <${NESTED_CONTROL} ${UEAttr.NESTED_CONTROL.name}="${DISABLED_BACKGROUND_CONTROL}" 
-                               ${UEAttr.NESTED_CONTROL.controlId}="${BuiltInControlTypes.GENERAL.BACKGROUND_COLOR}"                               
-                               ${UEAttr.NESTED_CONTROL.disabled}="true">                               
+    const { NESTED_CONTROL, LABEL } = UIElementType$1;
+    return `<${LABEL} ${UEAttr$1.LABEL.text}="Disabled nested control:"></${LABEL}>
+            <${NESTED_CONTROL} ${UEAttr$1.NESTED_CONTROL.name}="${DISABLED_BACKGROUND_CONTROL}" 
+                               ${UEAttr$1.NESTED_CONTROL.controlId}="${BuiltInControlTypes.GENERAL.BACKGROUND_COLOR}"                               
+                               ${UEAttr$1.NESTED_CONTROL.disabled}="true">                               
             </{NESTED_CONTROL}>`;
   }
   onRender() {
@@ -8622,8 +8839,8 @@ class NestedControlExtension2 extends Control {
     return NESTED_ID;
   }
   getTemplate() {
-    const { NESTED_CONTROL } = UIElementType;
-    const { NESTED_CONTROL: { name, controlId } } = UEAttr;
+    const { NESTED_CONTROL } = UIElementType$1;
+    const { NESTED_CONTROL: { name, controlId } } = UEAttr$1;
     return `<${NESTED_CONTROL} ${name}="${BuiltInControlTypes.GENERAL.TEXT_LINE_SPACING}" 
                                ${controlId}="${BuiltInControlTypes.GENERAL.TEXT_LINE_SPACING}">                               
             </{NESTED_CONTROL}>`;
@@ -8648,7 +8865,7 @@ class ReinitializedControlExtension extends Control {
     return CONTROL_ID$8;
   }
   getTemplate() {
-    return `<div class="e2e-reinitialized-control"><${ELEMENT_ID} ${UEAttr.DEFAULT.name}="${SWITCHER_NAME$4}"></${ELEMENT_ID}></div>`;
+    return `<div class="e2e-reinitialized-control"><${ELEMENT_ID} ${UEAttr$1.DEFAULT.name}="${SWITCHER_NAME$4}"></${ELEMENT_ID}></div>`;
   }
   onRender() {
     this.api.onValueChanged(SWITCHER_NAME$4, this._toggleClass.bind(this));
@@ -8668,7 +8885,7 @@ class ReinitializedControlExtension extends Control {
     }
   }
 }
-class ReinitializedElement extends UIElement {
+class ReinitializedElement extends UIElement$1 {
   getId() {
     return ELEMENT_ID;
   }
@@ -8699,7 +8916,7 @@ const SELECT_CHANGE_FIRST_TAB_ID = "select-change-first-tab-id";
 const SELECT_CHANGE_SECOND_TAB_ID = "select-change-second-tab-id";
 const FIRST_TAB_ID = "first-tab-id";
 const SECOND_TAB_ID = "second-tab-id";
-class ExtensionBlock extends Block {
+class ExtensionBlock extends Block$1 {
   getId() {
     return BLOCK_ID$3;
   }
@@ -8743,13 +8960,13 @@ class SelectChangeFirstPanel extends Control {
     return SELECT_CHANGE_FIRST_TAB_ID;
   }
   getTemplate() {
-    const { LABEL, SELECTPICKER } = UIElementType;
+    const { LABEL, SELECTPICKER } = UIElementType$1;
     return `
             <div class="container first-select">
-                <${LABEL} ${UEAttr.LABEL.text}="${this.api.translate("Action to change tab 1")}:"></${LABEL}>
+                <${LABEL} ${UEAttr$1.LABEL.text}="${this.api.translate("Action to change tab 1")}:"></${LABEL}>
 
-                <${SELECTPICKER} ${UEAttr.SELECTPICKER.name}="actionToChangeTab1"
-                    ${UEAttr.SELECTPICKER.placeholder}="${this.api.translate("Action to change tab 1")}">
+                <${SELECTPICKER} ${UEAttr$1.SELECTPICKER.name}="actionToChangeTab1"
+                    ${UEAttr$1.SELECTPICKER.placeholder}="${this.api.translate("Action to change tab 1")}">
                 </${SELECTPICKER}>
             </div>`;
   }
@@ -8757,13 +8974,13 @@ class SelectChangeFirstPanel extends Control {
     const selectItems = [];
     for (let i = 1; i <= 10; i++) {
       selectItems.push({
-        [UEAttr.SELECT_ITEM.text]: `Action ${i}`,
-        [UEAttr.SELECT_ITEM.value]: i
+        [UEAttr$1.SELECT_ITEM.text]: `Action ${i}`,
+        [UEAttr$1.SELECT_ITEM.value]: i
       });
     }
     this.api.setUIEAttribute(
       "actionToChangeTab1",
-      UEAttr.SELECTPICKER.items,
+      UEAttr$1.SELECTPICKER.items,
       selectItems
     );
     this.api.onValueChanged("actionToChangeTab1", (newValue, _) => {
@@ -8778,13 +8995,13 @@ class SelectChangeSecondPanel extends Control {
     return SELECT_CHANGE_SECOND_TAB_ID;
   }
   getTemplate() {
-    const { LABEL, SELECTPICKER } = UIElementType;
+    const { LABEL, SELECTPICKER } = UIElementType$1;
     return `
             <div class="container second-select">
-                <${LABEL} ${UEAttr.LABEL.text}="${this.api.translate("Action to change tab 2")}:"></${LABEL}>
+                <${LABEL} ${UEAttr$1.LABEL.text}="${this.api.translate("Action to change tab 2")}:"></${LABEL}>
 
-                <${SELECTPICKER} ${UEAttr.SELECTPICKER.name}="actionToChangeTab2"
-                    ${UEAttr.SELECTPICKER.placeholder}="${this.api.translate("Action to change tab 2")}">
+                <${SELECTPICKER} ${UEAttr$1.SELECTPICKER.name}="actionToChangeTab2"
+                    ${UEAttr$1.SELECTPICKER.placeholder}="${this.api.translate("Action to change tab 2")}">
                 </${SELECTPICKER}>
             </div>`;
   }
@@ -8792,13 +9009,13 @@ class SelectChangeSecondPanel extends Control {
     const selectItems = [];
     for (let i = 1; i <= 10; i++) {
       selectItems.push({
-        [UEAttr.SELECT_ITEM.text]: `Action ${i}`,
-        [UEAttr.SELECT_ITEM.value]: i
+        [UEAttr$1.SELECT_ITEM.text]: `Action ${i}`,
+        [UEAttr$1.SELECT_ITEM.value]: i
       });
     }
     this.api.setUIEAttribute(
       "actionToChangeTab2",
-      UEAttr.SELECTPICKER.items,
+      UEAttr$1.SELECTPICKER.items,
       selectItems
     );
     this.api.onValueChanged("actionToChangeTab2", (newValue, _) => {
@@ -8817,25 +9034,25 @@ let PanelRegistry$o = class PanelRegistry28 extends SettingsPanelRegistry {
   }
 };
 const extensionSettingsPanelTitleHtml = new ExtensionBuilder().addBlock(ExtensionBlock).addControl(SelectChangeFirstPanel).addControl(SelectChangeSecondPanel).withSettingsPanelRegistry(PanelRegistry$o).build();
-const ID$t = "stateChangeSubscriberExtension";
+const ID$u = "stateChangeSubscriberExtension";
 const LABEL_NAME = "label";
 const LABEL_THEME_NAME = "labelTheme";
 const SWITCHER_NAME$3 = "switcher";
 let PanelRegistry$n = class PanelRegistry29 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$t, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$u, 0);
   }
 };
 class StateChangeSubscriberExtension extends Control {
   getId() {
-    return ID$t;
+    return ID$u;
   }
   getTemplate() {
-    const { LABEL, SWITCHER } = UIElementType;
+    const { LABEL, SWITCHER } = UIElementType$1;
     return `<div class="e2e-mode-class-control">
-                <${LABEL} class="e2e-label-view-mode" ${UEAttr.LABEL.name}="${LABEL_NAME}"></${LABEL}>
-                <${LABEL} class="e2e-label-theme-mode" ${UEAttr.LABEL.name}="${LABEL_THEME_NAME}"></${LABEL}>
-                <${SWITCHER} ${UEAttr.SWITCHER.name}="${SWITCHER_NAME$3}"></${SWITCHER}>
+                <${LABEL} class="e2e-label-view-mode" ${UEAttr$1.LABEL.name}="${LABEL_NAME}"></${LABEL}>
+                <${LABEL} class="e2e-label-theme-mode" ${UEAttr$1.LABEL.name}="${LABEL_THEME_NAME}"></${LABEL}>
+                <${SWITCHER} ${UEAttr$1.SWITCHER.name}="${SWITCHER_NAME$3}"></${SWITCHER}>
             </div>`;
   }
   onRender() {
@@ -8877,15 +9094,15 @@ class StateChangeSubscriberExtension extends Control {
   }
 }
 const stateChangeSubscriber = new ExtensionBuilder().addControl(StateChangeSubscriberExtension).withSettingsPanelRegistry(PanelRegistry$n).build();
-const ID$s = "variableModeExtendedControl";
+const ID$t = "variableModeExtendedControl";
 let PanelRegistry$m = class PanelRegistry30 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$s, 0);
+    controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$t, 0);
   }
 };
 class VariableModeExtendedControl extends ButtonBlockBackgroundColorBuiltInControl {
   getId() {
-    return ID$s;
+    return ID$t;
   }
   getLabels() {
     return {
@@ -8913,10 +9130,10 @@ class VariableVisibilityControl extends Control {
     return CONTROL_ID$7;
   }
   getTemplate() {
-    const { SWITCHER, LABEL } = UIElementType;
+    const { SWITCHER, LABEL } = UIElementType$1;
     return `<div class="e2e-variable-visibility-control">
-                <${LABEL}  ${UEAttr.LABEL.text}="Only visible if link href is undefined"></${LABEL}>
-                <${SWITCHER} ${UEAttr.DEFAULT.name}="${SWITCHER_NAME$2}"></${SWITCHER}>
+                <${LABEL}  ${UEAttr$1.LABEL.text}="Only visible if link href is undefined"></${LABEL}>
+                <${SWITCHER} ${UEAttr$1.DEFAULT.name}="${SWITCHER_NAME$2}"></${SWITCHER}>
             </div>`;
   }
   isVisible(node) {
@@ -8968,15 +9185,15 @@ class ExtendedBlockButtonMarginsControl2 extends ButtonMarginsBuiltInControl {
   }
 }
 const extensionVisibleBuiltControl = new ExtensionBuilder().addControl(ExtendedBlockButtonMarginsControl2).withSettingsPanelRegistry(PanelRegistry$k).build();
-const ID$r = "extendedImageAlignment";
+const ID$s = "extendedImageAlignment";
 let ButtonPanelRegistry$6 = class ButtonPanelRegistry10 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRUCTURE][0].addControl(ID$r, 0);
+    controls2[BlockType.STRUCTURE][0].addControl(ID$s, 0);
   }
 };
 class ExtendedImageAlignmentControl extends ImageAlignmentBuiltInControl {
   getId() {
-    return ID$r;
+    return ID$s;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -8989,14 +9206,14 @@ class ExtendedImageAlignmentControl extends ImageAlignmentBuiltInControl {
   }
 }
 const imageAlignmentControlExtension = new ExtensionBuilder().addControl(ExtendedImageAlignmentControl).withSettingsPanelRegistry(ButtonPanelRegistry$6).build();
-const ID$q = "extendedImageMargins";
+const ID$r = "extendedImageMargins";
 let ButtonPanelRegistry$5 = class ButtonPanelRegistry11 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_IMAGE] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$q
+          ID$r
         ]
       )
     ];
@@ -9004,7 +9221,7 @@ let ButtonPanelRegistry$5 = class ButtonPanelRegistry11 extends SettingsPanelReg
 };
 class ExtendedImageMarginsControl extends ImageMarginsBuiltInControl {
   getId() {
-    return ID$q;
+    return ID$r;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -9017,14 +9234,14 @@ class ExtendedImageMarginsControl extends ImageMarginsBuiltInControl {
   }
 }
 const imageMarginsControlExtension = new ExtensionBuilder().addControl(ExtendedImageMarginsControl).withSettingsPanelRegistry(ButtonPanelRegistry$5).build();
-const ID$p = "extendedImageSize";
+const ID$q = "extendedImageSize";
 let PanelRegistry$j = class PanelRegistry33 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_IMAGE] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$p
+          ID$q
         ]
       )
     ];
@@ -9032,7 +9249,7 @@ let PanelRegistry$j = class PanelRegistry33 extends SettingsPanelRegistry {
 };
 class ExtendedImageSizeControl2 extends ImageSizeBuiltInControl {
   getId() {
-    return ID$p;
+    return ID$q;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -9045,14 +9262,14 @@ class ExtendedImageSizeControl2 extends ImageSizeBuiltInControl {
   }
 }
 const imageSizeControlExtension = new ExtensionBuilder().addControl(ExtendedImageSizeControl2).withSettingsPanelRegistry(PanelRegistry$j).build();
-const ID$o = "extendedImageVisibility";
+const ID$p = "extendedImageVisibility";
 let ButtonPanelRegistry$4 = class ButtonPanelRegistry12 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_IMAGE] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$o
+          ID$p
         ]
       )
     ];
@@ -9060,7 +9277,7 @@ let ButtonPanelRegistry$4 = class ButtonPanelRegistry12 extends SettingsPanelReg
 };
 class ExtendedImageVisibilityControl extends ImageVisibilityBuiltInControl {
   getId() {
-    return ID$o;
+    return ID$p;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -9073,14 +9290,14 @@ class ExtendedImageVisibilityControl extends ImageVisibilityBuiltInControl {
   }
 }
 const extensionImageVisibilityControl = new ExtensionBuilder().addControl(ExtendedImageVisibilityControl).withSettingsPanelRegistry(ButtonPanelRegistry$4).build();
-const ID$n = "extendedSpacerBackgroundColor";
+const ID$o = "extendedSpacerBackgroundColor";
 let PanelRegistry$i = class PanelRegistry34 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_SPACER] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$n
+          ID$o
         ]
       )
     ];
@@ -9088,7 +9305,7 @@ let PanelRegistry$i = class PanelRegistry34 extends SettingsPanelRegistry {
 };
 class ExtendedSpacerBackgroundColorControl extends SpacerBackgroundColorBuiltInControl {
   getId() {
-    return ID$n;
+    return ID$o;
   }
   getLabels() {
     return {
@@ -9100,14 +9317,14 @@ class ExtendedSpacerBackgroundColorControl extends SpacerBackgroundColorBuiltInC
   }
 }
 const extensionSpacerBackgroundColorControl = new ExtensionBuilder().addControl(ExtendedSpacerBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$i).build();
-const ID$m = "extendedSpacerMargins";
+const ID$n = "extendedSpacerMargins";
 let PanelRegistry$h = class PanelRegistry35 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_SPACER] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$m
+          ID$n
         ]
       )
     ];
@@ -9115,7 +9332,7 @@ let PanelRegistry$h = class PanelRegistry35 extends SettingsPanelRegistry {
 };
 class ExtendedSpacerMarginsControl extends SpacerMarginsBuiltInControl {
   getId() {
-    return ID$m;
+    return ID$n;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -9128,14 +9345,14 @@ class ExtendedSpacerMarginsControl extends SpacerMarginsBuiltInControl {
   }
 }
 const extensionSpacerMarginsControl = new ExtensionBuilder().addControl(ExtendedSpacerMarginsControl).withSettingsPanelRegistry(PanelRegistry$h).build();
-const ID$l = "extendedStructureAdapt";
+const ID$m = "extendedStructureAdapt";
 let PanelRegistry$g = class PanelRegistry36 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$l
+          ID$m
         ]
       )
     ];
@@ -9143,7 +9360,7 @@ let PanelRegistry$g = class PanelRegistry36 extends SettingsPanelRegistry {
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$l
+          ID$m
         ]
       )
     ];
@@ -9151,7 +9368,7 @@ let PanelRegistry$g = class PanelRegistry36 extends SettingsPanelRegistry {
 };
 class ExtendedStructureAdaptControl extends StructureAdaptBuiltInControl {
   getId() {
-    return ID$l;
+    return ID$m;
   }
   getLabels() {
     return {
@@ -9168,15 +9385,15 @@ class ExtendedStructureAdaptControl extends StructureAdaptBuiltInControl {
   }
 }
 const extensionStructureAdaptControl = new ExtensionBuilder().addControl(ExtendedStructureAdaptControl).withSettingsPanelRegistry(PanelRegistry$g).build();
-const ID$k = "extendedStructureBackgroundColor";
+const ID$l = "extendedStructureBackgroundColor";
 let PanelRegistry$f = class PanelRegistry37 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRUCTURE][0].addControl(ID$k, 0);
+    controls2[BlockType.STRUCTURE][0].addControl(ID$l, 0);
   }
 };
 class ExtendedStructureBackgroundColorControl extends StructureBackgroundColorBuiltInControl {
   getId() {
-    return ID$k;
+    return ID$l;
   }
   getLabels() {
     return {
@@ -9188,15 +9405,15 @@ class ExtendedStructureBackgroundColorControl extends StructureBackgroundColorBu
   }
 }
 const extensionStructureBackgroundControl = new ExtensionBuilder().addControl(ExtendedStructureBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$f).build();
-const ID$j = "extendedStructureBackgroundImage";
+const ID$k = "extendedStructureBackgroundImage";
 let PanelRegistry$e = class PanelRegistry38 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRUCTURE][0].addControl(ID$j, 0);
+    controls2[BlockType.STRUCTURE][0].addControl(ID$k, 0);
   }
 };
 class ExtendedStructureBackgroundImageControl extends StructureBackgroundImageBuiltInControl {
   getId() {
-    return ID$j;
+    return ID$k;
   }
   getLabels() {
     return {
@@ -9215,15 +9432,15 @@ class ExtendedStructureBackgroundImageControl extends StructureBackgroundImageBu
   }
 }
 const extensionStructureBackgroundImageControl = new ExtensionBuilder().addControl(ExtendedStructureBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$e).build();
-const ID$i = "extendedStructureBorder";
+const ID$j = "extendedStructureBorder";
 let PanelRegistry$d = class PanelRegistry39 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRUCTURE][0].addControl(ID$i, 0);
+    controls2[BlockType.STRUCTURE][0].addControl(ID$j, 0);
   }
 };
 class ExtendedStructureBorderControl extends StructureBorderBuiltInControl {
   getId() {
-    return ID$i;
+    return ID$j;
   }
   getLabels() {
     return {
@@ -9240,15 +9457,15 @@ class ExtendedStructureBorderControl extends StructureBorderBuiltInControl {
   }
 }
 const structureBorderControlExtension = new ExtensionBuilder().withSettingsPanelRegistry(PanelRegistry$d).addControl(ExtendedStructureBorderControl).build();
-const ID$h = "extendedStructureMargins";
+const ID$i = "extendedStructureMargins";
 let PanelRegistry$c = class PanelRegistry40 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRUCTURE][0].addControl(ID$h, 0);
+    controls2[BlockType.STRUCTURE][0].addControl(ID$i, 0);
   }
 };
 class ExtendedStructureMarginsControl extends StructureMarginsBuiltInControl {
   getId() {
-    return ID$h;
+    return ID$i;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -9264,15 +9481,15 @@ const extensionStructureMarginsControl = new ExtensionBuilder().addControl(Exten
   "Extended structure margins desktop": "EN Extended structure margins desktop",
   "Extended structure margins mobile": "EN Extended structure margins mobile"
 } }).withSettingsPanelRegistry(PanelRegistry$c).build();
-const ID$g = "extendedStructurePaddings";
+const ID$h = "extendedStructurePaddings";
 let PanelRegistry$b = class PanelRegistry41 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRIPE][0].addControl(ID$g, 0);
+    controls2[BlockType.STRIPE][0].addControl(ID$h, 0);
   }
 };
 class ExtendedStructurePaddingsControl extends StructurePaddingsBuiltInControl {
   getId() {
-    return ID$g;
+    return ID$h;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -9290,14 +9507,14 @@ const extendedStructurePaddingsControl = new ExtensionBuilder().addControl(Exten
   "Extended structure paddings desktop": "EN Extended structure paddings desktop",
   "Extended structure paddings mobile": "EN Extended structure paddings mobile"
 } }).withSettingsPanelRegistry(PanelRegistry$b).build();
-const ID$f = "extendedStructureVisibility";
+const ID$g = "extendedStructureVisibility";
 let ButtonPanelRegistry$3 = class ButtonPanelRegistry13 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$f
+          ID$g
         ]
       )
     ];
@@ -9305,7 +9522,7 @@ let ButtonPanelRegistry$3 = class ButtonPanelRegistry13 extends SettingsPanelReg
 };
 class ExtendedStructureVisibilityControl extends StructureVisibilityBuiltInControl {
   getId() {
-    return ID$f;
+    return ID$g;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -9318,17 +9535,17 @@ class ExtendedStructureVisibilityControl extends StructureVisibilityBuiltInContr
   }
 }
 const extensionStructureVisibilityControl = new ExtensionBuilder().addControl(ExtendedStructureVisibilityControl).withSettingsPanelRegistry(ButtonPanelRegistry$3).build();
-const ID$e = "extendedTextAlign";
+const ID$f = "extendedTextAlign";
 let PanelRegistry$a = class PanelRegistry42 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$e])
+      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$f])
     ];
   }
 };
 class ExtendedTextAlignControl extends TextAlignBuiltInControl {
   getId() {
-    return ID$e;
+    return ID$f;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -9345,15 +9562,15 @@ class ExtendedTextAlignControl extends TextAlignBuiltInControl {
   }
 }
 const extensionTextAlignControl = new ExtensionBuilder().addControl(ExtendedTextAlignControl).withSettingsPanelRegistry(PanelRegistry$a).build();
-const ID$d = "builtInTextBlockBackground";
+const ID$e = "builtInTextBlockBackground";
 let PanelRegistry$9 = class PanelRegistry43 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$d, 0);
+    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$e, 0);
   }
 };
 class ExtendedTextBlockBackgroundControl extends TextBlockBackgroundBuiltInControl {
   getId() {
-    return ID$d;
+    return ID$e;
   }
   getLabels() {
     return {
@@ -9365,15 +9582,15 @@ class ExtendedTextBlockBackgroundControl extends TextBlockBackgroundBuiltInContr
   }
 }
 const extensionTextBlockBackgroundControl = new ExtensionBuilder().addControl(ExtendedTextBlockBackgroundControl).withSettingsPanelRegistry(PanelRegistry$9).build();
-const ID$c = "extendedTextColor";
+const ID$d = "extendedTextColor";
 let PanelRegistry$8 = class PanelRegistry44 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$c, 0);
+    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$d, 0);
   }
 };
 class ExtendedTextColorControl2 extends TextColorBuiltInControl {
   getId() {
-    return ID$c;
+    return ID$d;
   }
   getLabels() {
     return {
@@ -9385,14 +9602,14 @@ class ExtendedTextColorControl2 extends TextColorBuiltInControl {
   }
 }
 const textColorControlExtension = new ExtensionBuilder().addControl(ExtendedTextColorControl2).withSettingsPanelRegistry(PanelRegistry$8).build();
-const ID$b = "extendedTextFixedHeight";
+const ID$c = "extendedTextFixedHeight";
 let ButtonPanelRegistry$2 = class ButtonPanelRegistry14 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$b
+          ID$c
         ]
       )
     ];
@@ -9400,7 +9617,7 @@ let ButtonPanelRegistry$2 = class ButtonPanelRegistry14 extends SettingsPanelReg
 };
 class ExtendedTextFixedHeightControl extends TextFixedHeightBuiltInControl {
   getId() {
-    return ID$b;
+    return ID$c;
   }
   getLabels() {
     return {
@@ -9414,17 +9631,17 @@ class ExtendedTextFixedHeightControl extends TextFixedHeightBuiltInControl {
   }
 }
 const textFixedHeightControlExtension = new ExtensionBuilder().addControl(ExtendedTextFixedHeightControl).withSettingsPanelRegistry(ButtonPanelRegistry$2).build();
-const ID$a = "extendedTextLineSpacing";
+const ID$b = "extendedTextLineSpacing";
 let PanelRegistry$7 = class PanelRegistry45 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$a])
+      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$b])
     ];
   }
 };
 class ExtendedTextLineSpacingControl extends TextLineSpacingBuiltInControl {
   getId() {
-    return ID$a;
+    return ID$b;
   }
   getLabels() {
     return {
@@ -9436,14 +9653,14 @@ class ExtendedTextLineSpacingControl extends TextLineSpacingBuiltInControl {
   }
 }
 const textLineSpacingControlExtension = new ExtensionBuilder().addControl(ExtendedTextLineSpacingControl).withSettingsPanelRegistry(PanelRegistry$7).build();
-const ID$9 = "extendedBlockPaddingsText";
+const ID$a = "extendedBlockPaddingsText";
 let ButtonPanelRegistry$1 = class ButtonPanelRegistry15 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$9
+          ID$a
         ]
       )
     ];
@@ -9451,7 +9668,7 @@ let ButtonPanelRegistry$1 = class ButtonPanelRegistry15 extends SettingsPanelReg
 };
 class ExtendedBlockTextPaddingsControl2 extends TextPaddingsBuiltInControl {
   getId() {
-    return ID$9;
+    return ID$a;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -9464,15 +9681,15 @@ class ExtendedBlockTextPaddingsControl2 extends TextPaddingsBuiltInControl {
   }
 }
 const textPaddingsControlExtension = new ExtensionBuilder().addControl(ExtendedBlockTextPaddingsControl2).withSettingsPanelRegistry(ButtonPanelRegistry$1).build();
-const ID$8 = "extendedTextSize";
+const ID$9 = "extendedTextSize";
 let PanelRegistry$6 = class PanelRegistry46 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$8, 0);
+    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$9, 0);
   }
 };
 class ExtendedTextSizeControl extends TextSizeBuiltInControl {
   getId() {
-    return ID$8;
+    return ID$9;
   }
   getLabels() {
     return {
@@ -9484,15 +9701,15 @@ class ExtendedTextSizeControl extends TextSizeBuiltInControl {
   }
 }
 const textSizeControlExtension = new ExtensionBuilder().addControl(ExtendedTextSizeControl).withSettingsPanelRegistry(PanelRegistry$6).build();
-const ID$7 = "extendedTextStyle";
+const ID$8 = "extendedTextStyle";
 let PanelRegistry$5 = class PanelRegistry47 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$7, 0);
+    controls2[BlockType.BLOCK_TEXT][0].addControl(ID$8, 0);
   }
 };
 class ExtendedTextStyleControl extends TextStyleBuiltInControl {
   getId() {
-    return ID$7;
+    return ID$8;
   }
   getLabels() {
     return {
@@ -9504,14 +9721,14 @@ class ExtendedTextStyleControl extends TextStyleBuiltInControl {
   }
 }
 const textStyleControlExtension = new ExtensionBuilder().addControl(ExtendedTextStyleControl).withSettingsPanelRegistry(PanelRegistry$5).build();
-const ID$6 = "extendedTextVisibility";
+const ID$7 = "extendedTextVisibility";
 class ButtonPanelRegistry16 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
       new SettingsPanelTab(
         SettingsTab.SETTINGS,
         [
-          ID$6
+          ID$7
         ]
       )
     ];
@@ -9519,7 +9736,7 @@ class ButtonPanelRegistry16 extends SettingsPanelRegistry {
 }
 class ExtendedTextVisibilityControl extends TextVisibilityBuiltInControl {
   getId() {
-    return ID$6;
+    return ID$7;
   }
   getLabels() {
     const viewMode = this.api.getEditorState().previewDeviceMode;
@@ -10483,8 +10700,8 @@ class GeneralPanelFirstTabExtension extends GeneralPanelTab {
     return this.api.translate("General Panel Extension 1");
   }
   getTemplate() {
-    const { LABEL } = UIElementType;
-    const { LABEL: { text: labelTextAttr } } = UEAttr;
+    const { LABEL } = UIElementType$1;
+    const { LABEL: { text: labelTextAttr } } = UEAttr$1;
     return `
       <div class="container two-columns">
         <${LABEL} ${labelTextAttr}="${this.api.translate("Enable controls tab 1")}"></${LABEL}>
@@ -10506,8 +10723,8 @@ class GeneralPanelSecondTabExtension extends GeneralPanelTab {
     return this.api.translate("General Panel Extension 2");
   }
   getTemplate() {
-    const { LABEL } = UIElementType;
-    const { LABEL: { text: labelTextAttr } } = UEAttr;
+    const { LABEL } = UIElementType$1;
+    const { LABEL: { text: labelTextAttr } } = UEAttr$1;
     return `
       <div class="container two-columns">
         <${LABEL} ${labelTextAttr}="${this.api.translate("Enable controls tab 2")}"></${LABEL}>
@@ -10519,14 +10736,14 @@ class GeneralPanelSecondTabExtension extends GeneralPanelTab {
   }
 }
 const generalMultipleTabsExtension = new ExtensionBuilder().addGeneralPanelTab(GeneralPanelFirstTabExtension).addGeneralPanelTab(GeneralPanelSecondTabExtension).build();
-const ID$5 = "general-panel-extension";
+const ID$6 = "general-panel-extension";
 const SWITCHER_NAME$1 = "activate-copilot";
 const TEXT_AREA_MESSAGE = "copilot-message";
 const TEXT_AREA_ADDITIONAL_SETTINGS = "copilot-additional-settings";
 const CONTAINER_SETTINGS = "container-settings";
 class GeneralPanelTabExtension extends GeneralPanelTab {
   getId() {
-    return ID$5;
+    return ID$6;
   }
   getIcon() {
     return "new-window";
@@ -10535,14 +10752,14 @@ class GeneralPanelTabExtension extends GeneralPanelTab {
     return this.api.translate("General Panel Extension");
   }
   getTemplate() {
-    const { LABEL, SWITCHER, TEXT, TEXTAREA } = UIElementType;
+    const { LABEL, SWITCHER, TEXT, TEXTAREA } = UIElementType$1;
     const {
       LABEL: { text: labelTextAttr },
       TEXTAREA: { name: textareaNameAttr, placeholder: textareaPlaceholderAttr },
       SWITCHER: { name: switcherNameAttr },
       TEXT: { name: textNameAttr, placeholder: textPlaceholderAttr },
       DEFAULT: { name: defaultNameAttr }
-    } = UEAttr;
+    } = UEAttr$1;
     return `
       <div class="container two-columns">
         <${LABEL} ${labelTextAttr}="${this.api.translate("Enable controls")}"></${LABEL}>
@@ -10565,7 +10782,7 @@ class GeneralPanelTabExtension extends GeneralPanelTab {
             class="e2e-general-ui-text"
             ${textNameAttr}="${TEXT_AREA_ADDITIONAL_SETTINGS}" 
             ${textPlaceholderAttr}="${this.api.translate("Enter text here:")}"
-            ${UEAttr.TEXT.disabled}="true"
+            ${UEAttr$1.TEXT.disabled}="true"
           ></${TEXT}>
         </div>
       </div>
@@ -10587,7 +10804,7 @@ class GeneralPanelTabExtension extends GeneralPanelTab {
     });
     this.api.onValueChanged(TEXT_AREA_MESSAGE, (value) => {
       this.#modifyConfigAndSave(TEXT_AREA_MESSAGE, value);
-      this.api.setUIEAttribute(TEXT_AREA_ADDITIONAL_SETTINGS, UEAttr.TEXT.disabled, value.length === 0);
+      this.api.setUIEAttribute(TEXT_AREA_ADDITIONAL_SETTINGS, UEAttr$1.TEXT.disabled, value.length === 0);
     });
     this.api.onValueChanged(TEXT_AREA_ADDITIONAL_SETTINGS, (value) => {
       this.#modifyConfigAndSave(TEXT_AREA_ADDITIONAL_SETTINGS, value);
@@ -10612,6 +10829,111 @@ class GeneralPanelTabExtension extends GeneralPanelTab {
   }
 }
 const generalPanelTabExtension = new ExtensionBuilder().addGeneralPanelTab(GeneralPanelTabExtension).build();
+const ID$5 = "hidden-modification-extension";
+const PREHEADER_INPUT = "preheaderText";
+const HIDDEN_BUTTON_NAME = "applyHiddenModification";
+const VISIBLE_BUTTON_NAME = "applyVisibleModification";
+const HIDDEN_MODIFICATION_KEY = "Background guard modification";
+const VISIBLE_MODIFICATION_KEY = "Visible extension modification";
+const PREHEADER_SELECTOR = ".esd-block-text";
+class HiddenModificationTabExtension extends GeneralPanelTab {
+  getId() {
+    return ID$5;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Hidden Modification Extension");
+  }
+  getTemplate() {
+    const { BUTTON, LABEL, TEXT } = UIElementType$1;
+    return `
+      <div class="container">
+        <${LABEL} ${UEAttr$1.LABEL.text}="${this.api.translate("Preheader text")}"></${LABEL}>
+      </div>
+
+      <div class="container">
+        <${TEXT}
+          class="e2e-preheader-input"
+          ${UEAttr$1.TEXT.name}="${PREHEADER_INPUT}"
+          ${UEAttr$1.TEXT.placeholder}="${this.api.translate("Type the new preheader")}"
+        ></${TEXT}>
+      </div>
+
+      <div class="container two-columns">
+        <${BUTTON}
+          class="e2e-apply-hidden-modification"
+          ${UEAttr$1.BUTTON.name}="${HIDDEN_BUTTON_NAME}"
+          ${UEAttr$1.BUTTON.caption}="${this.api.translate("Apply as hidden")}"
+        ></${BUTTON}>
+        <${BUTTON}
+          class="e2e-apply-visible-modification"
+          ${UEAttr$1.BUTTON.name}="${VISIBLE_BUTTON_NAME}"
+          ${UEAttr$1.BUTTON.caption}="${this.api.translate("Apply as visible")}"
+        ></${BUTTON}>
+      </div>
+    `;
+  }
+  getTabIndex() {
+    return 1;
+  }
+  onRender() {
+    this.api.updateValues({ [PREHEADER_INPUT]: this.#getPreheaderText() });
+    this.api.onValueChanged(HIDDEN_BUTTON_NAME, () => {
+      this.#applyPreheaderText(new ModificationDescription(HIDDEN_MODIFICATION_KEY).asHidden());
+    });
+    this.api.onValueChanged(VISIBLE_BUTTON_NAME, () => {
+      this.#applyPreheaderText(new ModificationDescription(VISIBLE_MODIFICATION_KEY));
+    });
+  }
+  #getPreheaderNode() {
+    return this.api.getDocumentRootHtmlNode().querySelector(PREHEADER_SELECTOR);
+  }
+  #getPreheaderText() {
+    const block = this.#getPreheaderNode();
+    const textNode = block ? this.#findTextNode(block) : void 0;
+    return textNode ? (textNode.getTextContent() || "").trim() : "";
+  }
+  /**
+   * The block keeps its own markup (paragraph, styles, paddings) — only the text inside it is
+   * rewritten, which is what a background guard in a real extension does.
+   *
+   * Indentation between tags is stored as text nodes too, and those come first in the block, so
+   * whitespace-only nodes are skipped — otherwise the guard would rewrite the formatting instead
+   * of the preheader.
+   */
+  #findTextNode(node) {
+    for (const child of node.childNodes()) {
+      if (child.getType() === "text") {
+        if ((child.getTextContent() || "").trim()) {
+          return child.asText();
+        }
+        continue;
+      }
+      const nested = this.#findTextNode(child);
+      if (nested) {
+        return nested;
+      }
+    }
+    return void 0;
+  }
+  #applyPreheaderText(description) {
+    const block = this.#getPreheaderNode();
+    const value = String(this.api.getValues()[PREHEADER_INPUT] || "").trim();
+    if (!block || !value) {
+      return;
+    }
+    const textNode = this.#findTextNode(block);
+    const modifier = this.api.getDocumentModifier();
+    if (textNode) {
+      modifier.modifyHtml(textNode).setText(value).apply(description);
+    } else {
+      modifier.modifyHtml(block).setInnerHtml(`<p>${value}</p>`).apply(description);
+    }
+  }
+}
+const hiddenModificationTabExtension = new ExtensionBuilder().addGeneralPanelTab(HiddenModificationTabExtension).build();
 const ID$4 = "modules-panel-extension";
 const SWITCHER_NAME = "activate-widgets";
 const CONTAINER_WIDGETS = "container-widgets";
@@ -10637,7 +10959,7 @@ const widgets = [
     description: "Widget 4 description"
   }
 ];
-class ModulesPanelTabExtension extends ModulesPanelTab {
+class ModulesPanelTabExtension extends ModulesPanelTab$1 {
   getId() {
     return ID$4;
   }
@@ -10651,12 +10973,12 @@ class ModulesPanelTabExtension extends ModulesPanelTab {
     return 2;
   }
   getTemplate() {
-    const { LABEL, SWITCHER, TEXT } = UIElementType;
+    const { LABEL, SWITCHER, TEXT } = UIElementType$1;
     const {
       LABEL: { text: labelTextAttr },
       SWITCHER: { name: switcherNameAttr },
       DEFAULT: { name: defaultNameAttr }
-    } = UEAttr;
+    } = UEAttr$1;
     return `
       <div class="container two-columns enable-widgets">
         <${LABEL} ${labelTextAttr}="${this.api.translate("Enable controls")}"></${LABEL}>
@@ -10727,7 +11049,7 @@ class TestBlockContextAction2 extends ContextAction {
     return "robot";
   }
 }
-class ClassicBlock extends Block {
+class ClassicBlock extends Block$1 {
   getId() {
     return CLASSIC_BLOCK_ID;
   }
@@ -10757,7 +11079,7 @@ class ClassicBlock extends Block {
   }
 }
 const CLASSIC_STRUCTURE_ID = "classic-structure";
-class ClassicStructureBlock extends Block {
+class ClassicStructureBlock extends Block$1 {
   getId() {
     return CLASSIC_STRUCTURE_ID;
   }
@@ -10810,7 +11132,7 @@ class ClassicStructureBlock extends Block {
   }
 }
 const PRODUCT_STRUCTURE_ID = "product-structure";
-class ProductStructureBlock4 extends Block {
+class ProductStructureBlock4 extends Block$1 {
   getId() {
     return PRODUCT_STRUCTURE_ID;
   }
@@ -11167,26 +11489,26 @@ class ExpandableControl extends Control {
     return EXPANDABLE_ID;
   }
   getTemplate() {
-    const { NESTED_CONTROL } = UIElementType;
+    const { NESTED_CONTROL } = UIElementType$1;
     return `
-            <${UIElementType.EXPANDABLE} ${UEAttr.EXPANDABLE.expanded}="false" name="exp1">
+            <${UIElementType$1.EXPANDABLE} ${UEAttr$1.EXPANDABLE.expanded}="false" name="exp1">
             
-                <${UIElementType.EXPANDABLE_HEADER}>
+                <${UIElementType$1.EXPANDABLE_HEADER}>
                 
                   Product name
                        
-                </${UIElementType.EXPANDABLE_HEADER}>
+                </${UIElementType$1.EXPANDABLE_HEADER}>
                 
-                <${UIElementType.EXPANDABLE_CONTENT}>
+                <${UIElementType$1.EXPANDABLE_CONTENT}>
                 
                    <${NESTED_CONTROL} 
-                        ${UEAttr.NESTED_CONTROL.name}="${BACKGROUND_CONTROL}" 
-                        ${UEAttr.NESTED_CONTROL.controlId}="${BuiltInControlTypes.GENERAL.BACKGROUND_COLOR}">                               
+                        ${UEAttr$1.NESTED_CONTROL.name}="${BACKGROUND_CONTROL}" 
+                        ${UEAttr$1.NESTED_CONTROL.controlId}="${BuiltInControlTypes.GENERAL.BACKGROUND_COLOR}">                               
                    </{NESTED_CONTROL}>
                    
-                </${UIElementType.EXPANDABLE_CONTENT}> 
+                </${UIElementType$1.EXPANDABLE_CONTENT}> 
                 
-            </${UIElementType.EXPANDABLE}>
+            </${UIElementType$1.EXPANDABLE}>
     `;
   }
 }
@@ -12029,11 +12351,11 @@ const ID$3 = "custom-font-family-select";
 const ORIGINAL_ID$1 = "original-font-family-select";
 class TagRegistry extends UIElementTagRegistry {
   registerUiElements(uiElementsTagsMap) {
-    uiElementsTagsMap[ORIGINAL_ID$1] = uiElementsTagsMap[UIElementType.FONT_FAMILY_SELECT];
-    uiElementsTagsMap[UIElementType.FONT_FAMILY_SELECT] = ID$3;
+    uiElementsTagsMap[ORIGINAL_ID$1] = uiElementsTagsMap[UIElementType$1.FONT_FAMILY_SELECT];
+    uiElementsTagsMap[UIElementType$1.FONT_FAMILY_SELECT] = ID$3;
   }
 }
-class CustomFontFamilySelect extends UIElement {
+class CustomFontFamilySelect extends UIElement$1 {
   getId() {
     return ID$3;
   }
@@ -12114,7 +12436,7 @@ class CustomFontFamilySelect extends UIElement {
     this.originalSelect.value = value;
   }
   getTemplate() {
-    const attrs = UEAttr.FONT_FAMILY_SELECT;
+    const attrs = UEAttr$1.FONT_FAMILY_SELECT;
     return `<${ORIGINAL_ID$1} id="originalSelect" style="width: 100%;" ${attrs.addCustomFontOption}="+ Insert custom font"></${ORIGINAL_ID$1}>`;
   }
 }
@@ -12156,13 +12478,13 @@ class TestUIElementsDemoControl extends Control {
     return CONTROL_ID$6;
   }
   _getLabel(text, name = `${Math.random()}`) {
-    const tag = UIElementType.LABEL;
-    const attr = UEAttr.LABEL;
+    const tag = UIElementType$1.LABEL;
+    const attr = UEAttr$1.LABEL;
     return `<${tag} ${attr.text}="${text}" ${attr.name}="${name}"></${tag}>`;
   }
   _getMessage() {
-    const tag = UIElementType.MESSAGE;
-    const attr = UEAttr.MESSAGE;
+    const tag = UIElementType$1.MESSAGE;
+    const attr = UEAttr$1.MESSAGE;
     return `       
         <b>Message element allows you to provide user with required information.</b>
         ${this._getLabel("User action:")}           
@@ -12170,13 +12492,13 @@ class TestUIElementsDemoControl extends Control {
     `;
   }
   _getRadioButton(text, value, icon2) {
-    const tag = UIElementType.RADIO_ITEM;
-    const attr = UEAttr.RADIO_ITEM;
+    const tag = UIElementType$1.RADIO_ITEM;
+    const attr = UEAttr$1.RADIO_ITEM;
     return `<${tag} ${attr.hint}="${text}" ${attr.icon}="${icon2}" ${attr.value}="${value}"></${tag}>`;
   }
   _getRadioButtons() {
-    const tag = UIElementType.RADIO_BUTTONS;
-    const attr = UEAttr.RADIO_BUTTONS;
+    const tag = UIElementType$1.RADIO_BUTTONS;
+    const attr = UEAttr$1.RADIO_BUTTONS;
     return `
       <b>Radio buttons allow you to choose one item from the list of options.</b>
       ${this._getLabel("Select message style:")}
@@ -12186,13 +12508,13 @@ class TestUIElementsDemoControl extends Control {
     `;
   }
   _getSelectItem(text, value) {
-    const tag = UIElementType.SELECT_ITEM;
-    const attr = UEAttr.SELECT_ITEM;
+    const tag = UIElementType$1.SELECT_ITEM;
+    const attr = UEAttr$1.SELECT_ITEM;
     return `<${tag} ${attr.text}="${text}" ${attr.value}="${value}"></${tag}>`;
   }
   _getSelect() {
-    const tag = UIElementType.SELECTPICKER;
-    const attr = UEAttr.SELECTPICKER;
+    const tag = UIElementType$1.SELECTPICKER;
+    const attr = UEAttr$1.SELECTPICKER;
     return `
       <b>Select element allows you to choose one or several items from the list of options.</b>
         ${this._getLabel("Select message style:")}
@@ -12202,13 +12524,13 @@ class TestUIElementsDemoControl extends Control {
     `;
   }
   getCheckItem(name, value, icon2 = "") {
-    const tag = UIElementType.CHECK_ITEM;
-    const attr = UEAttr.CHECK_ITEM;
+    const tag = UIElementType$1.CHECK_ITEM;
+    const attr = UEAttr$1.CHECK_ITEM;
     return `<${tag} ${attr.hint}="${name}" ${attr.text}="${name}" ${attr.value}="${value}" ${icon2 ? `${attr.icon}="${icon2}"` : ""}></${tag}>`;
   }
   _getCheckButtons() {
-    const tag = UIElementType.CHECK_BUTTONS;
-    const attr = UEAttr.CHECK_BUTTONS;
+    const tag = UIElementType$1.CHECK_BUTTONS;
+    const attr = UEAttr$1.CHECK_BUTTONS;
     const img = { "three": IMG_URL$1 };
     return `
       <b>CheckButtons are similar to RadioButtons but also allow to select several items.</b>
@@ -12219,16 +12541,16 @@ class TestUIElementsDemoControl extends Control {
     `;
   }
   _getCheckbox() {
-    const tag = UIElementType.CHECKBOX;
-    const attr = UEAttr.CHECKBOX;
+    const tag = UIElementType$1.CHECKBOX;
+    const attr = UEAttr$1.CHECKBOX;
     return `
       <b>Checkbox allows you to switch boolean state.</b>
       <${tag} ${attr.caption}="Disable inputs above:" ${attr.name}="${CHECKBOX_ELEMENT}"></${tag}>
     `;
   }
   _getSwitcher() {
-    const tag = UIElementType.SWITCHER;
-    const attr = UEAttr.SWITCHER;
+    const tag = UIElementType$1.SWITCHER;
+    const attr = UEAttr$1.SWITCHER;
     return `
       <b>Switcher allows you to switch boolean state too.</b>
       ${this._getLabel("Display inputs above:")}
@@ -12236,8 +12558,8 @@ class TestUIElementsDemoControl extends Control {
     `;
   }
   _getButton() {
-    const tag = UIElementType.BUTTON;
-    const attr = UEAttr.BUTTON;
+    const tag = UIElementType$1.BUTTON;
+    const attr = UEAttr$1.BUTTON;
     return `
       <b>Button allows you to perform single action.</b>
       ${this._getLabel("Clear message area:")}
@@ -12245,8 +12567,8 @@ class TestUIElementsDemoControl extends Control {
     `;
   }
   _getColor() {
-    const tag = UIElementType.COLOR;
-    const attr = UEAttr.COLOR;
+    const tag = UIElementType$1.COLOR;
+    const attr = UEAttr$1.COLOR;
     return `
       <b>Colorpicker allows you to select color from the default and custom palettes.</b>
       ${this._getLabel("Select color:")}
@@ -12254,8 +12576,8 @@ class TestUIElementsDemoControl extends Control {
     `;
   }
   _getDatepicker() {
-    const tag = UIElementType.DATEPICKER;
-    const attr = UEAttr.DATEPICKER;
+    const tag = UIElementType$1.DATEPICKER;
+    const attr = UEAttr$1.DATEPICKER;
     return `
       <b>Datepicker allows to select date.</b>
       ${this._getLabel("Select date:")}
@@ -12263,8 +12585,8 @@ class TestUIElementsDemoControl extends Control {
     `;
   }
   _getCounter() {
-    const tag = UIElementType.COUNTER;
-    const attr = UEAttr.COUNTER;
+    const tag = UIElementType$1.COUNTER;
+    const attr = UEAttr$1.COUNTER;
     return `
       <b>Counter allows to input numeric value.</b>
       ${this._getLabel("Pick a number between 1 and 10:")}
@@ -12272,8 +12594,8 @@ class TestUIElementsDemoControl extends Control {
     `;
   }
   _getText() {
-    const tag = UIElementType.TEXT;
-    const attr = UEAttr.TEXT;
+    const tag = UIElementType$1.TEXT;
+    const attr = UEAttr$1.TEXT;
     return `
       <b>Text allows you to input string value.</b>
       ${this._getLabel("What is your name?")}
@@ -12281,8 +12603,8 @@ class TestUIElementsDemoControl extends Control {
     `;
   }
   _getTextArea() {
-    const tag = UIElementType.TEXTAREA;
-    const attr = UEAttr.TEXTAREA;
+    const tag = UIElementType$1.TEXTAREA;
+    const attr = UEAttr$1.TEXTAREA;
     return `
       <b>Text area allows you to input multi-line text.</b>
       ${this._getLabel("List top 1 of your favourite dinosaurs.", "dinoLabel")}
@@ -12294,7 +12616,7 @@ class TestUIElementsDemoControl extends Control {
     <div class="e2e-elements-container">
         ${this._getMessage()}    
         <hr>
-        <div ${UEAttr.DEFAULT.name}="${TOGGLABLE_CONTAINER}">
+        <div ${UEAttr$1.DEFAULT.name}="${TOGGLABLE_CONTAINER}">
           ${this._getRadioButtons()}    
           <hr>
           ${this._getSelect()}        
@@ -12357,17 +12679,17 @@ class TestUIElementsDemoControl extends Control {
     });
   }
   _onRadioButtonsChange(value) {
-    this.api.setUIEAttribute(MESSAGE_ELEMENT, UEAttr.MESSAGE.type, value);
+    this.api.setUIEAttribute(MESSAGE_ELEMENT, UEAttr$1.MESSAGE.type, value);
     this._updateMessage(`<b>Radio item selected</b>: '${value}'`);
   }
   _onSelectChange(value) {
     this.api.setUIEAttribute(
       RADIO_BUTTONS_ELEMENT,
-      UEAttr.RADIO_BUTTONS.buttons,
+      UEAttr$1.RADIO_BUTTONS.buttons,
       Object.keys(MessageStyle).filter((key) => value.includes(MessageStyle[key])).map((key) => ({
-        [UEAttr.RADIO_ITEM.hint]: key,
-        [UEAttr.RADIO_ITEM.text]: key,
-        [UEAttr.RADIO_ITEM.value]: MessageStyle[key]
+        [UEAttr$1.RADIO_ITEM.hint]: key,
+        [UEAttr$1.RADIO_ITEM.text]: key,
+        [UEAttr$1.RADIO_ITEM.value]: MessageStyle[key]
       }))
     );
     this._updateMessage(`<b>Select items selected</b>: '${value.join(", ")}'`);
@@ -12377,10 +12699,10 @@ class TestUIElementsDemoControl extends Control {
   }
   _onCheckboxChange(value) {
     this._updateMessage(`<b>Checkbox changed</b>: '${value}'`);
-    this.api.setUIEAttribute(RADIO_BUTTONS_ELEMENT, UEAttr.RADIO_BUTTONS.disabled, value);
-    this.api.setUIEAttribute(SELECT_ELEMENT, UEAttr.SELECTPICKER.disabled, value);
-    this.api.setUIEAttribute(CHECK_BUTTONS_ELEMENT, UEAttr.CHECK_BUTTONS.disabled, value);
-    this.api.setUIEAttribute(BUTTON_ELEMENT, UEAttr.BUTTON.disabled, value);
+    this.api.setUIEAttribute(RADIO_BUTTONS_ELEMENT, UEAttr$1.RADIO_BUTTONS.disabled, value);
+    this.api.setUIEAttribute(SELECT_ELEMENT, UEAttr$1.SELECTPICKER.disabled, value);
+    this.api.setUIEAttribute(CHECK_BUTTONS_ELEMENT, UEAttr$1.CHECK_BUTTONS.disabled, value);
+    this.api.setUIEAttribute(BUTTON_ELEMENT, UEAttr$1.BUTTON.disabled, value);
   }
   _onSwitcherChange(value) {
     this._updateMessage(`<b>Switcher changed</b>: '${value}'`);
@@ -12404,7 +12726,7 @@ class TestUIElementsDemoControl extends Control {
       choice = "";
     }
     this._updateMessage(`<b>You've chosen</b>: '${choice}'`);
-    this.api.setUIEAttribute("dinoLabel", UEAttr.LABEL.text, `List top ${value} of your favourite dinosaurs.`);
+    this.api.setUIEAttribute("dinoLabel", UEAttr$1.LABEL.text, `List top ${value} of your favourite dinosaurs.`);
   }
   _onTextChange(value) {
     this._updateMessage(`${value}'s come to see us!`);
@@ -12451,18 +12773,18 @@ class DraggableBlockControl extends Control {
     return CONTROL_ID$5;
   }
   _getLabel(text, name = `${Math.random()}`) {
-    const tag = UIElementType.LABEL;
-    const attr = UEAttr.LABEL;
+    const tag = UIElementType$1.LABEL;
+    const attr = UEAttr$1.LABEL;
     return `<${tag} ${attr.text}="${text}" ${attr.name}="${name}" style="margin-top: 5px;"></${tag}>`;
   }
   _getSelectItem(item) {
-    const tag = UIElementType.SELECT_ITEM;
-    const attr = UEAttr.SELECT_ITEM;
+    const tag = UIElementType$1.SELECT_ITEM;
+    const attr = UEAttr$1.SELECT_ITEM;
     return `<${tag} ${attr.text}="${item}" ${attr.value}="${item}"></${tag}>`;
   }
   _getAvailableBlocksSelect() {
-    const tag = UIElementType.SELECTPICKER;
-    const attr = UEAttr.SELECTPICKER;
+    const tag = UIElementType$1.SELECTPICKER;
+    const attr = UEAttr$1.SELECTPICKER;
     return `
         ${this._getLabel("Dragged block type:")}
         <${tag} ${attr.name}="${BLOCK_TO_DROP}">
@@ -12471,13 +12793,13 @@ class DraggableBlockControl extends Control {
     `;
   }
   _getButton(name, text) {
-    const tag = UIElementType.BUTTON;
-    const attr = UEAttr.BUTTON;
+    const tag = UIElementType$1.BUTTON;
+    const attr = UEAttr$1.BUTTON;
     return `<${tag} ${attr.name}="${name}" ${attr.caption}="${text}" style="margin-top: 5px;" class="e2e-${name}"></${tag}>`;
   }
   _getDraggableBlock() {
-    const { DRAGGABLE_BLOCK, ICON } = UIElementType;
-    const attrs = UEAttr.DRAGGABLE_BLOCK;
+    const { DRAGGABLE_BLOCK, ICON } = UIElementType$1;
+    const attrs = UEAttr$1.DRAGGABLE_BLOCK;
     return `
       <h4>Draggable Block UI element provides a customizable block preview element that can be dragged and dropped into any position within the document to insert the referenced block.</h4>
       ${this._getLabel("Default draggable block preview:")}
@@ -12512,20 +12834,20 @@ class DraggableBlockControl extends Control {
   }
   _onDisableDraggable() {
     this._draggableDisabled = !this._draggableDisabled;
-    this.api.setUIEAttribute(DEFAULT_PREVIEW, UEAttr.DRAGGABLE_BLOCK.disabled, this._draggableDisabled);
-    this.api.setUIEAttribute(CUSTOM_PREVIEW, UEAttr.DRAGGABLE_BLOCK.disabled, this._draggableDisabled);
+    this.api.setUIEAttribute(DEFAULT_PREVIEW, UEAttr$1.DRAGGABLE_BLOCK.disabled, this._draggableDisabled);
+    this.api.setUIEAttribute(CUSTOM_PREVIEW, UEAttr$1.DRAGGABLE_BLOCK.disabled, this._draggableDisabled);
   }
   _onDisableExtensionBlockInsertion() {
     this._extensionBlockInsertionDisabled = !this._extensionBlockInsertionDisabled;
     blockInstance.api.setViewOnly(this._extensionBlockInsertionDisabled);
   }
   _onBlockTypeChange(type) {
-    const attr = UEAttr.DRAGGABLE_BLOCK.blockId;
+    const attr = UEAttr$1.DRAGGABLE_BLOCK.blockId;
     this.api.setUIEAttribute(DEFAULT_PREVIEW, attr, type);
     this.api.setUIEAttribute(CUSTOM_PREVIEW, attr, type);
   }
 }
-class StructureExtension3 extends Block {
+class StructureExtension3 extends Block$1 {
   getId() {
     return STRUCTURE_ID;
   }
@@ -12546,7 +12868,7 @@ class StructureExtension3 extends Block {
     return BlockCompositionType.STRUCTURE;
   }
 }
-class ContainerExtension4 extends Block {
+class ContainerExtension4 extends Block$1 {
   getId() {
     return CONTAINER_ID;
   }
@@ -12567,7 +12889,7 @@ class ContainerExtension4 extends Block {
     return BlockCompositionType.CONTAINER;
   }
 }
-class BlockExtension2 extends Block {
+class BlockExtension2 extends Block$1 {
   getId() {
     blockInstance = this;
     return BLOCK_ID$2;
@@ -12671,7 +12993,7 @@ const externalImagesLibrary = new ExtensionBuilder().withExternalImageLibrary(Ex
 const ID$2 = "external-merge-tags-ui-element";
 class MergeTagsTagRegistry extends UIElementTagRegistry {
   registerUiElements(uiElementsTagsMap) {
-    uiElementsTagsMap[UIElementType.MERGETAGS] = ID$2;
+    uiElementsTagsMap[UIElementType$1.MERGETAGS] = ID$2;
   }
 }
 class ExternalMergeTagsLibrary {
@@ -12725,7 +13047,7 @@ class ExternalMergeTagsLibrary {
     this.dataSelectCallback = onDataSelectCallback;
   }
 }
-class DemoMergeTagsUiElementExtension extends UIElement {
+class DemoMergeTagsUiElementExtension extends UIElement$1 {
   getId() {
     return ID$2;
   }
@@ -12912,21 +13234,21 @@ class UiMessageControl extends Control {
     `;
   }
   #getMessage() {
-    const { MESSAGE } = UIElementType;
-    const { MESSAGE: MESSAGE_ATTR } = UEAttr;
+    const { MESSAGE } = UIElementType$1;
+    const { MESSAGE: MESSAGE_ATTR } = UEAttr$1;
     return `
             ${this.#getLabel("Message example:")}
             <${MESSAGE} class="e2e-message-element" ${MESSAGE_ATTR.name}="${MESSAGE_NAME}"></${MESSAGE}>
     `;
   }
   #getLabel(text, name = `${Math.random()}`) {
-    const tag = UIElementType.LABEL;
-    const attr = UEAttr.LABEL;
+    const tag = UIElementType$1.LABEL;
+    const attr = UEAttr$1.LABEL;
     return `<${tag} ${attr.text}="${text}" ${attr.name}="${name}"></${tag}>`;
   }
   #getRadioButtons() {
-    const { RADIO_BUTTONS } = UIElementType;
-    const { RADIO_ITEM: RADIO_ITEM_ATTR } = UEAttr;
+    const { RADIO_BUTTONS } = UIElementType$1;
+    const { RADIO_ITEM: RADIO_ITEM_ATTR } = UEAttr$1;
     return `
             ${this.#getLabel("Select Message type:")}
             <${RADIO_BUTTONS} class="e2e-change-message-type" ${RADIO_ITEM_ATTR.name}="${RADIO_BUTTON_NAME}">
@@ -12935,13 +13257,13 @@ class UiMessageControl extends Control {
     `;
   }
   #getRadioButton(value, icon2) {
-    const tag = UIElementType.RADIO_ITEM;
-    const attr = UEAttr.RADIO_ITEM;
+    const tag = UIElementType$1.RADIO_ITEM;
+    const attr = UEAttr$1.RADIO_ITEM;
     return `<${tag} ${attr.hint}="${value.substr(0, 1).toUpperCase()}${value.substr(1)}" ${attr.icon}="${icon2}" ${attr.value}="${value}"></${tag}>`;
   }
   #setFormAndUIValues() {
-    this.api.setUIEAttribute(MESSAGE_NAME, UEAttr.MESSAGE.type, MessageValue.INFO);
-    this.api.setUIEAttribute(MESSAGE_NAME, UEAttr.MESSAGE.icon, MESSAGE_ICON[MessageValue.INFO]);
+    this.api.setUIEAttribute(MESSAGE_NAME, UEAttr$1.MESSAGE.type, MessageValue.INFO);
+    this.api.setUIEAttribute(MESSAGE_NAME, UEAttr$1.MESSAGE.icon, MESSAGE_ICON[MessageValue.INFO]);
     this.api.updateValues({
       [MESSAGE_NAME]: `Message type: ${MessageValue.INFO}`,
       [RADIO_BUTTON_NAME]: MessageValue.INFO
@@ -12950,11 +13272,11 @@ class UiMessageControl extends Control {
   #watchers() {
     this.api.onValueChanged(RADIO_BUTTON_NAME, (newValue) => {
       if (newValue.startsWith("custom")) {
-        this.api.setUIEAttribute(MESSAGE_NAME, UEAttr.MESSAGE.type, MessageValue.INFO);
+        this.api.setUIEAttribute(MESSAGE_NAME, UEAttr$1.MESSAGE.type, MessageValue.INFO);
       } else {
-        this.api.setUIEAttribute(MESSAGE_NAME, UEAttr.MESSAGE.type, newValue);
+        this.api.setUIEAttribute(MESSAGE_NAME, UEAttr$1.MESSAGE.type, newValue);
       }
-      this.api.setUIEAttribute(MESSAGE_NAME, UEAttr.MESSAGE.icon, MESSAGE_ICON[newValue]);
+      this.api.setUIEAttribute(MESSAGE_NAME, UEAttr$1.MESSAGE.icon, MESSAGE_ICON[newValue]);
       this.api.updateValues({
         [MESSAGE_NAME]: `Message type: ${newValue}`
       });
@@ -12983,11 +13305,11 @@ class UiMultipleSelectControl extends Control {
     return UI_SELECT_TAG_ID;
   }
   getTemplate() {
-    const { MULTIPLE_SELECT } = UIElementType;
+    const { MULTIPLE_SELECT } = UIElementType$1;
     return `<div class="container e2e-select-multiple-tags">
               <${MULTIPLE_SELECT} 
-                  ${UEAttr.MULTIPLE_SELECT.name}="selectTags" 
-                  ${UEAttr.MULTIPLE_SELECT.placeholder}="${this.api.translate("Enter tags: ")}"
+                  ${UEAttr$1.MULTIPLE_SELECT.name}="selectTags" 
+                  ${UEAttr$1.MULTIPLE_SELECT.placeholder}="${this.api.translate("Enter tags: ")}"
               ></${MULTIPLE_SELECT}>
             </div>`;
   }
@@ -13030,54 +13352,54 @@ class OrderableControl extends Control {
     return CONTROL_ID$3;
   }
   _getLabel(text, name = `${Math.random()}`) {
-    const tag = UIElementType.LABEL;
-    const attr = UEAttr.LABEL;
+    const tag = UIElementType$1.LABEL;
+    const attr = UEAttr$1.LABEL;
     return `<${tag} ${attr.text}="${text}" ${attr.name}="${name}"></${tag}>`;
   }
   _getText(name, label) {
-    const tag = UIElementType.TEXT;
-    const attr = UEAttr.TEXT;
+    const tag = UIElementType$1.TEXT;
+    const attr = UEAttr$1.TEXT;
     return `
       ${this._getLabel(label)}
       <${tag} ${attr.name}="${name}" class="e2e-${name}"></${tag}>
     `;
   }
   _getCounter(name, label) {
-    const tag = UIElementType.COUNTER;
-    const attr = UEAttr.COUNTER;
+    const tag = UIElementType$1.COUNTER;
+    const attr = UEAttr$1.COUNTER;
     return `
       ${this._getLabel(label)}
       <${tag} ${attr.name}="${name}" ${attr.minValue}="1" ${attr.maxValue}="100" ${attr.step}="5"></${tag}>
     `;
   }
   _getDisableButton() {
-    const tag = UIElementType.BUTTON;
-    const attr = UEAttr.BUTTON;
+    const tag = UIElementType$1.BUTTON;
+    const attr = UEAttr$1.BUTTON;
     return `<${tag} ${attr.name}="${DISABLE_BUTTON}" ${attr.caption}="Disable" class="e2e-disable-button"></${tag}>`;
   }
   _getOrderable() {
-    const { ORDERABLE, ORDERABLE_ITEM, ORDERABLE_ICON } = UIElementType;
-    const attrs = UEAttr.ORDERABLE;
+    const { ORDERABLE, ORDERABLE_ITEM, ORDERABLE_ICON } = UIElementType$1;
+    const attrs = UEAttr$1.ORDERABLE;
     return `
       <div class="container">
         <div class="small text-muted">Orderable input allows you to order other inputs.</div>
          ${this._getLabel("Block elements:")}
       </div>  
       <${ORDERABLE} ${attrs.name}="${BLOCKS_ORDER}" ${attrs.icon}="reorder" ${attrs.position}="${OrderableItemIconPosition.LEFT}">
-            <${ORDERABLE_ITEM} ${UEAttr.DEFAULT.name}="button">
+            <${ORDERABLE_ITEM} ${UEAttr$1.DEFAULT.name}="button">
               <div class="container two-columns">
                 ${this._getText(BUTON_TEXT, "Button text")}
               </div>
             </${ORDERABLE_ITEM}>
-            <${ORDERABLE_ITEM} ${UEAttr.DEFAULT.name}="header">
+            <${ORDERABLE_ITEM} ${UEAttr$1.DEFAULT.name}="header">
                 <div class="container">
                   ${this._getText(HEADER_TEXT, "Header text")}
                 </div>
             </${ORDERABLE_ITEM}>
-            <${ORDERABLE_ITEM} ${UEAttr.DEFAULT.name}="spacer">
+            <${ORDERABLE_ITEM} ${UEAttr$1.DEFAULT.name}="spacer">
               <div class="container two-columns">
                 ${this._getCounter(SPACER_HEIGHT, "Spacer height")}
-                <${ORDERABLE_ICON} ${UEAttr.ORDERABLE_ICON.icon}="reorder" 
+                <${ORDERABLE_ICON} ${UEAttr$1.ORDERABLE_ICON.icon}="reorder" 
                                    class="icon-button droppable-icon"
                                    style="color: red; position: absolute; top: -10px; margin: auto">                
                 </${ORDERABLE_ICON}>
@@ -13124,7 +13446,7 @@ class OrderableControl extends Control {
   }
   _onDisableButtonClick() {
     this.disabled = !this.disabled;
-    this.api.setUIEAttribute(BLOCKS_ORDER, UEAttr.ORDERABLE.disabled, this.disabled);
+    this.api.setUIEAttribute(BLOCKS_ORDER, UEAttr$1.ORDERABLE.disabled, this.disabled);
   }
   _setFormValues() {
     const items = this.node.querySelectorAll(".orderable-item").map((item) => item.getAttribute("id"));
@@ -13143,7 +13465,7 @@ class OrderableControl extends Control {
     this._setFormValues();
   }
 }
-class OrderableBlock extends Block {
+class OrderableBlock extends Block$1 {
   getId() {
     return BLOCK_ID$1;
   }
@@ -13170,7 +13492,7 @@ class OrderableBlock extends Block {
   }
 }
 const orderable = new ExtensionBuilder().addControl(OrderableControl).withSettingsPanelRegistry(PanelRegistry$1).addBlock(OrderableBlock).build();
-const POPUP_INPUT = UIElementType.POPUP_PANEL;
+const POPUP_INPUT = UIElementType$1.POPUP_PANEL;
 const ID$1 = "custom-popup-input";
 const ORIGINAL_ID = "original-popup-input";
 const CONTROL_ID$2 = "control-id";
@@ -13188,17 +13510,17 @@ class CustomControl2 extends Control {
     return '<div class="container e2e-custom-control">Custom control</div>';
   }
 }
-class CustomUIPopupInput extends UIElement {
+class CustomUIPopupInput extends UIElement$1 {
   getId() {
     return ID$1;
   }
   onRender(_container) {
   }
   getTemplate() {
-    const { NESTED_CONTROL } = UIElementType;
+    const { NESTED_CONTROL } = UIElementType$1;
     return `<${ORIGINAL_ID} id="originalInput">
-              <${NESTED_CONTROL} ${UEAttr.NESTED_CONTROL.name}="nestedControlId"
-                    ${UEAttr.NESTED_CONTROL.controlId}="${CONTROL_ID$2}"
+              <${NESTED_CONTROL} ${UEAttr$1.NESTED_CONTROL.name}="nestedControlId"
+                    ${UEAttr$1.NESTED_CONTROL.controlId}="${CONTROL_ID$2}"
                     container-index="3">
               </${NESTED_CONTROL}>
             </${ORIGINAL_ID}>`;
@@ -13239,42 +13561,42 @@ class RepeatableControl extends Control {
     return CONTROL_ID$1;
   }
   _getLabel(text, name = `${Math.random()}`) {
-    const tag = UIElementType.LABEL;
-    const attr = UEAttr.LABEL;
+    const tag = UIElementType$1.LABEL;
+    const attr = UEAttr$1.LABEL;
     return `<${tag} ${attr.text}="${text}" ${attr.name}="${name}" style="margin-top: 5px;"></${tag}>`;
   }
   _getText(name, label) {
-    const tag = UIElementType.TEXT;
-    const attr = UEAttr.TEXT;
+    const tag = UIElementType$1.TEXT;
+    const attr = UEAttr$1.TEXT;
     return `
       ${this._getLabel(label)}
       <${tag} ${attr.name}="${name}" class="e2e-${name}"></${tag}>
     `;
   }
   _getCounter(name, label) {
-    const tag = UIElementType.COUNTER;
-    const attr = UEAttr.COUNTER;
+    const tag = UIElementType$1.COUNTER;
+    const attr = UEAttr$1.COUNTER;
     return `
       ${this._getLabel(label)}
       <${tag} ${attr.name}="${name}" ${attr.minValue}="1" ${attr.maxValue}="100" ${attr.step}="5" style="width: fit-content;" class="e2e-${name}"></${tag}>
     `;
   }
   _getColourPicker(name, label) {
-    const tag = UIElementType.COLOR;
-    const attr = UEAttr.COLOR;
+    const tag = UIElementType$1.COLOR;
+    const attr = UEAttr$1.COLOR;
     return `
       ${this._getLabel(label)}
       <${tag} ${attr.name}="${ELEMENT_COLOUR}" class="e2e-${name}"></${tag}>
     `;
   }
   _getButton(name, text) {
-    const tag = UIElementType.BUTTON;
-    const attr = UEAttr.BUTTON;
+    const tag = UIElementType$1.BUTTON;
+    const attr = UEAttr$1.BUTTON;
     return `<${tag} ${attr.name}="${name}" ${attr.caption}="${text}" style="margin-top: 5px;" class="e2e-${name}"></${tag}>`;
   }
   _getRepeatable() {
-    const { REPEATABLE } = UIElementType;
-    const attrs = UEAttr.REPEATABLE;
+    const { REPEATABLE } = UIElementType$1;
+    const attrs = UEAttr$1.REPEATABLE;
     return `
       <h4>Repeatable ui element allows you repeat other elements or their groups.</h4>
       <hr>
@@ -13343,7 +13665,7 @@ ${getElement(`Element ${length + 1}`, 20, "yellow")}
   }
   _disableDeleteButtons() {
     this._deleteButtonsDisabled = !this._deleteButtonsDisabled;
-    this.api.setUIEAttribute(`${ELEMENTS}.${DELETE_ELEMENT}`, UEAttr.BUTTON.disabled, this._deleteButtonsDisabled);
+    this.api.setUIEAttribute(`${ELEMENTS}.${DELETE_ELEMENT}`, UEAttr$1.BUTTON.disabled, this._deleteButtonsDisabled);
   }
   _removeDeleteButtons() {
     this._deleteButtonsRemoved = !this._deleteButtonsRemoved;
@@ -13365,7 +13687,7 @@ ${getElement(`Element ${length + 1}`, 20, "yellow")}
     this.api.setVisibility(`${ELEMENTS}[0].${DELETE_ELEMENT}`, this._getElementsLength() > 1);
   }
 }
-class RepeatableBlock extends Block {
+class RepeatableBlock extends Block$1 {
   getId() {
     return BLOCK_ID;
   }
@@ -13408,14 +13730,14 @@ class TestRichTextControl extends Control {
     return CONTROL_ID;
   }
   _getLabel(text, name) {
-    const attr = UEAttr.LABEL;
-    return `<${UIElementType.LABEL} ${attr.text}="${text}" ${attr.name}="${name}"></${UIElementType.LABEL}>`;
+    const attr = UEAttr$1.LABEL;
+    return `<${UIElementType$1.LABEL} ${attr.text}="${text}" ${attr.name}="${name}"></${UIElementType$1.LABEL}>`;
   }
   getTemplate() {
-    const tag = UIElementType.RICH_TEXT;
-    const attr = UEAttr.RICH_TEXT;
-    const button = UIElementType.BUTTON;
-    const buttonAttr = UEAttr.BUTTON;
+    const tag = UIElementType$1.RICH_TEXT;
+    const attr = UEAttr$1.RICH_TEXT;
+    const button = UIElementType$1.BUTTON;
+    const buttonAttr = UEAttr$1.BUTTON;
     return `
       <div class="e2e-markup-rich-text container">
 
@@ -13455,14 +13777,14 @@ class TestRichTextControl extends Control {
   onRender() {
     this.api.onValueChanged(APPLY_BUTTON, () => this._applyRuntimeAttributes());
     this.api.onValueChanged(HIDE_ICON_BUTTON, () => {
-      this.api.setUIEAttribute(WITH_ICON, UEAttr.RICH_TEXT.hasMergeTagIcon, "false");
+      this.api.setUIEAttribute(WITH_ICON, UEAttr$1.RICH_TEXT.hasMergeTagIcon, "false");
     });
     this.api.onValueChanged(SHOW_ICON_BUTTON, () => {
-      this.api.setUIEAttribute(WITHOUT_ICON, UEAttr.RICH_TEXT.hasMergeTagIcon, "true");
+      this.api.setUIEAttribute(WITHOUT_ICON, UEAttr$1.RICH_TEXT.hasMergeTagIcon, "true");
     });
   }
   _applyRuntimeAttributes() {
-    const attr = UEAttr.RICH_TEXT;
+    const attr = UEAttr$1.RICH_TEXT;
     this.api.setUIEAttribute(RUNTIME_ELEMENT, attr.placeholder, "Runtime text...");
     this.api.setUIEAttribute(RUNTIME_ELEMENT, attr.hasMergeTagIcon, true);
     this.api.setUIEAttribute(RUNTIME_ELEMENT, attr.maxLength, 10);
@@ -13473,11 +13795,11 @@ const richTextAttrs = new ExtensionBuilder().addControl(TestRichTextControl).wit
 const ID = "text-override-ui-element";
 class TestTagRegistry extends UIElementTagRegistry {
   registerUiElements(uiElementsTagsMap) {
-    uiElementsTagsMap["original-text"] = uiElementsTagsMap[UIElementType.RICH_TEXT];
-    uiElementsTagsMap[UIElementType.RICH_TEXT] = ID;
+    uiElementsTagsMap["original-text"] = uiElementsTagsMap[UIElementType$1.RICH_TEXT];
+    uiElementsTagsMap[UIElementType$1.RICH_TEXT] = ID;
   }
 }
-class UiElementExtensionTextUiElementOverridden extends UIElement {
+class UiElementExtensionTextUiElementOverridden extends UIElement$1 {
   getId() {
     return ID;
   }
@@ -13548,6 +13870,1060 @@ class UiElementExtensionWidePanel extends BlocksPanel {
   }
 }
 const accountWidePanel = new ExtensionBuilder().withBlocksPanel(UiElementExtensionWidePanel).addStyles(STYLES).build();
+var _BaseValidatedClass2 = class _BaseValidatedClass3 {
+  /**
+   * Validates that all required methods are properly implemented in the subclass.
+   * @param requiredMethods - Array of method names that must be implemented
+   * @param classRef - Reference to the class constructor for validation caching
+   */
+  constructor(requiredMethods, classRef) {
+    if (classRef !== _BaseValidatedClass3) {
+      if (!_BaseValidatedClass3.validatedClasses.has(classRef)) {
+        this.validateImplementation(requiredMethods, classRef);
+      }
+      const errors = _BaseValidatedClass3.validationErrors.get(classRef);
+      if (errors && errors.length > 0) {
+        throw new Error(
+          `${classRef.name} has validation errors:
+${errors.map((e) => `  - ${e}`).join("\n")}`
+        );
+      }
+    }
+  }
+  /**
+   * Validates that all required methods are properly implemented in the subclass.
+   * This validation runs only once per class type and results are cached.
+   */
+  validateImplementation(requiredMethods, classRef) {
+    const errors = [];
+    const className = classRef.name;
+    const proto = Object.getPrototypeOf(this);
+    requiredMethods.forEach((methodName) => {
+      const method = this[methodName];
+      if (typeof method !== "function") {
+        errors.push(`Method ${methodName}() is not defined`);
+        return;
+      }
+      if (proto[methodName] === classRef.prototype[methodName]) {
+        errors.push(`Method ${methodName}() must be implemented (currently using base class error-throwing implementation)`);
+      }
+    });
+    _BaseValidatedClass3.validatedClasses.add(classRef);
+    if (errors.length > 0) {
+      _BaseValidatedClass3.validationErrors.set(classRef, errors);
+      console.error(`[${className} Validation] ${className} validation failed:`, errors);
+    } else {
+      if (typeof process !== "undefined" && process.env?.NODE_ENV === "development") {
+        console.log(`[${className} Validation] ✅ ${className} validated successfully`);
+      }
+    }
+  }
+  /**
+   * Lifecycle method for cleaning up resources (e.g., removing DOM artifacts from document.body).
+   * Override this method in subclasses to implement custom cleanup logic.
+   * Called when the editor is reinitialized or the extension is uninstalled.
+   */
+  destroy() {
+  }
+};
+_BaseValidatedClass2.validatedClasses = /* @__PURE__ */ new Set();
+_BaseValidatedClass2.validationErrors = /* @__PURE__ */ new Map();
+var BaseValidatedClass = _BaseValidatedClass2;
+var _Block2 = class _Block3 extends BaseValidatedClass {
+  constructor() {
+    super(_Block3.REQUIRED_METHODS, _Block3);
+  }
+  /**
+   * Determines if the block should be available for use in the editor.
+   * Override to provide custom logic based on editor state or configuration.
+   * @returns True if the block is enabled, false otherwise. Defaults to true.
+   */
+  isEnabled() {
+    return true;
+  }
+  /**
+   * Determines if the block can be saved as a reusable module by the user.
+   * @returns True if the block can be saved as a module, false otherwise. Defaults to false.
+   */
+  canBeSavedAsModule() {
+    return false;
+  }
+  /**
+   * Specifies the context actions available for this block.
+   * If not overridden, the editor might use a default set of actions.
+   * Use IDs from {@link ContextActionType} or custom action IDs.
+   * @returns An array of context action IDs, or undefined to use defaults (if any).
+   */
+  getContextActionsIds() {
+    return void 0;
+  }
+  /**
+   * Provides a custom renderer class for this block, allowing for specialized rendering logic.
+   * @returns A constructor for a class extending {@link BlockRenderer}, or undefined to use the default renderer.
+   */
+  getCustomRenderer() {
+    return void 0;
+  }
+  /**
+   * Gets a unique CSS class name specifically for this block type.
+   * Used for targeting styles.
+   * @returns A unique CSS class name. Defaults to `esd-{blockId}`.
+   */
+  getUniqueBlockClassname() {
+    return `esd-${this.getId()}`;
+  }
+  /**
+   * Lifecycle hook called when the editor document is initialized.
+   * Useful for performing initial setup or modifications on existing block instances in the template.
+   */
+  onDocumentInit() {
+  }
+  /**
+   * Lifecycle hook called when an instance of this block is selected in the editor.
+   * @param node - The immutable HTML node representing the selected block instance.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onSelect(node) {
+  }
+  /**
+   * Lifecycle hook called when an instance of this block is copied.
+   * @param modifier - The HTML node modifier to apply changes to the copied block instance.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onCopy(modifier) {
+  }
+  /**
+   * Lifecycle hook called when an instance of this block is deleted.
+   * @param node - The immutable HTML node representing the block instance being deleted.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onDelete(node) {
+  }
+  /**
+   * Lifecycle hook called after a new instance of this block is created and added to the document (e.g., via drag-and-drop).
+   * @param node - The immutable HTML node representing the newly created block instance.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onCreated(node) {
+  }
+  /**
+   * Lifecycle hook called when any part of the document template has changed.
+   * This can be frequent; use cautiously for performance-sensitive operations.
+   * @param node - The immutable HTML node representing current node instance
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onDocumentChanged(node) {
+  }
+  /**
+   * @description Determines if block is atomic or composite.
+   * {@link BlockCompositionType.BLOCK} - atomic block which can be inserted inside other container and cannot hold other objects
+   * {@link BlockCompositionType.STRUCTURE} - composite block which can serve as a container for another atomic block
+   * @returns The type of the block. Defaults to {@link BlockCompositionType.BLOCK}.
+   */
+  getBlockCompositionType() {
+    return "BLOCK";
+  }
+  /**
+   * @description Determines if block should be included in empty container quick insert actions list.
+   * @returns True to show a quick-add icon for this block in empty containers, false otherwise. Defaults to false.
+   */
+  shouldDisplayQuickAddIcon() {
+    return false;
+  }
+  /**
+   * Determines if the block should be shown in the blocks panel.
+   * Override to hide the block from the blocks panel while keeping it available elsewhere.
+   * @returns True if the block should appear in the blocks panel. Defaults to true.
+   */
+  shouldDisplayInBlocksPanel() {
+    return true;
+  }
+  /**
+   * @description Determines if nested blocks selection allowed in extension of type {@link BlockCompositionType.STRUCTURE}
+   */
+  allowInnerBlocksSelection() {
+    return true;
+  }
+  /**
+   * @description Determines if nested blocks drag and drop allowed in extension of type {@link BlockCompositionType.STRUCTURE}
+   */
+  allowInnerBlocksDND() {
+    return true;
+  }
+  /**
+   * Determines whether standard image blocks nested anywhere inside this extension block
+   * expose the on-canvas resize control.
+   * @returns True to allow nested image resize. Defaults to true.
+   */
+  isNestedImageResizeEnabled() {
+    return true;
+  }
+  allowInteractWithAMPWhenSelected() {
+    return true;
+  }
+  /**
+   * Gets the unique identifier for this block type.
+   * This ID is used for registration and referencing the block.
+   * @returns A unique string ID.
+   */
+  getId() {
+    throw new Error("Method getId() must be implemented by the subclass");
+  }
+  /**
+   * Gets the HTML template string that defines the initial structure of this block.
+   * This template will be used when the block is dragged into the editor.
+   * @returns An HTML string.
+   */
+  getTemplate() {
+    throw new Error("Method getTemplate() must be implemented by the subclass");
+  }
+  /**
+   * Gets a CSS template string that contains the custom styles that apply to the block.
+   * This CSS will be used when a block is dragged into the editor and removed when the last block is deleted.
+   * @returns An CSS string.
+   */
+  getTemplateStyles() {
+    return "";
+  }
+  /**
+   * Gets the URL or path to the icon representing this block in the editor's block panel.
+   * @returns A string representing the icon source (e.g., URL, data URI).
+   */
+  getIcon() {
+    throw new Error("Method getIcon() must be implemented by the subclass");
+  }
+  /**
+   * Gets the display name of the block shown to the user in the block panel.
+   * Use `this.api.translate()` for localization.
+   * @returns The localized block name string.
+   */
+  getName() {
+    throw new Error("Method getName() must be implemented by the subclass");
+  }
+  /**
+   * Retrieves the name of block in the block panel.
+   * Can contain html markup
+   * If not implemented by the subclass, getName() function will be used to display name in the block panel
+   *
+   * @return {string} The name of the block panel.
+   */
+  getSettingsPanelTitleHtml() {
+    return "";
+  }
+  /**
+   * Gets a short description of the block shown to the user, often as a tooltip in the block panel.
+   * Use `this.api.translate()` for localization.
+   * @returns The localized description string.
+   */
+  getDescription() {
+    throw new Error("Method getDescription() must be implemented by the subclass");
+  }
+};
+_Block2.REQUIRED_METHODS = ["getId", "getTemplate", "getIcon", "getName", "getDescription"];
+var Block = _Block2;
+var _BlockRenderer2 = class _BlockRenderer3 extends BaseValidatedClass {
+  constructor() {
+    super(_BlockRenderer3.REQUIRED_METHODS, _BlockRenderer3);
+  }
+  /**
+   * @deprecated - use {@link getPreviewInnerHtml} instead
+   */
+  getPreviewHtml(_node) {
+    return void 0;
+  }
+  /**
+   * @description returns custom content to be displayed inside the {@link Block} root TD element
+   */
+  getPreviewInnerHtml(_node) {
+    throw new Error("Method getPreviewInnerHtml() must be implemented by the subclass");
+  }
+};
+_BlockRenderer2.REQUIRED_METHODS = ["getPreviewInnerHtml"];
+var _ContextAction2 = class _ContextAction3 extends BaseValidatedClass {
+  constructor() {
+    super(_ContextAction3.REQUIRED_METHODS, _ContextAction3);
+  }
+  getId() {
+    throw new Error("Method getId() must be implemented by the subclass");
+  }
+  getIcon() {
+    throw new Error("Method getIcon() must be implemented by the subclass");
+  }
+  getLabel() {
+    throw new Error("Method getLabel() must be implemented by the subclass");
+  }
+  onClick(_node) {
+    throw new Error("Method onClick() must be implemented by the subclass");
+  }
+};
+_ContextAction2.REQUIRED_METHODS = ["getId", "getIcon", "getLabel", "onClick"];
+var ESD_BLOCK_BUTTON = "esd-block-button";
+var ESD_BLOCK_TEXT = "esd-block-text";
+var ESD_BLOCK_IMAGE = "esd-block-image";
+var ESD_BLOCK_STRUCTURE = "esd-structure";
+var ESD_BLOCK_VIDEO = "esd-block-video";
+var ESD_BLOCK_SOCIAL = "esd-block-social";
+var ESD_BLOCK_BANNER = "esd-block-banner";
+var ESD_BLOCK_TIMER = "esd-block-timer";
+var ESD_BLOCK_MENU = "esd-block-menu";
+var ESD_BLOCK_HTML = "esd-block-html";
+var ESD_BLOCK_SPACER = "esd-block-spacer";
+var ESD_BLOCK_CONTAINER = "esd-container-frame";
+var ESD_BLOCK_STRIPE = "esd-stripe";
+var ESD_BLOCK_FORM = "esd-amp-form";
+var BlockSelector = ((BlockSelector2) => {
+  BlockSelector2["BUTTON"] = `.${ESD_BLOCK_BUTTON}`;
+  BlockSelector2["TEXT"] = `.${ESD_BLOCK_TEXT}`;
+  BlockSelector2["IMAGE"] = `.${ESD_BLOCK_IMAGE}`;
+  BlockSelector2["STRUCTURE"] = `.${ESD_BLOCK_STRUCTURE}`;
+  BlockSelector2["VIDEO"] = `.${ESD_BLOCK_VIDEO}`;
+  BlockSelector2["SOCIAL"] = `.${ESD_BLOCK_SOCIAL}`;
+  BlockSelector2["BANNER"] = `.${ESD_BLOCK_BANNER}`;
+  BlockSelector2["TIMER"] = `.${ESD_BLOCK_TIMER}`;
+  BlockSelector2["MENU"] = `.${ESD_BLOCK_MENU}`;
+  BlockSelector2["HTML"] = `.${ESD_BLOCK_HTML}`;
+  BlockSelector2["SPACER"] = `.${ESD_BLOCK_SPACER}`;
+  BlockSelector2["CONTAINER"] = `.${ESD_BLOCK_CONTAINER}`;
+  BlockSelector2["STRIPE"] = `.${ESD_BLOCK_STRIPE}`;
+  BlockSelector2["FORM"] = `.${ESD_BLOCK_FORM}`;
+  return BlockSelector2;
+})(BlockSelector || {});
+var UIElementAttributes = {
+  disabled: "disabled"
+};
+var draggableBlockAttributes = {
+  blockId: "block-id"
+};
+var UEAttr = {
+  DEFAULT: UIElementAttributes,
+  DRAGGABLE_BLOCK: draggableBlockAttributes
+};
+var UIElementType = /* @__PURE__ */ ((UIElementType2) => {
+  UIElementType2["BUTTON"] = "UE-BUTTON";
+  UIElementType2["CHECKBOX"] = "UE-CHECKBOX";
+  UIElementType2["CHECK_BUTTONS"] = "UE-CHECK-BUTTONS";
+  UIElementType2["COLOR"] = "UE-COLOR";
+  UIElementType2["COUNTER"] = "UE-COUNTER";
+  UIElementType2["DATEPICKER"] = "UE-DATEPICKER";
+  UIElementType2["LABEL"] = "UE-LABEL";
+  UIElementType2["MESSAGE"] = "UE-MESSAGE";
+  UIElementType2["RADIO_BUTTONS"] = "UE-RADIO-BUTTONS";
+  UIElementType2["SELECTPICKER"] = "UE-SELECT";
+  UIElementType2["SWITCHER"] = "UE-SWITCHER";
+  UIElementType2["TEXT"] = "UE-TEXT";
+  UIElementType2["RICH_TEXT"] = "UE-RICH-TEXT";
+  UIElementType2["TEXTAREA"] = "UE-TEXTAREA";
+  UIElementType2["CHECK_ITEM"] = "UE-CHECK-ITEM";
+  UIElementType2["RADIO_ITEM"] = "UE-RADIO-ITEM";
+  UIElementType2["SELECT_ITEM"] = "UE-SELECT-ITEM";
+  UIElementType2["ICON"] = "UE-ICON";
+  UIElementType2["MERGETAGS"] = "UE-MERGETAGS";
+  UIElementType2["FONT_FAMILY_SELECT"] = "UE-FONT-FAMILY-SELECT";
+  UIElementType2["NESTED_CONTROL"] = "UE-NESTED-CONTROL";
+  UIElementType2["EXPANDABLE"] = "UE-EXPANDABLE";
+  UIElementType2["EXPANDABLE_HEADER"] = "UE-EXPANDABLE_HEADER";
+  UIElementType2["EXPANDABLE_CONTENT"] = "UE-EXPANDABLE_CONTENT";
+  UIElementType2["ORDERABLE"] = "UE-ORDERABLE";
+  UIElementType2["ORDERABLE_ITEM"] = "UE-ORDERABLE-ITEM";
+  UIElementType2["ORDERABLE_ICON"] = "UE-ORDERABLE-ICON";
+  UIElementType2["REPEATABLE"] = "UE-REPEATABLE";
+  UIElementType2["DRAGGABLE_BLOCK"] = "UE-DRAGGABLE-BLOCK";
+  UIElementType2["AMP_FORM_SERVICE_PICKER"] = "UE-AMP-FORM-SERVICE-PICKER";
+  UIElementType2["MULTIPLE_SELECT"] = "UE-MULTIPLE_SELECT";
+  UIElementType2["SCROLLABLE"] = "UE-SCROLLABLE-CONTAINER";
+  UIElementType2["POPUP_PANEL"] = "UE-POPUP-PANEL";
+  return UIElementType2;
+})(UIElementType || {});
+var _Control2 = class _Control3 extends BaseValidatedClass {
+  constructor() {
+    super(_Control3.REQUIRED_METHODS, _Control3);
+  }
+  /**
+   * @description Allows to determine if control should be visible or hidden in control panel.
+   * Called on every node modification.
+   */
+  isVisible(_node) {
+    return true;
+  }
+  /**
+   * Optional hook called when the control is initially rendered.
+   * Use this for setup tasks like attaching event listeners to the control's template elements.
+   */
+  onRender() {
+  }
+  /**
+   * Optional cleanup hook called when the control is being destroyed.
+   * Use this to remove event listeners or perform other cleanup tasks.
+   */
+  onDestroy() {
+  }
+  /**
+   * Gets the unique identifier for this UI control type.
+   * This ID is used for registration and referencing.
+   * @returns A unique string ID.
+   */
+  getId() {
+    throw new Error("Method getId() must be implemented by the subclass");
+  }
+  /**
+   * Gets the HTML template string that defines the structure of this UI control,
+   * typically containing one or more UI elements (e.g., `<UE-TEXT>`, `<UE-BUTTON>`).
+   * @returns An HTML string.
+   */
+  getTemplate() {
+    throw new Error("Method getTemplate() must be implemented by the subclass");
+  }
+  /**
+   * Hook called whenever the underlying template node associated with this control's context
+   * (e.g., the selected block's  HTMLnode) is updated.
+   * Implement this to react to changes in the block/structure and update the control's UI elements accordingly.
+   * @param node - The updated immutable HTML node representing the control's context.
+   */
+  onTemplateNodeUpdated(_node) {
+  }
+  /**
+   * Lifecycle hook called when any part of the document template has changed.
+   * This can be frequent; use cautiously for performance-sensitive operations.
+   * @param _node - The immutable HTML node representing current node instance
+   */
+  onDocumentChanged(_node) {
+  }
+  /**
+   * Element Lock category of this control. Under `preventContentEdit` the editor disables (and rejects
+   * patches from) controls categorised as `content`; under `preventStyleEdit` — the `style` ones.
+   * Defaults to {@link ElementLockCategory.CONTENT}; override and return {@link ElementLockCategory.STYLE}
+   * for controls that edit visual styling so they are governed by the style-lock instead.
+   * @returns The Element Lock category governing this control.
+   */
+  getElementLockCategory() {
+    return "content";
+  }
+};
+_Control2.REQUIRED_METHODS = ["getId", "getTemplate"];
+var _GeneralPanelTab2 = class _GeneralPanelTab3 extends BaseValidatedClass {
+  constructor() {
+    super(_GeneralPanelTab3.REQUIRED_METHODS, _GeneralPanelTab3);
+  }
+  /**
+   * Gets the unique identifier for this tab.
+   * This ID is used for registration.
+   * @returns A unique string ID.
+   */
+  getId() {
+    throw new Error("Method getId() must be implemented by the subclass");
+  }
+  /**
+   * Gets the icon key representing this tab in the header.
+   * @returns A string representing the icon key from the IconsRegistry
+   */
+  getIcon() {
+    throw new Error("Method getIcon() must be implemented by the subclass");
+  }
+  /**
+   * Retrieves the index of the tab associated with the panel.
+   * The index represents the position/order of the tab in the UI.
+   *
+   * @returns {number} The index of the tab.
+   */
+  getTabIndex() {
+    throw new Error("Method getTabIndex() must be implemented by the subclass");
+  }
+  /**
+   * Gets the display name of the tab shown to the user in the header hint.
+   * Use `this.api.translate()` for localization.
+   * @returns The localized tab name string.
+   */
+  getName() {
+    throw new Error("Method getName() must be implemented by the subclass");
+  }
+  /**
+   * Determines if the tab should be available for use in the editor.
+   * Override to provide custom logic based on the editor state or configuration.
+   * @returns True if the tab is enabled, false otherwise. Defaults to true.
+   */
+  isEnabled() {
+    return true;
+  }
+  /**
+   * Gets the HTML template string that defines the initial template of general tab.
+   * @returns An HTML string.
+   */
+  getTemplate() {
+    throw new Error("Method getTemplate() must be implemented by the subclass");
+  }
+  /**
+   * Lifecycle hook called when any part of the document template has changed.
+   * This can be frequent; use cautiously for performance-sensitive operations.
+   */
+  onDocumentChanged() {
+  }
+  /**
+   * Optional hook called when the general panel tab is initially rendered.
+   * Use this for setup tasks like attaching event listeners to the panel's template elements.
+   */
+  onRender() {
+  }
+  /**
+   * Optional cleanup hook called when the general panel tab is being destroyed.
+   */
+  onDestroy() {
+  }
+};
+_GeneralPanelTab2.REQUIRED_METHODS = ["getId", "getIcon", "getName", "getTemplate", "getTabIndex"];
+var _ModulesPanelTab2 = class _ModulesPanelTab3 extends BaseValidatedClass {
+  constructor() {
+    super(_ModulesPanelTab3.REQUIRED_METHODS, _ModulesPanelTab3);
+  }
+  /**
+   * Gets the unique identifier for this tab.
+   * This ID is used for registration.
+   * @returns A unique string ID.
+   */
+  getId() {
+    throw new Error("Method getId() must be implemented by the subclass");
+  }
+  /**
+   * Gets the icon key representing this tab in the header.
+   * @returns A string representing the icon key from the IconsRegistry
+   */
+  getIcon() {
+    throw new Error("Method getIcon() must be implemented by the subclass");
+  }
+  /**
+   * Retrieves the index of the tab associated with the panel.
+   * The index represents the position/order of the tab in the UI.
+   *
+   * @returns {number} The index of the tab.
+   */
+  getTabIndex() {
+    throw new Error("Method getTabIndex() must be implemented by the subclass");
+  }
+  /**
+   * Gets the display name of the tab shown to the user in the header hint.
+   * Use `this.api.translate()` for localization.
+   * @returns The localized tab name string.
+   */
+  getName() {
+    throw new Error("Method getName() must be implemented by the subclass");
+  }
+  /**
+   * Determines if the tab should be available for use in the editor.
+   * Override to provide custom logic based on the editor state or configuration.
+   * @returns True if the tab is enabled, false otherwise. Defaults to true.
+   */
+  isEnabled() {
+    return true;
+  }
+  /**
+   * Gets the HTML template string that defines the initial structure of this tab.
+   * @returns An HTML string.
+   */
+  getTemplate() {
+    throw new Error("Method getTemplate() must be implemented by the subclass");
+  }
+  /**
+   * Optional hook called when the modules panel tab is initially rendered.
+   * Use this for setup tasks like attaching event listeners to the panel's template elements.
+   */
+  onRender() {
+  }
+  /**
+   * Lifecycle hook called when any part of the document template has changed.
+   * This can be frequent; use cautiously for performance-sensitive operations.
+   */
+  onDocumentChanged() {
+  }
+};
+_ModulesPanelTab2.REQUIRED_METHODS = ["getId", "getIcon", "getName", "getTemplate", "getTabIndex"];
+var ModulesPanelTab = _ModulesPanelTab2;
+var _SettingsPanelRegistry2 = class _SettingsPanelRegistry3 extends BaseValidatedClass {
+  constructor() {
+    super(_SettingsPanelRegistry3.REQUIRED_METHODS, _SettingsPanelRegistry3);
+  }
+  registerBlockControls(_blockControlsMap) {
+    throw new Error("Method registerBlockControls() must be implemented by the subclass");
+  }
+};
+_SettingsPanelRegistry2.REQUIRED_METHODS = ["registerBlockControls"];
+var _ExternalAiAssistant2 = class _ExternalAiAssistant3 extends BaseValidatedClass {
+  constructor() {
+    super(_ExternalAiAssistant3.REQUIRED_METHODS, _ExternalAiAssistant3);
+  }
+  openAiAssistant(_options) {
+    throw new Error("Method openAiAssistant() must be implemented by the subclass");
+  }
+};
+_ExternalAiAssistant2.REQUIRED_METHODS = ["openAiAssistant"];
+var _ExternalDisplayConditionsLibrary2 = class _ExternalDisplayConditionsLibrary3 extends BaseValidatedClass {
+  constructor() {
+    super(_ExternalDisplayConditionsLibrary3.REQUIRED_METHODS, _ExternalDisplayConditionsLibrary3);
+  }
+  /**
+   * Retrieves the name of the category.
+   *
+   * @return {string} The name of the category.
+   */
+  getCategoryName() {
+    throw new Error("Method getCategoryName() must be implemented by the subclass");
+  }
+  /**
+   * Opens a popup dialog for creating or updating a display condition.
+   *
+   * @param {DisplayCondition} _currentCondition - The currently selected display condition to edit.
+   * @param {ExternalDisplayConditionSelectedCB} _successCallback - Callback executed with the updated or newly created condition upon success.
+   * @param {() => void} _cancelCallback - Callback executed when the dialog is closed without making changes.
+   */
+  openExternalDisplayConditionsDialog(_currentCondition, _successCallback, _cancelCallback) {
+    throw new Error("Method openExternalDisplayConditionsDialog() must be implemented by the subclass");
+  }
+  /**
+   * Determines if the context action associated with this library is enabled.
+   *
+   * @returns {boolean} `true` if the context action is enabled, otherwise `false`.
+   */
+  getIsContextActionEnabled() {
+    throw new Error("Method getIsContextActionEnabled() must be implemented by the subclass");
+  }
+  /**
+   * Retrieves the index of the context action associated with this library.
+   * The index represents the position/order of the action in the UI.
+   *
+   * @returns {number} The index of the context action.
+   */
+  getContextActionIndex() {
+    throw new Error("Method getContextActionIndex() must be implemented by the subclass");
+  }
+};
+_ExternalDisplayConditionsLibrary2.REQUIRED_METHODS = ["getCategoryName", "openExternalDisplayConditionsDialog"];
+var _ExternalImageLibrary2 = class _ExternalImageLibrary3 extends BaseValidatedClass {
+  constructor() {
+    super(_ExternalImageLibrary3.REQUIRED_METHODS, _ExternalImageLibrary3);
+  }
+  openImageLibrary(_currentImageUrl, _onImageSelectCallback, _onCancelCallback) {
+    throw new Error("Method openImageLibrary() must be implemented by the subclass");
+  }
+};
+_ExternalImageLibrary2.REQUIRED_METHODS = ["openImageLibrary"];
+var _ExternalImageLibraryTab2 = class _ExternalImageLibraryTab3 extends BaseValidatedClass {
+  constructor() {
+    super(_ExternalImageLibraryTab3.REQUIRED_METHODS, _ExternalImageLibraryTab3);
+  }
+  /**
+   * @description Returns the translated name/label for the tab
+   * @returns Translation key or text to display as tab label
+   */
+  getName() {
+    throw new Error("Method getName() must be implemented by the subclass");
+  }
+  /**
+   * @description Opens the external image library tab and provides a container for rendering
+   * @param _container - DOM element container where the external library UI should be rendered
+   * @param _onImageSelectCallback - Callback to invoke when an image is selected
+   * @param _selectedNode - (Optional) Selected node for which the gallery is being opened
+   */
+  openImageLibraryTab(_container, _onImageSelectCallback, _selectedNode) {
+    throw new Error("Method openImageLibraryTab() must be implemented by the subclass");
+  }
+};
+_ExternalImageLibraryTab2.REQUIRED_METHODS = ["getName", "openImageLibraryTab"];
+var _ExternalSmartElementsLibrary2 = class _ExternalSmartElementsLibrary3 extends BaseValidatedClass {
+  constructor() {
+    super(_ExternalSmartElementsLibrary3.REQUIRED_METHODS, _ExternalSmartElementsLibrary3);
+  }
+  openSmartElementsLibrary(_onDataSelectCallback, _onCancelCallback) {
+    throw new Error("Method openSmartElementsLibrary() must be implemented by the subclass");
+  }
+};
+_ExternalSmartElementsLibrary2.REQUIRED_METHODS = ["openSmartElementsLibrary"];
+var _ExternalVideosLibrary2 = class _ExternalVideosLibrary3 extends BaseValidatedClass {
+  constructor() {
+    super(_ExternalVideosLibrary3.REQUIRED_METHODS, _ExternalVideosLibrary3);
+  }
+  openExternalVideosLibraryDialog(_currentValue, _successCallback, _cancelCallback) {
+    throw new Error("Method openExternalVideosLibraryDialog() must be implemented by the subclass");
+  }
+};
+_ExternalVideosLibrary2.REQUIRED_METHODS = ["openExternalVideosLibraryDialog"];
+var _IconsRegistry2 = class _IconsRegistry3 extends BaseValidatedClass {
+  constructor() {
+    super(_IconsRegistry3.REQUIRED_METHODS, _IconsRegistry3);
+  }
+  registerIconsSvg(_iconsMap) {
+    throw new Error("Method registerIconsSvg() must be implemented by the subclass");
+  }
+};
+_IconsRegistry2.REQUIRED_METHODS = ["registerIconsSvg"];
+var _UIElement2 = class _UIElement3 extends BaseValidatedClass {
+  constructor() {
+    super(_UIElement3.REQUIRED_METHODS, _UIElement3);
+  }
+  /**
+   * Called when the UI element should render its content into the provided container.
+   * @param container - The HTMLElement where the UI element should be rendered.
+   */
+  onRender(_container) {
+    throw new Error("Method onRender() must be implemented by the subclass");
+  }
+  /**
+   * Optional cleanup hook called when the UI element is being destroyed.
+   * Use this to remove event listeners or perform other cleanup tasks.
+   */
+  onDestroy() {
+  }
+  /**
+   * Optional method to get the current value of the UI element.
+   * Implement this if the element manages a state or value (e.g., input fields).
+   * @returns The current value of the element.
+   */
+  getValue() {
+  }
+  /**
+   * Optional method to set the value of the UI element.
+   * Implement this if the element manages a state or value and needs to be updated externally.
+   * @param value - The new value to set.
+   */
+  setValue(_value) {
+  }
+  /**
+   * @description Optional hook called when one of the element's supported attributes ({@link UEAttr}) gets updated externally.
+   * Implement this to react to attribute changes (e.g., visibility, disabled state).
+   * @param name - The name of the attribute that was updated.
+   * @param value - The new value of the attribute.
+   */
+  onAttributeUpdated(_name, _value) {
+  }
+  /**
+   * Gets the unique identifier for this UI element type.
+   * This ID is used for registration and referencing within controls.
+   * @returns A unique string ID.
+   */
+  getId() {
+    throw new Error("Method getId() must be implemented by the subclass");
+  }
+  /**
+   * Gets the HTML template string that defines the structure of this UI element.
+   * @returns An HTML string.
+   */
+  getTemplate() {
+    throw new Error("Method getTemplate() must be implemented by the subclass");
+  }
+};
+_UIElement2.REQUIRED_METHODS = ["onRender", "getId", "getTemplate"];
+var UIElement = _UIElement2;
+var _UIElementTagRegistry2 = class _UIElementTagRegistry3 extends BaseValidatedClass {
+  constructor() {
+    super(_UIElementTagRegistry3.REQUIRED_METHODS, _UIElementTagRegistry3);
+  }
+  registerUiElements(_uiElementsTagsMap) {
+    throw new Error("Method registerUiElements() must be implemented by the subclass");
+  }
+};
+_UIElementTagRegistry2.REQUIRED_METHODS = ["registerUiElements"];
+class WidgetsBlockConfigUtils {
+  static buildConfig({ widgetId, initialJsonConfig, currentConfig = {} }) {
+    const jsonConfig = currentConfig.jsonConfig ? { ...currentConfig.jsonConfig } : { ...initialJsonConfig };
+    return {
+      widgetId,
+      jsonConfig,
+      blockUUID: crypto.randomUUID()
+    };
+  }
+  static updateConfigJsonConfig({ jsonConfig, currentConfig = {} }) {
+    return {
+      ...currentConfig,
+      jsonConfig: { ...jsonConfig }
+    };
+  }
+  static updateConfigAmpServiceUrl({ ampServiceUrl, currentConfig = {} }) {
+    return {
+      ...currentConfig,
+      jsonConfig: {
+        ...currentConfig.jsonConfig,
+        amp_service_url: ampServiceUrl
+      }
+    };
+  }
+  static getHiddenWidgetState(currentConfig) {
+    return WidgetsBlockConfigUtils.getJsonConfig(currentConfig)["hide_widget"];
+  }
+  static getJsonConfig(currentConfig) {
+    return currentConfig?.jsonConfig || {};
+  }
+  static getWidgetId(currentConfig) {
+    return currentConfig?.widgetId;
+  }
+  static getBlockUUID(currentConfig) {
+    return currentConfig?.blockUUID;
+  }
+  static getAmpServiceUrl(currentConfig) {
+    return currentConfig?.jsonConfig?.amp_service_url;
+  }
+  static isSameWidget({ currentConfig, newConfig }) {
+    if (!currentConfig) {
+      return false;
+    }
+    return currentConfig.blockUUID === newConfig?.blockUUID;
+  }
+}
+class WidgetsMarkupUtils {
+  static prepareExternalWidgetMarkup({ widgetMarkupString, showAmpOnlyForBothMimeTypeView, innerHtml = false, updateUniqueSeed = false }) {
+    const decodedHtmlStr = updateUniqueSeed ? WidgetsMarkupUtils.#replaceUniqueSeed(widgetMarkupString) : widgetMarkupString;
+    const wrapper = document.createElement("tr");
+    wrapper.innerHTML = decodedHtmlStr;
+    if (showAmpOnlyForBothMimeTypeView) {
+      const ampVersionNode = wrapper.querySelector(".es-visible-amp-html-only");
+      if (ampVersionNode) {
+        wrapper.querySelector(".es-visible-simple-html-only")?.classList?.add("ue-widget-html-version");
+        ampVersionNode?.classList?.add("ue-widget-amp-html-version");
+      }
+    }
+    return innerHtml ? wrapper.querySelector("td").innerHTML : wrapper.innerHTML;
+  }
+  static #replaceUniqueSeed(template) {
+    try {
+      const uniqueClassPrefix = "w-pref-";
+      const currentSeed = WidgetsMarkupUtils.#findUniqueSeed(template, uniqueClassPrefix);
+      if (currentSeed) {
+        const newSeed = `${crypto.randomUUID().replace(/-/g, "")}`;
+        return template.replaceAll(currentSeed, newSeed);
+      }
+    } catch (e) {
+      console.error("Error replacing unique widget seed:", e);
+    }
+    return template;
+  }
+  static #findUniqueSeed(htmlString, uniqueClassPrefix) {
+    const uniqueClass = htmlString.match(
+      new RegExp(`${uniqueClassPrefix}[A-Za-z0-9-]+(?=[\\s"'<>]|$)`, "g")
+    );
+    return uniqueClass ? uniqueClass[0].substring(uniqueClassPrefix.length) : null;
+  }
+}
+class WidgetsBlockBuilder {
+  static buildBlock(widgetConfig2) {
+    return class extends Block {
+      getId() {
+        return widgetConfig2.widgetId;
+      }
+      getIcon() {
+        return "widgetsPanelIcon";
+      }
+      getName() {
+        return this.api.translate(widgetConfig2.name);
+      }
+      getDescription() {
+        return widgetConfig2.description ? this.api.translate(widgetConfig2.description) : "";
+      }
+      getTemplate() {
+        return WidgetsMarkupUtils.prepareExternalWidgetMarkup({
+          widgetMarkupString: widgetConfig2.initialTemplate,
+          showAmpOnlyForBothMimeTypeView: widgetConfig2.showAmpOnlyForBothMimeTypeView,
+          updateUniqueSeed: true
+        });
+      }
+      getBlockCompositionType() {
+        return widgetConfig2.type;
+      }
+      onCreated(node) {
+        const config = WidgetsBlockConfigUtils.buildConfig({
+          widgetId: widgetConfig2.widgetId,
+          initialJsonConfig: widgetConfig2.initialJsonConfig,
+          currentConfig: node.getNodeConfig()
+        });
+        this.api.getDocumentModifier().modifyHtml(node).setNodeConfig(config);
+        this.api.sendEvent && this.api.sendEvent("widget_created", {
+          name: widgetConfig2.name
+        });
+      }
+      allowInnerBlocksSelection() {
+        return widgetConfig2.allowInnerBlocksSelection;
+      }
+      allowInnerBlocksDND() {
+        return false;
+      }
+      shouldDisplayInBlocksPanel() {
+        return false;
+      }
+      canBeSavedAsModule() {
+        return true;
+      }
+    };
+  }
+}
+const HOVERED_ICON_UI_ELEMENT_ID = "widgets-hovered-icon";
+const DEFAULT_SRC_ATTR = "default-src";
+const HOVER_SRC_ATTR = "hover-src";
+class HoveredIconUiElement extends UIElement {
+  getId() {
+    return HOVERED_ICON_UI_ELEMENT_ID;
+  }
+  getTemplate() {
+    return `
+            <div class="widgets-hovered-icon">
+                <img
+                    class="widgets-hovered-icon__image widgets-hovered-icon__image--default"
+                    alt=""
+                    aria-hidden="true"
+                />
+                <img
+                    class="widgets-hovered-icon__image widgets-hovered-icon__image--hover"
+                    alt=""
+                    aria-hidden="true"
+                />
+            </div>
+        `;
+  }
+  onRender(container) {
+    this.container = container.querySelector(".widgets-hovered-icon");
+    this.defaultImage = container.querySelector(".widgets-hovered-icon__image--default");
+    this.hoverImage = container.querySelector(".widgets-hovered-icon__image--hover");
+    this.renderState();
+  }
+  getValue() {
+    return {
+      defaultSrc: this.defaultSrc,
+      hoverSrc: this.hoverSrc
+    };
+  }
+  setValue(_value) {
+    this.renderState();
+  }
+  onAttributeUpdated(name, value) {
+    if (name === DEFAULT_SRC_ATTR) {
+      this.defaultSrc = typeof value === "string" ? value : "";
+      this.hoverSrc = this.hoverSrc || this.defaultSrc;
+      this.renderState();
+    }
+    if (name === HOVER_SRC_ATTR) {
+      this.hoverSrc = typeof value === "string" && value ? value : this.defaultSrc;
+      this.renderState();
+    }
+  }
+  renderState() {
+    if (!this.defaultImage || !this.hoverImage) {
+      return;
+    }
+    const defaultSrc = this.defaultSrc || "";
+    const hoverSrc = this.hoverSrc || defaultSrc;
+    this.#setImageSrc(this.defaultImage, defaultSrc);
+    this.#setImageSrc(this.hoverImage, hoverSrc);
+  }
+  #setImageSrc(image, src) {
+    if (!src) {
+      if (image.hasAttribute("src")) {
+        image.removeAttribute("src");
+      }
+      return;
+    }
+    if (image.getAttribute("src") !== src) {
+      image.setAttribute("src", src);
+    }
+  }
+}
+class WidgetsPanelBuilder {
+  static buildWidgetsPanel(widgetsConfig) {
+    const WIDGETS_CONFIG = [...widgetsConfig];
+    return class extends ModulesPanelTab {
+      isEnabled() {
+        return true;
+      }
+      getId() {
+        return "widgets-panel";
+      }
+      getIcon() {
+        return "widgetsPanelIcon";
+      }
+      getTabIndex() {
+        return 1;
+      }
+      getName() {
+        return this.api.translate("Widgets");
+      }
+      getTemplate() {
+        return `
+                    <div class="widgets-panel">
+                        <div class="widgets-panel-filter-container">
+                            <${UIElementType.TEXT} name="searchFilter"></${UIElementType.TEXT}>
+                        </div>
+                        
+                        <div class="widgets-panel-separator"></div>
+                        
+                        <div class="widgets-panel-content">
+                            <${UIElementType.SCROLLABLE}>
+                                <div class="module-list-empty" name="emptyWidgetsContainer">${this.api.translate("No widgets found")}</div>
+                                
+                                <${UIElementType.REPEATABLE} name="widgets">
+                                    <div class="widgets-panel-item">
+                                        <${UIElementType.DRAGGABLE_BLOCK} name="widgetDraggableBlock">
+                                            <${HOVERED_ICON_UI_ELEMENT_ID} name="widgetIcon" class="widget-icon"></${HOVERED_ICON_UI_ELEMENT_ID}>
+                                        </${UIElementType.DRAGGABLE_BLOCK}>
+        
+                                        <div class="info-wrapper">
+                                            <div class="hint-container">
+                                                <${UIElementType.LABEL} name="widgetName"></${UIElementType.LABEL}>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </${UIElementType.REPEATABLE}>
+                            </${UIElementType.SCROLLABLE}>
+                        </div>
+                    </div>
+                `;
+      }
+      onRender() {
+        this.widgetsDragDisabled = !this.#canDropWidgets(this.api.getUserPermissions());
+        this.api.onUserPermissionsUpdated((permissions) => {
+          this.widgetsDragDisabled = !this.#canDropWidgets(permissions);
+          this.#applyFilter(this.searchFilter);
+        });
+        this.api.onValueChanged("searchFilter", (val) => {
+          this.searchFilter = val;
+          this.#applyFilter(val);
+        });
+        this.api.setUIEAttribute("searchFilter", "placeholder", this.api.translate("Search by name"));
+        this.#applyFilter();
+      }
+      #applyFilter(val) {
+        const widgets2 = this.#getFilteredWidgetsConfig(val);
+        this.api.setVisibility("emptyWidgetsContainer", !widgets2.length);
+        this.api.setVisibility("widgets", !!widgets2.length);
+        this.api.updateValues({
+          widgets: widgets2.map((w) => {
+            return {
+              widgetName: this.api.translate(w.name)
+            };
+          })
+        });
+        for (let i = 0; i < widgets2.length; i++) {
+          this.api.setUIEAttribute(`widgets[${i}].widgetDraggableBlock`, UEAttr.DRAGGABLE_BLOCK.blockId, widgets2[i].widgetId);
+          this.api.setUIEAttribute(`widgets[${i}].widgetDraggableBlock`, UEAttr.DEFAULT.disabled, this.widgetsDragDisabled);
+          this.api.setUIEAttribute(`widgets[${i}].widgetDraggableBlock.widgetIcon`, "default-src", widgets2[i].iconUrl);
+          this.api.setUIEAttribute(`widgets[${i}].widgetDraggableBlock.widgetIcon`, "hover-src", widgets2[i].hoverIconUrl || widgets2[i].iconUrl);
+        }
+      }
+      #canDropWidgets(permissions) {
+        return permissions?.content?.write === true && permissions?.content?.textOnly !== true;
+      }
+      #getFilteredWidgetsConfig(val) {
+        return val ? WIDGETS_CONFIG.filter((w) => this.api.translate(w.name)?.toLowerCase().trim().includes(val.toLowerCase().trim())) : WIDGETS_CONFIG;
+      }
+    };
+  }
+}
+const ICON_DATA_URI = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3C/svg%3E';
+const widgetConfig = {
+  widgetId: "11111111-1111-1111-1111-111111111111",
+  type: "BLOCK",
+  name: "Test widget",
+  iconUrl: ICON_DATA_URI,
+  hoverIconUrl: ICON_DATA_URI,
+  allowInnerBlocksSelection: false,
+  showAmpOnlyForBothMimeTypeView: false,
+  hasDataService: false,
+  initialJsonConfig: {},
+  initialTemplate: '<div data-widget="test"></div>'
+};
+const widgetsPermissionsPanel = new ExtensionBuilder().addModulesPanelTab(WidgetsPanelBuilder.buildWidgetsPanel([widgetConfig])).addUiElement(HoveredIconUiElement).addBlock(WidgetsBlockBuilder.buildBlock(widgetConfig)).build();
 const extensionsMap = {
   variableVisibilityControl,
   textBlockWithCustomControls,
@@ -13561,6 +14937,7 @@ const extensionsMap = {
   extensionNames,
   customBlockBasic,
   responsiveWidthWidget,
+  ampDataServiceWidget,
   atomicBlockAlias,
   customBlockWithCustomRenderer,
   blocksPanelVisibility,
@@ -13575,6 +14952,7 @@ const extensionsMap = {
   customNestedBlocks,
   customEmptyContainer,
   interactiveRadioRepro,
+  nestedImageResizeDisabled,
   unresolvedButtonLinkRepro,
   unresolvedLinkRepro,
   textUiElementOverridden,
@@ -13667,6 +15045,7 @@ const extensionsMap = {
   multipleCustomControlWithEmptyState,
   generalPanelTabExtension,
   generalMultipleTabsExtension,
+  hiddenModificationTabExtension,
   modulesPanelTabExtension,
   structureWithCustomMarkupExtension,
   imageMarginsControlExtension,
@@ -13679,6 +15058,7 @@ const extensionsMap = {
   extensionMultipleSelect,
   extensionUIMessageElement,
   extensionUIPopupWithCustomControl,
+  widgetsPermissionsPanel,
   // new E2E lib type test extensions
   esmLib,
   cjsLib,
