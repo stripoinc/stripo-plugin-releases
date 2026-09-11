@@ -1,5 +1,5 @@
 /**
- * Dark Reader v4.9.128
+ * Dark Reader v4.9.130
  * https://darkreader.org/
  */
 
@@ -112,14 +112,16 @@
     const isSafari = userAgent.includes("safari") && !isChromium;
     const isWindows = platform.startsWith("win");
     const isMacOS = platform.startsWith("mac");
-    isNavigatorDefined && navigator.userAgentData
-        ? navigator.userAgentData.mobile
-        : userAgent.includes("mobile") || false;
+    const isMobile =
+        isNavigatorDefined && navigator.userAgentData
+            ? navigator.userAgentData.mobile
+            : userAgent.includes("mobile") || false;
     const isShadowDomSupported = typeof ShadowRoot === "function";
     const isMatchMediaChangeEventListenerSupported =
         typeof MediaQueryList === "function" &&
         typeof MediaQueryList.prototype.addEventListener === "function";
     const isLayerRuleSupported = typeof CSSLayerBlockRule === "function";
+    const isContainerRuleSupported = typeof CSSContainerRule === "function";
     (() => {
         const m = userAgent.match(/chrom(?:e|ium)(?:\/| )([^ ]+)/);
         if (m && m[1]) {
@@ -164,10 +166,12 @@
     async function getOKResponse(url, mimeType, origin) {
         const credentials =
             origin && url.startsWith(`${origin}/`) ? undefined : "omit";
+        const redirect = mimeType === "text/css" ? undefined : "error";
         const response = await fetch(url, {
             cache: "force-cache",
             credentials,
-            referrer: origin
+            referrer: origin,
+            redirect
         });
         if (
             isFirefox &&
@@ -177,14 +181,22 @@
         ) {
             return response;
         }
+        const contentType = response.headers.get("Content-Type");
         if (
             mimeType &&
             !(
-                response.headers.get("Content-Type") === mimeType ||
-                response.headers.get("Content-Type").startsWith(`${mimeType};`)
+                contentType === mimeType ||
+                contentType?.startsWith(`${mimeType};`)
             )
         ) {
             throw new Error(`Mime type mismatch when loading ${url}`);
+        }
+        if (
+            response.redirected &&
+            response.url &&
+            shouldIgnoreCors(new URL(response.url))
+        ) {
+            throw new Error("Cross-origin limit reached");
         }
         if (!response.ok) {
             throw new Error(
@@ -203,9 +215,10 @@
     }
     async function readResponseAsDataURL(response) {
         const blob = await response.blob();
-        const dataURL = await new Promise((resolve) => {
+        const dataURL = await new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onloadend = () => resolve(reader.result);
+            reader.onerror = () => reject(reader.error);
             reader.readAsDataURL(blob);
         });
         return dataURL;
@@ -213,6 +226,76 @@
     async function loadAsText(url, mimeType, origin) {
         const response = await getOKResponse(url, mimeType, origin);
         return await response.text();
+    }
+    const MAX_CORS_HOSTS = 16;
+    const corsHosts = new Set();
+    const checkedHosts = new Set();
+    const localAliases = [
+        "127-0-0-1.org.uk",
+        "42foo.com",
+        "domaincontrol.com",
+        "fbi.com",
+        "fuf.me",
+        "lacolhost.com",
+        "local.sisteminha.com",
+        "localfabriek.nl",
+        "localhost",
+        "localhst.co.uk",
+        "localmachine.info",
+        "localmachine.name",
+        "localtest.me",
+        "lvh.me",
+        "mouse-potato.com",
+        "nip.io",
+        "sslip.io",
+        "vcap.me",
+        "xip.io",
+        "yoogle.com"
+    ];
+    const localSubDomains = [
+        ".corp",
+        ".direct",
+        ".home",
+        ".internal",
+        ".intranet",
+        ".lan",
+        ".local",
+        ".localdomain",
+        ".test",
+        ".zz",
+        ...localAliases.map((alias) => `.${alias}`)
+    ];
+    function isIPHost(hostname) {
+        if (hostname.startsWith("[")) {
+            return true;
+        }
+        const labels = hostname.split(".");
+        const last = labels[labels.length - 1];
+        return /^(0x[0-9a-f]+|\d+)$/i.test(last);
+    }
+    function shouldIgnoreCors(url) {
+        const {host, port, protocol} = url;
+        const hostname = url.hostname.endsWith(".")
+            ? url.hostname.slice(0, -1)
+            : url.hostname;
+        if (!corsHosts.has(host)) {
+            corsHosts.add(host);
+        }
+        if (checkedHosts.has(host)) {
+            return false;
+        }
+        if (
+            corsHosts.size >= MAX_CORS_HOSTS ||
+            protocol !== "https:" ||
+            port !== "" ||
+            localAliases.includes(hostname) ||
+            localSubDomains.some((sub) => hostname.endsWith(sub)) ||
+            isIPHost(hostname)
+        ) {
+            return true;
+        }
+        checkedHosts.add(host);
+        return false;
     }
 
     const throwCORSError = async (url) => {
@@ -847,18 +930,16 @@
     const rgbaParseCache = new Map();
     function parseColorWithCache($color) {
         $color = $color.trim();
-        if (rgbaParseCache.has($color)) {
-            return rgbaParseCache.get($color);
+        const key = $color;
+        if (rgbaParseCache.has(key)) {
+            return rgbaParseCache.get(key);
         }
         if ($color.includes("calc(")) {
             $color = lowerCalcExpression($color);
         }
         const color = parse($color);
-        if (color) {
-            rgbaParseCache.set($color, color);
-            return color;
-        }
-        return null;
+        rgbaParseCache.set(key, color);
+        return color;
     }
     function parseToHSLWithCache(color) {
         if (hslaParseCache.has(color)) {
@@ -1941,20 +2022,35 @@
         };
     }
 
-    function iterateCSSRules(rules, iterate, onImportError) {
+    function iterateCSSRules(
+        rules,
+        iterate,
+        onImportError,
+        importedSheets = new Set()
+    ) {
         forEach(rules, (rule) => {
             if (isStyleRule(rule)) {
                 iterate(rule);
                 if (rule.cssRules?.length > 0) {
-                    iterateCSSRules(rule.cssRules, iterate);
+                    iterateCSSRules(
+                        rule.cssRules,
+                        iterate,
+                        onImportError,
+                        importedSheets
+                    );
                 }
             } else if (isImportRule(rule)) {
                 try {
-                    iterateCSSRules(
-                        rule.styleSheet.cssRules,
-                        iterate,
-                        onImportError
-                    );
+                    const importedSheet = rule.styleSheet;
+                    if (!importedSheets.has(importedSheet)) {
+                        importedSheets.add(importedSheet);
+                        iterateCSSRules(
+                            importedSheet.cssRules,
+                            iterate,
+                            onImportError,
+                            importedSheets
+                        );
+                    }
                 } catch (err) {
                     onImportError?.();
                 }
@@ -1972,14 +2068,36 @@
                         ignoredMedia.some((i) => m.startsWith(i))
                     );
                 if (isScreenOrAllOrQuery || !isNotScreen) {
-                    iterateCSSRules(rule.cssRules, iterate, onImportError);
+                    iterateCSSRules(
+                        rule.cssRules,
+                        iterate,
+                        onImportError,
+                        importedSheets
+                    );
                 }
             } else if (isSupportsRule(rule)) {
                 if (CSS.supports(rule.conditionText)) {
-                    iterateCSSRules(rule.cssRules, iterate, onImportError);
+                    iterateCSSRules(
+                        rule.cssRules,
+                        iterate,
+                        onImportError,
+                        importedSheets
+                    );
                 }
             } else if (isLayerRule(rule)) {
-                iterateCSSRules(rule.cssRules, iterate, onImportError);
+                iterateCSSRules(
+                    rule.cssRules,
+                    iterate,
+                    onImportError,
+                    importedSheets
+                );
+            } else if (isContainerRule(rule)) {
+                iterateCSSRules(
+                    rule.cssRules,
+                    iterate,
+                    onImportError,
+                    importedSheets
+                );
             } else {
                 logWarn(`CSSRule type not supported`, rule);
             }
@@ -2120,6 +2238,7 @@
     const mediaRules = new WeakSet();
     const supportsRules = new WeakSet();
     const layerRules = new WeakSet();
+    const containerRules = new WeakSet();
     function isStyleRule(rule) {
         if (!rule) {
             return false;
@@ -2197,6 +2316,22 @@
         }
         return false;
     }
+    function isContainerRule(rule) {
+        if (!rule) {
+            return false;
+        }
+        if (styleRules.has(rule)) {
+            return false;
+        }
+        if (containerRules.has(rule)) {
+            return true;
+        }
+        if (isContainerRuleSupported && rule instanceof CSSContainerRule) {
+            containerRules.add(rule);
+            return true;
+        }
+        return false;
+    }
 
     const sheetsScopes = new WeakMap();
     function defineSheetScope(sheet, node) {
@@ -2265,7 +2400,7 @@
         const variable = `--darkreader-${type}-${hex.replace("#", "")}`;
         registered[type] = {variable, value};
         if (variablesSheet?.cssRules[0]?.style) {
-            variablesSheet?.cssRules[0].style.setProperty(variable, value);
+            (variablesSheet?.cssRules[0]).style.setProperty(variable, value);
         }
         return getRegisteredVariableValue(type, registered);
     }
@@ -2787,67 +2922,6 @@
             }
         }
     });
-    const ipV4RegExp = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/;
-    const MAX_CORS_HOSTS = 16;
-    const corsHosts = new Set();
-    const checkedHosts = new Set();
-    const localAliases = [
-        "127-0-0-1.org.uk",
-        "42foo.com",
-        "domaincontrol.com",
-        "fbi.com",
-        "fuf.me",
-        "lacolhost.com",
-        "local.sisteminha.com",
-        "localfabriek.nl",
-        "localhost",
-        "localhst.co.uk",
-        "localmachine.info",
-        "localmachine.name",
-        "localtest.me",
-        "lvh.me",
-        "mouse-potato.com",
-        "nip.io",
-        "sslip.io",
-        "vcap.me",
-        "xip.io",
-        "yoogle.com"
-    ];
-    const localSubDomains = [
-        ".corp",
-        ".direct",
-        ".home",
-        ".internal",
-        ".intranet",
-        ".lan",
-        ".local",
-        ".localdomain",
-        ".test",
-        ".zz",
-        ...localAliases.map((alias) => `.${alias}`)
-    ];
-    function shouldIgnoreCors(url) {
-        const {host, hostname, port, protocol} = url;
-        if (!corsHosts.has(host)) {
-            corsHosts.add(host);
-        }
-        if (checkedHosts.has(host)) {
-            return false;
-        }
-        if (
-            corsHosts.size >= MAX_CORS_HOSTS ||
-            protocol !== "https:" ||
-            port !== "" ||
-            localAliases.includes(hostname) ||
-            localSubDomains.some((sub) => hostname.endsWith(sub)) ||
-            hostname.startsWith("[") ||
-            hostname.match(ipV4RegExp)
-        ) {
-            return true;
-        }
-        checkedHosts.add(host);
-        return false;
-    }
 
     const imageManager = new AsyncQueue();
     async function getImageDetails(url) {
@@ -3139,8 +3213,11 @@
         }
     }
     document.addEventListener("securitypolicyviolation", onCSPError);
-    const objectURLs = new Set();
-    function getFilteredImageURL({dataURL, width, height, useViewBox}, theme) {
+    const filteredImageURLs = new Map();
+    function getFilteredImageURL(
+        {dataURL, width, height, useViewBox, src},
+        theme
+    ) {
         if (dataURL.startsWith("data:image/svg+xml")) {
             dataURL = escapeXML(dataURL);
         }
@@ -3161,13 +3238,20 @@
         if (!isBlobURLSupported) {
             return `data:image/svg+xml;base64,${btoa(svg)}`;
         }
+        const cached = filteredImageURLs.get(src);
+        if (cached && cached.matrix === matrix) {
+            return cached.url;
+        }
         const bytes = new Uint8Array(svg.length);
         for (let i = 0; i < svg.length; i++) {
             bytes[i] = svg.charCodeAt(i);
         }
         const blob = new Blob([bytes], {type: "image/svg+xml"});
         const objectURL = URL.createObjectURL(blob);
-        objectURLs.add(objectURL);
+        if (cached) {
+            URL.revokeObjectURL(cached.url);
+        }
+        filteredImageURLs.set(src, {matrix, url: objectURL});
         return objectURL;
     }
     function getSolidColorImageURL({width, height, useViewBox}, color) {
@@ -3235,8 +3319,8 @@
     function cleanImageProcessingCache() {
         imageManager && imageManager.stop();
         removeCanvas();
-        objectURLs.forEach((u) => URL.revokeObjectURL(u));
-        objectURLs.clear();
+        filteredImageURLs.forEach(({url}) => URL.revokeObjectURL(url));
+        filteredImageURLs.clear();
         dataURLBlobURLs.forEach((u) => URL.revokeObjectURL(u));
         dataURLBlobURLs.clear();
     }
@@ -3618,7 +3702,6 @@
         return false;
     }
     const imageSelectorQueue = new Map();
-    const imageSelectorValues = new Map();
     const imageSelectorNodeQueue = new Set();
     let imageSelectorQueueFrameId = null;
     let classObserver = null;
@@ -3631,6 +3714,11 @@
                 imageSelectorQueue.delete(selector);
                 callbacks.forEach((cb) => cb());
             }
+        }
+        if (imageSelectorQueue.size === 0) {
+            classObserver?.disconnect();
+            classObserver = null;
+            return;
         }
         if (!classObserver) {
             classObserver = new MutationObserver((mutations) => {
@@ -3759,7 +3847,6 @@
                                         .push(resolve);
                                 } else {
                                     imageSelectorQueue.set(selector, [resolve]);
-                                    imageSelectorValues.set(selector, urlValue);
                                 }
                             });
                         }
@@ -4110,6 +4197,7 @@
             this.unstableVarValues = new Map();
             this.varFilterTypes = new Map();
             this.notifyingVarFilterTypes = new Set();
+            this.varsChanged = false;
         }
         clear() {
             this.varTypes.clear();
@@ -4148,9 +4236,13 @@
             }
             this.changedTypeVars.clear();
             this.initialVarTypes = new Map(this.varTypes);
+            this.varsChanged = false;
             this.collectRootVariables();
             this.collectVariablesAndVarDep();
             this.collectRootVarDependents();
+            if (!this.varsChanged) {
+                return;
+            }
             this.varRefs.forEach((refs, v) => {
                 refs.forEach((r) => {
                     if (this.varTypes.has(v)) {
@@ -4569,23 +4661,30 @@
         }
         inspectVariable(varName, value) {
             this.unstableVarValues.set(varName, value);
-            if (isVarDependant(value) && isConstructedColorVar(value)) {
-                this.unknownColorVars.add(varName);
+            const hasVar = isVarDependant(value);
+            if (hasVar && isConstructedColorVar(value)) {
+                if (!this.unknownColorVars.has(varName)) {
+                    this.unknownColorVars.add(varName);
+                    this.varsChanged = true;
+                }
                 this.definedVars.add(varName);
             }
             if (this.definedVars.has(varName)) {
                 return;
             }
             this.definedVars.add(varName);
+            this.varsChanged = true;
+            const valueOrFallback = hasVar ? getVarFallback(value) : value;
             const isColor = Boolean(
-                getRGBValues(value) || parseColorWithCache(value)
+                getRGBValues(valueOrFallback) ||
+                parseColorWithCache(valueOrFallback)
             );
             if (isColor) {
                 this.unknownColorVars.add(varName);
             } else if (
-                value.includes("url(") ||
-                value.includes("linear-gradient(") ||
-                value.includes("radial-gradient(")
+                valueOrFallback.includes("url(") ||
+                valueOrFallback.includes("linear-gradient(") ||
+                valueOrFallback.includes("radial-gradient(")
             ) {
                 this.resolveVariableType(varName, VAR_TYPE_BG_IMG);
             }
@@ -4598,6 +4697,13 @@
             if (newType !== initialType || this.undefinedVars.has(varName)) {
                 this.changedTypeVars.add(varName);
                 this.undefinedVars.delete(varName);
+            }
+            if (
+                newType !== currentType ||
+                this.unknownColorVars.has(varName) ||
+                this.unknownBgVars.has(varName)
+            ) {
+                this.varsChanged = true;
             }
             this.unknownColorVars.delete(varName);
             this.unknownBgVars.delete(varName);
@@ -4621,7 +4727,11 @@
                     if (!this.varRefs.has(property)) {
                         this.varRefs.set(property, new Set());
                     }
-                    this.varRefs.get(property).add(ref);
+                    const refs = this.varRefs.get(property);
+                    if (!refs.has(ref)) {
+                        refs.add(ref);
+                        this.varsChanged = true;
+                    }
                 });
             } else if (
                 property === "background-color" ||
@@ -4666,8 +4776,9 @@
                     this.iterateVarRefs(v, (ref) => {
                         if (isBgColor) {
                             this.resolveVariableType(ref, VAR_TYPE_BG_COLOR);
-                        } else {
+                        } else if (!this.unknownBgVars.has(ref)) {
                             this.unknownBgVars.add(ref);
+                            this.varsChanged = true;
                         }
                     });
                 });
@@ -4678,23 +4789,20 @@
             iterateVarDependencies(value, (v) => varDeps.add(v));
             varDeps.forEach((v) => iterator(v));
         }
-        findVarRef(varName, iterator, stack = new Set()) {
-            if (stack.has(varName)) {
-                return null;
-            }
-            stack.add(varName);
-            const result = iterator(varName);
-            if (result) {
-                return varName;
-            }
-            const refs = this.varRefs.get(varName);
-            if (!refs || refs.size === 0) {
-                return null;
-            }
-            for (const ref of refs) {
-                const found = this.findVarRef(ref, iterator, stack);
-                if (found) {
-                    return found;
+        findVarRef(varName, iterator, visited = new Set()) {
+            const queue = [varName];
+            while (queue.length > 0) {
+                const v = queue.pop();
+                if (visited.has(v)) {
+                    continue;
+                }
+                visited.add(v);
+                if (iterator(v)) {
+                    return v;
+                }
+                const refs = this.varRefs.get(v);
+                if (refs) {
+                    refs.forEach((ref) => queue.push(ref));
                 }
             }
             return null;
@@ -4844,6 +4952,17 @@
         };
         return replaceVariablesMatches(value, matchReplacer);
     }
+    function getVarFallback(value) {
+        return replaceVariablesMatches(value, (match) => {
+            const {fallback} = getVariableNameAndFallback(match);
+            if (!fallback) {
+                return "";
+            }
+            return isVarDependant(fallback)
+                ? getVarFallback(fallback)
+                : fallback;
+        });
+    }
     function iterateVarDependencies(value, iterator) {
         replaceCSSVariablesNames(value, (varName) => {
             iterator(varName);
@@ -4958,23 +5077,53 @@
     function tryModifyBorderColor(color, theme) {
         return handleRawColorValue(color, theme, modifyBorderColor);
     }
-    function insertVarValues(source, varValues, fullStack = new Set()) {
+    const MAX_VARIABLE_SUBSTITUTIONS = 100000;
+    const MAX_VARIABLE_DEPTH = 1000;
+    function insertVarValues(
+        source,
+        varValues,
+        stack = new Set(),
+        cache = new Map(),
+        depth = 0
+    ) {
+        if (depth > MAX_VARIABLE_DEPTH) {
+            return null;
+        }
         let containsUnresolvedVar = false;
-        const matchReplacer = (match, count) => {
+        const matchReplacer = (match) => {
             const {name, fallback} = getVariableNameAndFallback(match);
-            const stack = count > 1 ? new Set(fullStack) : fullStack;
-            if (stack.has(name)) {
-                containsUnresolvedVar = true;
-                return null;
-            }
-            stack.add(name);
-            const varValue = varValues.get(name) || fallback;
+            const varValue = varValues.get(name);
             let inserted = null;
             if (varValue) {
-                if (isVarDependant(varValue)) {
-                    inserted = insertVarValues(varValue, varValues, stack);
+                if (cache.has(name)) {
+                    inserted = cache.get(name);
+                } else if (!stack.has(name)) {
+                    stack.add(name);
+                    if (isVarDependant(varValue)) {
+                        inserted = insertVarValues(
+                            varValue,
+                            varValues,
+                            stack,
+                            cache,
+                            depth + 1
+                        );
+                    } else {
+                        inserted = varValue;
+                    }
+                    stack.delete(name);
+                    cache.set(name, inserted);
+                }
+            } else if (fallback) {
+                if (isVarDependant(fallback)) {
+                    inserted = insertVarValues(
+                        fallback,
+                        varValues,
+                        stack,
+                        cache,
+                        depth + 1
+                    );
                 } else {
-                    inserted = varValue;
+                    inserted = fallback;
                 }
             }
             if (!inserted) {
@@ -4984,13 +5133,16 @@
             return inserted;
         };
         const replaced = replaceVariablesMatches(source, matchReplacer);
-        if (containsUnresolvedVar) {
+        if (
+            containsUnresolvedVar ||
+            replaced.length > MAX_VARIABLE_SUBSTITUTIONS
+        ) {
             return null;
         }
         return replaced;
     }
 
-    function getThemeKey(theme) {
+    function getThemeKey$1(theme) {
         let resultKey = "";
         themeCacheKeys.forEach((key) => {
             resultKey += `${key}:${theme[key]};`;
@@ -4998,17 +5150,37 @@
         return resultKey;
     }
     const asyncQueue = createAsyncTasksQueue();
+    let cssTextCounter = 0;
+    const cssTextIds = new Map();
+    function getCSSTextKey(cssText) {
+        const existing = cssTextIds.get(cssText);
+        if (existing !== undefined) {
+            return existing;
+        }
+        let n = ++cssTextCounter;
+        let key = "";
+        do {
+            key = String.fromCharCode(n & 0xffff) + key;
+            n >>>= 16;
+        } while (n > 0);
+        cssTextIds.set(cssText, key);
+        return key;
+    }
     function createStyleSheetModifier() {
         let renderId = 0;
-        function getStyleRuleHash(rule) {
-            let cssText = rule.cssText;
+        function getStyleRuleKey(rule) {
+            let key = getCSSTextKey(rule.cssText);
             if (isMediaRule(rule.parentRule)) {
-                cssText = `${rule.parentRule.media.mediaText} { ${cssText} }`;
+                key = `${getCSSTextKey(rule.parentRule.media.mediaText)}{${key}}`;
             }
             if (isLayerRule(rule.parentRule)) {
-                cssText = `${rule.parentRule.name} { ${cssText} }`;
+                key = `${getCSSTextKey(rule.parentRule.name)}{${key}}`;
             }
-            return getHashCode(cssText);
+            if (isContainerRule(rule.parentRule)) {
+                const {containerName, containerQuery} = rule.parentRule;
+                key = `${getCSSTextKey(`${containerName} ${containerQuery}`)}{${key}}`;
+            }
+            return key;
         }
         const rulesTextCache = new Set();
         const rulesModCache = new Map();
@@ -5030,7 +5202,7 @@
             } = options;
             let rulesChanged = rulesModCache.size === 0;
             const notFoundCacheKeys = new Set(rulesModCache.keys());
-            const themeKey = getThemeKey(theme);
+            const themeKey = getThemeKey$1(theme);
             const themeChanged = themeKey !== prevFilterKey;
             if (hasNonLoadedLink) {
                 wasRebuilt = true;
@@ -5039,17 +5211,17 @@
             iterateCSSRules(
                 rules,
                 (rule) => {
-                    const hash = getStyleRuleHash(rule);
+                    const key = getStyleRuleKey(rule);
                     let textDiffersFromPrev = false;
-                    notFoundCacheKeys.delete(hash);
-                    if (!rulesTextCache.has(hash)) {
-                        rulesTextCache.add(hash);
+                    notFoundCacheKeys.delete(key);
+                    if (!rulesTextCache.has(key)) {
+                        rulesTextCache.add(key);
                         textDiffersFromPrev = true;
                     }
                     if (textDiffersFromPrev) {
                         rulesChanged = true;
                     } else {
-                        modRules.push(rulesModCache.get(hash));
+                        modRules.push(rulesModCache.get(key));
                         return;
                     }
                     if (rule.style.all === "revert") {
@@ -5083,7 +5255,7 @@
                         };
                         modRules.push(modRule);
                     }
-                    rulesModCache.set(hash, modRule);
+                    rulesModCache.set(key, modRule);
                 },
                 () => {
                     hasNonLoadedLink = true;
@@ -5331,6 +5503,15 @@
                         const {name} = rule;
                         const index = parent.cssRules.length;
                         parent.insertRule(`@layer ${name} {}`, index);
+                        return parent.cssRules[index];
+                    }
+                    if (isContainerRule(rule)) {
+                        const {containerName, containerQuery} = rule;
+                        const index = parent.cssRules.length;
+                        const query = containerName
+                            ? `${containerName} ${containerQuery}`
+                            : containerQuery;
+                        parent.insertRule(`@container ${query} {}`, index);
                         return parent.cssRules[index];
                     }
                     return parent;
@@ -5589,7 +5770,7 @@
         return mode;
     }
     const stylesWaitingForBody = new Set();
-    let bodyObserver;
+    let bodyObserver = null;
     function injectStyleAway(styleElement) {
         if (!document.body) {
             stylesWaitingForBody.add(styleElement);
@@ -5603,6 +5784,10 @@
                         );
                         stylesWaitingForBody.clear();
                     }
+                });
+                bodyObserver.observe(document, {
+                    childList: true,
+                    subtree: true
                 });
             }
             return;
@@ -5639,6 +5824,8 @@
     let containerObserver;
     function removeStyleContainer() {
         bodyObserver?.disconnect();
+        bodyObserver = null;
+        stylesWaitingForBody.clear();
         containerObserver?.disconnect();
         document.querySelector(".darkreader-style-container")?.remove();
     }
@@ -5842,14 +6029,15 @@
                     shadowRootDiscovered
                 );
             });
-            variablesStore.matchVariablesAndDependents();
         }
         const treeObserver = createOptimizedTreeObserver(root, {
             onMinorMutations: (_root, {additions}) => {
                 additions.forEach((added) => discoverNodes(added));
+                variablesStore.matchVariablesAndDependents();
             },
             onHugeMutations: () => {
                 discoverNodes(root);
+                variablesStore.matchVariablesAndDependents();
             }
         });
         treeObservers.set(root, treeObserver);
@@ -5916,6 +6104,7 @@
         attrObservers.forEach((o) => o.disconnect());
         treeObservers.clear();
         attrObservers.clear();
+        inlineStringValueCache.clear();
     }
     const inlineStyleCache = new WeakMap();
     const svgInversionCache = new WeakSet();
@@ -5933,12 +6122,25 @@
         svgAnalysisConditionCache.set(svg, shouldAnalyze);
         return shouldAnalyze;
     }
+    let prevTheme$1 = null;
+    let themeKey = "";
+    function getThemeKey(theme) {
+        if (theme === prevTheme$1) {
+            return themeKey;
+        }
+        themeKey = "";
+        for (let i = 0; i < themeProps.length; i++) {
+            const prop = themeProps[i];
+            themeKey += `${prop}="${theme[prop]}" `;
+        }
+        prevTheme$1 = theme;
+        return themeKey;
+    }
     function getInlineStyleCacheKey(el, theme) {
-        return INLINE_STYLE_ATTRS.map(
+        const attrKey = INLINE_STYLE_ATTRS.map(
             (attr) => `${attr}="${el.getAttribute(attr)}"`
-        )
-            .concat(themeProps.map((prop) => `${prop}="${theme[prop]}"`))
-            .join(" ");
+        );
+        return `${attrKey} ${getThemeKey(theme)}`;
     }
     function shouldIgnoreInlineStyle(element, selectors) {
         for (let i = 0, len = selectors.length; i < len; i++) {
@@ -6189,7 +6391,7 @@
                                 const svgBounds = root.getBoundingClientRect();
                                 isSVGSmall =
                                     svgBounds.width * svgBounds.height <=
-                                    Math.pow(SMALL_SVG_THRESHOLD, 2);
+                                    SMALL_SVG_THRESHOLD ** 2;
                                 svgRootSizeTestResults.set(root, isSVGSmall);
                             }
                             let isBg;
@@ -7040,7 +7242,16 @@
         }
         return text;
     }
-    async function replaceCSSImports(cssText, basePath, cache = new Map()) {
+    const MAX_CSS_IMPORT_DEPTH = 32;
+    async function replaceCSSImports(
+        cssText,
+        basePath,
+        cache = new Map(),
+        depth = 0
+    ) {
+        if (depth > MAX_CSS_IMPORT_DEPTH) {
+            return "";
+        }
         cssText = removeCSSComments(cssText);
         cssText = replaceCSSFontFace(cssText);
         cssText = replaceCSSRelativeURLsWithAbsolute(cssText, basePath);
@@ -7075,7 +7286,8 @@
                         importedCSS = await replaceCSSImports(
                             importedCSS,
                             getCSSBaseBath(absoluteURL),
-                            cache
+                            cache,
+                            depth + 1
                         );
                     } catch (err) {
                         logWarn(err);
@@ -8530,6 +8742,22 @@
             });
         }
     }
+    function createPDFOverlay(parent) {
+        const overlay = document.createElement("div");
+        overlay.classList.add("darkreader");
+        overlay.classList.add("darkreader--pdf-overlay");
+        overlay.style.backdropFilter = "invert(100%) contrast(90%)";
+        overlay.style.pointerEvents = "none";
+        overlay.style.position = "fixed";
+        overlay.style.left = "0px";
+        overlay.style.right = "0px";
+        overlay.style.bottom = "0px";
+        overlay.style.top = "56px";
+        parent.append(overlay);
+        cleaners.push(() => {
+            overlay.remove();
+        });
+    }
     function tryInvertChromePDF() {
         if (!document.body || !chrome.dom) {
             return;
@@ -8538,17 +8766,21 @@
         if (!root || !root.querySelector('link[href$="/pdf_embedder.css"]')) {
             return;
         }
-        const sheet = new CSSStyleSheet();
-        sheet.replaceSync(
-            '[type="application/pdf"] { filter: invert(1) contrast(0.9); }'
-        );
-        root.adoptedStyleSheets.push(sheet);
-        cleaners.push(() => {
-            const index = root.adoptedStyleSheets.indexOf(sheet);
-            if (index >= 0) {
-                root.adoptedStyleSheets.splice(index, 1);
-            }
-        });
+        if (isChromium && !isMobile) {
+            createPDFOverlay(root);
+        } else {
+            const sheet = new CSSStyleSheet();
+            sheet.replaceSync(
+                '[type="application/pdf"] { filter: invert(1) contrast(0.9); }'
+            );
+            root.adoptedStyleSheets.push(sheet);
+            cleaners.push(() => {
+                const index = root.adoptedStyleSheets.indexOf(sheet);
+                if (index >= 0) {
+                    root.adoptedStyleSheets.splice(index, 1);
+                }
+            });
+        }
     }
     let prevTheme = null;
     let prevFixes = null;
