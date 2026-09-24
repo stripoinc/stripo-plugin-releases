@@ -13,12 +13,12 @@
    "stripo/stripo-security-service": "20260914-1302_76f7566",
    "stripo/stripo-timer-api": "20260915-1319_9bc490b",
    "stripo/countdowntimer": "20260731-r0732_bd984e4_develop",
-   "stripo/merge-service": "20260921-0834_52fa42f",
-   "stripo/env-adapter-service": "20260916-0128_dd1453b",
+   "stripo/merge-service": "20260922-1457_ad0b72e",
+   "stripo/env-adapter-service": "20260921-2244_d15bf5d",
    "stripo/ai-service": "20260915-1319_9bc490b",
-   "stripo/coediting-core-service": "20260917-0804_760448c",
+   "stripo/coediting-core-service": "20260922-0615_60ab0af",
    "stripo/stripo-calendar-link-service": "20260915-1314_9bc490b",
-   "stripo/ui-editor-widgets-registry-service": "20260913-2012_8527c4d",
+   "stripo/ui-editor-widgets-registry-service": "20260921-1621_ea0613b",
    "stripo/convo-core-chat-server": "20260914-1014_05fb838",
    "stripo/stripo-video-processing-service": "20260914-1310_76f7566"
 }

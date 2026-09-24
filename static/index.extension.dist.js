@@ -3500,7 +3500,9 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     ...UIElementAttributes2,
     minValue: "min-value",
     maxValue: "max-value",
-    step: "step"
+    step: "step",
+    counterRangeEnabled: "counter-range-enabled",
+    counterRangeHeight: "counter-range-height"
   };
   var datePickerAttributes2 = {
     ...UIElementAttributes2,
