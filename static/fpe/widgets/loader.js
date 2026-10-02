@@ -95,7 +95,7 @@ ${r.map(e=>`  - ${e}`).join(`
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: normal;
 }
 
 .widgets-panel-item .widget-name {
