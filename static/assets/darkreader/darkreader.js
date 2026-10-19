@@ -1,5 +1,5 @@
 /**
- * Dark Reader v4.9.130
+ * Dark Reader v4.9.133
  * https://darkreader.org/
  */
 
@@ -164,8 +164,8 @@
     })();
 
     async function getOKResponse(url, mimeType, origin) {
-        const credentials =
-            origin && url.startsWith(`${origin}/`) ? undefined : "omit";
+        const sameOrigin = origin && url.startsWith(`${origin}/`);
+        const credentials = sameOrigin ? undefined : "omit";
         const redirect = mimeType === "text/css" ? undefined : "error";
         const response = await fetch(url, {
             cache: "force-cache",
@@ -205,12 +205,12 @@
         }
         return response;
     }
-    async function loadAsDataURL(url, mimeType) {
-        const response = await getOKResponse(url, mimeType);
+    async function loadAsDataURL(url, mimeType, origin) {
+        const response = await getOKResponse(url, mimeType, origin);
         return await readResponseAsDataURL(response);
     }
-    async function loadAsBlob(url, mimeType) {
-        const response = await getOKResponse(url, mimeType);
+    async function loadAsBlob(url, mimeType, origin) {
+        const response = await getOKResponse(url, mimeType, origin);
         return await response.blob();
     }
     async function readResponseAsDataURL(response) {
@@ -229,7 +229,7 @@
     }
     const MAX_CORS_HOSTS = 16;
     const corsHosts = new Set();
-    const checkedHosts = new Set();
+    const checkedOrigins = new Set();
     const localAliases = [
         "127-0-0-1.org.uk",
         "42foo.com",
@@ -281,7 +281,7 @@
         if (!corsHosts.has(host)) {
             corsHosts.add(host);
         }
-        if (checkedHosts.has(host)) {
+        if (checkedOrigins.has(url.origin)) {
             return false;
         }
         if (
@@ -294,7 +294,7 @@
         ) {
             return true;
         }
-        checkedHosts.add(host);
+        checkedOrigins.add(url.origin);
         return false;
     }
 
@@ -5150,24 +5150,24 @@
         return resultKey;
     }
     const asyncQueue = createAsyncTasksQueue();
-    let cssTextCounter = 0;
-    const cssTextIds = new Map();
-    function getCSSTextKey(cssText) {
-        const existing = cssTextIds.get(cssText);
-        if (existing !== undefined) {
-            return existing;
-        }
-        let n = ++cssTextCounter;
-        let key = "";
-        do {
-            key = String.fromCharCode(n & 0xffff) + key;
-            n >>>= 16;
-        } while (n > 0);
-        cssTextIds.set(cssText, key);
-        return key;
-    }
     function createStyleSheetModifier() {
         let renderId = 0;
+        let cssTextCounter = 0;
+        const cssTextIds = new Map();
+        function getCSSTextKey(cssText) {
+            const existing = cssTextIds.get(cssText);
+            if (existing !== undefined) {
+                return existing;
+            }
+            let n = ++cssTextCounter;
+            let key = "";
+            do {
+                key = String.fromCharCode(n & 0xffff) + key;
+                n >>>= 16;
+            } while (n > 0);
+            cssTextIds.set(cssText, key);
+            return key;
+        }
         function getStyleRuleKey(rule) {
             let key = getCSSTextKey(rule.cssText);
             if (isMediaRule(rule.parentRule)) {
@@ -6105,6 +6105,7 @@
         treeObservers.clear();
         attrObservers.clear();
         inlineStringValueCache.clear();
+        resetInlineStyleLoopDetection();
     }
     const inlineStyleCache = new WeakMap();
     const svgInversionCache = new WeakSet();
@@ -6137,9 +6138,9 @@
         return themeKey;
     }
     function getInlineStyleCacheKey(el, theme) {
-        const attrKey = INLINE_STYLE_ATTRS.map(
-            (attr) => `${attr}="${el.getAttribute(attr)}"`
-        );
+        const attrKey = INLINE_STYLE_ATTRS.filter((attr) =>
+            el.hasAttribute(attr)
+        ).map((attr) => `${attr}="${el.getAttribute(attr)}"`);
         return `${attrKey} ${getThemeKey(theme)}`;
     }
     function shouldIgnoreInlineStyle(element, selectors) {
@@ -6151,10 +6152,6 @@
         }
         return false;
     }
-    const LOOP_DETECTION_THRESHOLD = 1000;
-    const MAX_LOOP_CYCLES = 10;
-    const elementsLastChanges = new WeakMap();
-    const elementsLoopCycles = new WeakMap();
     const SMALL_SVG_THRESHOLD = 32;
     const svgNodesRoots = new WeakMap();
     const svgRootSizeTestResults = new WeakMap();
@@ -6174,25 +6171,53 @@
         return root;
     }
     const inlineStringValueCache = new Map();
+    const MAX_LOOP_TEARDOWNS = 10;
+    const inlineStyleParents = new Map();
+    let parentTeardownCounts = new WeakMap();
+    function trackInlineStyleTeardown(element) {
+        if (!element.parentElement) {
+            return;
+        }
+        if (inlineStyleParents.size === 0) {
+            queueMicrotask(checkForTeardown);
+        }
+        inlineStyleParents.set(element, element.parentElement);
+    }
+    function checkForTeardown() {
+        inlineStyleParents.forEach((parent, element) => {
+            if (element.isConnected || !parent.isConnected) {
+                return;
+            }
+            const count = (parentTeardownCounts.get(parent) ?? 0) + 1;
+            parentTeardownCounts.set(parent, count);
+            if (count === MAX_LOOP_TEARDOWNS) {
+                logWarn(
+                    "Inline style change causes DOM teardown. Suspending changes for the container",
+                    parent
+                );
+            }
+        });
+        inlineStyleParents.clear();
+    }
+    function parentHadTeardown(element) {
+        const parent = element.parentElement;
+        if (!parent) {
+            return true;
+        }
+        return (parentTeardownCounts.get(parent) ?? 0) >= MAX_LOOP_TEARDOWNS;
+    }
+    function resetInlineStyleLoopDetection() {
+        inlineStyleParents.clear();
+        parentTeardownCounts = new WeakMap();
+    }
     function overrideInlineStyle(
         element,
         theme,
         ignoreInlineSelectors,
         ignoreImageSelectors
     ) {
-        if (elementsLastChanges.has(element)) {
-            if (
-                Date.now() - elementsLastChanges.get(element) <
-                LOOP_DETECTION_THRESHOLD
-            ) {
-                const cycles = elementsLoopCycles.get(element) ?? 0;
-                elementsLoopCycles.set(element, cycles + 1);
-            } else {
-                elementsLoopCycles.delete(element);
-            }
-            if ((elementsLoopCycles.get(element) ?? 0) >= MAX_LOOP_CYCLES) {
-                return;
-            }
+        if (parentHadTeardown(element)) {
+            return;
         }
         if (element.parentElement?.dataset.nodeViewContent) {
             return;
@@ -6230,6 +6255,7 @@
                 if (!element.hasAttribute(dataAttr)) {
                     element.setAttribute(dataAttr, "");
                 }
+                trackInlineStyleTeardown(element);
                 unsetProps.delete(targetCSSProp);
             }
             function setVarDeclaration(mod) {
@@ -6495,7 +6521,6 @@
             element.removeAttribute(overrides[cssProp].dataAttr);
         });
         inlineStyleCache.set(element, getInlineStyleCacheKey(element, theme));
-        elementsLastChanges.set(element, Date.now());
     }
 
     const metaThemeColorName = "theme-color";
@@ -7495,9 +7520,7 @@
                         let elements = getCurrentElementValue();
                         const nodeListBehavior = {
                             get: function (_, property) {
-                                return getCurrentElementValue()[
-                                    Number(property) || property
-                                ];
+                                return getCurrentElementValue()[property];
                             }
                         };
                         elements = new Proxy(elements, nodeListBehavior);
@@ -7587,28 +7610,51 @@
             overrideProperty(Document, "styleSheets", {
                 get: (native) =>
                     function () {
+                        let filteredSheetsCache = null;
+                        let docSheets = null;
+                        const didChange = (newSheets) => {
+                            if (
+                                !filteredSheetsCache ||
+                                !docSheets ||
+                                docSheets.length !== newSheets.length
+                            ) {
+                                return true;
+                            }
+                            for (let i = 0; i < docSheets.length; i++) {
+                                if (docSheets[i] !== newSheets[i]) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        };
                         const getCurrentValue = () => {
-                            const docSheets = native.call(this);
-                            const filteredSheets = [...docSheets].filter(
+                            const nativeDocSheets = native.call(this);
+                            if (!didChange(nativeDocSheets)) {
+                                return filteredSheetsCache;
+                            }
+                            docSheets = Array.from(nativeDocSheets);
+                            const filteredSheets = docSheets.filter(
                                 (styleSheet) =>
                                     styleSheet.ownerNode &&
                                     !isDRSheet(styleSheet)
                             );
                             filteredSheets.item = (item) =>
                                 filteredSheets[item];
-                            return Object.setPrototypeOf(
+                            filteredSheetsCache = Object.setPrototypeOf(
                                 filteredSheets,
                                 StyleSheetList.prototype
                             );
+                            return filteredSheetsCache;
                         };
-                        let elements = getCurrentValue();
                         const styleSheetListBehavior = {
                             get: function (_, property) {
                                 return getCurrentValue()[property];
                             }
                         };
-                        elements = new Proxy(elements, styleSheetListBehavior);
-                        return elements;
+                        return new Proxy(
+                            getCurrentValue(),
+                            styleSheetListBehavior
+                        );
                     }
             });
         }
@@ -8413,7 +8459,6 @@
         }
     }
     function createDynamicStyleOverrides() {
-        cancelRendering();
         const allStyles = getManageableStyles(document);
         const newManagers = allStyles
             .filter((style) => !styleManagers.has(style))
@@ -8516,18 +8561,6 @@
             styleManagers.delete(element);
         }
     }
-    const throttledRenderAllStyles = throttle((callback) => {
-        styleManagers.forEach((manager) =>
-            manager.render(theme, ignoredImageAnalysisSelectors)
-        );
-        adoptedStyleManagers.forEach((manager) =>
-            manager.render(theme, ignoredImageAnalysisSelectors)
-        );
-        callback && callback();
-    });
-    const cancelRendering = function () {
-        throttledRenderAllStyles.cancel();
-    };
     function onDOMReady() {
         if (loadingStyles.size === 0) {
             cleanFallbackStyle();
@@ -9042,7 +9075,6 @@
         parsedURLCache.clear();
         cleanFilterSelectors();
         removeDocumentVisibilityListener();
-        cancelRendering();
         stopWatchingForUpdates();
         cleanModificationCache();
         clearColorCache();

@@ -1991,7 +1991,7 @@ var _UIElementTagRegistry$1 = class _UIElementTagRegistry extends BaseValidatedC
 };
 _UIElementTagRegistry$1.REQUIRED_METHODS = ["registerUiElements"];
 var UIElementTagRegistry = _UIElementTagRegistry$1;
-const BLOCK_ID$q = "amp-data-service-widget-extension";
+const BLOCK_ID$r = "amp-data-service-widget-extension";
 const CONTROL_ID$h = "amp-data-service-widget-control";
 function getServiceUrl(nodeConfig) {
   return nodeConfig?.jsonConfig?.amp_service_url;
@@ -2027,7 +2027,7 @@ function getWidgetMarkup(serviceUrl = "") {
 }
 class AmpDataServiceWidgetPanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$q] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$h])];
+    controls2[BLOCK_ID$r] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$h])];
   }
 }
 class AmpDataServiceWidgetControl extends Control {
@@ -2055,7 +2055,7 @@ class AmpDataServiceWidgetControl extends Control {
 }
 class AmpDataServiceWidgetBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$q;
+    return BLOCK_ID$r;
   }
   getBlockCompositionType() {
     return BlockCompositionType.BLOCK;
@@ -2131,7 +2131,7 @@ class AtomicBlockTextAlias extends Block$1 {
   }
 }
 const atomicBlockAlias = new ExtensionBuilder$1().addBlock(AtomicBlockImageAlias).withSettingsPanelRegistry(PanelRegistry$Q).addBlock(AtomicBlockTextAlias).build();
-const BLOCK_ID$p = "structure-wth-ondocumentChange-hook";
+const BLOCK_ID$q = "structure-wth-ondocumentChange-hook";
 const CONTROL_ID$g = "structure-wth-ondocumentChange-hook-control";
 let StructureExtensionControl$1 = class StructureExtensionControl extends StructureMarginsBuiltInControl {
   getId() {
@@ -2145,7 +2145,7 @@ let StructureExtensionControl$1 = class StructureExtensionControl extends Struct
 };
 let StructureExtensionBlock$1 = class StructureExtensionBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$p;
+    return BLOCK_ID$q;
   }
   getIcon() {
     return "new-window";
@@ -2198,7 +2198,7 @@ let StructureExtensionBlock$1 = class StructureExtensionBlock extends Block$1 {
 };
 let PanelRegistry$P = class PanelRegistry2 extends SettingsPanelRegistry {
   registerBlockControls(_blockControlsMap) {
-    _blockControlsMap[BLOCK_ID$p] = [
+    _blockControlsMap[BLOCK_ID$q] = [
       new SettingsPanelTab("Settings", [
         CONTROL_ID$g
       ]).withLabel("Settings")
@@ -2295,7 +2295,7 @@ class BlockExtensionButton extends Block$1 {
   }
 }
 const buttonExtensionBlock = new ExtensionBuilder$1().addBlock(BlockExtensionButton).build();
-const BLOCK_ID$o = "callbacks-block-extension";
+const BLOCK_ID$p = "callbacks-block-extension";
 const CALLBACK_COUNTER_KEY = "__extensionCallbackCounts";
 const getCallbackStore = () => {
   const root = typeof window === "undefined" ? globalThis : window;
@@ -2306,14 +2306,14 @@ const getCallbackStore = () => {
 };
 const getCallbackCounts = () => {
   const store = getCallbackStore();
-  if (!store[BLOCK_ID$o]) {
-    store[BLOCK_ID$o] = {
+  if (!store[BLOCK_ID$p]) {
+    store[BLOCK_ID$p] = {
       onCreated: 0,
       onCopy: 0,
       onDelete: 0
     };
   }
-  return store[BLOCK_ID$o];
+  return store[BLOCK_ID$p];
 };
 const incrementCount = (callbackName) => {
   const counts = getCallbackCounts();
@@ -2322,7 +2322,7 @@ const incrementCount = (callbackName) => {
 };
 class BlockExtensionCallbackLifecycle extends Block$1 {
   getId() {
-    return BLOCK_ID$o;
+    return BLOCK_ID$p;
   }
   getIcon() {
     return "new-window";
@@ -4861,10 +4861,10 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
   return cjs;
 }
 var cjsExports = /* @__PURE__ */ requireCjs();
-const BLOCK_ID$n = "e2e-cjs-block";
+const BLOCK_ID$o = "e2e-cjs-block";
 class E2eCjsBlock extends cjsExports.Block {
   getId() {
-    return BLOCK_ID$n;
+    return BLOCK_ID$o;
   }
   getIcon() {
     return "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
@@ -4879,7 +4879,7 @@ class E2eCjsBlock extends cjsExports.Block {
     return true;
   }
   getTemplate() {
-    return `<td class="esd-${BLOCK_ID$n}"><h1>E2E CJS</h1></td>`;
+    return `<td class="esd-${BLOCK_ID$o}"><h1>E2E CJS</h1></td>`;
   }
 }
 const cjsLib = new cjsExports.ExtensionBuilder().addBlock(E2eCjsBlock).build();
@@ -5087,11 +5087,11 @@ let ContainersColumn$1 = class ContainersColumn extends BaseBlockExtension$3 {
   }
 };
 const containerLayouts = new ExtensionBuilder$1().addBlock(SingleContainer$1).addBlock(ContainersRow$1).addBlock(ContainersRow2$1).addBlock(ContainersRow3).addBlock(ContainersColumn$1).build();
-const BLOCK_ID$m = "test-block-extension";
+const BLOCK_ID$n = "test-block-extension";
 const CONTROL_ID$f = "CONTROL_ID1";
 let PanelRegistry$O = class PanelRegistry3 extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$m] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$f])];
+    controls2[BLOCK_ID$n] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$f])];
   }
 };
 class BlockControl extends Control {
@@ -5118,7 +5118,7 @@ class BlockControl extends Control {
 }
 class BlockExtensionCustomBlockBasic extends Block$1 {
   getId() {
-    return BLOCK_ID$m;
+    return BLOCK_ID$n;
   }
   getIcon() {
     return "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
@@ -5146,11 +5146,11 @@ class BlockExtensionCustomBlockBasic extends Block$1 {
   }
 }
 const customBlockBasic = new ExtensionBuilder$1().addControl(BlockControl).withSettingsPanelRegistry(PanelRegistry$O).addBlock(BlockExtensionCustomBlockBasic).build();
-const BLOCK_ID$l = "test-context-action-block-extension";
+const BLOCK_ID$m = "test-context-action-block-extension";
 const CONTEXT_ACTION_ID$1 = "test-block-context-action";
 class BlockExtensionCustomBlockWithCustomContextAction extends Block$1 {
   getId() {
-    return BLOCK_ID$l;
+    return BLOCK_ID$m;
   }
   getIcon() {
     return "new-window";
@@ -5191,10 +5191,10 @@ let TestBlockContextAction$1 = class TestBlockContextAction extends ContextActio
   }
 };
 const customBlockWithCustomContextAction = new ExtensionBuilder$1().addBlock(BlockExtensionCustomBlockWithCustomContextAction).addContextAction(TestBlockContextAction$1).build();
-const BLOCK_ID$k = "test-custom-renderer-block-extension";
+const BLOCK_ID$l = "test-custom-renderer-block-extension";
 class BlockExtensionCustomBlockWithCustomRenderer extends Block$1 {
   getId() {
-    return BLOCK_ID$k;
+    return BLOCK_ID$l;
   }
   getIcon() {
     return "new-window";
@@ -5327,10 +5327,10 @@ class CardOrientationControl extends Control {
   }
 }
 const extensionCustomBlockMultiRowModifier = new ExtensionBuilder$1().withSettingsPanelRegistry(PanelRegistry$N).addBlock(CustomBlock$1).addControl(CardOrientationControl).build();
-const BLOCK_ID$j = "custom-nested-blocks-extension";
+const BLOCK_ID$k = "custom-nested-blocks-extension";
 class CustomNestedBlocksExtension extends Block$1 {
   getId() {
-    return BLOCK_ID$j;
+    return BLOCK_ID$k;
   }
   getIcon() {
     return "new-window";
@@ -5620,7 +5620,7 @@ let CustomRenderer$2 = class CustomRenderer3 extends BlockRenderer {
   }
 };
 const customRendererRestrictions = new ExtensionBuilder$1().addBlock(CustomRendererStructureExtension$1).addBlock(CustomRendererTextBlockExtension).build();
-const BLOCK_ID$i = "test-deprecated-custom-renderer-block-extension";
+const BLOCK_ID$j = "test-deprecated-custom-renderer-block-extension";
 class DeprecatedCustomRenderer extends BlockRenderer {
   getPreviewHtml(_node) {
     return "<td><h1>Deprecated custom content</h1></td>";
@@ -5628,7 +5628,7 @@ class DeprecatedCustomRenderer extends BlockRenderer {
 }
 class BlockExtensionWithDeprecatedCustomRenderer extends Block$1 {
   getId() {
-    return BLOCK_ID$i;
+    return BLOCK_ID$j;
   }
   getIcon() {
     return "new-window";
@@ -5820,10 +5820,10 @@ class ContainersColumn2 extends BaseBlockExtension$1 {
   }
 }
 const emptyContainerLayouts = new ExtensionBuilder$1().addBlock(SingleContainer2).addBlock(ContainersRow4).addBlock(ContainersRow22).addBlock(ContainersColumn2).build();
-const BLOCK_ID$h = "e2e-esm-block";
+const BLOCK_ID$i = "e2e-esm-block";
 class E2eEsmBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$h;
+    return BLOCK_ID$i;
   }
   getIcon() {
     return "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
@@ -5838,11 +5838,11 @@ class E2eEsmBlock extends Block$1 {
     return true;
   }
   getTemplate() {
-    return `<td class="esd-${BLOCK_ID$h}"><h1>E2E ESM</h1></td>`;
+    return `<td class="esd-${BLOCK_ID$i}"><h1>E2E ESM</h1></td>`;
   }
 }
 const esmLib = new ExtensionBuilder$1().addBlock(E2eEsmBlock).build();
-const BLOCK_ID$g = "structure-wth-ondocumentChange-hook";
+const BLOCK_ID$h = "structure-wth-ondocumentChange-hook";
 const CONTROL_ID$e = "structure-wth-ondocumentChange-hook-control";
 class StructureExtensionControl2 extends StructureMarginsBuiltInControl {
   getId() {
@@ -5856,7 +5856,7 @@ class StructureExtensionControl2 extends StructureMarginsBuiltInControl {
 }
 class StructureExtensionBlock2 extends Block$1 {
   getId() {
-    return BLOCK_ID$g;
+    return BLOCK_ID$h;
   }
   getIcon() {
     return "new-window";
@@ -5913,7 +5913,7 @@ class StructureExtensionBlock2 extends Block$1 {
 }
 let PanelRegistry$L = class PanelRegistry6 extends SettingsPanelRegistry {
   registerBlockControls(_blockControlsMap) {
-    _blockControlsMap[BLOCK_ID$g] = [
+    _blockControlsMap[BLOCK_ID$h] = [
       new SettingsPanelTab("Settings", [
         CONTROL_ID$e
       ]).withLabel("Settings")
@@ -5928,7 +5928,7 @@ const blockWithHtmlSettingsPanelName = new ExtensionBuilder$1().addBlock(Structu
     "CUSTOM STRUCTURE": "DE CUSTOM STRUCTURE"
   }
 }).build();
-const BLOCK_ID$f = "get-editor-config-block";
+const BLOCK_ID$g = "get-editor-config-block";
 const EXTERNAL_CONFIG_KEY = "getEditorConfigExternalOnly";
 const INTERNAL_OVERRIDE_KEY = "name";
 const VARIABLE_KEY = "--getEditorConfigVariable";
@@ -5937,7 +5937,7 @@ const EMAIL_CONTENT_WIDTH = "--common__emailContentWidth";
 const ICON_URL = "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
 class GetEditorConfigBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$f;
+    return BLOCK_ID$g;
   }
   getIcon() {
     return ICON_URL;
@@ -6012,10 +6012,10 @@ class BlockExtensionImage extends Block$1 {
   }
 }
 const baseImageBlockExtension = new ExtensionBuilder$1().addBlock(BlockExtensionImage).build();
-const BLOCK_ID$e = "init-actions-block";
+const BLOCK_ID$f = "init-actions-block";
 class InitActionsBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$e;
+    return BLOCK_ID$f;
   }
   getIcon() {
     return "new-window";
@@ -6268,7 +6268,7 @@ let PanelRegistry$K = class PanelRegistry7 extends SettingsPanelRegistry {
   }
 };
 const extensionMultirowModifierBlock = new ExtensionBuilder$1().addBlock(ProductBlock).addControl(SelectProductItemsControl).withSettingsPanelRegistry(PanelRegistry$K).build();
-const BLOCK_ID$d = "multi-row-root-attributes";
+const BLOCK_ID$e = "multi-row-root-attributes";
 const CONTROL_ID$d = "multi-row-root-attributes-layout";
 const ORIENTATION_FIELD = "multiRowRootAttributesOrientation";
 const productCard = (index) => `
@@ -6281,7 +6281,7 @@ const productCard = (index) => `
 `;
 class MultiRowRootAttributesBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$d;
+    return BLOCK_ID$e;
   }
   getIcon() {
     return "new-window";
@@ -6354,18 +6354,18 @@ class MultiRowRootAttributesControl extends Control {
 }
 class MultiRowRootAttributesPanelRegistry extends SettingsPanelRegistry {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$d] = [
+    controls2[BLOCK_ID$e] = [
       new SettingsPanelTab("Multi-row layout", [CONTROL_ID$d])
     ];
   }
 }
 const multiRowRootAttributes = new ExtensionBuilder$1().addBlock(MultiRowRootAttributesBlock).addControl(MultiRowRootAttributesControl).withSettingsPanelRegistry(MultiRowRootAttributesPanelRegistry).build();
-const BLOCK_ID$c = "block-extension";
+const BLOCK_ID$d = "block-extension";
 const CONTAINER_ID$2 = "container-extension";
 const STRUCTURE_ID$2 = "structure-extension";
 let BlockExtension$1 = class BlockExtension extends Block$1 {
   getId() {
-    return BLOCK_ID$c;
+    return BLOCK_ID$d;
   }
   getIcon() {
     return "new-window";
@@ -6675,12 +6675,12 @@ class RecommendationContainerExtension extends Block$1 {
   }
 }
 const recommendationContainerExtension = new ExtensionBuilder$1().addBlock(RecommendationContainerExtension).build();
-const BLOCK_ID$b = "responsive-width-widget-extension";
+const BLOCK_ID$c = "responsive-width-widget-extension";
 const WIDGET_CLASS = "w-pref-d68dc93b62c84c7d";
 const COOKIE_IMAGE_RESPONSIVE_WIDTH = "calc(33% - 30px)";
 class ResponsiveWidthWidgetExtension extends Block$1 {
   getId() {
-    return BLOCK_ID$b;
+    return BLOCK_ID$c;
   }
   getBlockCompositionType() {
     return BlockCompositionType.BLOCK;
@@ -6835,10 +6835,10 @@ class StripeExtension extends Block$1 {
   }
 }
 const customStripe = new ExtensionBuilder$1().addBlock(StripeExtension).build();
-const BLOCK_ID$a = "structure-extension";
+const BLOCK_ID$b = "structure-extension";
 let StructureExtension$1 = class StructureExtension2 extends Block$1 {
   getId() {
-    return BLOCK_ID$a;
+    return BLOCK_ID$b;
   }
   getIcon() {
     return "new-window";
@@ -6886,6 +6886,57 @@ let StructureExtension$1 = class StructureExtension2 extends Block$1 {
   }
 };
 const customStructure = new ExtensionBuilder$1().addBlock(StructureExtension$1).build();
+const BLOCK_ID$a = "sync-module-widget-extension";
+class SyncModuleWidgetExtension extends Block$1 {
+  getId() {
+    return BLOCK_ID$a;
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.BLOCK;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return this.api.translate("Sync Module Widget");
+  }
+  getDescription() {
+    return this.api.translate("Widget with markup the parsers read differently");
+  }
+  isEnabled() {
+    return true;
+  }
+  canBeSavedAsModule() {
+    return true;
+  }
+  getTemplate() {
+    return `
+      <td align="left" class="e2e-sync-module-widget">
+        <table width="100%" cellspacing="0" cellpadding="0" class="w-pref-4f1c2d9e8b7a">
+          <tbody>
+            <tr class="es-visible-amp-html-only">
+              <td class="esd-block-html">
+                <table width="100%" cellspacing="0" cellpadding="0">
+                  <tbody>
+                    <tr>
+                      <td class="esd-block-button" align="center">
+                        <span class="es-button-border"><a class="es-button" href="https://stripo.email" target="_blank">Calculate</a></span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            <tr class="es-visible-simple-html-only">
+              <td align="left" style="padding-bottom:20px"><p>Which city is known as the City of Love?</p></td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    `;
+  }
+}
+const syncModuleWidget = new ExtensionBuilder$1().addBlock(SyncModuleWidgetExtension).build();
 const BLOCK_ID$9 = "block-name";
 const CONTAINER_ID$1 = "container-id";
 class ExtendedBlock extends Block$1 {
@@ -10480,17 +10531,17 @@ class ExternalDisplayConditionsConditionCount extends ExternalDisplayConditionsL
   addConditionRow(e, conditionValue) {
     const resolvedConditionValue = conditionValue || DEFAULT_CONDITION$3;
     const deleteActionClass = `condition-delete-action-${Math.random().toString().replace(".", "d")}`;
-    const tr = document.createElement("tr");
-    tr.classList.add("condition-row");
-    tr.innerHTML = `<td style="width: 150px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_NAME_CLASS$3)}</td>                <td style="width: 110px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_OPERATION_CLASS$3)}</td>                <td style="padding: 0 5px 10px 0;"><input type="text" class="form-control condition-value"></td>                <td style="width: 18px; padding-bottom: 10px;"><span class="es-icon-delete ${deleteActionClass}"></span></td>`;
-    this.conditionsPopupElement.querySelector(".conditionsTable").appendChild(tr);
-    const nameProps = this.getDropdownProps(tr, DROPDOWN_CONDITION_NAME_CLASS$3);
-    this.setDropdownOptions(tr, DROPDOWN_CONDITION_NAME_CLASS$3, AVAILABLE_CONDITION_NAMES$3);
+    const tr2 = document.createElement("tr");
+    tr2.classList.add("condition-row");
+    tr2.innerHTML = `<td style="width: 150px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_NAME_CLASS$3)}</td>                <td style="width: 110px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_OPERATION_CLASS$3)}</td>                <td style="padding: 0 5px 10px 0;"><input type="text" class="form-control condition-value"></td>                <td style="width: 18px; padding-bottom: 10px;"><span class="es-icon-delete ${deleteActionClass}"></span></td>`;
+    this.conditionsPopupElement.querySelector(".conditionsTable").appendChild(tr2);
+    const nameProps = this.getDropdownProps(tr2, DROPDOWN_CONDITION_NAME_CLASS$3);
+    this.setDropdownOptions(tr2, DROPDOWN_CONDITION_NAME_CLASS$3, AVAILABLE_CONDITION_NAMES$3);
     nameProps.value = resolvedConditionValue.name;
-    const operationProps = this.getDropdownProps(tr, DROPDOWN_CONDITION_OPERATION_CLASS$3);
-    this.setDropdownOptions(tr, DROPDOWN_CONDITION_OPERATION_CLASS$3, AVAILABLE_CONDITION_OPERATIONS$3);
+    const operationProps = this.getDropdownProps(tr2, DROPDOWN_CONDITION_OPERATION_CLASS$3);
+    this.setDropdownOptions(tr2, DROPDOWN_CONDITION_OPERATION_CLASS$3, AVAILABLE_CONDITION_OPERATIONS$3);
     operationProps.value = resolvedConditionValue.operation;
-    tr.querySelector(".condition-value").value = resolvedConditionValue.value;
+    tr2.querySelector(".condition-value").value = resolvedConditionValue.value;
     this.conditionsPopupElement.querySelector(`.${deleteActionClass}`).addEventListener("click", this.deleteConditionRow);
     this.updateDeleteActionVisibility();
   }
@@ -10730,17 +10781,17 @@ class ExtendedExternalDisplayConditions extends ExternalDisplayConditionsLibrary
   }
   addConditionRow(e, conditionValue = DEFAULT_CONDITION$2) {
     const deleteActionClass = `condition-delete-action-${Math.random().toString().replace(".", "d")}`;
-    const tr = document.createElement("tr");
-    tr.classList.add("condition-row");
-    tr.innerHTML = `<td style="width: 150px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_NAME_CLASS$2)}</td>                <td style="width: 110px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_OPERATION_CLASS$2)}</td>                <td style="padding: 0 5px 10px 0;"><input type="text" class="form-control condition-value"></td>                <td style="width: 18px; padding-bottom: 10px;"><span class="es-icon-delete ${deleteActionClass}"></span></td>`;
-    this.conditionsPopupElement.querySelector(".conditionsTable").appendChild(tr);
-    const nameProps = this.getDropdownProps(DROPDOWN_CONDITION_NAME_CLASS$2, tr);
-    this.setDropdownOptions(DROPDOWN_CONDITION_NAME_CLASS$2, AVAILABLE_CONDITION_NAMES$2, tr);
+    const tr2 = document.createElement("tr");
+    tr2.classList.add("condition-row");
+    tr2.innerHTML = `<td style="width: 150px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_NAME_CLASS$2)}</td>                <td style="width: 110px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_OPERATION_CLASS$2)}</td>                <td style="padding: 0 5px 10px 0;"><input type="text" class="form-control condition-value"></td>                <td style="width: 18px; padding-bottom: 10px;"><span class="es-icon-delete ${deleteActionClass}"></span></td>`;
+    this.conditionsPopupElement.querySelector(".conditionsTable").appendChild(tr2);
+    const nameProps = this.getDropdownProps(DROPDOWN_CONDITION_NAME_CLASS$2, tr2);
+    this.setDropdownOptions(DROPDOWN_CONDITION_NAME_CLASS$2, AVAILABLE_CONDITION_NAMES$2, tr2);
     nameProps.value = conditionValue.name;
-    const operationProps = this.getDropdownProps(DROPDOWN_CONDITION_OPERATION_CLASS$2, tr);
-    this.setDropdownOptions(DROPDOWN_CONDITION_OPERATION_CLASS$2, AVAILABLE_CONDITION_OPERATIONS$2, tr);
+    const operationProps = this.getDropdownProps(DROPDOWN_CONDITION_OPERATION_CLASS$2, tr2);
+    this.setDropdownOptions(DROPDOWN_CONDITION_OPERATION_CLASS$2, AVAILABLE_CONDITION_OPERATIONS$2, tr2);
     operationProps.value = conditionValue.operation;
-    tr.querySelector(".condition-value").value = conditionValue.value;
+    tr2.querySelector(".condition-value").value = conditionValue.value;
     this.conditionsPopupElement.querySelector(`.${deleteActionClass}`).addEventListener("click", this.deleteConditionRow);
     this.updateDeleteActionVisibility();
   }
@@ -10942,17 +10993,17 @@ let ExternalDisplayConditions$1 = class ExternalDisplayConditions extends Extern
   addConditionRow(e, conditionValue) {
     const resolvedConditionValue = conditionValue || DEFAULT_CONDITION$1;
     const deleteActionClass = `condition-delete-action-${Math.random().toString().replace(".", "d")}`;
-    const tr = document.createElement("tr");
-    tr.classList.add("condition-row");
-    tr.innerHTML = `<td style="width: 150px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_NAME_CLASS$1)}</td>                <td style="width: 110px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_OPERATION_CLASS$1)}</td>                <td style="padding: 0 5px 10px 0;"><input type="text" class="form-control condition-value"></td>                <td style="width: 18px; padding-bottom: 10px;"><span class="es-icon-delete ${deleteActionClass}"></span></td>`;
-    this.conditionsPopupElement.querySelector(".conditionsTable").appendChild(tr);
-    const nameProps = this.getDropdownProps(tr, DROPDOWN_CONDITION_NAME_CLASS$1);
-    this.setDropdownOptions(tr, DROPDOWN_CONDITION_NAME_CLASS$1, AVAILABLE_CONDITION_NAMES$1);
+    const tr2 = document.createElement("tr");
+    tr2.classList.add("condition-row");
+    tr2.innerHTML = `<td style="width: 150px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_NAME_CLASS$1)}</td>                <td style="width: 110px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_OPERATION_CLASS$1)}</td>                <td style="padding: 0 5px 10px 0;"><input type="text" class="form-control condition-value"></td>                <td style="width: 18px; padding-bottom: 10px;"><span class="es-icon-delete ${deleteActionClass}"></span></td>`;
+    this.conditionsPopupElement.querySelector(".conditionsTable").appendChild(tr2);
+    const nameProps = this.getDropdownProps(tr2, DROPDOWN_CONDITION_NAME_CLASS$1);
+    this.setDropdownOptions(tr2, DROPDOWN_CONDITION_NAME_CLASS$1, AVAILABLE_CONDITION_NAMES$1);
     nameProps.value = resolvedConditionValue.name;
-    const operationProps = this.getDropdownProps(tr, DROPDOWN_CONDITION_OPERATION_CLASS$1);
-    this.setDropdownOptions(tr, DROPDOWN_CONDITION_OPERATION_CLASS$1, AVAILABLE_CONDITION_OPERATIONS$1);
+    const operationProps = this.getDropdownProps(tr2, DROPDOWN_CONDITION_OPERATION_CLASS$1);
+    this.setDropdownOptions(tr2, DROPDOWN_CONDITION_OPERATION_CLASS$1, AVAILABLE_CONDITION_OPERATIONS$1);
     operationProps.value = resolvedConditionValue.operation;
-    tr.querySelector(".condition-value").value = resolvedConditionValue.value;
+    tr2.querySelector(".condition-value").value = resolvedConditionValue.value;
     this.conditionsPopupElement.querySelector(`.${deleteActionClass}`).addEventListener("click", this.deleteConditionRow);
     this.updateDeleteActionVisibility();
   }
@@ -11162,17 +11213,17 @@ class ExternalDisplayConditions2 extends ExternalDisplayConditionsLibrary {
   addConditionRow(e, conditionValue) {
     const resolvedConditionValue = conditionValue || DEFAULT_CONDITION;
     const deleteActionClass = `condition-delete-action-${Math.random().toString().replace(".", "d")}`;
-    const tr = document.createElement("tr");
-    tr.classList.add("condition-row");
-    tr.innerHTML = `<td style="width: 150px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_NAME_CLASS)}</td>                <td style="width: 110px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_OPERATION_CLASS)}</td>                <td style="padding: 0 5px 10px 0;"><input type="text" class="form-control condition-value"></td>                <td style="width: 18px; padding-bottom: 10px;"><span class="es-icon-delete ${deleteActionClass}"></span></td>`;
-    this.conditionsPopupElement.querySelector(".conditionsTable").appendChild(tr);
-    const nameProps = this.getDropdownProps(tr, DROPDOWN_CONDITION_NAME_CLASS);
-    this.setDropdownOptions(tr, DROPDOWN_CONDITION_NAME_CLASS, AVAILABLE_CONDITION_NAMES);
+    const tr2 = document.createElement("tr");
+    tr2.classList.add("condition-row");
+    tr2.innerHTML = `<td style="width: 150px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_NAME_CLASS)}</td>                <td style="width: 110px; padding: 0 5px 10px 0;">${this.getDropdownMarkup(DROPDOWN_CONDITION_OPERATION_CLASS)}</td>                <td style="padding: 0 5px 10px 0;"><input type="text" class="form-control condition-value"></td>                <td style="width: 18px; padding-bottom: 10px;"><span class="es-icon-delete ${deleteActionClass}"></span></td>`;
+    this.conditionsPopupElement.querySelector(".conditionsTable").appendChild(tr2);
+    const nameProps = this.getDropdownProps(tr2, DROPDOWN_CONDITION_NAME_CLASS);
+    this.setDropdownOptions(tr2, DROPDOWN_CONDITION_NAME_CLASS, AVAILABLE_CONDITION_NAMES);
     nameProps.value = resolvedConditionValue.name;
-    const operationProps = this.getDropdownProps(tr, DROPDOWN_CONDITION_OPERATION_CLASS);
-    this.setDropdownOptions(tr, DROPDOWN_CONDITION_OPERATION_CLASS, AVAILABLE_CONDITION_OPERATIONS);
+    const operationProps = this.getDropdownProps(tr2, DROPDOWN_CONDITION_OPERATION_CLASS);
+    this.setDropdownOptions(tr2, DROPDOWN_CONDITION_OPERATION_CLASS, AVAILABLE_CONDITION_OPERATIONS);
     operationProps.value = resolvedConditionValue.operation;
-    tr.querySelector(".condition-value").value = resolvedConditionValue.value;
+    tr2.querySelector(".condition-value").value = resolvedConditionValue.value;
     this.conditionsPopupElement.querySelector(`.${deleteActionClass}`).addEventListener("click", this.deleteConditionRow);
     this.updateDeleteActionVisibility();
   }
@@ -12953,7 +13004,7 @@ class MyExternalImageLibraryTab extends ExternalImageLibraryTab {
     this.ui.initialize(container, onImageSelect, isModuleNode);
   }
 }
-const extension$1 = new ExtensionBuilder$1().withExternalImageLibraryTab(MyExternalImageLibraryTab).withLocalization({
+const extension$2 = new ExtensionBuilder$1().withExternalImageLibraryTab(MyExternalImageLibraryTab).withLocalization({
   "en": {
     "Custom Images": "Custom Images"
   },
@@ -12961,6 +13012,14 @@ const extension$1 = new ExtensionBuilder$1().withExternalImageLibraryTab(MyExter
     "Custom Images": "Власні зображення"
   }
 }).build();
+class CssModelModificationPanel extends SettingsPanelRegistry {
+  registerBlockControls(blockControlsMap) {
+    blockControlsMap["BLOCK_BUTTON"] = [
+      new SettingsPanelTab("cssSample", ["_CSS_MODEL_MODIFICATION"]).withLabel("CSS sample")
+    ];
+  }
+}
+const cssModelModification = new ExtensionBuilder$1().withSettingsPanelRegistry(CssModelModificationPanel).build();
 class TextCustomControls extends SettingsPanelRegistry {
   registerBlockControls(blockControlsMap) {
     blockControlsMap["BLOCK_TEXT"] = [
@@ -13713,7 +13772,7 @@ class DropdownProblemSettingsPanelRegistry extends SettingsPanelRegistry {
     ];
   }
 }
-const extension = new ExtensionBuilder$1().withIconsRegistry(DropdownProblemIconsRegistry).withSettingsPanelRegistry(DropdownProblemSettingsPanelRegistry).addControl(DropdownProblemControl).addBlock(DropdownProblemBlock).build();
+const extension$1 = new ExtensionBuilder$1().withIconsRegistry(DropdownProblemIconsRegistry).withSettingsPanelRegistry(DropdownProblemSettingsPanelRegistry).addControl(DropdownProblemControl).addBlock(DropdownProblemBlock).build();
 class ExternalAiAssistant {
   externalAiAssistant;
   dataSelectCallback = () => {
@@ -14461,7 +14520,7 @@ class ExternalMergeTagsPopupUiElement extends UIElement$1 {
     });
   }
 }
-const extensionBuilder$1 = new ExtensionBuilder$1().addUiElement(ExternalMergeTagsPopupUiElement).withExternalMergeTagsLibrary(DemoExternalMergeTagsLibrary).withLocalization({
+const extensionBuilder$2 = new ExtensionBuilder$1().addUiElement(ExternalMergeTagsPopupUiElement).withExternalMergeTagsLibrary(DemoExternalMergeTagsLibrary).withLocalization({
   en: {
     "Open external merge tags": "Open external merge tags"
   },
@@ -14469,8 +14528,8 @@ const extensionBuilder$1 = new ExtensionBuilder$1().addUiElement(ExternalMergeTa
     "Open external merge tags": "Відкрити зовнішні мержтеги"
   }
 }).withUiElementTagRegistry(ExternalMergeTagsPopupRegistry);
-extensionBuilder$1.withIconsRegistry(CustomMergeTagIconsRegistry);
-const externalMergeTagsPopup = extensionBuilder$1.build();
+extensionBuilder$2.withIconsRegistry(CustomMergeTagIconsRegistry);
+const externalMergeTagsPopup = extensionBuilder$2.build();
 class ExternalSmartElementsLibrary {
   externalLibrary;
   dataSelectCallback = () => {
@@ -16137,9 +16196,38 @@ class WidgetsBlockBuilder {
   }
 }
 const HOVERED_ICON_UI_ELEMENT_ID = "widgets-hovered-icon";
+const HINT_REVEAL_ATTR = "hint-reveal";
 const DEFAULT_SRC_ATTR = "default-src";
 const HOVER_SRC_ATTR = "hover-src";
 const HOVER_READY_CLASS = "widgets-hovered-icon--hover-ready";
+const HINT_CLASS = "widgets-hovered-icon--hint";
+const HINT_REVEAL_MARGIN = 12;
+function revealInContainer(container, target, horizontal) {
+  const containerRect = container.getBoundingClientRect();
+  const targetRect = target.getBoundingClientRect();
+  const layoutSize = horizontal ? container.offsetWidth : container.offsetHeight;
+  const visualSize = horizontal ? containerRect.width : containerRect.height;
+  if (!layoutSize || !visualSize) {
+    return;
+  }
+  const scale = visualSize / layoutSize;
+  const scrollPosition = horizontal ? container.scrollLeft : container.scrollTop;
+  const clientSize = horizontal ? container.clientWidth : container.clientHeight;
+  const offset = horizontal ? (targetRect.left - containerRect.left) / scale - container.clientLeft : (targetRect.top - containerRect.top) / scale - container.clientTop;
+  const start = scrollPosition + offset - HINT_REVEAL_MARGIN;
+  const end = scrollPosition + offset + (horizontal ? targetRect.width : targetRect.height) / scale + HINT_REVEAL_MARGIN;
+  let nextScrollPosition = scrollPosition;
+  if (start < scrollPosition) {
+    nextScrollPosition = start;
+  } else if (end > scrollPosition + clientSize) {
+    nextScrollPosition = Math.min(start, end - clientSize);
+  }
+  if (horizontal) {
+    container.scrollLeft = nextScrollPosition;
+  } else {
+    container.scrollTop = nextScrollPosition;
+  }
+}
 class HoveredIconUiElement extends UIElement {
   static #boundRoots = /* @__PURE__ */ new WeakSet();
   getId() {
@@ -16189,6 +16277,14 @@ class HoveredIconUiElement extends UIElement {
       }
       this.renderState();
     }
+    if (name === HINT_REVEAL_ATTR) {
+      const previousHintToken = this.hintToken;
+      this.hintToken = value || 0;
+      this.renderState();
+      if (this.hintToken && this.hintToken !== previousHintToken) {
+        requestAnimationFrame(() => this.#revealHint());
+      }
+    }
     if (name === HOVER_SRC_ATTR) {
       const previousHoverSrc = this.hoverSrc;
       this.hoverSrc = typeof value === "string" && value ? value : this.defaultSrc;
@@ -16203,6 +16299,7 @@ class HoveredIconUiElement extends UIElement {
     if (!this.defaultImage || !this.hoverImage) {
       return;
     }
+    this.container.classList.toggle(HINT_CLASS, !!this.hintToken);
     const defaultSrc = this.defaultSrc || "";
     const hoverSrc = this.hoverSrc || defaultSrc;
     this.#setImageSrc(this.defaultImage, defaultSrc);
@@ -16214,6 +16311,20 @@ class HoveredIconUiElement extends UIElement {
     if (this.hoverImage.getAttribute("src") && this.hoverImage.getAttribute("src") !== hoverSrc) {
       this.#setImageSrc(this.hoverImage, "");
       this.container.classList.remove(HOVER_READY_CLASS);
+    }
+  }
+  #revealHint() {
+    const item = this.container?.closest(".widgets-panel-item");
+    if (!this.hintToken || !item?.isConnected) {
+      return;
+    }
+    const row = item.closest(".widgets-category-row");
+    const scrollable = item.closest(".ue-scrollable");
+    if (row) {
+      revealInContainer(row, item, true);
+    }
+    if (scrollable) {
+      revealInContainer(scrollable, item, false);
     }
   }
   static #bindRoot(root) {
@@ -16339,7 +16450,7 @@ class NavHeaderUiElement extends UIElement {
     panel.querySelectorAll(".widgets-category-row").forEach((row) => row.scrollLeft = 0);
   }
 }
-const panelStyles = "/*Widgets Panel*/\n.widgets-panel-item .widget-icon {\n    display: block;\n    width: 100%;\n}\n\n.widgets-panel-item .widgets-hovered-icon {\n    position: relative;\n    display: block;\n    width: 100%;\n    height: 95px;\n    border-radius: 10px;\n    overflow: hidden;\n    vertical-align: top;\n}\n\n.widgets-panel-item .widgets-hovered-icon::after {\n    content: '';\n    position: absolute;\n    inset: 0;\n    border-radius: 10px;\n    pointer-events: none;\n}\n\n.widgets-panel-item .widgets-hovered-icon__image {\n    position: absolute;\n    inset: 0;\n    width: 100%;\n    height: 100%;\n    object-fit: cover;\n}\n\n.widgets-panel-item .widgets-hovered-icon__image--default {\n    opacity: 1;\n}\n\n.widgets-panel-item .widgets-hovered-icon__image--hover {\n    opacity: 0;\n}\n\n.widgets-panel-item .widgets-hovered-icon--hover-ready:hover .widgets-hovered-icon__image--default,\n.widgets-panel-item .widgets-hovered-icon--hover-ready:focus-within .widgets-hovered-icon__image--default {\n    opacity: 0;\n}\n\n.widgets-panel-item .widgets-hovered-icon--hover-ready:hover .widgets-hovered-icon__image--hover,\n.widgets-panel-item .widgets-hovered-icon--hover-ready:focus-within .widgets-hovered-icon__image--hover {\n    opacity: 1;\n}\n\n.widgets-panel-item .block-thumb {\n    padding: 0;\n    overflow: hidden;\n    border-radius: 10px;\n}\n\n.widgets-panel {\n    height: 100%;\n    overflow: hidden;\n    display: flex;\n    flex-direction: column;\n}\n\n.widgets-panel-content {\n    flex: 1;\n    overflow: hidden;\n}\n\n.widgets-panel-content .ue-scrollable-content {\n    padding: 0 20px;\n}\n\n.widgets-panel-content ue-ui-form {\n    margin-top: 2px;\n}\n\n/*Zeplin: widget caption — 12px, #787878, centered under the tile*/\n.widgets-panel-item .info-wrapper {\n    display: flex;\n    justify-content: center;\n    margin: 12px 0 20px;\n    padding: 0;\n}\n\n.widgets-panel-item .info-wrapper ue-label .label {\n    font-size: 12px;\n    line-height: 16px;\n    color: hsla(var(--ue-font-color_h, 0),\n            var(--ue-font-color_s, 0%),\n            var(--ue-font-color_l, 33.33%),\n            0.85);\n    text-align: center;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: normal;\n}\n\n.widgets-panel-item .widget-name {\n    text-overflow: ellipsis;\n    overflow: hidden;\n    white-space: nowrap;\n    line-height: 20px;\n}\n\n.widgets-panel-filter-container {\n    margin-top: 0;\n    padding: 0 15px 15px;\n}\n\n.widgets-panel-separator {\n    padding-top: 1px;\n    margin: 0 -20px;\n}\n\n/*Widget categories*/\n.widgets-nav-header--empty {\n    display: none;\n}\n\n.widgets-category-section {\n    padding: 0 20px;\n    margin: 0 -20px;\n    border-top: 1px solid var(--ue-panels-border-color, rgba(0, 0, 0, 0.07));\n}\n\n/*Zeplin: category header — a 36px row, 14px regular #555555, chevron in a 20px box after the text*/\n.widgets-nav-header__button {\n    display: flex;\n    align-items: center;\n    gap: 4px;\n    width: 100%;\n    min-height: 36px;\n    padding: 0;\n    border: 0;\n    background: none;\n    color: hsla(var(--ue-font-color_h, 0),\n            var(--ue-font-color_s, 0%),\n            var(--ue-font-color_l, 33.33%),\n            var(--ue-font-color_t, 1));\n    font: inherit;\n    font-size: 14px;\n    font-weight: normal;\n    text-align: left;\n    cursor: pointer;\n}\n\n.widgets-nav-header__arrow {\n    flex: none;\n    box-sizing: border-box;\n    display: block;\n    width: 20px;\n    height: 20px;\n}\n\n.widgets-nav-header:not(.widgets-nav-header--back) .widgets-nav-header__arrow {\n    order: 1;\n    transform: rotate(-90deg);\n}\n\n.widgets-nav-header__label {\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n}\n\n.widgets-nav-header__button:hover {\n    color: hsla(var(--ue-font-color_h, 0),\n            var(--ue-font-color_s, 0%),\n            var(--ue-font-color_l, 33.33%),\n            var(--ue-font-color_t, 1));\n}\n\n/*Zeplin: the opened-category header sticks to the top with a hairline below.\n  The sticky sits on the ue-extension-input wrapper: the header itself is as tall as the wrapper,\n  so sticking the header inside it would give it no room to stick.*/\n.widgets-panel-content ue-extension-input:has(> .widgets-nav-header--back:not(.widgets-nav-header--empty)) {\n    /*custom elements default to inline, and position:sticky does not apply to inline boxes*/\n    display: block;\n    position: sticky;\n    top: 0;\n    /*above the widget tiles: .widgets-panel-item carries the editor's position:relative + z-index:1*/\n    z-index: 2;\n}\n\n.widgets-nav-header--back {\n    margin: 0 -20px;\n    padding: 0 20px;\n    background: hsla(var(--ue-option-panel-background-color_h, 0),\n            var(--ue-option-panel-background-color_s, 0%),\n            var(--ue-option-panel-background-color_l, 100%),\n            var(--ue-option-panel-background-color_t, 1));\n}\n\n.widgets-nav-header--back .widgets-nav-header__button {\n    gap: 12px;\n}\n\n/*Zeplin: main list row — 140x95 tiles, 15px gap, horizontal scroll*/\n.widgets-category-row {\n    display: flex;\n    gap: 15px;\n    overflow-x: auto;\n    overflow-y: hidden;\n    margin: 0 -20px;\n    padding: 0 20px;\n    scrollbar-width: thin;\n    scrollbar-color: transparent transparent;\n}\n\n.widgets-category-row::-webkit-scrollbar {\n    height: 4px;\n}\n\n.widgets-category-row::-webkit-scrollbar-thumb {\n    border-radius: 2px;\n    background: transparent;\n}\n\n.widgets-category-row:hover {\n    scrollbar-color: var(--ue-input-hover-color, rgba(0, 0, 0, 0.1)) transparent;\n}\n\n.widgets-category-row:hover::-webkit-scrollbar-thumb {\n    background: var(--ue-input-hover-color, rgba(0, 0, 0, 0.1));\n}\n\n.widgets-category-row>ue-ui-form {\n    flex: 0 0 auto;\n    width: 140px;\n}\n\n.widgets-category-row .widgets-panel-item .info-wrapper {\n    margin: 12px 0 8px;\n}\n\n/*Full-width list: inside an opened category (the back header carries a label) or for an unlabeled group*/\n.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-category-row,\n.widgets-category-row--full {\n    display: block;\n    overflow: visible;\n    margin: 0;\n    padding: 12px 0 0;\n}\n\n.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-category-row>ue-ui-form,\n.widgets-category-row--full>ue-ui-form {\n    width: auto;\n}\n\n/*Zeplin: opened category and unlabeled group — full-width 21:10 tiles*/\n.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-panel-item .widgets-hovered-icon,\n.widgets-category-row--full .widgets-panel-item .widgets-hovered-icon {\n    height: auto;\n    aspect-ratio: 21 / 10;\n}\n\n.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-panel-item .info-wrapper,\n.widgets-category-row--full .widgets-panel-item .info-wrapper {\n    margin: 12px 0 24px;\n}\n\n.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-panel-item .info-wrapper ue-label .label {\n    font-size: 14px;\n}\n\n.widgets-category-section:not(:has(.widgets-panel-item)) {\n    display: none;\n}\n\n/*AI panel*/\n#settings_widgetsAi_content .ue-scrollable-content {\n    display: flex;\n    width: 100%;\n    flex-direction: column;\n}\n\n.ui-editor-widgets-ai-panel-control {\n    height: 100%;\n}\n\n.widgets-ai-panel-with-data-service {\n    border-top: 1px solid var(--ue-panels-border-color, rgba(0, 0, 0, 0.07));\n}\n\n#ui-editor-widgets-ai-panel-container {\n    height: calc(100% - 9px);\n    padding: 0px 9px;\n}\n";
+const panelStyles = "/*Widgets Panel*/\n.widgets-panel-item .widget-icon {\n    display: block;\n    width: 100%;\n}\n\n.widgets-panel-item .widgets-hovered-icon {\n    position: relative;\n    display: block;\n    width: 100%;\n    height: 95px;\n    border-radius: 10px;\n    overflow: hidden;\n    vertical-align: top;\n}\n\n.widgets-panel-item .widgets-hovered-icon::after {\n    content: '';\n    position: absolute;\n    inset: 0;\n    border-radius: 10px;\n    pointer-events: none;\n}\n\n.widgets-panel-item .widgets-hovered-icon__image {\n    position: absolute;\n    inset: 0;\n    width: 100%;\n    height: 100%;\n    object-fit: cover;\n}\n\n.widgets-panel-item .widgets-hovered-icon__image--default {\n    opacity: 1;\n}\n\n.widgets-panel-item .widgets-hovered-icon__image--hover {\n    opacity: 0;\n}\n\n.widgets-panel-item .widgets-hovered-icon--hover-ready:hover .widgets-hovered-icon__image--default,\n.widgets-panel-item .widgets-hovered-icon--hover-ready:focus-within .widgets-hovered-icon__image--default {\n    opacity: 0;\n}\n\n.widgets-panel-item .widgets-hovered-icon--hover-ready:hover .widgets-hovered-icon__image--hover,\n.widgets-panel-item .widgets-hovered-icon--hover-ready:focus-within .widgets-hovered-icon__image--hover {\n    opacity: 1;\n}\n\n/*Deep-link hint (DS-557): ring + halo on the widget opened from the widgets landing*/\n@keyframes widgets-hint-halo {\n    0%, 100% {\n        box-shadow: 0 0 0 2px var(--widgets-hint-color), 0 0 0 6px var(--widgets-hint-halo-color), 0 15px 35px -5px rgba(0, 0, 0, 0.1);\n    }\n    50% {\n        box-shadow: 0 0 0 2px var(--widgets-hint-color), 0 0 0 12px transparent, 0 15px 35px -5px rgba(0, 0, 0, 0.1);\n    }\n}\n\n.widgets-panel-item .widgets-hovered-icon--hint {\n    --widgets-hint-color: hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), var(--ue-primary-color_l, 50%), 1);\n    --widgets-hint-halo-color: hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), var(--ue-primary-color_l, 50%), 0.22);\n    box-shadow: 0 0 0 2px var(--widgets-hint-color), 0 15px 35px -5px rgba(0, 0, 0, 0.1);\n    animation: widgets-hint-halo 1.8s ease-in-out infinite;\n}\n\n.widgets-panel-item:has(.widgets-hovered-icon--hint) .info-wrapper ue-label .label {\n    color: hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), calc(var(--ue-primary-color_l, 50%) - 10%), 1);\n    font-weight: 500;\n}\n\n/*The row scrolls horizontally, so it clips vertically: give the halo room above the highlighted widget*/\n.widgets-category-row:not(.widgets-category-row--full):has(.widgets-hovered-icon--hint) {\n    padding-top: 12px;\n    margin-top: -12px;\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .widgets-panel-item .widgets-hovered-icon--hint {\n        animation: none;\n    }\n}\n\n.widgets-panel-item .block-thumb {\n    padding: 0;\n    overflow: hidden;\n    border-radius: 10px;\n}\n\n.widgets-panel {\n    height: 100%;\n    overflow: hidden;\n    display: flex;\n    flex-direction: column;\n}\n\n.widgets-panel-content {\n    flex: 1;\n    overflow: hidden;\n}\n\n.widgets-panel-content .ue-scrollable-content {\n    padding: 0 20px;\n}\n\n.widgets-panel-content ue-ui-form {\n    margin-top: 2px;\n}\n\n/*Zeplin: widget caption — 12px, #787878, centered under the tile*/\n.widgets-panel-item .info-wrapper {\n    display: flex;\n    justify-content: center;\n    margin: 12px 0 20px;\n    padding: 0;\n}\n\n.widgets-panel-item .info-wrapper ue-label .label {\n    font-size: 12px;\n    line-height: 16px;\n    color: hsla(var(--ue-font-color_h, 0),\n            var(--ue-font-color_s, 0%),\n            var(--ue-font-color_l, 33.33%),\n            0.85);\n    text-align: center;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: normal;\n}\n\n.widgets-panel-item .widget-name {\n    text-overflow: ellipsis;\n    overflow: hidden;\n    white-space: nowrap;\n    line-height: 20px;\n}\n\n.widgets-panel-filter-container {\n    margin-top: 0;\n    padding: 0 15px 15px;\n}\n\n.widgets-panel-separator {\n    padding-top: 1px;\n    margin: 0 -20px;\n}\n\n/*Widget categories*/\n.widgets-nav-header--empty {\n    display: none;\n}\n\n.widgets-category-section {\n    padding: 0 20px;\n    margin: 0 -20px;\n    border-top: 1px solid var(--ue-panels-border-color, rgba(0, 0, 0, 0.07));\n}\n\n/*Zeplin: category header — a 36px row, 14px regular #555555, chevron in a 20px box after the text*/\n.widgets-nav-header__button {\n    display: flex;\n    align-items: center;\n    gap: 4px;\n    width: 100%;\n    min-height: 36px;\n    padding: 0;\n    border: 0;\n    background: none;\n    color: hsla(var(--ue-font-color_h, 0),\n            var(--ue-font-color_s, 0%),\n            var(--ue-font-color_l, 33.33%),\n            var(--ue-font-color_t, 1));\n    font: inherit;\n    font-size: 14px;\n    font-weight: normal;\n    text-align: left;\n    cursor: pointer;\n}\n\n.widgets-nav-header__arrow {\n    flex: none;\n    box-sizing: border-box;\n    display: block;\n    width: 20px;\n    height: 20px;\n}\n\n.widgets-nav-header:not(.widgets-nav-header--back) .widgets-nav-header__arrow {\n    order: 1;\n    transform: rotate(-90deg);\n}\n\n.widgets-nav-header__label {\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n}\n\n.widgets-nav-header__button:hover {\n    color: hsla(var(--ue-font-color_h, 0),\n            var(--ue-font-color_s, 0%),\n            var(--ue-font-color_l, 33.33%),\n            var(--ue-font-color_t, 1));\n}\n\n/*Zeplin: the opened-category header sticks to the top with a hairline below.\n  The sticky sits on the ue-extension-input wrapper: the header itself is as tall as the wrapper,\n  so sticking the header inside it would give it no room to stick.*/\n.widgets-panel-content ue-extension-input:has(> .widgets-nav-header--back:not(.widgets-nav-header--empty)) {\n    /*custom elements default to inline, and position:sticky does not apply to inline boxes*/\n    display: block;\n    position: sticky;\n    top: 0;\n    /*above the widget tiles: .widgets-panel-item carries the editor's position:relative + z-index:1*/\n    z-index: 2;\n}\n\n.widgets-nav-header--back {\n    margin: 0 -20px;\n    padding: 0 20px;\n    background: hsla(var(--ue-option-panel-background-color_h, 0),\n            var(--ue-option-panel-background-color_s, 0%),\n            var(--ue-option-panel-background-color_l, 100%),\n            var(--ue-option-panel-background-color_t, 1));\n}\n\n.widgets-nav-header--back .widgets-nav-header__button {\n    gap: 12px;\n}\n\n/*Zeplin: main list row — 140x95 tiles, 15px gap, horizontal scroll*/\n.widgets-category-row {\n    display: flex;\n    gap: 15px;\n    overflow-x: auto;\n    overflow-y: hidden;\n    margin: 0 -20px;\n    padding: 0 20px;\n    scrollbar-width: thin;\n    scrollbar-color: transparent transparent;\n}\n\n.widgets-category-row::-webkit-scrollbar {\n    height: 4px;\n}\n\n.widgets-category-row::-webkit-scrollbar-thumb {\n    border-radius: 2px;\n    background: transparent;\n}\n\n.widgets-category-row:hover {\n    scrollbar-color: var(--ue-input-hover-color, rgba(0, 0, 0, 0.1)) transparent;\n}\n\n.widgets-category-row:hover::-webkit-scrollbar-thumb {\n    background: var(--ue-input-hover-color, rgba(0, 0, 0, 0.1));\n}\n\n.widgets-category-row>ue-ui-form {\n    flex: 0 0 auto;\n    width: 140px;\n}\n\n.widgets-category-row .widgets-panel-item .info-wrapper {\n    margin: 12px 0 8px;\n}\n\n/*Full-width list: inside an opened category (the back header carries a label) or for an unlabeled group*/\n.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-category-row,\n.widgets-category-row--full {\n    display: block;\n    overflow: visible;\n    margin: 0;\n    padding: 12px 0 0;\n}\n\n.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-category-row>ue-ui-form,\n.widgets-category-row--full>ue-ui-form {\n    width: auto;\n}\n\n/*Zeplin: opened category and unlabeled group — full-width 21:10 tiles*/\n.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-panel-item .widgets-hovered-icon,\n.widgets-category-row--full .widgets-panel-item .widgets-hovered-icon {\n    height: auto;\n    aspect-ratio: 21 / 10;\n}\n\n.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-panel-item .info-wrapper,\n.widgets-category-row--full .widgets-panel-item .info-wrapper {\n    margin: 12px 0 24px;\n}\n\n.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-panel-item .info-wrapper ue-label .label {\n    font-size: 14px;\n}\n\n.widgets-category-section:not(:has(.widgets-panel-item)) {\n    display: none;\n}\n\n/*AI panel*/\n#settings_widgetsAi_content .ue-scrollable-content {\n    display: flex;\n    width: 100%;\n    flex-direction: column;\n}\n\n.ui-editor-widgets-ai-panel-control {\n    height: 100%;\n}\n\n.widgets-ai-panel-with-data-service {\n    border-top: 1px solid var(--ue-panels-border-color, rgba(0, 0, 0, 0.07));\n}\n\n#ui-editor-widgets-ai-panel-container {\n    height: calc(100% - 9px);\n    padding: 0px 9px;\n}\n";
 const DEFAULT_CATEGORY_ID = "UTILITY_CONTENT";
 const WIDGET_CATEGORIES = [
   { id: DEFAULT_CATEGORY_ID, label: "Utility / Content" },
@@ -16364,7 +16475,22 @@ function groupWidgetsByCategory(widgetsConfig2) {
     widgets: widgetsConfig2.filter((widget) => resolveCategoryId(widget) === category.id)
   })).filter((category) => category.widgets.length);
 }
+function normalizeWidgetName(name) {
+  return typeof name === "string" ? name.trim().replace(/\s+/g, " ").toLocaleLowerCase() : "";
+}
+function getWidgetNames(widget, translate) {
+  const localizedNames = Object.values(widget.translations || {}).map((translations2) => translations2?.[widget.name]);
+  return [widget.name, translate?.(widget.name), ...localizedNames];
+}
+function findWidgetByName(widgetsConfig2, widgetName, translate) {
+  const query = normalizeWidgetName(widgetName);
+  if (!query) {
+    return null;
+  }
+  return widgetsConfig2.find((widget) => getWidgetNames(widget, translate).some((name) => normalizeWidgetName(name) === query)) || null;
+}
 const INITIAL_WIDGETS_PER_CATEGORY = 3;
+const HINT_HIGHLIGHTED_ATTR = "hintHighlighted";
 function buildCategorySection(category) {
   const rowClass = category.id ? "widgets-category-row" : "widgets-category-row widgets-category-row--full";
   return `
@@ -16397,6 +16523,8 @@ class WidgetsPanelBuilder {
     return class extends ModulesPanelTab {
       #rendered = false;
       #scrollResetCounter = 0;
+      #hintWidgetId = null;
+      #hintRevealToken = 0;
       isEnabled() {
         return true;
       }
@@ -16441,6 +16569,9 @@ class WidgetsPanelBuilder {
         });
         this.api.onValueChanged("searchFilter", (val) => {
           this.searchFilter = val;
+          if (val?.trim()) {
+            this.#hintWidgetId = null;
+          }
           this.#applyState();
         });
         this.api.setUIEAttribute("searchFilter", "placeholder", this.api.translate("Search by name"));
@@ -16457,6 +16588,30 @@ class WidgetsPanelBuilder {
         this.#resetState({ widgetsLimit: INITIAL_WIDGETS_PER_CATEGORY, resetInput: false });
         requestAnimationFrame(() => setTimeout(() => this.#applyState()));
       }
+      /**
+       * Highlights the widget matching `widgetName` in any locale (deep link from the widgets landing).
+       * Called by the editor host; returns the id of the highlighted widget or null when none matches.
+       */
+      setHintWidget(widgetName) {
+        const widget = findWidgetByName(widgetsConfig2, widgetName, (key) => this.api.translate(key));
+        this.#hintWidgetId = widget?.widgetId || null;
+        this.#revealHintWidget();
+        return this.#hintWidgetId;
+      }
+      clearHintWidget() {
+        this.#hintWidgetId = null;
+        if (this.#rendered) {
+          this.#applyState();
+        }
+      }
+      #revealHintWidget() {
+        if (this.#hintWidgetId) {
+          this.#hintRevealToken++;
+        }
+        if (this.#rendered) {
+          this.#applyState();
+        }
+      }
       #resetState({ widgetsLimit, resetInput = true } = {}) {
         const shouldResetInput = resetInput && !!this.searchFilter;
         this.activeCategoryId = null;
@@ -16464,8 +16619,11 @@ class WidgetsPanelBuilder {
         if (shouldResetInput) {
           this.api.updateValues({ searchFilter: "" });
         }
-        this.#applyState({ widgetsLimit });
         this.api.setUIEAttribute(NAV_HEADER_BACK_NAME, NAV_HEADER_SCROLL_RESET_ATTR, ++this.#scrollResetCounter);
+        if (this.#hintWidgetId) {
+          this.#hintRevealToken++;
+        }
+        this.#applyState({ widgetsLimit });
       }
       #openCategory(categoryId) {
         this.activeCategoryId = categoryId;
@@ -16503,10 +16661,13 @@ class WidgetsPanelBuilder {
       }
       #applyWidgetAttributes(widgetsName, widgets2) {
         for (let i = 0; i < widgets2.length; i++) {
+          const isHintWidget = !!this.#hintWidgetId && widgets2[i].widgetId === this.#hintWidgetId;
           this.api.setUIEAttribute(`${widgetsName}[${i}].widgetDraggableBlock`, UEAttr.DRAGGABLE_BLOCK.blockId, widgets2[i].widgetId);
           this.api.setUIEAttribute(`${widgetsName}[${i}].widgetDraggableBlock`, UEAttr.DEFAULT.disabled, this.widgetsDragDisabled);
+          this.api.setUIEAttribute(`${widgetsName}[${i}].widgetDraggableBlock`, HINT_HIGHLIGHTED_ATTR, isHintWidget);
           this.api.setUIEAttribute(`${widgetsName}[${i}].widgetDraggableBlock.widgetIcon`, "default-src", widgets2[i].iconUrl);
           this.api.setUIEAttribute(`${widgetsName}[${i}].widgetDraggableBlock.widgetIcon`, "hover-src", widgets2[i].hoverIconUrl || widgets2[i].iconUrl);
+          this.api.setUIEAttribute(`${widgetsName}[${i}].widgetDraggableBlock.widgetIcon`, HINT_REVEAL_ATTR, isHintWidget ? this.#hintRevealToken : 0);
         }
       }
       #canDropWidgets(permissions) {
@@ -16518,29 +16679,231 @@ class WidgetsPanelBuilder {
     };
   }
 }
-const ICON_DATA_URI$1 = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3C/svg%3E';
-const buildWidgetConfig = (id, name, category) => ({
+const ICON_DATA_URI$2 = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3C/svg%3E';
+const buildWidgetConfig$1 = (id, name, category) => ({
   widgetId: id,
   type: "BLOCK",
   name,
   category,
-  iconUrl: ICON_DATA_URI$1,
-  hoverIconUrl: ICON_DATA_URI$1,
+  iconUrl: ICON_DATA_URI$2,
+  hoverIconUrl: ICON_DATA_URI$2,
   allowInnerBlocksSelection: false,
   showAmpOnlyForBothMimeTypeView: false,
   hasDataService: false,
   initialJsonConfig: {},
   initialTemplate: `<div data-widget="${id}"></div>`
 });
-const widgetsConfig = [
-  buildWidgetConfig("22222222-2222-2222-2222-222222222222", "Wheel of Fortune", "GAMIFICATION"),
-  buildWidgetConfig("11111111-1111-1111-1111-111111111111", "List", "UTILITY_CONTENT"),
-  buildWidgetConfig("33333333-3333-3333-3333-333333333333", "Poll", "FORMS"),
-  buildWidgetConfig("44444444-4444-4444-4444-444444444444", "Puzzle Quiz", "GAMIFICATION")
+const widgetsConfig$1 = [
+  buildWidgetConfig$1("22222222-2222-2222-2222-222222222222", "Wheel of Fortune", "GAMIFICATION"),
+  buildWidgetConfig$1("11111111-1111-1111-1111-111111111111", "List", "UTILITY_CONTENT"),
+  buildWidgetConfig$1("33333333-3333-3333-3333-333333333333", "Poll", "FORMS"),
+  buildWidgetConfig$1("44444444-4444-4444-4444-444444444444", "Puzzle Quiz", "GAMIFICATION")
 ];
-const extensionBuilder = new ExtensionBuilder$1().addStyles(panelStyles).addModulesPanelTab(WidgetsPanelBuilder.buildWidgetsPanel(widgetsConfig)).addUiElement(HoveredIconUiElement).addUiElement(NavHeaderUiElement);
+const extensionBuilder$1 = new ExtensionBuilder$1().addStyles(panelStyles).addModulesPanelTab(WidgetsPanelBuilder.buildWidgetsPanel(widgetsConfig$1)).addUiElement(HoveredIconUiElement).addUiElement(NavHeaderUiElement);
+widgetsConfig$1.forEach((widgetConfig2) => extensionBuilder$1.addBlock(WidgetsBlockBuilder.buildBlock(widgetConfig2)));
+const widgetsCategoriesPanel = extensionBuilder$1.build();
+const cs = {
+  "Widgets": "Widgety",
+  "AI Assistant": "AI asistent",
+  "Describe what you want to modify...": "Popište, co chcete upravit...",
+  "Attach Image": "Připojit obrázek",
+  "widget has been updated": "widget byl aktualizován",
+  "Search by name": "Hledat podle názvu",
+  "No widgets found": "Nebyly nalezeny žádné widgety",
+  "Utility / Content": "Nástroje / Obsah",
+  "Forms": "Formuláře",
+  "Gamification": "Gamifikace",
+  "eCommerce": "E-commerce",
+  "Personalized Images": "Personalizované obrázky"
+};
+const de = {
+  "Widgets": "Widgets",
+  "AI Assistant": "KI-Assistent",
+  "Describe what you want to modify...": "Beschreiben Sie, was Sie ändern möchten...",
+  "Attach Image": "Bild anhängen",
+  "widget has been updated": "widget wurde aktualisiert",
+  "Search by name": "Nach Namen suchen",
+  "No widgets found": "Keine Widgets gefunden",
+  "Utility / Content": "Utility / Inhalt",
+  "Forms": "Formulare",
+  "Gamification": "Gamification",
+  "eCommerce": "E-Commerce",
+  "Personalized Images": "Personalisierte Bilder"
+};
+const en = {
+  "Widgets": "Widgets",
+  "AI Assistant": "AI Assistant",
+  "Describe what you want to modify...": "Describe what you want to modify...",
+  "Attach Image": "Attach Image",
+  "widget has been updated": "widget has been updated",
+  "Search by name": "Search by name",
+  "No widgets found": "No widgets found",
+  "Utility / Content": "Utility / Content",
+  "Forms": "Forms",
+  "Gamification": "Gamification",
+  "eCommerce": "eCommerce",
+  "Personalized Images": "Personalized Images"
+};
+const es = {
+  "Widgets": "Widgets",
+  "AI Assistant": "Asistente de IA",
+  "Describe what you want to modify...": "Describe lo que quieres modificar...",
+  "Attach Image": "Adjuntar imagen",
+  "widget has been updated": "el widget ha sido actualizado",
+  "Search by name": "Buscar por nombre",
+  "No widgets found": "No se encontraron widgets",
+  "Utility / Content": "Utilidad / Contenido",
+  "Forms": "Formularios",
+  "Gamification": "Gamificación",
+  "eCommerce": "Comercio electrónico",
+  "Personalized Images": "Imágenes personalizadas"
+};
+const fr = {
+  "Widgets": "Widgets",
+  "AI Assistant": "Assistant IA",
+  "Describe what you want to modify...": "Décrivez ce que vous souhaitez modifier...",
+  "Attach Image": "Joindre une image",
+  "widget has been updated": "le widget a été mis à jour",
+  "Search by name": "Rechercher par nom",
+  "No widgets found": "Aucun widget trouvé",
+  "Utility / Content": "Utilitaires / Contenu",
+  "Forms": "Formulaires",
+  "Gamification": "Gamification",
+  "eCommerce": "E-commerce",
+  "Personalized Images": "Images personnalisées"
+};
+const it = {
+  "Widgets": "Widget",
+  "AI Assistant": "Assistente IA",
+  "Describe what you want to modify...": "Descrivi cosa vuoi modificare...",
+  "Attach Image": "Allega immagine",
+  "widget has been updated": "il widget è stato aggiornato",
+  "Search by name": "Cerca per nome",
+  "No widgets found": "Nessun widget trovato",
+  "Utility / Content": "Utilità / Contenuto",
+  "Forms": "Moduli",
+  "Gamification": "Gamification",
+  "eCommerce": "E-commerce",
+  "Personalized Images": "Immagini personalizzate"
+};
+const ptBr = {
+  "Widgets": "Widgets",
+  "AI Assistant": "Assistente de IA",
+  "Describe what you want to modify...": "Descreva o que você deseja modificar...",
+  "Attach Image": "Anexar imagem",
+  "widget has been updated": "o widget foi atualizado",
+  "Search by name": "Pesquisar por nome",
+  "No widgets found": "Nenhum widget encontrado",
+  "Utility / Content": "Utilitários / Conteúdo",
+  "Forms": "Formulários",
+  "Gamification": "Gamificação",
+  "eCommerce": "E-commerce",
+  "Personalized Images": "Imagens personalizadas"
+};
+const ru = {
+  "Widgets": "Виджеты",
+  "AI Assistant": "ИИ-помощник",
+  "Describe what you want to modify...": "Опишите, что вы хотите изменить...",
+  "Attach Image": "Прикрепить изображение",
+  "widget has been updated": "виджет был обновлен",
+  "Search by name": "Поиск по имени",
+  "No widgets found": "Виджеты не найдены",
+  "Utility / Content": "Утилиты / Контент",
+  "Forms": "Формы",
+  "Gamification": "Геймификация",
+  "eCommerce": "Электронная коммерция",
+  "Personalized Images": "Персонализированные изображения"
+};
+const tr = {
+  "Widgets": "Widget'lar",
+  "AI Assistant": "Yapay Zekâ Asistanı",
+  "Describe what you want to modify...": "Neyi değiştirmek istediğinizi açıklayın...",
+  "Attach Image": "Görsel ekle",
+  "widget has been updated": "widget güncellendi",
+  "Search by name": "Ada göre ara",
+  "No widgets found": "Widget bulunamadı",
+  "Utility / Content": "Yardımcı / İçerik",
+  "Forms": "Formlar",
+  "Gamification": "Oyunlaştırma",
+  "eCommerce": "E-ticaret",
+  "Personalized Images": "Kişiselleştirilmiş görseller"
+};
+const uk = {
+  "Widgets": "Віджети",
+  "AI Assistant": "ШІ асистент",
+  "Describe what you want to modify...": "Опишіть, що ви хочете змінити...",
+  "Attach Image": "Прикріпити зображення",
+  "widget has been updated": "віджет було оновлено",
+  "Search by name": "Пошук за назвою",
+  "No widgets found": "Віджетів не знайдено",
+  "Utility / Content": "Утиліти / Контент",
+  "Forms": "Форми",
+  "Gamification": "Гейміфікація",
+  "eCommerce": "Електронна комерція",
+  "Personalized Images": "Персоналізовані зображення"
+};
+class LocalizationBuilder {
+  static buildLocalization(widgetsConfig2) {
+    const localizations = {
+      "cs": cs,
+      "de": de,
+      "en": en,
+      "es": es,
+      "fr": fr,
+      "it": it,
+      "pt-br": ptBr,
+      "ru": ru,
+      "tr": tr,
+      "uk": uk
+    };
+    widgetsConfig2.forEach((widgetConfig2) => {
+      if (widgetConfig2.translations) {
+        for (const key in widgetConfig2.translations) {
+          const langTranslations = widgetConfig2.translations[key];
+          if (langTranslations && typeof langTranslations === "object") {
+            localizations[key] = {
+              ...localizations[key] || {},
+              ...langTranslations
+            };
+          }
+        }
+      }
+    });
+    return localizations;
+  }
+}
+const ICON_DATA_URI$1 = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3C/svg%3E';
+let widgetIndex = 0;
+const buildWidgetConfig = (name, category, translations2) => {
+  const id = `00000000-0000-0000-0000-${String(++widgetIndex).padStart(12, "0")}`;
+  return {
+    widgetId: id,
+    type: "BLOCK",
+    name,
+    category,
+    translations: translations2,
+    iconUrl: ICON_DATA_URI$1,
+    hoverIconUrl: ICON_DATA_URI$1,
+    allowInnerBlocksSelection: false,
+    showAmpOnlyForBothMimeTypeView: false,
+    hasDataService: false,
+    initialJsonConfig: {},
+    initialTemplate: `<td align="left" data-widget="${id}"><p>${name}</p></td>`
+  };
+};
+const widgetsConfig = [
+  ...["List", "Flip card", "Fortune cookie", "Countdown"].map((name) => buildWidgetConfig(name, "UTILITY_CONTENT")),
+  buildWidgetConfig("Poll", "FORMS", { uk: { Poll: "Опитування" } }),
+  ...["NPS survey", "Questionnaire"].map((name) => buildWidgetConfig(name, "FORMS")),
+  ...["Scratcher", "Find differences", "Magic ball"].map((name) => buildWidgetConfig(name, "GAMIFICATION")),
+  ...["Product carousel", "Cart reminder", "Price drop"].map((name) => buildWidgetConfig(name, "ECOMMERCE")),
+  ...["Name banner", "Birthday card", "Weather banner", "Map pin", "Avatar badge", "Location card"].map((name) => buildWidgetConfig(name, "PERSONALIZED_IMAGES")),
+  buildWidgetConfig("Personalized banner", "PERSONALIZED_IMAGES", { uk: { "Personalized banner": "Персоналізований банер" } })
+];
+const extensionBuilder = new ExtensionBuilder$1().addStyles(panelStyles).withLocalization(LocalizationBuilder.buildLocalization(widgetsConfig)).addModulesPanelTab(WidgetsPanelBuilder.buildWidgetsPanel(widgetsConfig)).addUiElement(HoveredIconUiElement).addUiElement(NavHeaderUiElement);
 widgetsConfig.forEach((widgetConfig2) => extensionBuilder.addBlock(WidgetsBlockBuilder.buildBlock(widgetConfig2)));
-const widgetsCategoriesPanel = extensionBuilder.build();
+const extension = extensionBuilder.build();
+Object.defineProperty(extension, "getId", { value: () => "widgets-panel" });
 const ICON_DATA_URI = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3C/svg%3E';
 const widgetConfig = {
   widgetId: "11111111-1111-1111-1111-111111111111",
@@ -16556,6 +16919,7 @@ const widgetConfig = {
 };
 const widgetsPermissionsPanel = new ExtensionBuilder$1().addStyles(panelStyles).addModulesPanelTab(WidgetsPanelBuilder.buildWidgetsPanel([widgetConfig])).addUiElement(HoveredIconUiElement).addUiElement(NavHeaderUiElement).addBlock(WidgetsBlockBuilder.buildBlock(widgetConfig)).build();
 const extensionsMap = {
+  cssModelModification,
   variableVisibilityControl,
   textBlockWithCustomControls,
   textBlockWithExtendedControls,
@@ -16569,6 +16933,7 @@ const extensionsMap = {
   customBlockBasic,
   responsiveWidthWidget,
   ampDataServiceWidget,
+  syncModuleWidget,
   atomicBlockAlias,
   customBlockWithCustomRenderer,
   blocksPanelVisibility,
@@ -16588,7 +16953,7 @@ const extensionsMap = {
   unresolvedLinkRepro,
   textUiElementOverridden,
   demoUiElement,
-  dropdownProblem: extension,
+  dropdownProblem: extension$1,
   orderable,
   accountWidePanel,
   repeatable,
@@ -16693,6 +17058,7 @@ const extensionsMap = {
   extensionUIMessageElement,
   extensionUIPopupWithCustomControl,
   widgetsCategoriesPanel,
+  widgetsHintsPanel: extension,
   widgetsPermissionsPanel,
   firstPartyBlocksPanel,
   // new E2E lib type test extensions
@@ -16713,7 +17079,7 @@ const extensionsMap = {
   gitSample_10_built_in_controls,
   customProductButtons,
   esColumnsBlock,
-  getSample_externalImageGalleryTab: extension$1
+  getSample_externalImageGalleryTab: extension$2
 };
 export {
   extensionsMap as default
