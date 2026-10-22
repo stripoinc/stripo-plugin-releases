@@ -27,10 +27,10 @@ ${r.map(e=>`  - ${e}`).join(`
 
 .widgets-panel-item .widgets-hovered-icon__image {
     position: absolute;
-    inset: 0;
-    width: 100%;
     height: 100%;
-    object-fit: cover;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
 }
 
 .widgets-panel-item .widgets-hovered-icon__image--default {
@@ -53,9 +53,12 @@ ${r.map(e=>`  - ${e}`).join(`
 
 /*Deep-link hint (DS-557): ring + halo on the widget opened from the widgets landing*/
 @keyframes widgets-hint-halo {
-    0%, 100% {
+
+    0%,
+    100% {
         box-shadow: 0 0 0 2px var(--widgets-hint-color), 0 0 0 6px var(--widgets-hint-halo-color), 0 15px 35px -5px rgba(0, 0, 0, 0.1);
     }
+
     50% {
         box-shadow: 0 0 0 2px var(--widgets-hint-color), 0 0 0 12px transparent, 0 15px 35px -5px rgba(0, 0, 0, 0.1);
     }
