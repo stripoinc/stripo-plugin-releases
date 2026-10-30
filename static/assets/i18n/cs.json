@@ -123,7 +123,7 @@
 	"Dropdown Menu": "Rozbalovací menu",
 	"Section": "Sekce",
 	"Section {itemIndex} Title": "Název sekce {itemIndex}",
-	"An error occurred when reaching OpenAI. Message from OpenAI: {openAiErrorMessage}": "Při připojení k OpenAI došlo k chybě. Zpráva od OpenAI: {openAiErrorMessage}",
+	"AI request failed. {openAiErrorMessage}": "AI request failed. {openAiErrorMessage}",
 	"Expanded": "Rozbaleno",
 	"Form elements": "Prvky formuláře",
 	"Numbered List": "Číslovaný seznam",

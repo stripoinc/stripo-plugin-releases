@@ -123,7 +123,7 @@
 	"Dropdown Menu": "드롭다운 메뉴",
 	"Section": "섹션",
 	"Section {itemIndex} Title": "섹션 {itemIndex} 타이틀",
-	"An error occurred when reaching OpenAI. Message from OpenAI: {openAiErrorMessage}": "OpenAI에 접근하는 중에 오류가 발생했습니다. OpenAI에서 전송된 메시지: {openAiErrorMessage}",
+	"AI request failed. {openAiErrorMessage}": "AI request failed. {openAiErrorMessage}",
 	"Expanded": "펼침",
 	"Form elements": "양식 요소",
 	"Numbered List": "번호 목록",

@@ -123,7 +123,7 @@
 	"Dropdown Menu": "Meniu derulant",
 	"Section": "Secțiune",
 	"Section {itemIndex} Title": "Titlu secțiune {itemIndex}",
-	"An error occurred when reaching OpenAI. Message from OpenAI: {openAiErrorMessage}": "A survenit o eroare la apelarea OpenAI. Mesaj de la OpenAI: {openAiErrorMessage}",
+	"AI request failed. {openAiErrorMessage}": "AI request failed. {openAiErrorMessage}",
 	"Expanded": "Extins",
 	"Form elements": "Elemente formular",
 	"Numbered List": "Listă numerotată",

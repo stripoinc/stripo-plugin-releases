@@ -123,7 +123,7 @@
 	"Dropdown Menu": "Menú desplegable",
 	"Section": "Sección",
 	"Section {itemIndex} Title": "Título de la Sección {itemIndex}",
-	"An error occurred when reaching OpenAI. Message from OpenAI: {openAiErrorMessage}": "Se ha producido un error al conectar con OpenAI. Mensaje de OpenAI: {openAiErrorMessage}",
+	"AI request failed. {openAiErrorMessage}": "AI request failed. {openAiErrorMessage}",
 	"Expanded": "Expandido",
 	"Form elements": "Elementos del formulario",
 	"Numbered List": "Lista numerada",

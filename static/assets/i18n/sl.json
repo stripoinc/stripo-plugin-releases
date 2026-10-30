@@ -123,7 +123,7 @@
 	"Dropdown Menu": "Spustni meni",
 	"Section": "Sekcija",
 	"Section {itemIndex} Title": "Naslov sekcije {itemIndex}",
-	"An error occurred when reaching OpenAI. Message from OpenAI: {openAiErrorMessage}": "Pri vzpostavljanju stika z OpenAI je prišlo do napake. Sporočilo storitve OpenAI: {openAiErrorMessage}",
+	"AI request failed. {openAiErrorMessage}": "AI request failed. {openAiErrorMessage}",
 	"Expanded": "Razširjena",
 	"Form elements": "Elementi obrazca",
 	"Numbered List": "Oštevilčen seznam",

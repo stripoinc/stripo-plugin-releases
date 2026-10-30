@@ -123,7 +123,7 @@
 	"Dropdown Menu": "下拉式選單",
 	"Section": "區塊",
 	"Section {itemIndex} Title": "區塊 {itemIndex} 標題",
-	"An error occurred when reaching OpenAI. Message from OpenAI: {openAiErrorMessage}": "連接 OpenAI 時發生錯誤。OpenAI 的訊息如下：{openAiErrorMessage}",
+	"AI request failed. {openAiErrorMessage}": "AI request failed. {openAiErrorMessage}",
 	"Expanded": "已擴展",
 	"Form elements": "表單元素",
 	"Numbered List": "編號清單",

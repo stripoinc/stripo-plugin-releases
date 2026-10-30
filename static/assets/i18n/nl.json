@@ -123,7 +123,7 @@
 	"Dropdown Menu": "Vervolgkeuzemenu",
 	"Section": "Sectie",
 	"Section {itemIndex} Title": "Titel sectie {itemIndex}",
-	"An error occurred when reaching OpenAI. Message from OpenAI: {openAiErrorMessage}": "Er is een fout opgetreden bij het bereiken van OpenAI. Bericht van OpenAI: {openAiErrorMessage}",
+	"AI request failed. {openAiErrorMessage}": "AI request failed. {openAiErrorMessage}",
 	"Expanded": "Uitgeklapt",
 	"Form elements": "Formulierelementen",
 	"Numbered List": "Genummerde lijst",

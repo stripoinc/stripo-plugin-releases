@@ -123,7 +123,7 @@
 	"Dropdown Menu": "Падащо меню",
 	"Section": "Секция",
 	"Section {itemIndex} Title": "Заглавие на секция {itemIndex}",
-	"An error occurred when reaching OpenAI. Message from OpenAI: {openAiErrorMessage}": "Възникна грешка при достигането до OpenAI. Съобщение от OpenAI: {openAiErrorMessage}",
+	"AI request failed. {openAiErrorMessage}": "AI request failed. {openAiErrorMessage}",
 	"Expanded": "Разгъната",
 	"Form elements": "Елементи на формуляра",
 	"Numbered List": "Номериран списък",

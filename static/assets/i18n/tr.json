@@ -123,7 +123,7 @@
 	"Dropdown Menu": "Açılır Liste Menüsü",
 	"Section": "Bölüm",
 	"Section {itemIndex} Title": "Bölüm {itemIndex} Başlığı",
-	"An error occurred when reaching OpenAI. Message from OpenAI: {openAiErrorMessage}": "OpenAI ile bağlantı kurulurken bir hata oluştu. OpenAI'den gelen mesaj: {openAiErrorMessage}",
+	"AI request failed. {openAiErrorMessage}": "AI request failed. {openAiErrorMessage}",
 	"Expanded": "Genişletilmiş",
 	"Form elements": "Form öğeleri",
 	"Numbered List": "Numaralı Liste",
