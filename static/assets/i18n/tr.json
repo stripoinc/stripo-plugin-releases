@@ -1,4 +1,13 @@
 {
+	"Local recovery storage is unavailable. Some changes on this device could not be read. Export any available changes before closing this editor.": "Yerel kurtarma depolaması kullanılamıyor. Bu cihazdaki bazı değişiklikler okunamadı. Bu düzenleyiciyi kapatmadan önce kullanılabilir tüm değişiklikleri dışa aktarın.",
+	"Discard exported changes": "Dışa aktarılan değişiklikleri at",
+	"The exported changes have not been saved to the server. Discard them from this device to continue without these changes.": "Dışa aktarılan değişiklikler sunucuya kaydedilmedi. Bu değişiklikler olmadan devam etmek için bunları bu cihazdan kaldırın.",
+	"Retry local storage": "Yerel depolamayı yeniden dene",
+	"Local storage is unavailable. Changes can still be saved to the server, but unsaved changes may be lost when this editor closes.": "Yerel depolama kullanılamıyor. Değişiklikler yine de sunucuya kaydedilebilir, ancak kaydedilmemiş değişiklikler bu düzenleyici kapatıldığında kaybolabilir.",
+	"Some unsaved changes could not be recovered. They are kept on this device and can be exported.": "Kaydedilmemiş bazı değişiklikler kurtarılamadı. Bu cihazda tutulurlar ve dışa aktarılabilirler.",
+	"This action cannot be undone or redone because it conflicts with newer changes.": "Bu işlem daha yeni değişikliklerle çakıştığı için geri alınamaz veya yeniden yapılamaz.",
+	"Some unsaved changes could not be recovered. Export them before closing this editor.": "Kaydedilmemiş bazı değişiklikler kurtarılamadı. Bu düzenleyiciyi kapatmadan önce bunları dışa aktarın.",
+	"Export unsaved changes": "Kaydedilmemiş değişiklikleri dışa aktar",
 	"Restore": "Geri Yükle",
 	"Restore as new": "Yeni olarak geri yükle",
 	"Preview": "Önizleme",

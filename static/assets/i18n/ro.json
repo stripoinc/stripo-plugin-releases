@@ -1,4 +1,13 @@
 {
+	"Local recovery storage is unavailable. Some changes on this device could not be read. Export any available changes before closing this editor.": "Stocarea locală pentru recuperare nu este disponibilă. Unele modificări de pe acest dispozitiv nu au putut fi citite. Exportați toate modificările disponibile înainte de a închide acest editor.",
+	"Discard exported changes": "Renunță la modificările exportate",
+	"The exported changes have not been saved to the server. Discard them from this device to continue without these changes.": "Modificările exportate nu au fost salvate pe server. Eliminați-le de pe acest dispozitiv pentru a continua fără aceste modificări.",
+	"Retry local storage": "Reîncearcă stocarea locală",
+	"Local storage is unavailable. Changes can still be saved to the server, but unsaved changes may be lost when this editor closes.": "Stocarea locală nu este disponibilă. Modificările pot fi salvate în continuare pe server, dar modificările nesalvate se pot pierde la închiderea acestui editor.",
+	"Some unsaved changes could not be recovered. They are kept on this device and can be exported.": "Unele modificări nesalvate nu au putut fi recuperate. Acestea sunt păstrate pe acest dispozitiv și pot fi exportate.",
+	"This action cannot be undone or redone because it conflicts with newer changes.": "Această acțiune nu poate fi anulată sau refăcută deoarece intră în conflict cu modificări mai recente.",
+	"Some unsaved changes could not be recovered. Export them before closing this editor.": "Unele modificări nesalvate nu au putut fi recuperate. Exportați-le înainte de a închide acest editor.",
+	"Export unsaved changes": "Exportă modificările nesalvate",
 	"Restore": "Restabilire",
 	"Restore as new": "Restabilire ca nou",
 	"Preview": "Previzualizare",

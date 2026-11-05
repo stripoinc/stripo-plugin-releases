@@ -1,4 +1,13 @@
 {
+	"Local recovery storage is unavailable. Some changes on this device could not be read. Export any available changes before closing this editor.": "ローカルの復元用ストレージを利用できません。このデバイス上の一部の変更を読み取れませんでした。このエディターを閉じる前に、利用可能な変更をすべてエクスポートしてください。",
+	"Discard exported changes": "エクスポートした変更を破棄",
+	"The exported changes have not been saved to the server. Discard them from this device to continue without these changes.": "エクスポートした変更はサーバーに保存されていません。これらの変更を適用せずに続行するには、このデバイスから破棄してください。",
+	"Retry local storage": "ローカルストレージへのアクセスを再試行",
+	"Local storage is unavailable. Changes can still be saved to the server, but unsaved changes may be lost when this editor closes.": "ローカルストレージを利用できません。変更は引き続きサーバーに保存できますが、保存されていない変更はこのエディターを閉じると失われる可能性があります。",
+	"Some unsaved changes could not be recovered. They are kept on this device and can be exported.": "保存されていない変更の一部を復元できませんでした。これらはこのデバイスに保持されており、エクスポートできます。",
+	"This action cannot be undone or redone because it conflicts with newer changes.": "新しい変更と競合するため、この操作を元に戻すこともやり直すこともできません。",
+	"Some unsaved changes could not be recovered. Export them before closing this editor.": "保存されていない変更の一部を復元できませんでした。このエディターを閉じる前にエクスポートしてください。",
+	"Export unsaved changes": "保存されていない変更をエクスポート",
 	"Restore": "復元",
 	"Restore as new": "新規として復元",
 	"Preview": "プレビュー",

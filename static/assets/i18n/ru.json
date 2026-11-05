@@ -1,4 +1,13 @@
 {
+	"Local recovery storage is unavailable. Some changes on this device could not be read. Export any available changes before closing this editor.": "Локальное хранилище восстановления недоступно. Не удалось прочитать некоторые изменения на этом устройстве. Экспортируйте все доступные изменения перед закрытием редактора.",
+	"Discard exported changes": "Отбросить экспортированные изменения",
+	"The exported changes have not been saved to the server. Discard them from this device to continue without these changes.": "Экспортированные изменения не сохранены на сервере. Отбросьте их на этом устройстве, чтобы продолжить без этих изменений.",
+	"Retry local storage": "Повторить доступ к локальному хранилищу",
+	"Local storage is unavailable. Changes can still be saved to the server, but unsaved changes may be lost when this editor closes.": "Локальное хранилище недоступно. Изменения по-прежнему можно сохранять на сервере, но несохранённые изменения могут быть потеряны при закрытии редактора.",
+	"Some unsaved changes could not be recovered. They are kept on this device and can be exported.": "Не удалось восстановить некоторые несохранённые изменения. Они хранятся на этом устройстве, и их можно экспортировать.",
+	"This action cannot be undone or redone because it conflicts with newer changes.": "Это действие нельзя отменить или повторить, поскольку оно конфликтует с более новыми изменениями.",
+	"Some unsaved changes could not be recovered. Export them before closing this editor.": "Не удалось восстановить некоторые несохранённые изменения. Экспортируйте их перед закрытием редактора.",
+	"Export unsaved changes": "Экспортировать несохранённые изменения",
 	"Block settings are turned off. You can still use the block’s context menu.": "Настройки блока отключены. Вы по-прежнему можете пользоваться контекстным меню блока.",
 	"Restore": "Восстановить",
 	"Restore as new": "Восстановить как новый",

@@ -1,4 +1,13 @@
 {
+	"Local recovery storage is unavailable. Some changes on this device could not be read. Export any available changes before closing this editor.": "Local recovery storage is unavailable. Some changes on this device could not be read. Export any available changes before closing this editor.",
+	"Discard exported changes": "Discard exported changes",
+	"The exported changes have not been saved to the server. Discard them from this device to continue without these changes.": "The exported changes have not been saved to the server. Discard them from this device to continue without these changes.",
+	"Retry local storage": "Retry local storage",
+	"Local storage is unavailable. Changes can still be saved to the server, but unsaved changes may be lost when this editor closes.": "Local storage is unavailable. Changes can still be saved to the server, but unsaved changes may be lost when this editor closes.",
+	"Some unsaved changes could not be recovered. They are kept on this device and can be exported.": "Some unsaved changes could not be recovered. They are kept on this device and can be exported.",
+	"This action cannot be undone or redone because it conflicts with newer changes.": "This action cannot be undone or redone because it conflicts with newer changes.",
+	"Some unsaved changes could not be recovered. Export them before closing this editor.": "Some unsaved changes could not be recovered. Export them before closing this editor.",
+	"Export unsaved changes": "Export unsaved changes",
 	"Block settings are turned off. You can still use the block’s context menu.": "Block settings are turned off. You can still use the block’s context menu.",
 	"Restore": "Restore",
 	"Restore as new": "Restore as new",

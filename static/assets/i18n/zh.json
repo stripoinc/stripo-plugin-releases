@@ -1,4 +1,13 @@
 {
+	"Local recovery storage is unavailable. Some changes on this device could not be read. Export any available changes before closing this editor.": "本機復原儲存空間無法使用。無法讀取此裝置上的部分變更。請在關閉此編輯器之前匯出所有可用的變更。",
+	"Discard exported changes": "捨棄已匯出的變更",
+	"The exported changes have not been saved to the server. Discard them from this device to continue without these changes.": "已匯出的變更尚未儲存到伺服器。請從此裝置中捨棄這些變更，以便在不保留這些變更的情況下繼續。",
+	"Retry local storage": "重試本機儲存空間",
+	"Local storage is unavailable. Changes can still be saved to the server, but unsaved changes may be lost when this editor closes.": "本機儲存空間無法使用。變更仍可儲存到伺服器，但未儲存的變更可能會在關閉此編輯器時遺失。",
+	"Some unsaved changes could not be recovered. They are kept on this device and can be exported.": "部分未儲存的變更無法復原。這些變更保留在此裝置上，可以匯出。",
+	"This action cannot be undone or redone because it conflicts with newer changes.": "此操作與較新的變更衝突，因此無法復原或重做。",
+	"Some unsaved changes could not be recovered. Export them before closing this editor.": "部分未儲存的變更無法復原。請在關閉此編輯器之前將其匯出。",
+	"Export unsaved changes": "匯出未儲存的變更",
 	"Restore": "還原",
 	"Restore as new": "還原為新的",
 	"Preview": "預覽",

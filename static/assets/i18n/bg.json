@@ -1,4 +1,13 @@
 {
+	"Local recovery storage is unavailable. Some changes on this device could not be read. Export any available changes before closing this editor.": "Локалното хранилище за възстановяване не е достъпно. Някои промени на това устройство не можаха да бъдат прочетени. Експортирайте всички налични промени, преди да затворите този редактор.",
+	"Discard exported changes": "Отхвърляне на експортираните промени",
+	"The exported changes have not been saved to the server. Discard them from this device to continue without these changes.": "Експортираните промени не са запазени на сървъра. Отхвърлете ги на това устройство, за да продължите без тези промени.",
+	"Retry local storage": "Повторен опит за локалното хранилище",
+	"Local storage is unavailable. Changes can still be saved to the server, but unsaved changes may be lost when this editor closes.": "Локалното хранилище не е достъпно. Промените все още могат да се запазват на сървъра, но незапазените промени може да се загубят при затваряне на този редактор.",
+	"Some unsaved changes could not be recovered. They are kept on this device and can be exported.": "Някои незапазени промени не можаха да бъдат възстановени. Те се съхраняват на това устройство и могат да бъдат експортирани.",
+	"This action cannot be undone or redone because it conflicts with newer changes.": "Това действие не може да бъде отменено или повторено, защото е в конфликт с по-нови промени.",
+	"Some unsaved changes could not be recovered. Export them before closing this editor.": "Някои незапазени промени не можаха да бъдат възстановени. Експортирайте ги, преди да затворите този редактор.",
+	"Export unsaved changes": "Експортиране на незапазените промени",
 	"Restore": "Възстановяване",
 	"Restore as new": "Възстановяване като ново",
 	"Preview": "Визуализация",

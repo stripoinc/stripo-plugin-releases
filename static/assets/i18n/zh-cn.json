@@ -1,4 +1,13 @@
 {
+	"Local recovery storage is unavailable. Some changes on this device could not be read. Export any available changes before closing this editor.": "本地恢复存储不可用。无法读取此设备上的部分更改。请在关闭此编辑器之前导出所有可用的更改。",
+	"Discard exported changes": "放弃已导出的更改",
+	"The exported changes have not been saved to the server. Discard them from this device to continue without these changes.": "已导出的更改尚未保存到服务器。请从此设备中放弃这些更改，以便在不保留这些更改的情况下继续。",
+	"Retry local storage": "重试本地存储",
+	"Local storage is unavailable. Changes can still be saved to the server, but unsaved changes may be lost when this editor closes.": "本地存储不可用。更改仍可保存到服务器，但未保存的更改可能会在关闭此编辑器时丢失。",
+	"Some unsaved changes could not be recovered. They are kept on this device and can be exported.": "部分未保存的更改无法恢复。这些更改保留在此设备上，可以导出。",
+	"This action cannot be undone or redone because it conflicts with newer changes.": "此操作与较新的更改冲突，因此无法撤销或重做。",
+	"Some unsaved changes could not be recovered. Export them before closing this editor.": "部分未保存的更改无法恢复。请在关闭此编辑器之前将其导出。",
+	"Export unsaved changes": "导出未保存的更改",
 	"Restore": "恢复",
 	"Restore as new": "恢复为新模块",
 	"Preview": "预览",

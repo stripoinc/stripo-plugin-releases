@@ -1,4 +1,13 @@
 {
+	"Local recovery storage is unavailable. Some changes on this device could not be read. Export any available changes before closing this editor.": "Lokalny magazyn odzyskiwania jest niedostępny. Nie udało się odczytać niektórych zmian na tym urządzeniu. Wyeksportuj wszystkie dostępne zmiany przed zamknięciem edytora.",
+	"Discard exported changes": "Odrzuć wyeksportowane zmiany",
+	"The exported changes have not been saved to the server. Discard them from this device to continue without these changes.": "Wyeksportowane zmiany nie zostały zapisane na serwerze. Odrzuć je na tym urządzeniu, aby kontynuować bez tych zmian.",
+	"Retry local storage": "Ponów dostęp do lokalnego magazynu",
+	"Local storage is unavailable. Changes can still be saved to the server, but unsaved changes may be lost when this editor closes.": "Lokalny magazyn jest niedostępny. Zmiany nadal można zapisywać na serwerze, ale niezapisane zmiany mogą zostać utracone po zamknięciu edytora.",
+	"Some unsaved changes could not be recovered. They are kept on this device and can be exported.": "Nie udało się odzyskać niektórych niezapisanych zmian. Są przechowywane na tym urządzeniu i można je wyeksportować.",
+	"This action cannot be undone or redone because it conflicts with newer changes.": "Nie można cofnąć ani ponowić tej czynności, ponieważ jest w konflikcie z nowszymi zmianami.",
+	"Some unsaved changes could not be recovered. Export them before closing this editor.": "Nie udało się odzyskać niektórych niezapisanych zmian. Wyeksportuj je przed zamknięciem edytora.",
+	"Export unsaved changes": "Eksportuj niezapisane zmiany",
 	"Restore": "Przywróć",
 	"Restore as new": "Odzyskaj jako nowe",
 	"Preview": "Podgląd",

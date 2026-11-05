@@ -1,4 +1,13 @@
 {
+	"Local recovery storage is unavailable. Some changes on this device could not be read. Export any available changes before closing this editor.": "Lokalna shramba za obnovitev ni na voljo. Nekaterih sprememb v tej napravi ni bilo mogoče prebrati. Preden zaprete ta urejevalnik, izvozite vse razpoložljive spremembe.",
+	"Discard exported changes": "Zavrzi izvožene spremembe",
+	"The exported changes have not been saved to the server. Discard them from this device to continue without these changes.": "Izvožene spremembe niso bile shranjene v strežnik. Zavrzite jih v tej napravi, če želite nadaljevati brez teh sprememb.",
+	"Retry local storage": "Znova poskusi z lokalno shrambo",
+	"Local storage is unavailable. Changes can still be saved to the server, but unsaved changes may be lost when this editor closes.": "Lokalna shramba ni na voljo. Spremembe lahko še vedno shranite v strežnik, vendar se lahko neshranjene spremembe ob zaprtju tega urejevalnika izgubijo.",
+	"Some unsaved changes could not be recovered. They are kept on this device and can be exported.": "Nekaterih neshranjenih sprememb ni bilo mogoče obnoviti. Shranjene so v tej napravi in jih lahko izvozite.",
+	"This action cannot be undone or redone because it conflicts with newer changes.": "Tega dejanja ni mogoče razveljaviti ali ponoviti, ker je v sporu z novejšimi spremembami.",
+	"Some unsaved changes could not be recovered. Export them before closing this editor.": "Nekaterih neshranjenih sprememb ni bilo mogoče obnoviti. Izvozite jih, preden zaprete ta urejevalnik.",
+	"Export unsaved changes": "Izvozi neshranjene spremembe",
 	"Restore": "Obnovi",
 	"Restore as new": "Obnovi kot novo",
 	"Preview": "Predogled",

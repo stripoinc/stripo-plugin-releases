@@ -1,4 +1,13 @@
 {
+	"Local recovery storage is unavailable. Some changes on this device could not be read. Export any available changes before closing this editor.": "De lokale herstelopslag is niet beschikbaar. Sommige wijzigingen op dit apparaat konden niet worden gelezen. Exporteer alle beschikbare wijzigingen voordat u deze editor sluit.",
+	"Discard exported changes": "Geëxporteerde wijzigingen verwerpen",
+	"The exported changes have not been saved to the server. Discard them from this device to continue without these changes.": "De geëxporteerde wijzigingen zijn niet op de server opgeslagen. Verwijder ze van dit apparaat om zonder deze wijzigingen door te gaan.",
+	"Retry local storage": "Lokale opslag opnieuw proberen",
+	"Local storage is unavailable. Changes can still be saved to the server, but unsaved changes may be lost when this editor closes.": "Lokale opslag is niet beschikbaar. Wijzigingen kunnen nog steeds op de server worden opgeslagen, maar niet-opgeslagen wijzigingen kunnen verloren gaan wanneer deze editor wordt gesloten.",
+	"Some unsaved changes could not be recovered. They are kept on this device and can be exported.": "Sommige niet-opgeslagen wijzigingen konden niet worden hersteld. Ze worden op dit apparaat bewaard en kunnen worden geëxporteerd.",
+	"This action cannot be undone or redone because it conflicts with newer changes.": "Deze actie kan niet ongedaan worden gemaakt of opnieuw worden uitgevoerd, omdat deze conflicteert met nieuwere wijzigingen.",
+	"Some unsaved changes could not be recovered. Export them before closing this editor.": "Sommige niet-opgeslagen wijzigingen konden niet worden hersteld. Exporteer ze voordat u deze editor sluit.",
+	"Export unsaved changes": "Niet-opgeslagen wijzigingen exporteren",
 	"Restore": "Herstellen",
 	"Restore as new": "Herstellen als nieuw",
 	"Preview": "Voorbeeld",

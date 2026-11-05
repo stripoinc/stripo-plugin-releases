@@ -1,4 +1,13 @@
 {
+	"Local recovery storage is unavailable. Some changes on this device could not be read. Export any available changes before closing this editor.": "Místní úložiště pro obnovení není dostupné. Některé změny v tomto zařízení se nepodařilo přečíst. Před zavřením tohoto editoru exportujte všechny dostupné změny.",
+	"Discard exported changes": "Zahodit exportované změny",
+	"The exported changes have not been saved to the server. Discard them from this device to continue without these changes.": "Exportované změny nebyly uloženy na server. Zahoďte je v tomto zařízení, abyste mohli pokračovat bez těchto změn.",
+	"Retry local storage": "Zkusit místní úložiště znovu",
+	"Local storage is unavailable. Changes can still be saved to the server, but unsaved changes may be lost when this editor closes.": "Místní úložiště není dostupné. Změny lze nadále ukládat na server, ale neuložené změny mohou být při zavření tohoto editoru ztraceny.",
+	"Some unsaved changes could not be recovered. They are kept on this device and can be exported.": "Některé neuložené změny se nepodařilo obnovit. Jsou uchovány v tomto zařízení a lze je exportovat.",
+	"This action cannot be undone or redone because it conflicts with newer changes.": "Tuto akci nelze vrátit zpět ani zopakovat, protože je v konfliktu s novějšími změnami.",
+	"Some unsaved changes could not be recovered. Export them before closing this editor.": "Některé neuložené změny se nepodařilo obnovit. Před zavřením tohoto editoru je exportujte.",
+	"Export unsaved changes": "Exportovat neuložené změny",
 	"Restore": "Obnovit",
 	"Restore as new": "Obnovit jako nové",
 	"Preview": "Náhled",

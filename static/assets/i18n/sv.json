@@ -1,4 +1,13 @@
 {
+	"Local recovery storage is unavailable. Some changes on this device could not be read. Export any available changes before closing this editor.": "Den lokala återställningslagringen är inte tillgänglig. Vissa ändringar på den här enheten kunde inte läsas. Exportera alla tillgängliga ändringar innan du stänger redigeraren.",
+	"Discard exported changes": "Kasta exporterade ändringar",
+	"The exported changes have not been saved to the server. Discard them from this device to continue without these changes.": "De exporterade ändringarna har inte sparats på servern. Kasta dem från den här enheten för att fortsätta utan dessa ändringar.",
+	"Retry local storage": "Försök med lokal lagring igen",
+	"Local storage is unavailable. Changes can still be saved to the server, but unsaved changes may be lost when this editor closes.": "Lokal lagring är inte tillgänglig. Ändringar kan fortfarande sparas på servern, men osparade ändringar kan gå förlorade när redigeraren stängs.",
+	"Some unsaved changes could not be recovered. They are kept on this device and can be exported.": "Vissa osparade ändringar kunde inte återställas. De finns kvar på den här enheten och kan exporteras.",
+	"This action cannot be undone or redone because it conflicts with newer changes.": "Den här åtgärden kan inte ångras eller göras om eftersom den står i konflikt med nyare ändringar.",
+	"Some unsaved changes could not be recovered. Export them before closing this editor.": "Vissa osparade ändringar kunde inte återställas. Exportera dem innan du stänger redigeraren.",
+	"Export unsaved changes": "Exportera osparade ändringar",
 	"Restore": "Restore",
 	"Restore as new": "Restore as new",
 	"Preview": "Preview",

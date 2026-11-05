@@ -15879,6 +15879,15 @@ var _SettingsPanelRegistry2 = class _SettingsPanelRegistry3 extends BaseValidate
   registerBlockControls(_blockControlsMap) {
     throw new Error("Method registerBlockControls() must be implemented by the subclass");
   }
+  /**
+   * Optional hook to place controls in the settings panel header of a block, next to the "level up" button.
+   * Add the IDs of registered controls under the block ID; a control receives the selected node via
+   * {@link Control.onTemplateNodeUpdated} and is shown only when its {@link Control.isVisible} returns true.
+   * @param _blockHeaderControlsMap - Map of block ID to the IDs of controls shown in its settings panel header.
+   * Empty by default.
+   */
+  registerBlockHeaderControls(_blockHeaderControlsMap) {
+  }
 };
 _SettingsPanelRegistry2.REQUIRED_METHODS = ["registerBlockControls"];
 var _ExternalAiAssistant2 = class _ExternalAiAssistant3 extends BaseValidatedClass {

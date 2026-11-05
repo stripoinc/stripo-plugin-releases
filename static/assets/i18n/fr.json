@@ -1,4 +1,13 @@
 {
+	"Local recovery storage is unavailable. Some changes on this device could not be read. Export any available changes before closing this editor.": "Le stockage local de récupération est indisponible. Certaines modifications sur cet appareil n’ont pas pu être lues. Exportez toutes les modifications disponibles avant de fermer cet éditeur.",
+	"Discard exported changes": "Supprimer les modifications exportées",
+	"The exported changes have not been saved to the server. Discard them from this device to continue without these changes.": "Les modifications exportées n’ont pas été enregistrées sur le serveur. Supprimez-les de cet appareil pour continuer sans ces modifications.",
+	"Retry local storage": "Réessayer le stockage local",
+	"Local storage is unavailable. Changes can still be saved to the server, but unsaved changes may be lost when this editor closes.": "Le stockage local est indisponible. Les modifications peuvent toujours être enregistrées sur le serveur, mais les modifications non enregistrées risquent d’être perdues à la fermeture de cet éditeur.",
+	"Some unsaved changes could not be recovered. They are kept on this device and can be exported.": "Certaines modifications non enregistrées n’ont pas pu être récupérées. Elles sont conservées sur cet appareil et peuvent être exportées.",
+	"This action cannot be undone or redone because it conflicts with newer changes.": "Cette action ne peut pas être annulée ni rétablie, car elle entre en conflit avec des modifications plus récentes.",
+	"Some unsaved changes could not be recovered. Export them before closing this editor.": "Certaines modifications non enregistrées n’ont pas pu être récupérées. Exportez-les avant de fermer cet éditeur.",
+	"Export unsaved changes": "Exporter les modifications non enregistrées",
 	"Restore": "Restaurer",
 	"Restore as new": "Restaurer à l'état d'usine",
 	"Preview": "Aperçu",
