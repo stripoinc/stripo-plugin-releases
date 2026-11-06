@@ -2796,5 +2796,10 @@
 	"history_val_message_area_header": "En-tête",
 	"history_val_message_area_info_area": "Zone infos",
 	"history_val_normal": "Normal",
-	"history_val_undefined": "Non défini"
+	"history_val_undefined": "Non défini",
+	"Accessibility check failed. Please try again.": "La vérification de l’accessibilité a échoué. Veuillez réessayer.",
+	"Accessibility check timed out. Please try again.": "Le délai de vérification de l’accessibilité est dépassé. Veuillez réessayer.",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "La vérification de l’accessibilité est incomplète. Certaines ressources n’ont pas pu être chargées. Veuillez relancer la vérification.",
+	"Document-level issue": "Problème au niveau du document",
+	"Manual review required": "Vérification manuelle requise"
 }

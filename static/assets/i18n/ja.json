@@ -2796,5 +2796,10 @@
 	"history_val_message_area_header": "ヘッダー",
 	"history_val_message_area_info_area": "情報エリア",
 	"history_val_normal": "標準",
-	"history_val_undefined": "未定義"
+	"history_val_undefined": "未定義",
+	"Accessibility check failed. Please try again.": "アクセシビリティチェックに失敗しました。もう一度お試しください。",
+	"Accessibility check timed out. Please try again.": "アクセシビリティチェックがタイムアウトしました。もう一度お試しください。",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "アクセシビリティチェックが完了していません。一部のリソースを読み込めませんでした。再チェックしてください。",
+	"Document-level issue": "ドキュメント全体の問題",
+	"Manual review required": "手動での確認が必要です"
 }

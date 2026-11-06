@@ -2796,5 +2796,10 @@
 	"history_val_message_area_header": "Koptekst",
 	"history_val_message_area_info_area": "Infogebied",
 	"history_val_normal": "Normaal",
-	"history_val_undefined": "Ongedefinieerd"
+	"history_val_undefined": "Ongedefinieerd",
+	"Accessibility check failed. Please try again.": "De toegankelijkheidscontrole is mislukt. Probeer het opnieuw.",
+	"Accessibility check timed out. Please try again.": "De toegankelijkheidscontrole heeft te lang geduurd. Probeer het opnieuw.",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "De toegankelijkheidscontrole is onvolledig. Sommige bronnen konden niet worden geladen. Voer de controle opnieuw uit.",
+	"Document-level issue": "Probleem op documentniveau",
+	"Manual review required": "Handmatige controle vereist"
 }

@@ -2796,5 +2796,10 @@
 	"history_val_message_area_header": "Záhlaví",
 	"history_val_message_area_info_area": "Info oblast",
 	"history_val_normal": "Normální",
-	"history_val_undefined": "Nedefinováno"
+	"history_val_undefined": "Nedefinováno",
+	"Accessibility check failed. Please try again.": "Kontrola přístupnosti se nezdařila. Zkuste to znovu.",
+	"Accessibility check timed out. Please try again.": "Časový limit kontroly přístupnosti vypršel. Zkuste to znovu.",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "Kontrola přístupnosti není úplná. Některé zdroje se nepodařilo načíst. Spusťte kontrolu znovu.",
+	"Document-level issue": "Problém na úrovni dokumentu",
+	"Manual review required": "Je vyžadována ruční kontrola"
 }

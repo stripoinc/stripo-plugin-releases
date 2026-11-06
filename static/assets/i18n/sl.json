@@ -2796,5 +2796,10 @@
 	"history_val_message_area_header": "Glava",
 	"history_val_message_area_info_area": "Info vrstica",
 	"history_val_normal": "Običajno",
-	"history_val_undefined": "Nedoločeno"
+	"history_val_undefined": "Nedoločeno",
+	"Accessibility check failed. Please try again.": "Preverjanje dostopnosti ni uspelo. Poskusite znova.",
+	"Accessibility check timed out. Please try again.": "Čas za preverjanje dostopnosti je potekel. Poskusite znova.",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "Preverjanje dostopnosti je nepopolno. Nekaterih virov ni bilo mogoče naložiti. Znova zaženite preverjanje.",
+	"Document-level issue": "Težava na ravni dokumenta",
+	"Manual review required": "Potreben je ročni pregled"
 }

@@ -2796,5 +2796,10 @@
 	"history_val_message_area_header": "Горен колонтитул",
 	"history_val_message_area_info_area": "Информационна зона",
 	"history_val_normal": "Нормално",
-	"history_val_undefined": "Недефиниран"
+	"history_val_undefined": "Недефиниран",
+	"Accessibility check failed. Please try again.": "Проверката за достъпност е неуспешна. Опитайте отново.",
+	"Accessibility check timed out. Please try again.": "Времето за проверката за достъпност изтече. Опитайте отново.",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "Проверката за достъпност е непълна. Някои ресурси не могат да бъдат заредени. Проверете отново.",
+	"Document-level issue": "Проблем на ниво документ",
+	"Manual review required": "Необходима е ръчна проверка"
 }

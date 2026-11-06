@@ -2796,5 +2796,10 @@
 	"history_val_message_area_header": "Üst bilgi",
 	"history_val_message_area_info_area": "Bilgi alanı",
 	"history_val_normal": "Normal",
-	"history_val_undefined": "Tanımlanmamış"
+	"history_val_undefined": "Tanımlanmamış",
+	"Accessibility check failed. Please try again.": "Erişilebilirlik kontrolü başarısız oldu. Lütfen tekrar deneyin.",
+	"Accessibility check timed out. Please try again.": "Erişilebilirlik kontrolü zaman aşımına uğradı. Lütfen tekrar deneyin.",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "Erişilebilirlik kontrolü tamamlanmadı. Bazı kaynaklar yüklenemedi. Lütfen yeniden kontrol edin.",
+	"Document-level issue": "Belge düzeyinde sorun",
+	"Manual review required": "Manuel inceleme gerekli"
 }

@@ -2796,5 +2796,10 @@
 	"history_val_message_area_header": "Antet",
 	"history_val_message_area_info_area": "Zonă de informații",
 	"history_val_normal": "Normal",
-	"history_val_undefined": "Nedefinit"
+	"history_val_undefined": "Nedefinit",
+	"Accessibility check failed. Please try again.": "Verificarea accesibilității a eșuat. Încercați din nou.",
+	"Accessibility check timed out. Please try again.": "Timpul alocat verificării accesibilității a expirat. Încercați din nou.",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "Verificarea accesibilității este incompletă. Unele resurse nu au putut fi încărcate. Reluați verificarea.",
+	"Document-level issue": "Problemă la nivel de document",
+	"Manual review required": "Este necesară o verificare manuală"
 }

@@ -2796,5 +2796,10 @@
 	"history_val_message_area_header": "頁首",
 	"history_val_message_area_info_area": "資訊區",
 	"history_val_normal": "一般",
-	"history_val_undefined": "未定義"
+	"history_val_undefined": "未定義",
+	"Accessibility check failed. Please try again.": "無障礙檢查失敗。請再試一次。",
+	"Accessibility check timed out. Please try again.": "無障礙檢查逾時。請再試一次。",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "無障礙檢查未完成。部分資源無法載入。請重新檢查。",
+	"Document-level issue": "文件層級的問題",
+	"Manual review required": "需要手動檢查"
 }

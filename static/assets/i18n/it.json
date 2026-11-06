@@ -2796,5 +2796,10 @@
 	"history_val_message_area_header": "Intestazione",
 	"history_val_message_area_info_area": "Area info",
 	"history_val_normal": "Normale",
-	"history_val_undefined": "Non definito"
+	"history_val_undefined": "Non definito",
+	"Accessibility check failed. Please try again.": "La verifica di accessibilità non è riuscita. Riprova.",
+	"Accessibility check timed out. Please try again.": "Il tempo per la verifica di accessibilità è scaduto. Riprova.",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "La verifica di accessibilità è incompleta. Non è stato possibile caricare alcune risorse. Ripeti la verifica.",
+	"Document-level issue": "Problema a livello di documento",
+	"Manual review required": "È richiesta una verifica manuale"
 }

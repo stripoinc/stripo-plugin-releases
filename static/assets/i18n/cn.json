@@ -884,5 +884,10 @@
 	"Data Preview": "Data Preview",
 	"Field": "Field",
 	"No items match your search": "No items match your search",
-	"Item {index}": "Item {index}"
+	"Item {index}": "Item {index}",
+	"Accessibility check failed. Please try again.": "无障碍检查失败。请重试。",
+	"Accessibility check timed out. Please try again.": "无障碍检查超时。请重试。",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "无障碍检查未完成。部分资源无法加载。请重新检查。",
+	"Document-level issue": "文档级问题",
+	"Manual review required": "需要人工检查"
 }

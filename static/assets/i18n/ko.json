@@ -2796,5 +2796,10 @@
 	"history_val_message_area_header": "헤더",
 	"history_val_message_area_info_area": "정보 영역",
 	"history_val_normal": "일반",
-	"history_val_undefined": "알 수 없음"
+	"history_val_undefined": "알 수 없음",
+	"Accessibility check failed. Please try again.": "접근성 검사에 실패했습니다. 다시 시도해 주세요.",
+	"Accessibility check timed out. Please try again.": "접근성 검사 시간이 초과되었습니다. 다시 시도해 주세요.",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "접근성 검사가 완료되지 않았습니다. 일부 리소스를 불러오지 못했습니다. 다시 검사해 주세요.",
+	"Document-level issue": "문서 수준의 문제",
+	"Manual review required": "수동 검토 필요"
 }

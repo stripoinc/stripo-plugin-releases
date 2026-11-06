@@ -2796,5 +2796,10 @@
 	"history_val_message_area_header": "页眉",
 	"history_val_message_area_info_area": "信息区域",
 	"history_val_normal": "常规",
-	"history_val_undefined": "未定义"
+	"history_val_undefined": "未定义",
+	"Accessibility check failed. Please try again.": "无障碍检查失败。请重试。",
+	"Accessibility check timed out. Please try again.": "无障碍检查超时。请重试。",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "无障碍检查未完成。部分资源无法加载。请重新检查。",
+	"Document-level issue": "文档级问题",
+	"Manual review required": "需要人工检查"
 }

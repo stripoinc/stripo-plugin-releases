@@ -653,7 +653,7 @@ var UIElementAttributes$1 = {
   name: "name",
   disabled: "disabled"
 };
-var buttonAttributes2 = {
+var buttonAttributes2$1 = {
   ...UIElementAttributes$1,
   caption: "caption",
   icon: "icon"
@@ -671,7 +671,7 @@ var counterAttributes = {
 var datePickerAttributes = {
   ...UIElementAttributes$1
 };
-var labelAttributes = {
+var labelAttributes$1 = {
   ...UIElementAttributes$1,
   text: "text"
 };
@@ -750,7 +750,7 @@ var draggableBlockAttributes$1 = {
   ...UIElementAttributes$1,
   blockId: "block-id"
 };
-var ampFormServicePickerAttributes = {
+var ampFormServicePickerAttributes$1 = {
   ...UIElementAttributes$1
 };
 var MultipleSelectAttributes = {
@@ -759,13 +759,13 @@ var MultipleSelectAttributes = {
 };
 var UEAttr$1 = {
   DEFAULT: UIElementAttributes$1,
-  BUTTON: buttonAttributes2,
+  BUTTON: buttonAttributes2$1,
   CHECKBOX: checkBoxAttributes,
   CHECK_BUTTONS: checkButtonsAttributes,
   COLOR: UIElementAttributes$1,
   COUNTER: counterAttributes,
   DATEPICKER: datePickerAttributes,
-  LABEL: labelAttributes,
+  LABEL: labelAttributes$1,
   MESSAGE: messageAttributes,
   RADIO_BUTTONS: radioButtonsAttributes,
   SELECTPICKER: selectAttributes,
@@ -783,7 +783,7 @@ var UEAttr$1 = {
   ORDERABLE_ICON: orderableIconAttributes,
   REPEATABLE: repeatableAttributes,
   DRAGGABLE_BLOCK: draggableBlockAttributes$1,
-  AMP_FORM_SERVICE_PICKER: ampFormServicePickerAttributes,
+  AMP_FORM_SERVICE_PICKER: ampFormServicePickerAttributes$1,
   MULTIPLE_SELECT: MultipleSelectAttributes
 };
 var UIElementType$1 = /* @__PURE__ */ ((UIElementType2) => {
@@ -1142,7 +1142,7 @@ var _Control$1 = class _Control extends BaseValidatedClass$1 {
   }
 };
 _Control$1.REQUIRED_METHODS = ["getId", "getTemplate"];
-var Control = _Control$1;
+var Control$1 = _Control$1;
 var _GeneralPanelTab$1 = class _GeneralPanelTab extends BaseValidatedClass$1 {
   constructor() {
     super(_GeneralPanelTab.REQUIRED_METHODS, _GeneralPanelTab);
@@ -1323,10 +1323,19 @@ var _SettingsPanelRegistry$1 = class _SettingsPanelRegistry extends BaseValidate
   registerBlockControls(_blockControlsMap) {
     throw new Error("Method registerBlockControls() must be implemented by the subclass");
   }
+  /**
+   * Optional hook to place controls in the settings panel header of a block, next to the "level up" button.
+   * Add the IDs of registered controls under the block ID; a control receives the selected node via
+   * {@link Control.onTemplateNodeUpdated} and is shown only when its {@link Control.isVisible} returns true.
+   * @param _blockHeaderControlsMap - Map of block ID to the IDs of controls shown in its settings panel header.
+   * Empty by default.
+   */
+  registerBlockHeaderControls(_blockHeaderControlsMap) {
+  }
 };
 _SettingsPanelRegistry$1.REQUIRED_METHODS = ["registerBlockControls"];
-var SettingsPanelRegistry = _SettingsPanelRegistry$1;
-var SettingsPanelTab = class _SettingsPanelTab {
+var SettingsPanelRegistry$1 = _SettingsPanelRegistry$1;
+var SettingsPanelTab$1 = class _SettingsPanelTab {
   constructor(tabId, controls2) {
     this.tabId = tabId;
     this.controls = controls2.map(_SettingsPanelTab.normalizeControl);
@@ -1878,7 +1887,7 @@ var _IconsRegistry$1 = class _IconsRegistry extends BaseValidatedClass$1 {
 };
 _IconsRegistry$1.REQUIRED_METHODS = ["registerIconsSvg"];
 var IconsRegistry = _IconsRegistry$1;
-var ModificationDescription = class {
+var ModificationDescription$1 = class ModificationDescription {
   constructor(key) {
     this.hidden = false;
     this.key = key;
@@ -2025,12 +2034,12 @@ function getWidgetMarkup(serviceUrl = "") {
     </table>
   `;
 }
-class AmpDataServiceWidgetPanelRegistry extends SettingsPanelRegistry {
+class AmpDataServiceWidgetPanelRegistry extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$r] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$h])];
+    controls2[BLOCK_ID$r] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID$h])];
   }
 }
-class AmpDataServiceWidgetControl extends Control {
+class AmpDataServiceWidgetControl extends Control$1 {
   getId() {
     return CONTROL_ID$h;
   }
@@ -2043,7 +2052,7 @@ class AmpDataServiceWidgetControl extends Control {
   }
   onRender() {
     this.api.onValueChanged("dataService", (serviceUrl) => {
-      this.api.getDocumentModifier().modifyHtml(this.node).setAttribute("data-widget-service-url", serviceUrl).setNodeConfig(getWidgetNodeConfig(serviceUrl)).setInnerHtml(getWidgetMarkup(serviceUrl)).apply(new ModificationDescription("Widget data service has been updated"));
+      this.api.getDocumentModifier().modifyHtml(this.node).setAttribute("data-widget-service-url", serviceUrl).setNodeConfig(getWidgetNodeConfig(serviceUrl)).setInnerHtml(getWidgetMarkup(serviceUrl)).apply(new ModificationDescription$1("Widget data service has been updated"));
     });
   }
   onTemplateNodeUpdated(node) {
@@ -2076,16 +2085,16 @@ class AmpDataServiceWidgetBlock extends Block$1 {
     return true;
   }
   onCreated(node) {
-    this.api.getDocumentModifier().modifyHtml(node).setNodeConfig(getWidgetNodeConfig()).apply(new ModificationDescription("Initialized widget data service config"));
+    this.api.getDocumentModifier().modifyHtml(node).setNodeConfig(getWidgetNodeConfig()).apply(new ModificationDescription$1("Initialized widget data service config"));
   }
 }
 const ampDataServiceWidget = new ExtensionBuilder$1().addControl(AmpDataServiceWidgetControl).withSettingsPanelRegistry(AmpDataServiceWidgetPanelRegistry).addBlock(AmpDataServiceWidgetBlock).build();
 const IMAGE_BLOCK_ID = "atomic-block-image-alias-extension";
 const TEXT_BLOCK_ID$1 = "atomic-block-text-alias-extension";
-let PanelRegistry$Q = class PanelRegistry extends SettingsPanelRegistry {
+let PanelRegistry$Q = class PanelRegistry extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[IMAGE_BLOCK_ID] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [BuiltInControlTypes.BLOCK_IMAGE.IMAGE])
+      new SettingsPanelTab$1(SettingsTab.SETTINGS, [BuiltInControlTypes.BLOCK_IMAGE.IMAGE])
     ];
   }
 };
@@ -2196,10 +2205,10 @@ let StructureExtensionBlock$1 = class StructureExtensionBlock extends Block$1 {
     return BlockCompositionType.STRUCTURE;
   }
 };
-let PanelRegistry$P = class PanelRegistry2 extends SettingsPanelRegistry {
+let PanelRegistry$P = class PanelRegistry2 extends SettingsPanelRegistry$1 {
   registerBlockControls(_blockControlsMap) {
     _blockControlsMap[BLOCK_ID$q] = [
-      new SettingsPanelTab("Settings", [
+      new SettingsPanelTab$1("Settings", [
         CONTROL_ID$g
       ]).withLabel("Settings")
     ];
@@ -2285,7 +2294,7 @@ class BlockExtensionButton extends Block$1 {
     return true;
   }
   onCreated(node) {
-    this.api.getDocumentModifier().modifyHtml(node).setAttribute("data-created", (/* @__PURE__ */ new Date()).toISOString()).apply(new ModificationDescription("Initialized new block"));
+    this.api.getDocumentModifier().modifyHtml(node).setAttribute("data-created", (/* @__PURE__ */ new Date()).toISOString()).apply(new ModificationDescription$1("Initialized new block"));
   }
   allowInnerBlocksSelection() {
     return false;
@@ -2341,7 +2350,7 @@ class BlockExtensionCallbackLifecycle extends Block$1 {
   }
   onCreated(node) {
     const count = incrementCount("onCreated");
-    this.api.getDocumentModifier().modifyHtml(node).setAttribute("data-on-created-count", String(count)).apply(new ModificationDescription("onCreated callback"));
+    this.api.getDocumentModifier().modifyHtml(node).setAttribute("data-on-created-count", String(count)).apply(new ModificationDescription$1("onCreated callback"));
   }
   onCopy(modifier) {
     const count = incrementCount("onCopy");
@@ -2350,7 +2359,7 @@ class BlockExtensionCallbackLifecycle extends Block$1 {
   onDelete(_node) {
     const count = incrementCount("onDelete");
     const body = this.api.getDocumentRootHtmlNode().querySelector("body");
-    this.api.getDocumentModifier().modifyHtml(body).setAttribute("data-on-delete-count", String(count)).apply(new ModificationDescription("onDelete callback"));
+    this.api.getDocumentModifier().modifyHtml(body).setAttribute("data-on-delete-count", String(count)).apply(new ModificationDescription$1("onDelete callback"));
   }
 }
 const callbackLifecycleBlock = new ExtensionBuilder$1().addBlock(BlockExtensionCallbackLifecycle).build();
@@ -2450,7 +2459,7 @@ function requireCjs() {
     ImageVisibilityBuiltInControl: () => ImageVisibilityBuiltInControl2,
     MenuControls: () => MenuControls,
     MessageSettingsControls: () => MessageSettingsControls,
-    ModificationDescription: () => ModificationDescription2,
+    ModificationDescription: () => ModificationDescription3,
     ModulesPanelTab: () => ModulesPanelTab2,
     OrderableItemIconPosition: () => OrderableItemIconPosition2,
     PanelPosition: () => PanelPosition,
@@ -4186,13 +4195,22 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
     registerBlockControls(_blockControlsMap) {
       throw new Error("Method registerBlockControls() must be implemented by the subclass");
     }
+    /**
+     * Optional hook to place controls in the settings panel header of a block, next to the "level up" button.
+     * Add the IDs of registered controls under the block ID; a control receives the selected node via
+     * {@link Control.onTemplateNodeUpdated} and is shown only when its {@link Control.isVisible} returns true.
+     * @param _blockHeaderControlsMap - Map of block ID to the IDs of controls shown in its settings panel header.
+     * Empty by default.
+     */
+    registerBlockHeaderControls(_blockHeaderControlsMap) {
+    }
   };
   _SettingsPanelRegistry4.REQUIRED_METHODS = ["registerBlockControls"];
   var SettingsPanelRegistry2 = _SettingsPanelRegistry4;
-  var SettingsPanelTab2 = class _SettingsPanelTab2 {
+  var SettingsPanelTab2 = class _SettingsPanelTab3 {
     constructor(tabId, controls2) {
       this.tabId = tabId;
-      this.controls = controls2.map(_SettingsPanelTab2.normalizeControl);
+      this.controls = controls2.map(_SettingsPanelTab3.normalizeControl);
     }
     getTabId() {
       return this.tabId;
@@ -4211,7 +4229,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
       return this;
     }
     addControl(control, position) {
-      const normalized = _SettingsPanelTab2.normalizeControl(control);
+      const normalized = _SettingsPanelTab3.normalizeControl(control);
       if (position < 0) {
         this.controls.unshift(normalized);
       } else if (position > this.controls.length) {
@@ -4745,7 +4763,7 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
   };
   _IconsRegistry4.REQUIRED_METHODS = ["registerIconsSvg"];
   var IconsRegistry2 = _IconsRegistry4;
-  var ModificationDescription2 = class {
+  var ModificationDescription3 = class {
     constructor(key) {
       this.hidden = false;
       this.key = key;
@@ -5089,12 +5107,12 @@ let ContainersColumn$1 = class ContainersColumn extends BaseBlockExtension$3 {
 const containerLayouts = new ExtensionBuilder$1().addBlock(SingleContainer$1).addBlock(ContainersRow$1).addBlock(ContainersRow2$1).addBlock(ContainersRow3).addBlock(ContainersColumn$1).build();
 const BLOCK_ID$n = "test-block-extension";
 const CONTROL_ID$f = "CONTROL_ID1";
-let PanelRegistry$O = class PanelRegistry3 extends SettingsPanelRegistry {
+let PanelRegistry$O = class PanelRegistry3 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$n] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$f])];
+    controls2[BLOCK_ID$n] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID$f])];
   }
 };
-class BlockControl extends Control {
+class BlockControl extends Control$1 {
   getId() {
     return CONTROL_ID$f;
   }
@@ -5265,10 +5283,10 @@ let CustomBlock$1 = class CustomBlock extends Block$1 {
         `;
   }
 };
-let PanelRegistry$N = class PanelRegistry4 extends SettingsPanelRegistry {
+let PanelRegistry$N = class PanelRegistry4 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[TEST_STRUCTURE_ID] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         "Test tab",
         [
           CONTROL_PRODUCT_BLOCK_CARD_ORIENTATION_ID
@@ -5277,7 +5295,7 @@ let PanelRegistry$N = class PanelRegistry4 extends SettingsPanelRegistry {
     ];
   }
 };
-class CardOrientationControl extends Control {
+class CardOrientationControl extends Control$1 {
   #activePosition;
   getId() {
     return CONTROL_PRODUCT_BLOCK_CARD_ORIENTATION_ID;
@@ -5315,7 +5333,7 @@ class CardOrientationControl extends Control {
             '<div class="changed">Content1</div>',
             '<div class="changed">Content2</div>'
           ]
-        ).apply(new ModificationDescription("Updated layout"));
+        ).apply(new ModificationDescription$1("Updated layout"));
       }
     });
   }
@@ -5495,7 +5513,7 @@ class ExtendedFontFamilyControl extends TextFontFamilyBuiltInControl {
     };
   }
   getModificationDescription() {
-    return new ModificationDescription("Extended font family control modification.");
+    return new ModificationDescription$1("Extended font family control modification.");
   }
 }
 const TEXT_FIXED_HEIGHT_CONTROL_ID$1 = "extendedTextFixedHeight";
@@ -5509,10 +5527,10 @@ let ExtendedTextColorControl$1 = class ExtendedTextColorControl extends TextColo
     };
   }
 };
-let PanelRegistry$M = class PanelRegistry5 extends SettingsPanelRegistry {
+let PanelRegistry$M = class PanelRegistry5 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[STRUCTURE_ID$4] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           IMG_SIZE_ID,
@@ -5523,7 +5541,7 @@ let PanelRegistry$M = class PanelRegistry5 extends SettingsPanelRegistry {
       )
     ];
     controls2[IMG_BLOCK_ID] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           IMG_SIZE_ID
@@ -5911,10 +5929,10 @@ class StructureExtensionBlock2 extends Block$1 {
     return BlockCompositionType.STRUCTURE;
   }
 }
-let PanelRegistry$L = class PanelRegistry6 extends SettingsPanelRegistry {
+let PanelRegistry$L = class PanelRegistry6 extends SettingsPanelRegistry$1 {
   registerBlockControls(_blockControlsMap) {
     _blockControlsMap[BLOCK_ID$h] = [
-      new SettingsPanelTab("Settings", [
+      new SettingsPanelTab$1("Settings", [
         CONTROL_ID$e
       ]).withLabel("Settings")
     ];
@@ -6219,7 +6237,7 @@ class ProductBlock extends Block$1 {
         </${BlockType.STRUCTURE}>`;
   }
 }
-class SelectProductItemsControl extends Control {
+class SelectProductItemsControl extends Control$1 {
   getId() {
     return CONTROL_PRODUCT_BLOCK_SELECT_PRODUCT_ITEMS_ID;
   }
@@ -6248,17 +6266,17 @@ class SelectProductItemsControl extends Control {
           getProductCardTemplate(),
           getProductCardTemplate()
         ]
-      ).apply(new ModificationDescription("Changed product cards count"));
+      ).apply(new ModificationDescription$1("Changed product cards count"));
     });
   }
   onTemplateNodeUpdated(node) {
     this.node = node;
   }
 }
-let PanelRegistry$K = class PanelRegistry7 extends SettingsPanelRegistry {
+let PanelRegistry$K = class PanelRegistry7 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[PRODUCT_BLOCK_ID] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           CONTROL_PRODUCT_BLOCK_SELECT_PRODUCT_ITEMS_ID
@@ -6313,10 +6331,10 @@ class MultiRowRootAttributesBlock extends Block$1 {
     `;
   }
   onCreated(node) {
-    this.api.getDocumentModifier().modifyHtml(node).setAttribute("id", "multi-row-products-root").setAttribute("data-products-renderer", "product-cards").apply(new ModificationDescription("Set extension root renderer attributes"));
+    this.api.getDocumentModifier().modifyHtml(node).setAttribute("id", "multi-row-products-root").setAttribute("data-products-renderer", "product-cards").apply(new ModificationDescription$1("Set extension root renderer attributes"));
   }
 }
-class MultiRowRootAttributesControl extends Control {
+class MultiRowRootAttributesControl extends Control$1 {
   #orientation = "horizontal";
   getId() {
     return CONTROL_ID$d;
@@ -6342,7 +6360,7 @@ class MultiRowRootAttributesControl extends Control {
     this.api.onValueChanged(ORIENTATION_FIELD, (value) => {
       this.#orientation = value;
       const layout = value === "vertical" ? ["100%"] : ["33.33%", "33.33%", "33.34%"];
-      this.api.getDocumentModifier().modifyHtml(this.node).multiRowStructureModifier().updateLayout(layout).apply(new ModificationDescription(`Switch products to ${value}`));
+      this.api.getDocumentModifier().modifyHtml(this.node).multiRowStructureModifier().updateLayout(layout).apply(new ModificationDescription$1(`Switch products to ${value}`));
     });
   }
   onTemplateNodeUpdated(node) {
@@ -6352,10 +6370,10 @@ class MultiRowRootAttributesControl extends Control {
     });
   }
 }
-class MultiRowRootAttributesPanelRegistry extends SettingsPanelRegistry {
+class MultiRowRootAttributesPanelRegistry extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BLOCK_ID$e] = [
-      new SettingsPanelTab("Multi-row layout", [CONTROL_ID$d])
+      new SettingsPanelTab$1("Multi-row layout", [CONTROL_ID$d])
     ];
   }
 }
@@ -6992,7 +7010,7 @@ class ExtensionContainer extends Block$1 {
     return false;
   }
 }
-class ExtensionControl extends Control {
+class ExtensionControl extends Control$1 {
   #node;
   getId() {
     return "control-id";
@@ -7008,7 +7026,7 @@ class ExtensionControl extends Control {
   }
   onRender() {
     this.api.onValueChanged("valueControl", (newValue) => {
-      this.api.getDocumentModifier().modifyHtml(this.#node.querySelector("a")).setAttribute("href", String(newValue)).apply(new ModificationDescription("Block Name Changed"));
+      this.api.getDocumentModifier().modifyHtml(this.#node.querySelector("a")).setAttribute("href", String(newValue)).apply(new ModificationDescription$1("Block Name Changed"));
     });
   }
   onTemplateNodeUpdated(_node) {
@@ -7018,10 +7036,10 @@ class ExtensionControl extends Control {
     });
   }
 }
-let PanelRegistry$J = class PanelRegistry8 extends SettingsPanelRegistry {
+let PanelRegistry$J = class PanelRegistry8 extends SettingsPanelRegistry$1 {
   registerBlockControls(_blockControlsMap) {
     _blockControlsMap[BLOCK_ID$9] = [
-      new SettingsPanelTab("Settings", [
+      new SettingsPanelTab$1("Settings", [
         "control-id"
       ]).withLabel("Settings")
     ];
@@ -7074,10 +7092,10 @@ class BlockExtensionCustomMarkup extends Block$1 {
             </td>`;
   }
 }
-class SettingsPanel extends SettingsPanelRegistry {
+class SettingsPanel extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[CUSTOM_BLOCK_ID] = [
-      new SettingsPanelTab("Settings", [
+      new SettingsPanelTab$1("Settings", [
         BUTTON_ALIGN_CONTROL_ID$1
       ]).withLabel(this.api.translate("Settings"))
     ];
@@ -7381,13 +7399,13 @@ const TEXT_COLOR_COMPUTED = "textColorComputed";
 const FONT_FAMILY_ATTR = "fontFamilyAttr";
 const CONTAINER = "container-extension";
 const CONTAINER_WITH_CUSTOM_RENDERER = "container-with-custom-renderer-extension";
-let PanelRegistry$I = class PanelRegistry9 extends SettingsPanelRegistry {
+let PanelRegistry$I = class PanelRegistry9 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[CONTAINER] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [TEXT_COLOR_ATTR, TEXT_COLOR_COMPUTED, FONT_FAMILY_ATTR])
+      new SettingsPanelTab$1(SettingsTab.SETTINGS, [TEXT_COLOR_ATTR, TEXT_COLOR_COMPUTED, FONT_FAMILY_ATTR])
     ];
     controls2[CONTAINER_WITH_CUSTOM_RENDERER] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [TEXT_COLOR_ATTR, TEXT_COLOR_COMPUTED, FONT_FAMILY_ATTR])
+      new SettingsPanelTab$1(SettingsTab.SETTINGS, [TEXT_COLOR_ATTR, TEXT_COLOR_COMPUTED, FONT_FAMILY_ATTR])
     ];
   }
 };
@@ -7978,10 +7996,10 @@ function createExtension() {
 }
 const firstPartyBlocksPanel = createExtension();
 const ID$S = "extendedButtonAlign";
-let ButonPanelRegistry$3 = class ButonPanelRegistry extends SettingsPanelRegistry {
+let ButonPanelRegistry$3 = class ButonPanelRegistry extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$S
@@ -8006,7 +8024,7 @@ class ExtendedButtonAlignControl extends ButtonAlignBuiltInControl {
 }
 const buttonAlignControlExtension = new ExtensionBuilder$1().addControl(ExtendedButtonAlignControl).withSettingsPanelRegistry(ButonPanelRegistry$3).build();
 const ID$R = "extendedButtonBackground";
-let PanelRegistry$H = class PanelRegistry10 extends SettingsPanelRegistry {
+let PanelRegistry$H = class PanelRegistry10 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$R, 0);
   }
@@ -8026,10 +8044,10 @@ class ExtendedButtonBackgroundControl extends ButtonBackgroundColorBuiltInContro
 }
 const extensionButtonBackgroundControl = new ExtensionBuilder$1().addControl(ExtendedButtonBackgroundControl).withSettingsPanelRegistry(PanelRegistry$H).build();
 const ID$Q = "extendedButtonBorder";
-let PanelRegistry$G = class PanelRegistry11 extends SettingsPanelRegistry {
+let PanelRegistry$G = class PanelRegistry11 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(SettingsTab.STYLES, [ID$Q])
+      new SettingsPanelTab$1(SettingsTab.STYLES, [ID$Q])
     ];
   }
 };
@@ -8052,10 +8070,10 @@ class ExtendedButtonBorderControl extends ButtonBorderBuiltInControl {
 }
 const buttonBorderControlExtension = new ExtensionBuilder$1().withSettingsPanelRegistry(PanelRegistry$G).addControl(ExtendedButtonBorderControl).build();
 const ID$P = "extendedButtonBorderRadius";
-let ButonPanelRegistry$2 = class ButonPanelRegistry2 extends SettingsPanelRegistry {
+let ButonPanelRegistry$2 = class ButonPanelRegistry2 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.STYLES,
         [
           ID$P
@@ -8080,7 +8098,7 @@ class ExtendedButtonBorderRadiusControl extends ButtonBorderRadiusBuiltInControl
 }
 const buttonBorderRadiusExtension = new ExtensionBuilder$1().addControl(ExtendedButtonBorderRadiusControl).withSettingsPanelRegistry(ButonPanelRegistry$2).build();
 const ID$O = "extendedButtonColor";
-let PanelRegistry$F = class PanelRegistry12 extends SettingsPanelRegistry {
+let PanelRegistry$F = class PanelRegistry12 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$O, 0);
   }
@@ -8100,10 +8118,10 @@ class ExtendedButtonColorControl extends ButtonColorBuiltInControl {
 }
 const buttonColorControlExtension = new ExtensionBuilder$1().addControl(ExtendedButtonColorControl).withSettingsPanelRegistry(PanelRegistry$F).build();
 const ID$N = "builtInButtonFitToContainer";
-let ButtonPanelRegistry$f = class ButtonPanelRegistry extends SettingsPanelRegistry {
+let ButtonPanelRegistry$f = class ButtonPanelRegistry extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$N
@@ -8129,10 +8147,10 @@ class ExtendedButtonFitToContainerControl extends ButtonFitToContainerBuiltInCon
 }
 const extensionBuiltInButtonFitToContainer = new ExtensionBuilder$1().addControl(ExtendedButtonFitToContainerControl).withSettingsPanelRegistry(ButtonPanelRegistry$f).build();
 const ID$M = "extendedButtonFixedHeight";
-let ButonPanelRegistry$1 = class ButonPanelRegistry3 extends SettingsPanelRegistry {
+let ButonPanelRegistry$1 = class ButonPanelRegistry3 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$M
@@ -8158,10 +8176,10 @@ class ExtendedButtonFixedHeightControl extends ButtonFixedHeightBuiltInControl {
   }
 }
 const extensionButtonFixedHeightControl = new ExtensionBuilder$1().addControl(ExtendedButtonFixedHeightControl).withSettingsPanelRegistry(ButonPanelRegistry$1).build();
-let ButtonPanelRegistry$e = class ButtonPanelRegistry2 extends SettingsPanelRegistry {
+let ButtonPanelRegistry$e = class ButtonPanelRegistry2 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.STYLES,
         [
           BUILT_IN_BUTTON_HOVER_COLOR
@@ -8185,10 +8203,10 @@ class ExtensionBuiltInButtonHoverColor extends ButtonHoverColorBuiltInControl {
   }
 }
 const extensionBuiltInButtonHoverColor = new ExtensionBuilder$1().addControl(ExtensionBuiltInButtonHoverColor).withSettingsPanelRegistry(ButtonPanelRegistry$e).build();
-let ButtonPanelRegistry$d = class ButtonPanelRegistry3 extends SettingsPanelRegistry {
+let ButtonPanelRegistry$d = class ButtonPanelRegistry3 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.STYLES,
         [
           BUTTON_HOVER_TEXT_COLOR_ID$1
@@ -8214,10 +8232,10 @@ class ExtensionBuiltInButtonHoverTextColor extends ButtonHoverTextColorBuiltInCo
 const extensionBuiltInButtonHoverTextColor = new ExtensionBuilder$1().addControl(ExtensionBuiltInButtonHoverTextColor).withSettingsPanelRegistry(ButtonPanelRegistry$d).build();
 const ID$L = "builtInButtonBorderHover";
 const BUTTON_BORDER_ID$1 = "extendedButtonBorder";
-let ButtonPanelRegistry$c = class ButtonPanelRegistry4 extends SettingsPanelRegistry {
+let ButtonPanelRegistry$c = class ButtonPanelRegistry4 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.STYLES,
         [
           ID$L,
@@ -8263,7 +8281,7 @@ let ButtonBorderControl$1 = class ButtonBorderControl extends ButtonBorderBuiltI
 };
 const extensionBuiltInButtonBorderHover = new ExtensionBuilder$1().addControl(ExtensionBuiltInButtonBorderHover).addControl(ExtensionBuiltInButtonHoverTextColor).addControl(ButtonBorderControl$1).addControl(ExtensionBuiltInButtonHoverColor).withSettingsPanelRegistry(ButtonPanelRegistry$c).build();
 const ID$K = "extendedButtonMargins";
-class ButonPanelRegistry4 extends SettingsPanelRegistry {
+class ButonPanelRegistry4 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.STRIPE][0].addControl(ID$K, 0);
   }
@@ -8284,7 +8302,7 @@ class ExtendedButtonMarginsControl extends ButtonMarginsBuiltInControl {
 }
 const extensionButtonMarginsControl = new ExtensionBuilder$1().addControl(ExtendedButtonMarginsControl).withSettingsPanelRegistry(ButonPanelRegistry4).build();
 const ID$J = "extendedButtonPaddingsControl";
-let PanelRegistry$E = class PanelRegistry13 extends SettingsPanelRegistry {
+let PanelRegistry$E = class PanelRegistry13 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.STRIPE][0].addControl(ID$J, 0);
   }
@@ -8310,10 +8328,10 @@ const extendedButtonPaddingsControl = new ExtensionBuilder$1().addControl(Extend
   "Extended buttons paddings mobile": "EN Extended buttons paddings mobile"
 } }).withSettingsPanelRegistry(PanelRegistry$E).build();
 const ID$I = "extendedButtonText";
-let ButtonPanelRegistry$b = class ButtonPanelRegistry5 extends SettingsPanelRegistry {
+let ButtonPanelRegistry$b = class ButtonPanelRegistry5 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$I
@@ -8337,10 +8355,10 @@ class ExtendedButtonTextControl extends ButtonTextBuiltInControl {
 }
 const buttonTextControlExtension = new ExtensionBuilder$1().addControl(ExtendedButtonTextControl).withSettingsPanelRegistry(ButtonPanelRegistry$b).build();
 const ID$H = "extendedButtonTextSize";
-let ButtonPanelRegistry$a = class ButtonPanelRegistry6 extends SettingsPanelRegistry {
+let ButtonPanelRegistry$a = class ButtonPanelRegistry6 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.STYLES,
         [
           ID$H
@@ -8369,10 +8387,10 @@ class ExtendedButtonTextSizeControl extends ButtonTextSizeBuiltInControl {
 }
 const extensionButtonTextSizeControl = new ExtensionBuilder$1().addControl(ExtendedButtonTextSizeControl).withSettingsPanelRegistry(ButtonPanelRegistry$a).build();
 const ID$G = "extendedButtonVisibility";
-let ButtonPanelRegistry$9 = class ButtonPanelRegistry7 extends SettingsPanelRegistry {
+let ButtonPanelRegistry$9 = class ButtonPanelRegistry7 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$G
@@ -8397,10 +8415,10 @@ class ExtendedButtonVisibilityControl extends ButtonVisibilityBuiltInControl {
 }
 const extensionButtonVisibilityControl = new ExtensionBuilder$1().addControl(ExtendedButtonVisibilityControl).withSettingsPanelRegistry(ButtonPanelRegistry$9).build();
 const ID$F = "builtInTextStyleAndColor";
-let ButtonPanelRegistry$8 = class ButtonPanelRegistry8 extends SettingsPanelRegistry {
+let ButtonPanelRegistry$8 = class ButtonPanelRegistry8 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.STYLES,
         [
           ID$F
@@ -8426,7 +8444,7 @@ class ExtensionBuiltInButtonTextStyleAndColor extends ButtonTextStyleAndFontColo
 }
 const extensionButtonTextStyleAndColorControl = new ExtensionBuilder$1().addControl(ExtensionBuiltInButtonTextStyleAndColor).withSettingsPanelRegistry(ButtonPanelRegistry$8).build();
 const ID$E = "extendedContainerBackgroundColor";
-let PanelRegistry$D = class PanelRegistry14 extends SettingsPanelRegistry {
+let PanelRegistry$D = class PanelRegistry14 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.CONTAINER][0].addControl(ID$E, 0);
   }
@@ -8446,7 +8464,7 @@ class ExtendedContainerBackgroundColorControl extends ContainerBackgroundColorBu
 }
 const extensionContainerBackgroundControl = new ExtensionBuilder$1().addControl(ExtendedContainerBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$D).build();
 const ID$D = "extendedContainerBackgroundImage";
-let PanelRegistry$C = class PanelRegistry15 extends SettingsPanelRegistry {
+let PanelRegistry$C = class PanelRegistry15 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.CONTAINER][0].addControl(ID$D, 0);
   }
@@ -8473,13 +8491,13 @@ class ExtendedContainerBackgroundImageControl extends ContainerBackgroundImageBu
 }
 const extensionContainerBackgroundImageControl = new ExtensionBuilder$1().addControl(ExtendedContainerBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$C).build();
 const ID$C = "extendedContainerBorder";
-let PanelRegistry$B = class PanelRegistry16 extends SettingsPanelRegistry {
+let PanelRegistry$B = class PanelRegistry16 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.CONTAINER] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$C])
+      new SettingsPanelTab$1(SettingsTab.SETTINGS, [ID$C])
     ];
     controls2[BlockType.STRUCTURE] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$C])
+      new SettingsPanelTab$1(SettingsTab.SETTINGS, [ID$C])
     ];
   }
 };
@@ -8505,10 +8523,10 @@ class ExtendedContainerBorderControl extends ContainerBorderBuiltInControl {
 }
 const extensionContainerBorderControl = new ExtensionBuilder$1().withSettingsPanelRegistry(PanelRegistry$B).addControl(ExtendedContainerBorderControl).build();
 const ID$B = "extendedContainerBorderRadius";
-let PanelRegistry$A = class PanelRegistry17 extends SettingsPanelRegistry {
+let PanelRegistry$A = class PanelRegistry17 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE] = [
-      new SettingsPanelTab(SettingsTab.STYLES, [ID$B])
+      new SettingsPanelTab$1(SettingsTab.STYLES, [ID$B])
     ];
   }
 };
@@ -8531,10 +8549,10 @@ class ExtendedContainerBorderRadiusControl extends ContainerBorderRadiusBuiltInC
 }
 const extensionContainerBorderRadiusControl = new ExtensionBuilder$1().withSettingsPanelRegistry(PanelRegistry$A).addControl(ExtendedContainerBorderRadiusControl).build();
 const ID$A = "extendedContainerVisibility";
-let ButtonPanelRegistry$7 = class ButtonPanelRegistry9 extends SettingsPanelRegistry {
+let ButtonPanelRegistry$7 = class ButtonPanelRegistry9 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.CONTAINER] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$A
@@ -8559,9 +8577,9 @@ class ExtendedContainerVisibilityControl extends ContainerVisibilityBuiltInContr
 }
 const extensionContainerVisibilityControl = new ExtensionBuilder$1().addControl(ExtendedContainerVisibilityControl).withSettingsPanelRegistry(ButtonPanelRegistry$7).build();
 const ID$z = "extendedBlockPaddings_text";
-let PanelRegistry$z = class PanelRegistry18 extends SettingsPanelRegistry {
+let PanelRegistry$z = class PanelRegistry18 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_TEXT][0] = new SettingsPanelTab(SettingsTab.SETTINGS, [
+    controls2[BlockType.BLOCK_TEXT][0] = new SettingsPanelTab$1(SettingsTab.SETTINGS, [
       ID$z
     ]);
   }
@@ -8594,7 +8612,7 @@ const extendedBlockPaddingsControl = new ExtensionBuilder$1().addControl(Extende
 }).withSettingsPanelRegistry(PanelRegistry$z).build();
 const TEXT_ID = "extendedBlockPaddingsMultipleText";
 const BUTTON_ID$1 = "extendedBlockPaddingsMultipleButton";
-let PanelRegistry$y = class PanelRegistry19 extends SettingsPanelRegistry {
+let PanelRegistry$y = class PanelRegistry19 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.STRIPE][0].addControl(TEXT_ID, 0);
     controls2[BlockType.STRIPE][0].addControl(BUTTON_ID$1, 1);
@@ -8624,14 +8642,14 @@ let ExtendedBlockButtonMarginsControl$1 = class ExtendedBlockButtonMarginsContro
 };
 const extensionMultiplePaddings = new ExtensionBuilder$1().addControl(ExtendedBlockTextPaddingsControl$1).addControl(ExtendedBlockButtonMarginsControl$1).withSettingsPanelRegistry(PanelRegistry$y).build();
 const CUSTOM_TITLE_CONTROL_ID = "extensionCustomTitle";
-let PanelRegistry$x = class PanelRegistry20 extends SettingsPanelRegistry {
+let PanelRegistry$x = class PanelRegistry20 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     const controlIds = controls2["MESSAGE_SETTINGS"][0].getControlsIds();
     controls2["MESSAGE_SETTINGS"][0].deleteControl(controlIds[0]);
     controls2["MESSAGE_SETTINGS"][0].addControl(CUSTOM_TITLE_CONTROL_ID, 0);
   }
 };
-class CustomTitleControl extends Control {
+class CustomTitleControl extends Control$1 {
   getId() {
     return CUSTOM_TITLE_CONTROL_ID;
   }
@@ -8655,7 +8673,7 @@ class CustomTitleControl extends Control {
     this.api.onValueChanged("customNameTextArea", (newValue, _) => {
       const head = root.querySelector("head");
       const title = head.querySelector("title");
-      modifier.modifyHtml(title).replaceWith(`<title>${newValue}</title>`).apply(new ModificationDescription("Modify title"));
+      modifier.modifyHtml(title).replaceWith(`<title>${newValue}</title>`).apply(new ModificationDescription$1("Modify title"));
     });
   }
   onTemplateNodeUpdated(node) {
@@ -8673,7 +8691,7 @@ class CustomTitleControl extends Control {
 }
 const extensionCustomTitle = new ExtensionBuilder$1().addControl(CustomTitleControl).withSettingsPanelRegistry(PanelRegistry$x).build();
 const ID$y = "custom-title";
-class CustomTitleWithPopoverPanelRegistry extends SettingsPanelRegistry {
+class CustomTitleWithPopoverPanelRegistry extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2["MESSAGE_SETTINGS"][0].addControl(ID$y, 0);
   }
@@ -8746,7 +8764,7 @@ class CustomTitleElement extends UIElement$1 {
     });
   }
 }
-class CustomTitle extends Control {
+class CustomTitle extends Control$1 {
   getId() {
     return ID$y;
   }
@@ -8764,12 +8782,12 @@ const STYLE_CONTROL_ID = "elLockStyleControl";
 const CONTENT_CONTROL_ID = "elLockContentControl";
 const STYLE_SWITCHER_NAME = "styleSwitch";
 const CONTENT_SWITCHER_NAME = "contentSwitch";
-let PanelRegistry$w = class PanelRegistry21 extends SettingsPanelRegistry {
+let PanelRegistry$w = class PanelRegistry21 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$7] = [new SettingsPanelTab(SettingsTab.SETTINGS, [STYLE_CONTROL_ID, CONTENT_CONTROL_ID])];
+    controls2[BLOCK_ID$7] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [STYLE_CONTROL_ID, CONTENT_CONTROL_ID])];
   }
 };
-class StyleControl extends Control {
+class StyleControl extends Control$1 {
   getId() {
     return STYLE_CONTROL_ID;
   }
@@ -8790,11 +8808,11 @@ class StyleControl extends Control {
       if (!block) {
         return;
       }
-      modifier.modifyHtml(block).setStyle("background-color", newValue ? "#eeeeee" : "#ffffff").apply(new ModificationDescription("Set demo block background"));
+      modifier.modifyHtml(block).setStyle("background-color", newValue ? "#eeeeee" : "#ffffff").apply(new ModificationDescription$1("Set demo block background"));
     });
   }
 }
-class ContentControl extends Control {
+class ContentControl extends Control$1 {
   getId() {
     return CONTENT_CONTROL_ID;
   }
@@ -8812,7 +8830,7 @@ class ContentControl extends Control {
       if (!block) {
         return;
       }
-      modifier.modifyHtml(block).setAttribute("data-demo-on", newValue ? "true" : "false").apply(new ModificationDescription("Set demo block flag"));
+      modifier.modifyHtml(block).setAttribute("data-demo-on", newValue ? "true" : "false").apply(new ModificationDescription$1("Set demo block flag"));
     });
   }
 }
@@ -8851,12 +8869,12 @@ class ElementLockCategoryBlock extends Block$1 {
 const elementLockCategoryControl = new ExtensionBuilder$1().addControl(StyleControl).addControl(ContentControl).withSettingsPanelRegistry(PanelRegistry$w).addBlock(ElementLockCategoryBlock).build();
 const BACKGROUND_CONTROL$2 = "backgroundControl";
 const ID$x = "expandableControlExtension";
-let PanelRegistry$v = class PanelRegistry22 extends SettingsPanelRegistry {
+let PanelRegistry$v = class PanelRegistry22 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$x, 0);
   }
 };
-class expandableControlExtension extends Control {
+class expandableControlExtension extends Control$1 {
   disabled = false;
   getId() {
     return ID$x;
@@ -8980,10 +8998,10 @@ let TextFixedHeightControl$1 = class TextFixedHeightControl2 extends TextFixedHe
     };
   }
 };
-let PanelRegistry$u = class PanelRegistry23 extends SettingsPanelRegistry {
+let PanelRegistry$u = class PanelRegistry23 extends SettingsPanelRegistry$1 {
   registerBlockControls(_blockControlsMap) {
     _blockControlsMap[PRODUCT_STRUCTURE_ID$3] = [
-      new SettingsPanelTab("Settings", [
+      new SettingsPanelTab$1("Settings", [
         TEXT_FIXED_HEIGHT_ID
       ]).withLabel("Settings")
     ];
@@ -8995,7 +9013,7 @@ const BLOCK_CLASS = "esd-hidden-element-state-block-extension";
 const CONTROL_ID$c = "hidden-element-state-control-id";
 const TAB_ID = "hidden-element-state-tab-id";
 const UI_NAME = "hiddenElementState";
-class HiddenElementStateControl extends Control {
+class HiddenElementStateControl extends Control$1 {
   node = void 0;
   getId() {
     return CONTROL_ID$c;
@@ -9026,7 +9044,7 @@ class HiddenElementStateControl extends Control {
       }
     ]);
     this.api.onValueChanged(UI_NAME, (newValue) => {
-      this.api.getDocumentModifier().modifyHtml(this.node).setHiddenElementState(newValue === "none" ? void 0 : newValue).apply(new ModificationDescription(`Set hidden element state to ${newValue}`));
+      this.api.getDocumentModifier().modifyHtml(this.node).setHiddenElementState(newValue === "none" ? void 0 : newValue).apply(new ModificationDescription$1(`Set hidden element state to ${newValue}`));
     });
   }
   onTemplateNodeUpdated(node) {
@@ -9061,10 +9079,10 @@ class HiddenElementStateBlock extends Block$1 {
     return `<td class="${BLOCK_CLASS}"><h1>Hidden element state block</h1></td>`;
   }
 }
-class HiddenElementStatePanelRegistry extends SettingsPanelRegistry {
+class HiddenElementStatePanelRegistry extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BLOCK_ID$6] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         TAB_ID,
         [CONTROL_ID$c]
       ).withLabel(this.api.translate("Hidden state"))
@@ -9074,7 +9092,7 @@ class HiddenElementStatePanelRegistry extends SettingsPanelRegistry {
 const hiddenElementStateBlock = new ExtensionBuilder$1().withSettingsPanelRegistry(HiddenElementStatePanelRegistry).addBlock(HiddenElementStateBlock).addControl(HiddenElementStateControl).build();
 const CONTROL_ID$b = "custom-control-id";
 const BLOCK_ID$5 = "custom-block-id";
-let CustomControl$1 = class CustomControl extends Control {
+let CustomControl$1 = class CustomControl extends Control$1 {
   #node;
   getId() {
     return CONTROL_ID$b;
@@ -9106,7 +9124,7 @@ let CustomControl$1 = class CustomControl extends Control {
       const modifier = this.api.getDocumentModifier();
       const rootNodeConfig = this.#node.getNodeConfig() ?? {};
       const newConfig = { ...rootNodeConfig, customProp: newValue };
-      modifier.modifyHtml(this.#node).setNodeConfig(newConfig).apply(new ModificationDescription("Improve changes"));
+      modifier.modifyHtml(this.#node).setNodeConfig(newConfig).apply(new ModificationDescription$1("Improve changes"));
     });
   }
   onTemplateNodeUpdated(node) {
@@ -9140,10 +9158,10 @@ class CustomBlock2 extends Block$1 {
     return "<td><h1>Test block extension</h1></td>";
   }
 }
-let PanelRegistry$t = class PanelRegistry24 extends SettingsPanelRegistry {
+let PanelRegistry$t = class PanelRegistry24 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BLOCK_ID$5] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         "Test tab",
         [CONTROL_ID$b]
       ).withLabel(this.api.translate("Test tab"))
@@ -9180,9 +9198,9 @@ class CardPriceAlignControl extends TextAlignBuiltInControl {
     };
   }
 }
-let SampleSettingsPanelRegistry$2 = class SampleSettingsPanelRegistry extends SettingsPanelRegistry {
+let SampleSettingsPanelRegistry$2 = class SampleSettingsPanelRegistry extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRUCTURE][0] = new SettingsPanelTab(
+    controls2[BlockType.STRUCTURE][0] = new SettingsPanelTab$1(
       "settings",
       [
         PRODUCT_CARD_NAME_ALIGN_CONTROL_ID,
@@ -9190,7 +9208,7 @@ let SampleSettingsPanelRegistry$2 = class SampleSettingsPanelRegistry extends Se
       ]
     );
     controls2[PRODUCT_STRUCTURE_ID$2] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         "settings",
         [
           PRODUCT_CARD_NAME_ALIGN_CONTROL_ID,
@@ -9298,10 +9316,10 @@ class CardPriceTextStyleControl extends TextStyleBuiltInControl {
     };
   }
 }
-let SampleSettingsPanelRegistry$1 = class SampleSettingsPanelRegistry2 extends SettingsPanelRegistry {
+let SampleSettingsPanelRegistry$1 = class SampleSettingsPanelRegistry2 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[PRODUCT_STRUCTURE_ID$1] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         "settings",
         [
           TEXT_STYLE_NAME_CONTROL_ID,
@@ -9375,13 +9393,13 @@ const DISABLED_ID = "disabledNestedControlExtension";
 const BACKGROUND_CONTROL$1 = "backgroundControl";
 const DISABLED_BACKGROUND_CONTROL = "disabledBackgroundControl";
 const BACKGROUND_SWITCHER = "backgroundSwitcher";
-let PanelRegistry$s = class PanelRegistry25 extends SettingsPanelRegistry {
+let PanelRegistry$s = class PanelRegistry25 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$w, 0);
     controls2[BlockType.BLOCK_TEXT][0].addControl(DISABLED_ID, 0);
   }
 };
-let NestedControlExtension$1 = class NestedControlExtension extends Control {
+let NestedControlExtension$1 = class NestedControlExtension extends Control$1 {
   #switcher;
   getId() {
     return ID$w;
@@ -9410,7 +9428,7 @@ let NestedControlExtension$1 = class NestedControlExtension extends Control {
     this.api.setVisibility(BACKGROUND_CONTROL$1, enable);
   }
 };
-class DisabledNestedControlExtension extends Control {
+class DisabledNestedControlExtension extends Control$1 {
   getId() {
     return DISABLED_ID;
   }
@@ -9429,7 +9447,7 @@ class DisabledNestedControlExtension extends Control {
 }
 const nestedBackgroundControl = new ExtensionBuilder$1().addControl(NestedControlExtension$1).addControl(DisabledNestedControlExtension).withSettingsPanelRegistry(PanelRegistry$s).build();
 const NESTED_ID = "nestedControlID";
-class NestedControlExtension2 extends Control {
+class NestedControlExtension2 extends Control$1 {
   getId() {
     return NESTED_ID;
   }
@@ -9441,7 +9459,7 @@ class NestedControlExtension2 extends Control {
             </{NESTED_CONTROL}>`;
   }
 }
-let PanelRegistry$r = class PanelRegistry26 extends SettingsPanelRegistry {
+let PanelRegistry$r = class PanelRegistry26 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(NESTED_ID, 0);
   }
@@ -9450,12 +9468,12 @@ const nestedControlVisibility = new ExtensionBuilder$1().addControl(NestedContro
 const CONTROL_ID$a = "reinitializedControlExtension";
 const ELEMENT_ID = "reinitializedElementExtension";
 const SWITCHER_NAME$4 = "switcher";
-let PanelRegistry$q = class PanelRegistry27 extends SettingsPanelRegistry {
+let PanelRegistry$q = class PanelRegistry27 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(CONTROL_ID$a, 0);
   }
 };
-class ReinitializedControlExtension extends Control {
+class ReinitializedControlExtension extends Control$1 {
   getId() {
     return CONTROL_ID$a;
   }
@@ -9474,9 +9492,9 @@ class ReinitializedControlExtension extends Control {
   }
   _toggleClass(add) {
     if (add) {
-      this.api.getDocumentModifier().modifyHtml(this.link).setClass(this._getClass()).apply(new ModificationDescription("Class added"));
+      this.api.getDocumentModifier().modifyHtml(this.link).setClass(this._getClass()).apply(new ModificationDescription$1("Class added"));
     } else {
-      this.api.getDocumentModifier().modifyHtml(this.link).removeClass(this._getClass()).apply(new ModificationDescription("Class removed"));
+      this.api.getDocumentModifier().modifyHtml(this.link).removeClass(this._getClass()).apply(new ModificationDescription$1("Class removed"));
     }
   }
 }
@@ -9550,7 +9568,7 @@ class ExtensionBlock extends Block$1 {
             </td>`;
   }
 }
-class SelectChangeFirstPanel extends Control {
+class SelectChangeFirstPanel extends Control$1 {
   getId() {
     return SELECT_CHANGE_FIRST_TAB_ID;
   }
@@ -9585,7 +9603,7 @@ class SelectChangeFirstPanel extends Control {
     });
   }
 }
-class SelectChangeSecondPanel extends Control {
+class SelectChangeSecondPanel extends Control$1 {
   getId() {
     return SELECT_CHANGE_SECOND_TAB_ID;
   }
@@ -9620,11 +9638,11 @@ class SelectChangeSecondPanel extends Control {
     });
   }
 }
-let PanelRegistry$p = class PanelRegistry28 extends SettingsPanelRegistry {
+let PanelRegistry$p = class PanelRegistry28 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BLOCK_ID$4] = [
-      new SettingsPanelTab(FIRST_TAB_ID, [SELECT_CHANGE_FIRST_TAB_ID, SELECT_CHANGE_SECOND_TAB_ID]).withLabel(this.api.translate("First tab")),
-      new SettingsPanelTab(SECOND_TAB_ID, [SELECT_CHANGE_FIRST_TAB_ID, SELECT_CHANGE_SECOND_TAB_ID]).withLabel(this.api.translate("Second tab"))
+      new SettingsPanelTab$1(FIRST_TAB_ID, [SELECT_CHANGE_FIRST_TAB_ID, SELECT_CHANGE_SECOND_TAB_ID]).withLabel(this.api.translate("First tab")),
+      new SettingsPanelTab$1(SECOND_TAB_ID, [SELECT_CHANGE_FIRST_TAB_ID, SELECT_CHANGE_SECOND_TAB_ID]).withLabel(this.api.translate("Second tab"))
     ];
   }
 };
@@ -9633,12 +9651,12 @@ const ID$v = "stateChangeSubscriberExtension";
 const LABEL_NAME = "label";
 const LABEL_THEME_NAME = "labelTheme";
 const SWITCHER_NAME$3 = "switcher";
-let PanelRegistry$o = class PanelRegistry29 extends SettingsPanelRegistry {
+let PanelRegistry$o = class PanelRegistry29 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$v, 0);
   }
 };
-class StateChangeSubscriberExtension extends Control {
+class StateChangeSubscriberExtension extends Control$1 {
   getId() {
     return ID$v;
   }
@@ -9682,15 +9700,15 @@ class StateChangeSubscriberExtension extends Control {
   }
   _toggleClass(add) {
     if (add) {
-      this.api.getDocumentModifier().modifyHtml(this.link).setClass(this._getClass()).apply(new ModificationDescription(`Class for ${this._getViewMode()} added`));
+      this.api.getDocumentModifier().modifyHtml(this.link).setClass(this._getClass()).apply(new ModificationDescription$1(`Class for ${this._getViewMode()} added`));
     } else {
-      this.api.getDocumentModifier().modifyHtml(this.link).removeClass(this._getClass()).apply(new ModificationDescription(`Class for ${this._getViewMode()} removed`));
+      this.api.getDocumentModifier().modifyHtml(this.link).removeClass(this._getClass()).apply(new ModificationDescription$1(`Class for ${this._getViewMode()} removed`));
     }
   }
 }
 const stateChangeSubscriber = new ExtensionBuilder$1().addControl(StateChangeSubscriberExtension).withSettingsPanelRegistry(PanelRegistry$o).build();
 const ID$u = "variableModeExtendedControl";
-let PanelRegistry$n = class PanelRegistry30 extends SettingsPanelRegistry {
+let PanelRegistry$n = class PanelRegistry30 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON][0].addControl(ID$u, 0);
   }
@@ -9714,13 +9732,13 @@ class VariableModeExtendedControl extends ButtonBlockBackgroundColorBuiltInContr
 const variableModeExtendedControl = new ExtensionBuilder$1().addControl(VariableModeExtendedControl).withSettingsPanelRegistry(PanelRegistry$n).build();
 const CONTROL_ID$9 = "variableVisibilityControl";
 const SWITCHER_NAME$2 = "switcher";
-let PanelRegistry$m = class PanelRegistry31 extends SettingsPanelRegistry {
+let PanelRegistry$m = class PanelRegistry31 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON][1] = new SettingsPanelTab(SettingsTab.STYLES, [CONTROL_ID$9]);
+    controls2[BlockType.BLOCK_BUTTON][1] = new SettingsPanelTab$1(SettingsTab.STYLES, [CONTROL_ID$9]);
     controls2[BlockType.BLOCK_IMAGE][0].addControl(CONTROL_ID$9, 0);
   }
 };
-class VariableVisibilityControl extends Control {
+class VariableVisibilityControl extends Control$1 {
   getId() {
     return CONTROL_ID$9;
   }
@@ -9746,18 +9764,18 @@ class VariableVisibilityControl extends Control {
   }
   _toggleClass(add) {
     if (add) {
-      this.api.getDocumentModifier().modifyHtml(this.link).setClass(this._getClass()).apply(new ModificationDescription("Class added"));
+      this.api.getDocumentModifier().modifyHtml(this.link).setClass(this._getClass()).apply(new ModificationDescription$1("Class added"));
     } else {
-      this.api.getDocumentModifier().modifyHtml(this.link).removeClass(this._getClass()).apply(new ModificationDescription("Class removed"));
+      this.api.getDocumentModifier().modifyHtml(this.link).removeClass(this._getClass()).apply(new ModificationDescription$1("Class removed"));
     }
   }
 }
 const variableVisibilityControl = new ExtensionBuilder$1().addControl(VariableVisibilityControl).withSettingsPanelRegistry(PanelRegistry$m).build();
 const BUTTON_ID = "extendedBlockPaddingsMultipleButton";
-let PanelRegistry$l = class PanelRegistry32 extends SettingsPanelRegistry {
+let PanelRegistry$l = class PanelRegistry32 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [BUTTON_ID])
+      new SettingsPanelTab$1(SettingsTab.SETTINGS, [BUTTON_ID])
     ];
   }
 };
@@ -9781,7 +9799,7 @@ class ExtendedBlockButtonMarginsControl2 extends ButtonMarginsBuiltInControl {
 }
 const extensionVisibleBuiltControl = new ExtensionBuilder$1().addControl(ExtendedBlockButtonMarginsControl2).withSettingsPanelRegistry(PanelRegistry$l).build();
 const ID$t = "extendedImageAlignment";
-let ButtonPanelRegistry$6 = class ButtonPanelRegistry10 extends SettingsPanelRegistry {
+let ButtonPanelRegistry$6 = class ButtonPanelRegistry10 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE][0].addControl(ID$t, 0);
   }
@@ -9802,10 +9820,10 @@ class ExtendedImageAlignmentControl extends ImageAlignmentBuiltInControl {
 }
 const imageAlignmentControlExtension = new ExtensionBuilder$1().addControl(ExtendedImageAlignmentControl).withSettingsPanelRegistry(ButtonPanelRegistry$6).build();
 const ID$s = "extendedImageMargins";
-let ButtonPanelRegistry$5 = class ButtonPanelRegistry11 extends SettingsPanelRegistry {
+let ButtonPanelRegistry$5 = class ButtonPanelRegistry11 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_IMAGE] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$s
@@ -9830,10 +9848,10 @@ class ExtendedImageMarginsControl extends ImageMarginsBuiltInControl {
 }
 const imageMarginsControlExtension = new ExtensionBuilder$1().addControl(ExtendedImageMarginsControl).withSettingsPanelRegistry(ButtonPanelRegistry$5).build();
 const ID$r = "extendedImageSize";
-let PanelRegistry$k = class PanelRegistry33 extends SettingsPanelRegistry {
+let PanelRegistry$k = class PanelRegistry33 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_IMAGE] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$r
@@ -9858,10 +9876,10 @@ class ExtendedImageSizeControl2 extends ImageSizeBuiltInControl {
 }
 const imageSizeControlExtension = new ExtensionBuilder$1().addControl(ExtendedImageSizeControl2).withSettingsPanelRegistry(PanelRegistry$k).build();
 const ID$q = "extendedImageVisibility";
-let ButtonPanelRegistry$4 = class ButtonPanelRegistry12 extends SettingsPanelRegistry {
+let ButtonPanelRegistry$4 = class ButtonPanelRegistry12 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_IMAGE] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$q
@@ -9886,10 +9904,10 @@ class ExtendedImageVisibilityControl extends ImageVisibilityBuiltInControl {
 }
 const extensionImageVisibilityControl = new ExtensionBuilder$1().addControl(ExtendedImageVisibilityControl).withSettingsPanelRegistry(ButtonPanelRegistry$4).build();
 const ID$p = "extendedSpacerBackgroundColor";
-let PanelRegistry$j = class PanelRegistry34 extends SettingsPanelRegistry {
+let PanelRegistry$j = class PanelRegistry34 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_SPACER] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$p
@@ -9913,10 +9931,10 @@ class ExtendedSpacerBackgroundColorControl extends SpacerBackgroundColorBuiltInC
 }
 const extensionSpacerBackgroundColorControl = new ExtensionBuilder$1().addControl(ExtendedSpacerBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$j).build();
 const ID$o = "extendedSpacerMargins";
-let PanelRegistry$i = class PanelRegistry35 extends SettingsPanelRegistry {
+let PanelRegistry$i = class PanelRegistry35 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_SPACER] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$o
@@ -9941,10 +9959,10 @@ class ExtendedSpacerMarginsControl extends SpacerMarginsBuiltInControl {
 }
 const extensionSpacerMarginsControl = new ExtensionBuilder$1().addControl(ExtendedSpacerMarginsControl).withSettingsPanelRegistry(PanelRegistry$i).build();
 const ID$n = "extendedStructureAdapt";
-let PanelRegistry$h = class PanelRegistry36 extends SettingsPanelRegistry {
+let PanelRegistry$h = class PanelRegistry36 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$n
@@ -9952,7 +9970,7 @@ let PanelRegistry$h = class PanelRegistry36 extends SettingsPanelRegistry {
       )
     ];
     controls2[BlockType.STRIPE] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$n
@@ -9981,7 +9999,7 @@ class ExtendedStructureAdaptControl extends StructureAdaptBuiltInControl {
 }
 const extensionStructureAdaptControl = new ExtensionBuilder$1().addControl(ExtendedStructureAdaptControl).withSettingsPanelRegistry(PanelRegistry$h).build();
 const ID$m = "extendedStructureBackgroundColor";
-let PanelRegistry$g = class PanelRegistry37 extends SettingsPanelRegistry {
+let PanelRegistry$g = class PanelRegistry37 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE][0].addControl(ID$m, 0);
   }
@@ -10090,16 +10108,16 @@ class CustomRendererStructureBackgroundColorControl extends StructureBackgroundC
     return [root];
   }
 }
-let PanelRegistry$f = class PanelRegistry38 extends SettingsPanelRegistry {
+let PanelRegistry$f = class PanelRegistry38 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[STRUCTURE_ID$1] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$8])
+      new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID$8])
     ];
   }
 };
 const structureBackgroundColorCustomRenderer = new ExtensionBuilder$1().addBlock(CustomRendererStructureExtension3).addControl(CustomRendererStructureBackgroundColorControl).withSettingsPanelRegistry(PanelRegistry$f).build();
 const ID$l = "extendedStructureBackgroundImage";
-let PanelRegistry$e = class PanelRegistry39 extends SettingsPanelRegistry {
+let PanelRegistry$e = class PanelRegistry39 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE][0].addControl(ID$l, 0);
   }
@@ -10126,7 +10144,7 @@ class ExtendedStructureBackgroundImageControl extends StructureBackgroundImageBu
 }
 const extensionStructureBackgroundImageControl = new ExtensionBuilder$1().addControl(ExtendedStructureBackgroundImageControl).withSettingsPanelRegistry(PanelRegistry$e).build();
 const ID$k = "extendedStructureBorder";
-let PanelRegistry$d = class PanelRegistry40 extends SettingsPanelRegistry {
+let PanelRegistry$d = class PanelRegistry40 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE][0].addControl(ID$k, 0);
   }
@@ -10151,7 +10169,7 @@ class ExtendedStructureBorderControl extends StructureBorderBuiltInControl {
 }
 const structureBorderControlExtension = new ExtensionBuilder$1().withSettingsPanelRegistry(PanelRegistry$d).addControl(ExtendedStructureBorderControl).build();
 const ID$j = "extendedStructureMargins";
-let PanelRegistry$c = class PanelRegistry41 extends SettingsPanelRegistry {
+let PanelRegistry$c = class PanelRegistry41 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE][0].addControl(ID$j, 0);
   }
@@ -10175,7 +10193,7 @@ const extensionStructureMarginsControl = new ExtensionBuilder$1().addControl(Ext
   "Extended structure margins mobile": "EN Extended structure margins mobile"
 } }).withSettingsPanelRegistry(PanelRegistry$c).build();
 const ID$i = "extendedStructurePaddings";
-let PanelRegistry$b = class PanelRegistry42 extends SettingsPanelRegistry {
+let PanelRegistry$b = class PanelRegistry42 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.STRIPE][0].addControl(ID$i, 0);
   }
@@ -10201,10 +10219,10 @@ const extendedStructurePaddingsControl = new ExtensionBuilder$1().addControl(Ext
   "Extended structure paddings mobile": "EN Extended structure paddings mobile"
 } }).withSettingsPanelRegistry(PanelRegistry$b).build();
 const ID$h = "extendedStructureVisibility";
-let ButtonPanelRegistry$3 = class ButtonPanelRegistry13 extends SettingsPanelRegistry {
+let ButtonPanelRegistry$3 = class ButtonPanelRegistry13 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.STRUCTURE] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$h
@@ -10229,10 +10247,10 @@ class ExtendedStructureVisibilityControl extends StructureVisibilityBuiltInContr
 }
 const extensionStructureVisibilityControl = new ExtensionBuilder$1().addControl(ExtendedStructureVisibilityControl).withSettingsPanelRegistry(ButtonPanelRegistry$3).build();
 const ID$g = "extendedTextAlign";
-let PanelRegistry$a = class PanelRegistry43 extends SettingsPanelRegistry {
+let PanelRegistry$a = class PanelRegistry43 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$g])
+      new SettingsPanelTab$1(SettingsTab.SETTINGS, [ID$g])
     ];
   }
 };
@@ -10256,7 +10274,7 @@ class ExtendedTextAlignControl extends TextAlignBuiltInControl {
 }
 const extensionTextAlignControl = new ExtensionBuilder$1().addControl(ExtendedTextAlignControl).withSettingsPanelRegistry(PanelRegistry$a).build();
 const ID$f = "builtInTextBlockBackground";
-let PanelRegistry$9 = class PanelRegistry44 extends SettingsPanelRegistry {
+let PanelRegistry$9 = class PanelRegistry44 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(ID$f, 0);
   }
@@ -10276,7 +10294,7 @@ class ExtendedTextBlockBackgroundControl extends TextBlockBackgroundBuiltInContr
 }
 const extensionTextBlockBackgroundControl = new ExtensionBuilder$1().addControl(ExtendedTextBlockBackgroundControl).withSettingsPanelRegistry(PanelRegistry$9).build();
 const ID$e = "extendedTextColor";
-let PanelRegistry$8 = class PanelRegistry45 extends SettingsPanelRegistry {
+let PanelRegistry$8 = class PanelRegistry45 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(ID$e, 0);
   }
@@ -10296,10 +10314,10 @@ class ExtendedTextColorControl2 extends TextColorBuiltInControl {
 }
 const textColorControlExtension = new ExtensionBuilder$1().addControl(ExtendedTextColorControl2).withSettingsPanelRegistry(PanelRegistry$8).build();
 const ID$d = "extendedTextFixedHeight";
-let ButtonPanelRegistry$2 = class ButtonPanelRegistry14 extends SettingsPanelRegistry {
+let ButtonPanelRegistry$2 = class ButtonPanelRegistry14 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$d
@@ -10325,10 +10343,10 @@ class ExtendedTextFixedHeightControl extends TextFixedHeightBuiltInControl {
 }
 const textFixedHeightControlExtension = new ExtensionBuilder$1().addControl(ExtendedTextFixedHeightControl).withSettingsPanelRegistry(ButtonPanelRegistry$2).build();
 const ID$c = "extendedTextLineSpacing";
-let PanelRegistry$7 = class PanelRegistry46 extends SettingsPanelRegistry {
+let PanelRegistry$7 = class PanelRegistry46 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [ID$c])
+      new SettingsPanelTab$1(SettingsTab.SETTINGS, [ID$c])
     ];
   }
 };
@@ -10347,10 +10365,10 @@ class ExtendedTextLineSpacingControl extends TextLineSpacingBuiltInControl {
 }
 const textLineSpacingControlExtension = new ExtensionBuilder$1().addControl(ExtendedTextLineSpacingControl).withSettingsPanelRegistry(PanelRegistry$7).build();
 const ID$b = "extendedBlockPaddingsText";
-let ButtonPanelRegistry$1 = class ButtonPanelRegistry15 extends SettingsPanelRegistry {
+let ButtonPanelRegistry$1 = class ButtonPanelRegistry15 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$b
@@ -10375,7 +10393,7 @@ class ExtendedBlockTextPaddingsControl2 extends TextPaddingsBuiltInControl {
 }
 const textPaddingsControlExtension = new ExtensionBuilder$1().addControl(ExtendedBlockTextPaddingsControl2).withSettingsPanelRegistry(ButtonPanelRegistry$1).build();
 const ID$a = "extendedTextSize";
-let PanelRegistry$6 = class PanelRegistry47 extends SettingsPanelRegistry {
+let PanelRegistry$6 = class PanelRegistry47 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(ID$a, 0);
   }
@@ -10395,7 +10413,7 @@ class ExtendedTextSizeControl extends TextSizeBuiltInControl {
 }
 const textSizeControlExtension = new ExtensionBuilder$1().addControl(ExtendedTextSizeControl).withSettingsPanelRegistry(PanelRegistry$6).build();
 const ID$9 = "extendedTextStyle";
-let PanelRegistry$5 = class PanelRegistry48 extends SettingsPanelRegistry {
+let PanelRegistry$5 = class PanelRegistry48 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT][0].addControl(ID$9, 0);
   }
@@ -10415,10 +10433,10 @@ class ExtendedTextStyleControl extends TextStyleBuiltInControl {
 }
 const textStyleControlExtension = new ExtensionBuilder$1().addControl(ExtendedTextStyleControl).withSettingsPanelRegistry(PanelRegistry$5).build();
 const ID$8 = "extendedTextVisibility";
-class ButtonPanelRegistry16 extends SettingsPanelRegistry {
+class ButtonPanelRegistry16 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BlockType.BLOCK_TEXT] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           ID$8
@@ -11520,7 +11538,7 @@ class GeneralPanelTabExtension extends GeneralPanelTab {
     const rootNode = this.api.getDocumentRootHtmlNode();
     const rootConfig = rootNode.getNodeConfig() ?? {};
     const newConfig = { ...rootConfig, [key]: value };
-    modifier.modifyHtml(rootNode).setNodeConfig(newConfig).apply(new ModificationDescription("Modify config"));
+    modifier.modifyHtml(rootNode).setNodeConfig(newConfig).apply(new ModificationDescription$1("Modify config"));
   }
 }
 const generalPanelTabExtension = new ExtensionBuilder$1().addGeneralPanelTab(GeneralPanelTabExtension).build();
@@ -11576,10 +11594,10 @@ class HiddenModificationTabExtension extends GeneralPanelTab {
   onRender() {
     this.api.updateValues({ [PREHEADER_INPUT]: this.#getPreheaderText() });
     this.api.onValueChanged(HIDDEN_BUTTON_NAME, () => {
-      this.#applyPreheaderText(new ModificationDescription(HIDDEN_MODIFICATION_KEY).asHidden());
+      this.#applyPreheaderText(new ModificationDescription$1(HIDDEN_MODIFICATION_KEY).asHidden());
     });
     this.api.onValueChanged(VISIBLE_BUTTON_NAME, () => {
-      this.#applyPreheaderText(new ModificationDescription(VISIBLE_MODIFICATION_KEY));
+      this.#applyPreheaderText(new ModificationDescription$1(VISIBLE_MODIFICATION_KEY));
     });
   }
   #getPreheaderNode() {
@@ -11719,7 +11737,7 @@ class ModulesPanelTabExtension extends ModulesPanelTab$1 {
     const rootNode = this.api.getDocumentRootHtmlNode();
     const rootConfig = rootNode.getNodeConfig() ?? {};
     const newConfig = { ...rootConfig, [key]: value };
-    modifier.modifyHtml(rootNode).setNodeConfig(newConfig).apply(new ModificationDescription("Modify config"));
+    modifier.modifyHtml(rootNode).setNodeConfig(newConfig).apply(new ModificationDescription$1("Modify config"));
   }
 }
 const modulesPanelTabExtension = new ExtensionBuilder$1().addModulesPanelTab(ModulesPanelTabExtension).build();
@@ -12179,7 +12197,7 @@ class ContainerVisibilityControl extends ContainerVisibilityBuiltInControl {
 }
 const BACKGROUND_CONTROL = "backgroundControl";
 const EXPANDABLE_ID = "expandableControl";
-class ExpandableControl extends Control {
+class ExpandableControl extends Control$1 {
   getId() {
     return EXPANDABLE_ID;
   }
@@ -12481,10 +12499,10 @@ class TextVisibilityControl extends TextVisibilityBuiltInControl {
     };
   }
 }
-class SampleSettingsPanelRegistry3 extends SettingsPanelRegistry {
+class SampleSettingsPanelRegistry3 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[CLASSIC_BLOCK_ID] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.STYLES,
         [
           // TEXT_SIZE_CONTROL_ID,
@@ -12494,7 +12512,7 @@ class SampleSettingsPanelRegistry3 extends SettingsPanelRegistry {
       )
     ];
     controls2[CLASSIC_STRUCTURE_ID] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         "Structure",
         [
           STRUCTURE_BORDER_ID,
@@ -12503,7 +12521,7 @@ class SampleSettingsPanelRegistry3 extends SettingsPanelRegistry {
           TEXT_LINE_SPACING_ID
         ]
       ).withLabel(this.api.translate("Structure")),
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         "Button",
         [
           BUTTON_TEXT_CONTROL_ID,
@@ -12512,7 +12530,7 @@ class SampleSettingsPanelRegistry3 extends SettingsPanelRegistry {
       ).withLabel(this.api.translate("Button"))
     ];
     controls2[PRODUCT_STRUCTURE_ID] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         "Product",
         [
           TEXT_FIXED_HEIGHT_CONTROL_ID,
@@ -12537,7 +12555,7 @@ class SampleSettingsPanelRegistry3 extends SettingsPanelRegistry {
           TEXT_VISIBILITY_CONTROL_ID
         ]
       ).withLabel(this.api.translate("Product")),
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         "Card",
         [
           BUTTON_TEXT_CONTROL_ID,
@@ -12557,7 +12575,7 @@ class SampleSettingsPanelRegistry3 extends SettingsPanelRegistry {
       ).withLabel(this.api.translate("Card"))
     ];
     controls2[BlockType.BLOCK_BUTTON] = [
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.SETTINGS,
         [
           BUTTON_BACKGROUND_COLOR_ID,
@@ -12565,7 +12583,7 @@ class SampleSettingsPanelRegistry3 extends SettingsPanelRegistry {
           BUTTON_ALIGN_CONTROL_ID
         ]
       ),
-      new SettingsPanelTab(
+      new SettingsPanelTab$1(
         SettingsTab.STYLES,
         [
           BUTTON_BORDER_ID,
@@ -13004,7 +13022,7 @@ class MyExternalImageLibraryTab extends ExternalImageLibraryTab {
     this.ui.initialize(container, onImageSelect, isModuleNode);
   }
 }
-const extension$2 = new ExtensionBuilder$1().withExternalImageLibraryTab(MyExternalImageLibraryTab).withLocalization({
+const extension$3 = new ExtensionBuilder$1().withExternalImageLibraryTab(MyExternalImageLibraryTab).withLocalization({
   "en": {
     "Custom Images": "Custom Images"
   },
@@ -13012,20 +13030,20 @@ const extension$2 = new ExtensionBuilder$1().withExternalImageLibraryTab(MyExter
     "Custom Images": "Власні зображення"
   }
 }).build();
-class CssModelModificationPanel extends SettingsPanelRegistry {
+class CssModelModificationPanel extends SettingsPanelRegistry$1 {
   registerBlockControls(blockControlsMap) {
     blockControlsMap["BLOCK_BUTTON"] = [
-      new SettingsPanelTab("cssSample", ["_CSS_MODEL_MODIFICATION"]).withLabel("CSS sample")
+      new SettingsPanelTab$1("cssSample", ["_CSS_MODEL_MODIFICATION"]).withLabel("CSS sample")
     ];
   }
 }
 const cssModelModification = new ExtensionBuilder$1().withSettingsPanelRegistry(CssModelModificationPanel).build();
-class TextCustomControls extends SettingsPanelRegistry {
+class TextCustomControls extends SettingsPanelRegistry$1 {
   registerBlockControls(blockControlsMap) {
     blockControlsMap["BLOCK_TEXT"] = [
-      new SettingsPanelTab("customStyles", [{ "id": "backgroundColor", "withFullHeight": true }]).withLabel(this.api.translate("Custom styles")),
-      new SettingsPanelTab("settings", ["paragraphStyleForm"]),
-      new SettingsPanelTab("customSettings", ["backgroundColor"]).withLabel(this.api.translate("Custom settings"))
+      new SettingsPanelTab$1("customStyles", [{ "id": "backgroundColor", "withFullHeight": true }]).withLabel(this.api.translate("Custom styles")),
+      new SettingsPanelTab$1("settings", ["paragraphStyleForm"]),
+      new SettingsPanelTab$1("customSettings", ["backgroundColor"]).withLabel(this.api.translate("Custom settings"))
     ];
   }
 }
@@ -13038,13 +13056,13 @@ const textBlockWithCustomControls = new ExtensionBuilder$1().withLocalization({
     "Custom settings": "UK Custom settings"
   }
 }).withSettingsPanelRegistry(TextCustomControls).build();
-class TextExtendedControls extends SettingsPanelRegistry {
+class TextExtendedControls extends SettingsPanelRegistry$1 {
   registerBlockControls(blockControlsMap) {
     blockControlsMap["BLOCK_TEXT"][1].addControl("textFixedHeightForm", 0);
   }
 }
 const textBlockWithExtendedControls = new ExtensionBuilder$1().withSettingsPanelRegistry(TextExtendedControls).build();
-class TextRemovedControls extends SettingsPanelRegistry {
+class TextRemovedControls extends SettingsPanelRegistry$1 {
   registerBlockControls(blockControlsMap) {
     blockControlsMap["BLOCK_TEXT"][0].deleteControl("paragraphStyleForm");
   }
@@ -13171,12 +13189,12 @@ const DATEPICKER_ELEMENT = "datepicker";
 const COUNTER_ELEMENT = "counter";
 const TEXT_ELEMENT = "text";
 const TEXT_AREA_ELEMENT = "textArea";
-class TestUIElementsDemoPanelRegistry extends SettingsPanelRegistry {
+class TestUIElementsDemoPanelRegistry extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$7])];
+    controls2[BlockType.BLOCK_BUTTON] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID$7])];
   }
 }
-class TestUIElementsDemoControl extends Control {
+class TestUIElementsDemoControl extends Control$1 {
   getId() {
     return CONTROL_ID$7;
   }
@@ -13462,14 +13480,14 @@ const DISABLE_INSERTION = "disable-insertion";
 const defaultSelectedType = BlockType.BLOCK_BUTTON;
 const AVAILABLE_BLOCKS = [BlockType.BLOCK_TEXT, BlockType.BLOCK_IMAGE, BlockType.BLOCK_BUTTON, STRUCTURE_ID, CONTAINER_ID, BLOCK_ID$3];
 let blockInstance;
-let PanelRegistry$4 = class PanelRegistry49 extends SettingsPanelRegistry {
+let PanelRegistry$4 = class PanelRegistry49 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[STRUCTURE_ID] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$6])];
-    controls2[CONTAINER_ID] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$6])];
-    controls2[BLOCK_ID$3] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$6])];
+    controls2[STRUCTURE_ID] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID$6])];
+    controls2[CONTAINER_ID] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID$6])];
+    controls2[BLOCK_ID$3] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID$6])];
   }
 };
-class DraggableBlockControl extends Control {
+class DraggableBlockControl extends Control$1 {
   _draggableDisabled = false;
   _extensionBlockInsertionDisabled = false;
   getId() {
@@ -13638,7 +13656,7 @@ const DEMO_CAPTION_OPTIONS = [
 ];
 const DEMO_CAPTION_INITIAL_VALUE = "banana";
 const ASYNC_POPULATE_DELAY_MS = 1e3;
-class DropdownProblemControl extends Control {
+class DropdownProblemControl extends Control$1 {
   constructor() {
     super(...arguments);
     this.bananaVisible = true;
@@ -13765,14 +13783,14 @@ class DropdownProblemIconsRegistry extends IconsRegistry {
     iconsMap[ICON_ID] = ICON_SVG;
   }
 }
-class DropdownProblemSettingsPanelRegistry extends SettingsPanelRegistry {
+class DropdownProblemSettingsPanelRegistry extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
     controls2[BLOCK_ID$2] = [
-      new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$5])
+      new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID$5])
     ];
   }
 }
-const extension$1 = new ExtensionBuilder$1().withIconsRegistry(DropdownProblemIconsRegistry).withSettingsPanelRegistry(DropdownProblemSettingsPanelRegistry).addControl(DropdownProblemControl).addBlock(DropdownProblemBlock).build();
+const extension$2 = new ExtensionBuilder$1().withIconsRegistry(DropdownProblemIconsRegistry).withSettingsPanelRegistry(DropdownProblemSettingsPanelRegistry).addControl(DropdownProblemControl).addBlock(DropdownProblemBlock).build();
 class ExternalAiAssistant {
   externalAiAssistant;
   dataSelectCallback = () => {
@@ -14520,7 +14538,7 @@ class ExternalMergeTagsPopupUiElement extends UIElement$1 {
     });
   }
 }
-const extensionBuilder$2 = new ExtensionBuilder$1().addUiElement(ExternalMergeTagsPopupUiElement).withExternalMergeTagsLibrary(DemoExternalMergeTagsLibrary).withLocalization({
+const extensionBuilder$3 = new ExtensionBuilder$1().addUiElement(ExternalMergeTagsPopupUiElement).withExternalMergeTagsLibrary(DemoExternalMergeTagsLibrary).withLocalization({
   en: {
     "Open external merge tags": "Open external merge tags"
   },
@@ -14528,8 +14546,8 @@ const extensionBuilder$2 = new ExtensionBuilder$1().addUiElement(ExternalMergeTa
     "Open external merge tags": "Відкрити зовнішні мержтеги"
   }
 }).withUiElementTagRegistry(ExternalMergeTagsPopupRegistry);
-extensionBuilder$2.withIconsRegistry(CustomMergeTagIconsRegistry);
-const externalMergeTagsPopup = extensionBuilder$2.build();
+extensionBuilder$3.withIconsRegistry(CustomMergeTagIconsRegistry);
+const externalMergeTagsPopup = extensionBuilder$3.build();
 class ExternalSmartElementsLibrary {
   externalLibrary;
   dataSelectCallback = () => {
@@ -14652,12 +14670,12 @@ class ClassicBlockIcons2 extends IconsRegistry {
     iconsMap["robot"] = icon;
   }
 }
-let PanelRegistry$3 = class PanelRegistry50 extends SettingsPanelRegistry {
+let PanelRegistry$3 = class PanelRegistry50 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$4])];
+    controls2[BlockType.BLOCK_BUTTON] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID$4])];
   }
 };
-class UiMessageControl extends Control {
+class UiMessageControl extends Control$1 {
   getId() {
     return CONTROL_ID$4;
   }
@@ -14725,9 +14743,9 @@ class UiMessageControl extends Control {
 }
 const extensionUIMessageElement = new ExtensionBuilder$1().addControl(UiMessageControl).withSettingsPanelRegistry(PanelRegistry$3).withIconsRegistry(ClassicBlockIcons2).build();
 const UI_SELECT_TAG_ID = "ui-select-tag";
-let PanelRegistry$2 = class PanelRegistry51 extends SettingsPanelRegistry {
+let PanelRegistry$2 = class PanelRegistry51 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BlockType.STRUCTURE][0] = new SettingsPanelTab(
+    controls2[BlockType.STRUCTURE][0] = new SettingsPanelTab$1(
       SettingsTab.SETTINGS,
       [
         UI_SELECT_TAG_ID
@@ -14735,7 +14753,7 @@ let PanelRegistry$2 = class PanelRegistry51 extends SettingsPanelRegistry {
     );
   }
 };
-class UiMultipleSelectControl extends Control {
+class UiMultipleSelectControl extends Control$1 {
   #node;
   getId() {
     return UI_SELECT_TAG_ID;
@@ -14754,7 +14772,7 @@ class UiMultipleSelectControl extends Control {
     this.api.onValueChanged("selectTags", (newValue) => {
       modifier.modifyHtml(this.#node).setNodeConfig({
         tags: newValue
-      }).apply(new ModificationDescription("Apply"));
+      }).apply(new ModificationDescription$1("Apply"));
     });
   }
   onTemplateNodeUpdated(_node) {
@@ -14772,12 +14790,12 @@ const BUTON_TEXT = "button-text";
 const HEADER_TEXT = "header-text";
 const SPACER_HEIGHT = "spacer-height";
 const DISABLE_BUTTON = "disable-button";
-let PanelRegistry$1 = class PanelRegistry52 extends SettingsPanelRegistry {
+let PanelRegistry$1 = class PanelRegistry52 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$1] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$3])];
+    controls2[BLOCK_ID$1] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID$3])];
   }
 };
-class OrderableControl extends Control {
+class OrderableControl extends Control$1 {
   disabled = false;
   /**
    *
@@ -14866,10 +14884,10 @@ class OrderableControl extends Control {
       newHtml += `${this.node.querySelector(`#${item}`).getOuterHTML()}
 `;
     });
-    this.api.getDocumentModifier().modifyHtml(this.node).setInnerHtml(newHtml).apply(new ModificationDescription("Order change."));
+    this.api.getDocumentModifier().modifyHtml(this.node).setInnerHtml(newHtml).apply(new ModificationDescription$1("Order change."));
   }
   _changeInnerText(node, text) {
-    this.api.getDocumentModifier().modifyHtml(node).setInnerHtml(text).apply(new ModificationDescription("Inner text change."));
+    this.api.getDocumentModifier().modifyHtml(node).setInnerHtml(text).apply(new ModificationDescription$1("Inner text change."));
   }
   _onHeaderTextChange(newValue) {
     this._changeInnerText(this.node.querySelector("#header"), newValue);
@@ -14878,7 +14896,7 @@ class OrderableControl extends Control {
     this._changeInnerText(this.node.querySelector("#button>span"), newValue);
   }
   _onSpacerChange(newValue) {
-    this.api.getDocumentModifier().modifyHtml(this.node.querySelector("#spacer")).setStyle("height", `${newValue}px`).apply(new ModificationDescription("Height change."));
+    this.api.getDocumentModifier().modifyHtml(this.node.querySelector("#spacer")).setStyle("height", `${newValue}px`).apply(new ModificationDescription$1("Height change."));
   }
   _onDisableButtonClick() {
     this.disabled = !this.disabled;
@@ -14938,7 +14956,7 @@ class UITagRegistry extends UIElementTagRegistry {
     uiElementsTagsMap[POPUP_INPUT] = ID$1;
   }
 }
-class CustomControl2 extends Control {
+class CustomControl2 extends Control$1 {
   getId() {
     return CONTROL_ID$2;
   }
@@ -14980,12 +14998,12 @@ function getElement(name, height, colour) {
                    ${name}
           </div>`;
 }
-class PanelRegistry53 extends SettingsPanelRegistry {
+class PanelRegistry53 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID$1])];
+    controls2[BLOCK_ID] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID$1])];
   }
 }
-class RepeatableControl extends Control {
+class RepeatableControl extends Control$1 {
   /**
    *
    * @type {ImmutableHtmlNode}
@@ -15077,19 +15095,19 @@ class RepeatableControl extends Control {
     return this.api.getDocumentModifier().modifyHtml(this._getElement(index));
   }
   _onTextChange(newValue, oldValue, index) {
-    this._getElementModifier(index).setInnerHtml(newValue).apply(new ModificationDescription("Text change."));
+    this._getElementModifier(index).setInnerHtml(newValue).apply(new ModificationDescription$1("Text change."));
   }
   _onHeightChange(newValue, oldValue, index) {
-    this._getElementModifier(index).setStyle("height", `${newValue}px`).apply(new ModificationDescription("Height change."));
+    this._getElementModifier(index).setStyle("height", `${newValue}px`).apply(new ModificationDescription$1("Height change."));
   }
   _onColourChange(newValue, oldValue, index) {
-    this._getElementModifier(index).setStyle("background", `${newValue}`).apply(new ModificationDescription("Colour change."));
+    this._getElementModifier(index).setStyle("background", `${newValue}`).apply(new ModificationDescription$1("Colour change."));
   }
   _getElementsLength() {
     return this._getElements()?.length || 0;
   }
   _onDeleteElement(newValue, oldValue, index) {
-    this._getElementModifier(index).delete().apply(new ModificationDescription("Delete element."));
+    this._getElementModifier(index).delete().apply(new ModificationDescription$1("Delete element."));
   }
   _insertElement() {
     const length = this._getElementsLength();
@@ -15097,7 +15115,7 @@ class RepeatableControl extends Control {
     const newHtml = `${html}
 ${getElement(`Element ${length + 1}`, 20, "yellow")}
 `;
-    this.api.getDocumentModifier().modifyHtml(this._node).setInnerHtml(newHtml).apply(new ModificationDescription("Insert new element."));
+    this.api.getDocumentModifier().modifyHtml(this._node).setInnerHtml(newHtml).apply(new ModificationDescription$1("Insert new element."));
   }
   _disableDeleteButtons() {
     this._deleteButtonsDisabled = !this._deleteButtonsDisabled;
@@ -15156,12 +15174,12 @@ const WITH_ICON = "withIcon";
 const WITHOUT_ICON = "withoutIcon";
 const HIDE_ICON_BUTTON = "hideIconButton";
 const SHOW_ICON_BUTTON = "showIconButton";
-class TestRichTextPanelRegistry extends SettingsPanelRegistry {
+class TestRichTextPanelRegistry extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BlockType.BLOCK_BUTTON] = [new SettingsPanelTab(SettingsTab.SETTINGS, [CONTROL_ID])];
+    controls2[BlockType.BLOCK_BUTTON] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID])];
   }
 }
-class TestRichTextControl extends Control {
+class TestRichTextControl extends Control$1 {
   getId() {
     return CONTROL_ID;
   }
@@ -15625,14 +15643,29 @@ var BlockSelector = ((BlockSelector2) => {
   return BlockSelector2;
 })(BlockSelector || {});
 var UIElementAttributes = {
+  name: "name",
   disabled: "disabled"
+};
+var buttonAttributes2 = {
+  ...UIElementAttributes,
+  caption: "caption"
+};
+var labelAttributes = {
+  text: "text"
 };
 var draggableBlockAttributes = {
   blockId: "block-id"
 };
+var ampFormServicePickerAttributes = {
+  ...UIElementAttributes
+};
 var UEAttr = {
   DEFAULT: UIElementAttributes,
-  DRAGGABLE_BLOCK: draggableBlockAttributes
+  BUTTON: buttonAttributes2,
+  COLOR: UIElementAttributes,
+  LABEL: labelAttributes,
+  DRAGGABLE_BLOCK: draggableBlockAttributes,
+  AMP_FORM_SERVICE_PICKER: ampFormServicePickerAttributes
 };
 var UIElementType = /* @__PURE__ */ ((UIElementType2) => {
   UIElementType2["BUTTON"] = "UE-BUTTON";
@@ -15736,6 +15769,7 @@ var _Control2 = class _Control3 extends BaseValidatedClass {
   }
 };
 _Control2.REQUIRED_METHODS = ["getId", "getTemplate"];
+var Control = _Control2;
 var _GeneralPanelTab2 = class _GeneralPanelTab3 extends BaseValidatedClass {
   constructor() {
     super(_GeneralPanelTab3.REQUIRED_METHODS, _GeneralPanelTab3);
@@ -15890,6 +15924,58 @@ var _SettingsPanelRegistry2 = class _SettingsPanelRegistry3 extends BaseValidate
   }
 };
 _SettingsPanelRegistry2.REQUIRED_METHODS = ["registerBlockControls"];
+var SettingsPanelRegistry = _SettingsPanelRegistry2;
+var SettingsPanelTab = class _SettingsPanelTab2 {
+  constructor(tabId, controls2) {
+    this.tabId = tabId;
+    this.controls = controls2.map(_SettingsPanelTab2.normalizeControl);
+  }
+  getTabId() {
+    return this.tabId;
+  }
+  getLabel() {
+    return this.label;
+  }
+  getControlsIds() {
+    return this.controls.map((c) => c.id);
+  }
+  getControls() {
+    return this.controls;
+  }
+  withLabel(label) {
+    this.label = label;
+    return this;
+  }
+  addControl(control, position) {
+    const normalized = _SettingsPanelTab2.normalizeControl(control);
+    if (position < 0) {
+      this.controls.unshift(normalized);
+    } else if (position > this.controls.length) {
+      this.controls.push(normalized);
+    } else {
+      this.controls.splice(position, 0, normalized);
+    }
+    return this;
+  }
+  deleteControl(controlId) {
+    const index = this.controls.findIndex((c) => c.id === controlId);
+    if (index !== -1) {
+      this.controls.splice(index, 1);
+    }
+  }
+  static normalizeControl(control) {
+    if (typeof control === "string") {
+      return { id: control };
+    }
+    if (!control.id) {
+      throw new Error("SettingsPanelTabControlConfig.id is required");
+    }
+    return {
+      ...control,
+      id: control.id
+    };
+  }
+};
 var _ExternalAiAssistant2 = class _ExternalAiAssistant3 extends BaseValidatedClass {
   constructor() {
     super(_ExternalAiAssistant3.REQUIRED_METHODS, _ExternalAiAssistant3);
@@ -16007,6 +16093,52 @@ var _IconsRegistry2 = class _IconsRegistry3 extends BaseValidatedClass {
   }
 };
 _IconsRegistry2.REQUIRED_METHODS = ["registerIconsSvg"];
+var ModificationDescription2 = class {
+  constructor(key) {
+    this.hidden = false;
+    this.key = key;
+  }
+  withParams(params) {
+    this.params = params;
+    return this;
+  }
+  /**
+   * Marks the modification as a background change.
+   *
+   * @description
+   * The modification is applied to the template as usual, but the patch it produces is kept out of
+   * the version history UI and out of undo/redo, so the user never sees (nor can accidentally undo)
+   * a change they did not make. The change still belongs to the document, so restoring an older
+   * version keeps it consistent with the rest of the template.
+   *
+   * The patch is saved like any other, but the host application is not notified about it: the
+   * `onDataChanged` callback stays silent for background modifications. Do not rely on it to track
+   * changes an extension makes this way.
+   *
+   * @summary Hides the modification from version history and undo/redo.
+   *
+   * @param hidden - Pass false to keep the modification visible. Defaults to true.
+   * @returns The current ModificationDescription instance for method chaining.
+   */
+  asHidden(hidden = true) {
+    this.hidden = hidden;
+    return this;
+  }
+  /**
+   * Tells whether the modification was marked as a background change via {@link asHidden}.
+   *
+   * @returns True when the produced patch must stay out of version history and undo/redo.
+   */
+  isHidden() {
+    return this.hidden;
+  }
+  getValue() {
+    return {
+      key: this.key,
+      params: this.params
+    };
+  }
+};
 var _UIElement2 = class _UIElement3 extends BaseValidatedClass {
   constructor() {
     super(_UIElement3.REQUIRED_METHODS, _UIElement3);
@@ -16153,6 +16285,145 @@ class WidgetsMarkupUtils {
     return uniqueClass ? uniqueClass[0].substring(uniqueClassPrefix.length) : null;
   }
 }
+function createBlockSessionState(defaultState) {
+  const statesByBlock = /* @__PURE__ */ new Map();
+  const listenersByBlock2 = /* @__PURE__ */ new Map();
+  const frozenDefaultState = Object.freeze({ ...defaultState });
+  const get = (blockUUID) => statesByBlock.get(blockUUID) || frozenDefaultState;
+  return {
+    get,
+    update(blockUUID, patch) {
+      if (!blockUUID) {
+        return;
+      }
+      const current = get(blockUUID);
+      if (Object.keys(patch).every((key) => current[key] === patch[key])) {
+        return;
+      }
+      statesByBlock.set(blockUUID, { ...current, ...patch });
+      (listenersByBlock2.get(blockUUID) || []).forEach((listener) => listener());
+    },
+    /**
+     * @returns {function(): void} unsubscribe
+     */
+    subscribe(blockUUID, listener) {
+      if (!listenersByBlock2.has(blockUUID)) {
+        listenersByBlock2.set(blockUUID, /* @__PURE__ */ new Set());
+      }
+      const listeners = listenersByBlock2.get(blockUUID);
+      listeners.add(listener);
+      return () => {
+        listeners.delete(listener);
+        if (!listeners.size) {
+          listenersByBlock2.delete(blockUUID);
+        }
+      };
+    }
+  };
+}
+const blockStates$1 = createBlockSessionState({ collapsed: false, aiResponding: false, layoutChange: void 0, layoutQuestion: false });
+const layoutSettingsByBlock = /* @__PURE__ */ new Map();
+const pendingLayoutSettings = /* @__PURE__ */ new Map();
+const latestPendingChanges = /* @__PURE__ */ new Map();
+const latestWidgetChanges = /* @__PURE__ */ new Map();
+const getState = blockStates$1.get;
+const updateState = blockStates$1.update;
+function getPendingKey(blockUUID, change) {
+  return `${blockUUID}
+${change}`;
+}
+const LayoutsStripState = {
+  isCollapsed(blockUUID) {
+    return getState(blockUUID).collapsed;
+  },
+  toggleCollapsed(blockUUID) {
+    updateState(blockUUID, { collapsed: !getState(blockUUID).collapsed });
+  },
+  /**
+   * Layout tiles are disabled while the AI answers (its answer could bring back the old layout),
+   * while the user is asked whether to carry design changes to the chosen layout
+   * and while the HTML of a chosen layout is being loaded.
+   */
+  isBusy(blockUUID) {
+    const state = getState(blockUUID);
+    return state.aiResponding || state.layoutQuestion || state.layoutChange !== void 0;
+  },
+  setLayoutQuestion(blockUUID, layoutQuestion) {
+    updateState(blockUUID, { layoutQuestion });
+  },
+  isAiResponding(blockUUID) {
+    return getState(blockUUID).aiResponding;
+  },
+  setAiResponding(blockUUID, aiResponding) {
+    updateState(blockUUID, { aiResponding });
+  },
+  /**
+   * Marks the widget value change that applies a chosen layout, so it can be told apart from an AI change.
+   */
+  startLayoutChange(blockUUID, change, layoutSettings) {
+    LayoutsStripState.setPendingLayoutSettings(blockUUID, change, layoutSettings);
+    updateState(blockUUID, { layoutChange: change });
+  },
+  isLayoutChange(blockUUID, change) {
+    return change !== void 0 && getState(blockUUID).layoutChange === change;
+  },
+  finishLayoutChange(blockUUID, change) {
+    if (LayoutsStripState.isLayoutChange(blockUUID, change)) {
+      updateState(blockUUID, { layoutChange: void 0 });
+    }
+  },
+  /**
+   * The HTML of widget value changes is loaded concurrently and can arrive out of order
+   * (an AI change and a layout chosen right after it), so only the last change is applied.
+   */
+  startWidgetChange(blockUUID, change) {
+    blockUUID && latestWidgetChanges.set(blockUUID, change);
+  },
+  isLatestWidgetChange(blockUUID, change) {
+    return !blockUUID || latestWidgetChanges.get(blockUUID) === change;
+  },
+  finishWidgetChange(blockUUID, change) {
+    blockUUID && latestWidgetChanges.get(blockUUID) === change && latestWidgetChanges.delete(blockUUID);
+  },
+  /**
+   * The layout settings memory a widget value change brings is kept only once its HTML is applied.
+   */
+  setPendingLayoutSettings(blockUUID, change, layoutSettings) {
+    if (blockUUID && layoutSettings) {
+      pendingLayoutSettings.set(getPendingKey(blockUUID, change), layoutSettings);
+      latestPendingChanges.set(blockUUID, change);
+    }
+  },
+  settleLayoutSettings(blockUUID, change, applied) {
+    const key = getPendingKey(blockUUID, change);
+    const layoutSettings = pendingLayoutSettings.get(key);
+    pendingLayoutSettings.delete(key);
+    latestPendingChanges.get(blockUUID) === change && latestPendingChanges.delete(blockUUID);
+    applied && layoutSettings && LayoutsStripState.setLayoutSettings(blockUUID, layoutSettings);
+  },
+  getLayoutSettings(blockUUID) {
+    return layoutSettingsByBlock.get(blockUUID) || {};
+  },
+  /**
+   * The layout settings memory a new widget value change is planned from: it is planned from the widget value
+   * of the last change, whose HTML may still be loading, so it builds on the memory that change brings too.
+   * Otherwise, when that change is not applied because the new one is newer, its memory would be lost.
+   */
+  getLatestLayoutSettings(blockUUID) {
+    const latestChange = latestPendingChanges.get(blockUUID);
+    return latestChange !== void 0 && pendingLayoutSettings.get(getPendingKey(blockUUID, latestChange)) || LayoutsStripState.getLayoutSettings(blockUUID);
+  },
+  setLayoutSettings(blockUUID, layoutSettings) {
+    blockUUID && layoutSettingsByBlock.set(blockUUID, layoutSettings);
+  },
+  /**
+   * A copy of a widget block gets a new `blockUUID` and inherits the layout settings of its source.
+   */
+  copyLayoutSettings(sourceBlockUUID, blockUUID) {
+    layoutSettingsByBlock.has(sourceBlockUUID) && LayoutsStripState.setLayoutSettings(blockUUID, layoutSettingsByBlock.get(sourceBlockUUID));
+  },
+  subscribe: blockStates$1.subscribe
+};
 class WidgetsBlockBuilder {
   static buildBlock(widgetConfig2) {
     return class extends Block {
@@ -16179,11 +16450,13 @@ class WidgetsBlockBuilder {
         return widgetConfig2.type;
       }
       onCreated(node) {
+        const currentConfig = node.getNodeConfig();
         const config = WidgetsBlockConfigUtils.buildConfig({
           widgetId: widgetConfig2.widgetId,
           initialJsonConfig: widgetConfig2.initialJsonConfig,
-          currentConfig: node.getNodeConfig()
+          currentConfig
         });
+        LayoutsStripState.copyLayoutSettings(WidgetsBlockConfigUtils.getBlockUUID(currentConfig), config.blockUUID);
         this.api.getDocumentModifier().modifyHtml(node).setNodeConfig(config);
         this.api.sendEvent && this.api.sendEvent("widget_created", {
           name: widgetConfig2.name
@@ -16459,7 +16732,767 @@ class NavHeaderUiElement extends UIElement {
     panel.querySelectorAll(".widgets-category-row").forEach((row) => row.scrollLeft = 0);
   }
 }
-const panelStyles = "/*Widgets Panel*/\n.widgets-panel-item .widget-icon {\n    display: block;\n    width: 100%;\n}\n\n.widgets-panel-item .widgets-hovered-icon {\n    position: relative;\n    display: block;\n    width: 100%;\n    height: 95px;\n    border-radius: 10px;\n    overflow: hidden;\n    vertical-align: top;\n}\n\n.widgets-panel-item .widgets-hovered-icon::after {\n    content: '';\n    position: absolute;\n    inset: 0;\n    border-radius: 10px;\n    pointer-events: none;\n}\n\n.widgets-panel-item .widgets-hovered-icon__image {\n    position: absolute;\n    height: 100%;\n    transform: translate(-50%, -50%);\n    left: 50%;\n    top: 50%;\n}\n\n.widgets-panel-item .widgets-hovered-icon__image--default {\n    opacity: 1;\n}\n\n.widgets-panel-item .widgets-hovered-icon__image--hover {\n    opacity: 0;\n}\n\n.widgets-panel-item .widgets-hovered-icon--hover-ready:hover .widgets-hovered-icon__image--default,\n.widgets-panel-item .widgets-hovered-icon--hover-ready:focus-within .widgets-hovered-icon__image--default {\n    opacity: 0;\n}\n\n.widgets-panel-item .widgets-hovered-icon--hover-ready:hover .widgets-hovered-icon__image--hover,\n.widgets-panel-item .widgets-hovered-icon--hover-ready:focus-within .widgets-hovered-icon__image--hover {\n    opacity: 1;\n}\n\n/*Deep-link hint (DS-557): ring + halo on the widget opened from the widgets landing*/\n@keyframes widgets-hint-halo {\n\n    0%,\n    100% {\n        box-shadow: 0 0 0 2px var(--widgets-hint-color), 0 0 0 6px var(--widgets-hint-halo-color), 0 15px 35px -5px rgba(0, 0, 0, 0.1);\n    }\n\n    50% {\n        box-shadow: 0 0 0 2px var(--widgets-hint-color), 0 0 0 12px transparent, 0 15px 35px -5px rgba(0, 0, 0, 0.1);\n    }\n}\n\n.widgets-panel-item .widgets-hovered-icon--hint {\n    --widgets-hint-color: hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), var(--ue-primary-color_l, 50%), 1);\n    --widgets-hint-halo-color: hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), var(--ue-primary-color_l, 50%), 0.22);\n    box-shadow: 0 0 0 2px var(--widgets-hint-color), 0 15px 35px -5px rgba(0, 0, 0, 0.1);\n    animation: widgets-hint-halo 1.8s ease-in-out infinite;\n}\n\n.widgets-panel-item:has(.widgets-hovered-icon--hint) .info-wrapper ue-label .label {\n    color: hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), calc(var(--ue-primary-color_l, 50%) - 10%), 1);\n    font-weight: 500;\n}\n\n/*The row scrolls horizontally, so it clips vertically: give the halo room above the highlighted widget*/\n.widgets-category-row:not(.widgets-category-row--full):has(.widgets-hovered-icon--hint) {\n    padding-top: 12px;\n    margin-top: -12px;\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .widgets-panel-item .widgets-hovered-icon--hint {\n        animation: none;\n    }\n}\n\n.widgets-panel-item .block-thumb {\n    padding: 0;\n    overflow: hidden;\n    border-radius: 10px;\n}\n\n.widgets-panel {\n    height: 100%;\n    overflow: hidden;\n    display: flex;\n    flex-direction: column;\n}\n\n.widgets-panel-content {\n    flex: 1;\n    overflow: hidden;\n}\n\n.widgets-panel-content .ue-scrollable-content {\n    padding: 0 20px;\n}\n\n.widgets-panel-content ue-ui-form {\n    margin-top: 2px;\n}\n\n/*Zeplin: widget caption — 12px, #787878, centered under the tile*/\n.widgets-panel-item .info-wrapper {\n    display: flex;\n    justify-content: center;\n    margin: 12px 0 20px;\n    padding: 0;\n}\n\n.widgets-panel-item .info-wrapper ue-label .label {\n    font-size: 12px;\n    line-height: 16px;\n    color: hsla(var(--ue-font-color_h, 0),\n            var(--ue-font-color_s, 0%),\n            var(--ue-font-color_l, 33.33%),\n            0.85);\n    text-align: center;\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: normal;\n}\n\n.widgets-panel-item .widget-name {\n    text-overflow: ellipsis;\n    overflow: hidden;\n    white-space: nowrap;\n    line-height: 20px;\n}\n\n.widgets-panel-filter-container {\n    margin-top: 0;\n    padding: 0 15px 15px;\n}\n\n.widgets-panel-separator {\n    padding-top: 1px;\n    margin: 0 -20px;\n}\n\n/*Widget categories*/\n.widgets-nav-header--empty {\n    display: none;\n}\n\n.widgets-category-section {\n    padding: 0 20px;\n    margin: 0 -20px;\n    border-top: 1px solid var(--ue-panels-border-color, rgba(0, 0, 0, 0.07));\n}\n\n/*Zeplin: category header — a 36px row, 14px regular #555555, chevron in a 20px box after the text*/\n.widgets-nav-header__button {\n    display: flex;\n    align-items: center;\n    gap: 4px;\n    width: 100%;\n    min-height: 36px;\n    padding: 0;\n    border: 0;\n    background: none;\n    color: hsla(var(--ue-font-color_h, 0),\n            var(--ue-font-color_s, 0%),\n            var(--ue-font-color_l, 33.33%),\n            var(--ue-font-color_t, 1));\n    font: inherit;\n    font-size: 14px;\n    font-weight: normal;\n    text-align: left;\n    cursor: pointer;\n}\n\n.widgets-nav-header__arrow {\n    flex: none;\n    box-sizing: border-box;\n    display: block;\n    width: 20px;\n    height: 20px;\n}\n\n.widgets-nav-header:not(.widgets-nav-header--back) .widgets-nav-header__arrow {\n    order: 1;\n    transform: rotate(-90deg);\n}\n\n.widgets-nav-header__label {\n    overflow: hidden;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n}\n\n.widgets-nav-header__button:hover {\n    color: hsla(var(--ue-font-color_h, 0),\n            var(--ue-font-color_s, 0%),\n            var(--ue-font-color_l, 33.33%),\n            var(--ue-font-color_t, 1));\n}\n\n/*Zeplin: the opened-category header sticks to the top with a hairline below.\n  The sticky sits on the ue-extension-input wrapper: the header itself is as tall as the wrapper,\n  so sticking the header inside it would give it no room to stick.*/\n.widgets-panel-content ue-extension-input:has(> .widgets-nav-header--back:not(.widgets-nav-header--empty)) {\n    /*custom elements default to inline, and position:sticky does not apply to inline boxes*/\n    display: block;\n    position: sticky;\n    top: 0;\n    /*above the widget tiles: .widgets-panel-item carries the editor's position:relative + z-index:1*/\n    z-index: 2;\n}\n\n.widgets-nav-header--back {\n    margin: 0 -20px;\n    padding: 0 20px;\n    background: hsla(var(--ue-option-panel-background-color_h, 0),\n            var(--ue-option-panel-background-color_s, 0%),\n            var(--ue-option-panel-background-color_l, 100%),\n            var(--ue-option-panel-background-color_t, 1));\n}\n\n.widgets-nav-header--back .widgets-nav-header__button {\n    gap: 12px;\n}\n\n/*Zeplin: main list row — 140x95 tiles, 15px gap, horizontal scroll*/\n.widgets-category-row {\n    display: flex;\n    gap: 15px;\n    overflow-x: auto;\n    overflow-y: hidden;\n    margin: 0 -20px;\n    padding: 0 20px;\n    scrollbar-width: thin;\n    scrollbar-color: transparent transparent;\n}\n\n.widgets-category-row::-webkit-scrollbar {\n    height: 4px;\n}\n\n.widgets-category-row::-webkit-scrollbar-thumb {\n    border-radius: 2px;\n    background: transparent;\n}\n\n.widgets-category-row:hover {\n    scrollbar-color: var(--ue-input-hover-color, rgba(0, 0, 0, 0.1)) transparent;\n}\n\n.widgets-category-row:hover::-webkit-scrollbar-thumb {\n    background: var(--ue-input-hover-color, rgba(0, 0, 0, 0.1));\n}\n\n.widgets-category-row>ue-ui-form {\n    flex: 0 0 auto;\n    width: 140px;\n}\n\n.widgets-category-row .widgets-panel-item .info-wrapper {\n    margin: 12px 0 8px;\n}\n\n/*Full-width list: inside an opened category (the back header carries a label) or for an unlabeled group*/\n.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-category-row,\n.widgets-category-row--full {\n    display: block;\n    overflow: visible;\n    margin: 0;\n    padding: 12px 0 0;\n}\n\n.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-category-row>ue-ui-form,\n.widgets-category-row--full>ue-ui-form {\n    width: auto;\n}\n\n/*Zeplin: opened category and unlabeled group — full-width 21:10 tiles*/\n.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-panel-item .widgets-hovered-icon,\n.widgets-category-row--full .widgets-panel-item .widgets-hovered-icon {\n    height: auto;\n    aspect-ratio: 21 / 10;\n}\n\n.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-panel-item .info-wrapper,\n.widgets-category-row--full .widgets-panel-item .info-wrapper {\n    margin: 12px 0 24px;\n}\n\n.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-panel-item .info-wrapper ue-label .label {\n    font-size: 14px;\n}\n\n.widgets-category-section:not(:has(.widgets-panel-item)) {\n    display: none;\n}\n\n/*AI panel*/\n#settings_widgetsAi_content .ue-scrollable-content {\n    display: flex;\n    width: 100%;\n    flex-direction: column;\n}\n\n.ui-editor-widgets-ai-panel-control {\n    height: 100%;\n}\n\n.widgets-ai-panel-with-data-service {\n    border-top: 1px solid var(--ue-panels-border-color, rgba(0, 0, 0, 0.07));\n}\n\n#ui-editor-widgets-ai-panel-container {\n    height: calc(100% - 9px);\n    padding: 0px 9px;\n}\n";
+const panelStyles = `/*Widgets Panel*/
+.widgets-panel-item .widget-icon {
+    display: block;
+    width: 100%;
+}
+
+.widgets-panel-item .widgets-hovered-icon {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 95px;
+    border-radius: 10px;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+.widgets-panel-item .widgets-hovered-icon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.widgets-panel-item .widgets-hovered-icon__image {
+    position: absolute;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+}
+
+.widgets-panel-item .widgets-hovered-icon__image--default {
+    opacity: 1;
+}
+
+.widgets-panel-item .widgets-hovered-icon__image--hover {
+    opacity: 0;
+}
+
+.widgets-panel-item .widgets-hovered-icon--hover-ready:hover .widgets-hovered-icon__image--default,
+.widgets-panel-item .widgets-hovered-icon--hover-ready:focus-within .widgets-hovered-icon__image--default {
+    opacity: 0;
+}
+
+.widgets-panel-item .widgets-hovered-icon--hover-ready:hover .widgets-hovered-icon__image--hover,
+.widgets-panel-item .widgets-hovered-icon--hover-ready:focus-within .widgets-hovered-icon__image--hover {
+    opacity: 1;
+}
+
+/*Deep-link hint (DS-557): ring + halo on the widget opened from the widgets landing*/
+@keyframes widgets-hint-halo {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 2px var(--widgets-hint-color), 0 0 0 6px var(--widgets-hint-halo-color), 0 15px 35px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    50% {
+        box-shadow: 0 0 0 2px var(--widgets-hint-color), 0 0 0 12px transparent, 0 15px 35px -5px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.widgets-panel-item .widgets-hovered-icon--hint {
+    --widgets-hint-color: hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), var(--ue-primary-color_l, 50%), 1);
+    --widgets-hint-halo-color: hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), var(--ue-primary-color_l, 50%), 0.22);
+    box-shadow: 0 0 0 2px var(--widgets-hint-color), 0 15px 35px -5px rgba(0, 0, 0, 0.1);
+    animation: widgets-hint-halo 1.8s ease-in-out infinite;
+}
+
+.widgets-panel-item:has(.widgets-hovered-icon--hint) .info-wrapper ue-label .label {
+    color: hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), calc(var(--ue-primary-color_l, 50%) - 10%), 1);
+    font-weight: 500;
+}
+
+/*The row scrolls horizontally, so it clips vertically: give the halo room above the highlighted widget*/
+.widgets-category-row:not(.widgets-category-row--full):has(.widgets-hovered-icon--hint) {
+    padding-top: 12px;
+    margin-top: -12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .widgets-panel-item .widgets-hovered-icon--hint {
+        animation: none;
+    }
+}
+
+.widgets-panel-item .block-thumb {
+    padding: 0;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.widgets-panel {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.widgets-panel-content {
+    flex: 1;
+    overflow: hidden;
+}
+
+.widgets-panel-content .ue-scrollable-content {
+    padding: 0 20px;
+}
+
+.widgets-panel-content ue-ui-form {
+    margin-top: 2px;
+}
+
+/*Zeplin: widget caption — 12px, #787878, centered under the tile*/
+.widgets-panel-item .info-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 12px 0 20px;
+    padding: 0;
+}
+
+.widgets-panel-item .info-wrapper ue-label .label {
+    font-size: 12px;
+    line-height: 16px;
+    color: hsla(var(--ue-font-color_h, 0),
+            var(--ue-font-color_s, 0%),
+            var(--ue-font-color_l, 33.33%),
+            0.85);
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+.widgets-panel-item .widget-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 20px;
+}
+
+.widgets-panel-filter-container {
+    margin-top: 0;
+    padding: 0 15px 15px;
+}
+
+.widgets-panel-separator {
+    padding-top: 1px;
+    margin: 0 -20px;
+}
+
+/*Widget categories*/
+.widgets-nav-header--empty {
+    display: none;
+}
+
+.widgets-category-section {
+    padding: 0 20px;
+    margin: 0 -20px;
+    border-top: 1px solid var(--ue-panels-border-color, rgba(0, 0, 0, 0.07));
+}
+
+/*Zeplin: category header — a 36px row, 14px regular #555555, chevron in a 20px box after the text*/
+.widgets-nav-header__button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    min-height: 36px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: hsla(var(--ue-font-color_h, 0),
+            var(--ue-font-color_s, 0%),
+            var(--ue-font-color_l, 33.33%),
+            var(--ue-font-color_t, 1));
+    font: inherit;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: left;
+    cursor: pointer;
+}
+
+.widgets-nav-header__arrow {
+    flex: none;
+    box-sizing: border-box;
+    display: block;
+    width: 20px;
+    height: 20px;
+}
+
+.widgets-nav-header:not(.widgets-nav-header--back) .widgets-nav-header__arrow {
+    order: 1;
+    transform: rotate(-90deg);
+}
+
+.widgets-nav-header__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.widgets-nav-header__button:hover {
+    color: hsla(var(--ue-font-color_h, 0),
+            var(--ue-font-color_s, 0%),
+            var(--ue-font-color_l, 33.33%),
+            var(--ue-font-color_t, 1));
+}
+
+/*Zeplin: the opened-category header sticks to the top with a hairline below.
+  The sticky sits on the ue-extension-input wrapper: the header itself is as tall as the wrapper,
+  so sticking the header inside it would give it no room to stick.*/
+.widgets-panel-content ue-extension-input:has(> .widgets-nav-header--back:not(.widgets-nav-header--empty)) {
+    /*custom elements default to inline, and position:sticky does not apply to inline boxes*/
+    display: block;
+    position: sticky;
+    top: 0;
+    /*above the widget tiles: .widgets-panel-item carries the editor's position:relative + z-index:1*/
+    z-index: 2;
+}
+
+.widgets-nav-header--back {
+    margin: 0 -20px;
+    padding: 0 20px;
+    background: hsla(var(--ue-option-panel-background-color_h, 0),
+            var(--ue-option-panel-background-color_s, 0%),
+            var(--ue-option-panel-background-color_l, 100%),
+            var(--ue-option-panel-background-color_t, 1));
+}
+
+.widgets-nav-header--back .widgets-nav-header__button {
+    gap: 12px;
+}
+
+/*Zeplin: main list row — 140x95 tiles, 15px gap, horizontal scroll*/
+.widgets-category-row {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin: 0 -20px;
+    padding: 0 20px;
+}
+
+/*Horizontal scroll of widget and layout tiles: a thin scrollbar shown on hover*/
+.widgets-category-row,
+.widgets-layouts-strip {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+.widgets-category-row::-webkit-scrollbar,
+.widgets-layouts-strip::-webkit-scrollbar {
+    height: 4px;
+}
+
+.widgets-category-row::-webkit-scrollbar-thumb,
+.widgets-layouts-strip::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: transparent;
+}
+
+.widgets-category-row:hover,
+.widgets-layouts-strip:hover {
+    scrollbar-color: var(--ue-input-hover-color, rgba(0, 0, 0, 0.1)) transparent;
+}
+
+.widgets-category-row:hover::-webkit-scrollbar-thumb,
+.widgets-layouts-strip:hover::-webkit-scrollbar-thumb {
+    background: var(--ue-input-hover-color, rgba(0, 0, 0, 0.1));
+}
+
+.widgets-category-row>ue-ui-form {
+    flex: 0 0 auto;
+    width: 140px;
+}
+
+.widgets-category-row .widgets-panel-item .info-wrapper {
+    margin: 12px 0 8px;
+}
+
+/*Full-width list: inside an opened category (the back header carries a label) or for an unlabeled group*/
+.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-category-row,
+.widgets-category-row--full {
+    display: block;
+    overflow: visible;
+    margin: 0;
+    padding: 12px 0 0;
+}
+
+.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-category-row>ue-ui-form,
+.widgets-category-row--full>ue-ui-form {
+    width: auto;
+}
+
+/*Zeplin: opened category and unlabeled group — full-width 21:10 tiles*/
+.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-panel-item .widgets-hovered-icon,
+.widgets-category-row--full .widgets-panel-item .widgets-hovered-icon {
+    height: auto;
+    aspect-ratio: 21 / 10;
+}
+
+.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-panel-item .info-wrapper,
+.widgets-category-row--full .widgets-panel-item .info-wrapper {
+    margin: 12px 0 24px;
+}
+
+.widgets-panel:has(.widgets-nav-header--back:not(.widgets-nav-header--empty)) .widgets-panel-item .info-wrapper ue-label .label {
+    font-size: 14px;
+}
+
+.widgets-category-section:not(:has(.widgets-panel-item)) {
+    display: none;
+}
+
+/*AI panel*/
+#settings_widgetsAi_content .ue-scrollable-content {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.ui-editor-widgets-ai-panel-control {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/*Editor color picker of a settings card in the chat: over the bottom of the chat, where its newest messages are;
+  the chat itself is a ChatKit iframe, so the picker cannot be placed next to the card control*/
+.widgets-settings-color-layer {
+    position: absolute;
+    bottom: 9px;
+    right: 9px;
+    left: 9px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--ue-panels-border-color, rgba(0, 0, 0, 0.07));
+    border-radius: 6px;
+    background: hsla(var(--ue-option-panel-background-color_h, 0),
+            var(--ue-option-panel-background-color_s, 0%),
+            var(--ue-option-panel-background-color_l, 100%),
+            var(--ue-option-panel-background-color_t, 1));
+    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.2);
+}
+
+/*The AI panel UI element is rendered in the ue-extension-input wrapper*/
+.ui-editor-widgets-ai-panel-control > ue-extension-input {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+/*Zeplin: the data storage block opens right under the header, in place of the layouts strip; the chat stays under it.
+  The strip is only hidden, so it comes back as it was.*/
+.widgets-storage-block {
+    display: none;
+}
+
+.widgets-storage-block-open .widgets-layouts-strip-container,
+.widgets-storage-block-open .widgets-layout-question {
+    display: none;
+}
+
+.widgets-storage-block-open .widgets-storage-block {
+    display: block;
+    flex: 0 0 auto;
+    order: -1;
+}
+
+/*Zeplin: the block has the waves and the bottom line of the layouts strip it replaces*/
+.widgets-storage-block {
+    position: relative;
+    isolation: isolate;
+    border-bottom: 1px solid var(--ue-panels-border-color, rgba(0, 0, 0, 0.07));
+}
+
+.widgets-storage-block::before {
+    z-index: -1;
+}
+
+/*Focused only to take Escape after the menu that opened it is closed*/
+.widgets-storage-block:focus {
+    outline: none;
+}
+
+#ui-editor-widgets-ai-panel-container {
+    height: calc(100% - 9px);
+    padding: 0px 9px;
+}
+
+.widgets-ai-panel-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/*The chat fills the space under the layouts strip, so the 9px gap under it is padding, the same as at its sides*/
+.widgets-ai-panel-layout #ui-editor-widgets-ai-panel-container {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding-bottom: 9px;
+}
+
+/*Zeplin: layouts strip — 15px 20px padding, 110x75 tiles 15px apart, waves in the background.
+  The waves sit on a wrapper: on the scrolling strip itself they would scroll away with the tiles.*/
+.widgets-layouts-strip-container {
+    position: relative;
+    flex: 0 0 auto;
+}
+
+.widgets-layouts-strip-container::before,
+.widgets-storage-block::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-color: hsla(var(--ue-font-color_h, 0), var(--ue-font-color_s, 0%), var(--ue-font-color_l, 33.33%), 0.05);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='14'%3E%3Cpath d='M0 7C23 2 47 2 70 7S117 12 140 7' fill='none' stroke='%23000'/%3E%3C/svg%3E") repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='14'%3E%3Cpath d='M0 7C23 2 47 2 70 7S117 12 140 7' fill='none' stroke='%23000'/%3E%3C/svg%3E") repeat;
+}
+
+.widgets-layouts-strip {
+    position: relative;
+    display: flex;
+    gap: 15px;
+    padding: 15px 20px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-bottom: 1px solid var(--ue-panels-border-color, rgba(0, 0, 0, 0.07));
+}
+
+.widgets-layouts-strip[hidden] {
+    display: none;
+}
+
+.widgets-layout-tile {
+    display: flex;
+    flex: 0 0 110px;
+    flex-direction: column;
+    gap: 7px;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    text-align: center;
+    cursor: pointer;
+    color: hsla(var(--ue-font-color_h, 0), var(--ue-font-color_s, 0%), var(--ue-font-color_l, 33.33%), 0.85);
+}
+
+.widgets-layout-tile:disabled {
+    cursor: default;
+    opacity: 0.5;
+}
+
+.widgets-layout-tile__preview {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 75px;
+    overflow: hidden;
+    border-radius: 10px;
+    background-color: hsla(var(--ue-option-panel-background-color_h, 0), var(--ue-option-panel-background-color_s, 0%), var(--ue-option-panel-background-color_l, 100%), var(--ue-option-panel-background-color_t, 1));
+}
+
+/*Zeplin: the tile border is a 2px inner shadow; an overlay keeps it above the thumbnail*/
+.widgets-layout-tile__preview::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: inset 0 0 0 2px var(--ue-panels-border-color, rgba(0, 0, 0, 0.07));
+}
+
+.widgets-layout-tile__preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.widgets-layout-tile:not(:disabled):hover .widgets-layout-tile__preview::after {
+    box-shadow: inset 0 0 0 2px var(--ue-input-hover-color, rgba(0, 0, 0, 0.1));
+}
+
+.widgets-layout-tile--selected .widgets-layout-tile__preview::after,
+.widgets-layout-tile--selected:not(:disabled):hover .widgets-layout-tile__preview::after {
+    box-shadow: inset 0 0 0 2px hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), var(--ue-primary-color_l, 50%), 1);
+}
+
+.widgets-layout-tile:focus-visible {
+    outline: none;
+}
+
+.widgets-layout-tile:focus-visible .widgets-layout-tile__preview {
+    outline: 2px solid hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), var(--ue-primary-color_l, 50%), 1);
+    outline-offset: 1px;
+}
+
+.widgets-layout-tile__name {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 14px;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+/*Question whether to carry design changes to the chosen layout; no Zeplin design yet*/
+.widgets-layout-question {
+    position: relative;
+    flex: 0 0 auto;
+    padding: 12px 36px 12px 12px;
+    border-bottom: 1px solid var(--ue-panels-border-color, rgba(0, 0, 0, 0.07));
+    color: hsla(var(--ue-font-color_h, 0), var(--ue-font-color_s, 0%), var(--ue-font-color_l, 33.33%), var(--ue-font-color_t, 1));
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.widgets-layout-question[hidden] {
+    display: none;
+}
+
+.widgets-layout-question__text {
+    margin: 0 0 10px;
+}
+
+.widgets-layout-question__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.widgets-layout-question__button,
+.widgets-layout-question__close {
+    border: 1px solid var(--ue-panels-border-color, rgba(0, 0, 0, 0.07));
+    border-radius: 4px;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+.widgets-layout-question__button {
+    padding: 5px 12px;
+}
+
+.widgets-layout-question__button--primary {
+    border-color: hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), var(--ue-primary-color_l, 50%), 1);
+    background-color: hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), var(--ue-primary-color_l, 50%), 1);
+    color: #ffffff;
+}
+
+.widgets-layout-question__close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.widgets-layout-question__button:hover,
+.widgets-layout-question__close:hover {
+    border-color: hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), var(--ue-primary-color_l, 50%), 1);
+}
+
+.widgets-layout-question__button:focus-visible,
+.widgets-layout-question__close:focus-visible {
+    outline: 2px solid hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), var(--ue-primary-color_l, 50%), 1);
+    outline-offset: 1px;
+}
+
+/*Zeplin: layouts toggle in the settings panel header — a flat 34px icon button like its neighbours, the margin
+  stands for their 2px border wrapper; the pressed state is the editor's pressed button background*/
+.widgets-layouts-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    margin: 2px;
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+    background: none;
+    cursor: pointer;
+}
+
+.widgets-layouts-toggle:hover {
+    background-color: hsla(var(--ue-secondary-color_h, 0), var(--ue-secondary-color_s, 0%), calc(var(--ue-secondary-color_l, 100%) - 2%), var(--ue-secondary-color_t, 1));
+}
+
+.widgets-layouts-toggle[aria-pressed="true"] {
+    background-color: hsla(var(--ue-secondary-color_h, 0), calc(var(--ue-secondary-color_s, 0%) + 3%), calc(var(--ue-secondary-color_l, 100%) - 7%), var(--ue-secondary-color_t, 1));
+}
+
+/*Zeplin: while the strip is shown, the header line has an ear under the pressed toggle that points at it;
+  the same ear points at the panel menu toggle while the data storage block is open. The ear is the editor's
+  popover pointer in its own size, centered under the toggle (its static position in the flex container),
+  standing on the header line over the border and over the toggle, so its tip cuts into the toggle background.
+  The header is not a stacking context, the panel menu dropdown has to stay over the panel*/
+ue-header-control-panel:has(.widgets-layouts-toggle, .widgets-panel-menu) {
+    position: relative;
+}
+
+.widgets-layouts-toggle-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.widgets-header-ear {
+    display: none;
+    position: absolute;
+    bottom: -1px;
+    pointer-events: none;
+}
+
+.widgets-header-ear svg {
+    display: block;
+    width: 48px;
+    height: 14px;
+    fill: hsla(var(--ue-option-panel-background-color_h, 0),
+            var(--ue-option-panel-background-color_s, 0%),
+            var(--ue-option-panel-background-color_l, 100%),
+            var(--ue-option-panel-background-color_t, 1));
+    color: var(--ue-panels-border-color, rgba(0, 0, 0, 0.07));
+}
+
+.widgets-layouts-toggle[aria-pressed="true"] ~ .widgets-header-ear,
+.widgets-panel-menu[data-storage-open="true"] .widgets-header-ear {
+    display: block;
+}
+
+.widgets-layouts-toggle:focus-visible {
+    outline: 2px solid hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), var(--ue-primary-color_l, 50%), 1);
+    outline-offset: -2px;
+}
+
+/*Zeplin: panel menu in the settings panel header — a flat icon button like the layouts toggle,
+  with a storage indicator dot: red while a needed storage is not chosen, green once it is.*/
+/*Not positioned and centered: the ear under the toggle takes its static position, see the layouts toggle ear*/
+.widgets-panel-menu {
+    display: flex;
+    justify-content: center;
+}
+
+.widgets-panel-menu__toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    margin: 2px;
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+    background: none;
+    cursor: pointer;
+}
+
+.widgets-panel-menu__toggle:hover,
+.widgets-panel-menu__toggle[aria-expanded="true"] {
+    background-color: hsla(var(--ue-secondary-color_h, 0), var(--ue-secondary-color_s, 0%), calc(var(--ue-secondary-color_l, 100%) - 2%), var(--ue-secondary-color_t, 1));
+}
+
+.widgets-panel-menu__toggle:focus-visible {
+    outline: 2px solid hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), var(--ue-primary-color_l, 50%), 1);
+    outline-offset: -2px;
+}
+
+.widgets-panel-menu[data-storage-state="missing"] .widgets-panel-menu__toggle::after,
+.widgets-panel-menu[data-storage-state="chosen"] .widgets-panel-menu__toggle::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.widgets-panel-menu[data-storage-state="missing"] .widgets-panel-menu__toggle::after {
+    background-color: hsla(var(--ue-danger-color_h, 2), var(--ue-danger-color_s, 77%), var(--ue-danger-color_l, 64%), var(--ue-danger-color_t, 1));
+}
+
+.widgets-panel-menu[data-storage-state="chosen"] .widgets-panel-menu__toggle::after {
+    background-color: hsla(var(--ue-success-color_h, 129), var(--ue-success-color_s, 60%), var(--ue-success-color_l, 50%), var(--ue-success-color_t, 1));
+}
+
+/*Fixed, so the settings panel header does not clip it; the items take the editor's .menu look*/
+.widgets-panel-menu__dropdown {
+    position: fixed;
+    z-index: 1000;
+    width: 220px;
+    border-radius: 10px;
+    background-color: hsla(var(--ue-option-panel-background-color_h, 0), var(--ue-option-panel-background-color_s, 0%), var(--ue-option-panel-background-color_l, 100%), var(--ue-option-panel-background-color_t, 1));
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.widgets-panel-menu__dropdown[hidden] {
+    display: none;
+}
+
+.widgets-panel-menu__dropdown .menu {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.widgets-panel-menu__dropdown .menu-item {
+    width: 100%;
+    min-width: 0;
+    border: none;
+    background: none;
+    color: inherit;
+    text-align: left;
+}
+
+.widgets-panel-menu__dropdown .menu-item[hidden] {
+    display: none;
+}
+
+.widgets-panel-menu__dropdown .menu-item:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.widgets-panel-menu__dropdown .menu-item:focus-visible {
+    outline: 2px solid hsla(var(--ue-primary-color_h, 129), var(--ue-primary-color_s, 60%), var(--ue-primary-color_l, 50%), 1);
+    outline-offset: -2px;
+}
+
+.widgets-panel-menu__dropdown .menu-item-text {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.widgets-panel-menu__storage-name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    line-height: 16px;
+    color: hsla(var(--ue-font-color_h, 0), var(--ue-font-color_s, 0%), var(--ue-font-color_l, 33.33%), 0.6);
+}
+
+.widgets-panel-menu[data-storage-state="missing"] .widgets-panel-menu__storage-icon {
+    color: hsla(var(--ue-danger-color_h, 2), var(--ue-danger-color_s, 77%), var(--ue-danger-color_l, 64%), var(--ue-danger-color_t, 1));
+}
+
+.widgets-panel-menu[data-storage-state="chosen"] .widgets-panel-menu__storage-icon {
+    color: hsla(var(--ue-success-color_h, 129), var(--ue-success-color_s, 60%), var(--ue-success-color_l, 50%), var(--ue-success-color_t, 1));
+}
+`;
 const DEFAULT_CATEGORY_ID = "UTILITY_CONTENT";
 const WIDGET_CATEGORIES = [
   { id: DEFAULT_CATEGORY_ID, label: "Utility / Content" },
@@ -16688,29 +17721,29 @@ class WidgetsPanelBuilder {
     };
   }
 }
-const ICON_DATA_URI$2 = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3C/svg%3E';
-const buildWidgetConfig$1 = (id, name, category) => ({
+const ICON_DATA_URI$3 = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3C/svg%3E';
+const buildWidgetConfig$2 = (id, name, category) => ({
   widgetId: id,
   type: "BLOCK",
   name,
   category,
-  iconUrl: ICON_DATA_URI$2,
-  hoverIconUrl: ICON_DATA_URI$2,
+  iconUrl: ICON_DATA_URI$3,
+  hoverIconUrl: ICON_DATA_URI$3,
   allowInnerBlocksSelection: false,
   showAmpOnlyForBothMimeTypeView: false,
   hasDataService: false,
   initialJsonConfig: {},
   initialTemplate: `<div data-widget="${id}"></div>`
 });
-const widgetsConfig$1 = [
-  buildWidgetConfig$1("22222222-2222-2222-2222-222222222222", "Wheel of Fortune", "GAMIFICATION"),
-  buildWidgetConfig$1("11111111-1111-1111-1111-111111111111", "List", "UTILITY_CONTENT"),
-  buildWidgetConfig$1("33333333-3333-3333-3333-333333333333", "Poll", "FORMS"),
-  buildWidgetConfig$1("44444444-4444-4444-4444-444444444444", "Puzzle Quiz", "GAMIFICATION")
+const widgetsConfig$2 = [
+  buildWidgetConfig$2("22222222-2222-2222-2222-222222222222", "Wheel of Fortune", "GAMIFICATION"),
+  buildWidgetConfig$2("11111111-1111-1111-1111-111111111111", "List", "UTILITY_CONTENT"),
+  buildWidgetConfig$2("33333333-3333-3333-3333-333333333333", "Poll", "FORMS"),
+  buildWidgetConfig$2("44444444-4444-4444-4444-444444444444", "Puzzle Quiz", "GAMIFICATION")
 ];
-const extensionBuilder$1 = new ExtensionBuilder$1().addStyles(panelStyles).addModulesPanelTab(WidgetsPanelBuilder.buildWidgetsPanel(widgetsConfig$1)).addUiElement(HoveredIconUiElement).addUiElement(NavHeaderUiElement);
-widgetsConfig$1.forEach((widgetConfig2) => extensionBuilder$1.addBlock(WidgetsBlockBuilder.buildBlock(widgetConfig2)));
-const widgetsCategoriesPanel = extensionBuilder$1.build();
+const extensionBuilder$2 = new ExtensionBuilder$1().addStyles(panelStyles).addModulesPanelTab(WidgetsPanelBuilder.buildWidgetsPanel(widgetsConfig$2)).addUiElement(HoveredIconUiElement).addUiElement(NavHeaderUiElement);
+widgetsConfig$2.forEach((widgetConfig2) => extensionBuilder$2.addBlock(WidgetsBlockBuilder.buildBlock(widgetConfig2)));
+const widgetsCategoriesPanel = extensionBuilder$2.build();
 const cs = {
   "Widgets": "Widgety",
   "AI Assistant": "AI asistent",
@@ -16723,7 +17756,24 @@ const cs = {
   "Forms": "Formuláře",
   "Gamification": "Gamifikace",
   "eCommerce": "E-commerce",
-  "Personalized Images": "Personalizované obrázky"
+  "Personalized Images": "Personalizované obrázky",
+  "Layouts": "Rozvržení",
+  "Show layouts": "Zobrazit rozvržení",
+  "Hide layouts": "Skrýt rozvržení",
+  "layout has been changed": "rozvržení bylo změněno",
+  'You changed the design of this layout. Transfer the changes to "{layoutName}"?': "Změnili jste vzhled tohoto rozvržení. Přenést změny do „{layoutName}“?",
+  "Transfer": "Přenést",
+  "Do not transfer": "Nepřenášet",
+  "Cancel": "Zrušit",
+  "Color": "Barva",
+  "Close": "Zavřít",
+  "More actions": "Další akce",
+  "Manage Options": "Spravovat možnosti",
+  "Styles": "Styly",
+  "Data Storage": "Úložiště dat",
+  "Storage is not chosen": "Úložiště není vybráno",
+  "Let me show or hide the content elements of this widget.": "Umožni mi zobrazit nebo skrýt obsahové prvky tohoto widgetu.",
+  "Let me change the styles of this widget.": "Umožni mi změnit styly tohoto widgetu."
 };
 const de = {
   "Widgets": "Widgets",
@@ -16737,7 +17787,24 @@ const de = {
   "Forms": "Formulare",
   "Gamification": "Gamification",
   "eCommerce": "E-Commerce",
-  "Personalized Images": "Personalisierte Bilder"
+  "Personalized Images": "Personalisierte Bilder",
+  "Layouts": "Layouts",
+  "Show layouts": "Layouts anzeigen",
+  "Hide layouts": "Layouts ausblenden",
+  "layout has been changed": "Layout wurde geändert",
+  'You changed the design of this layout. Transfer the changes to "{layoutName}"?': "Sie haben das Design dieses Layouts geändert. Änderungen auf „{layoutName}“ übertragen?",
+  "Transfer": "Übertragen",
+  "Do not transfer": "Nicht übertragen",
+  "Cancel": "Abbrechen",
+  "Color": "Farbe",
+  "Close": "Schließen",
+  "More actions": "Weitere Aktionen",
+  "Manage Options": "Optionen verwalten",
+  "Styles": "Stile",
+  "Data Storage": "Datenspeicher",
+  "Storage is not chosen": "Kein Speicher ausgewählt",
+  "Let me show or hide the content elements of this widget.": "Lass mich die Inhaltselemente dieses Widgets ein- oder ausblenden.",
+  "Let me change the styles of this widget.": "Lass mich die Stile dieses Widgets ändern."
 };
 const en = {
   "Widgets": "Widgets",
@@ -16751,7 +17818,24 @@ const en = {
   "Forms": "Forms",
   "Gamification": "Gamification",
   "eCommerce": "eCommerce",
-  "Personalized Images": "Personalized Images"
+  "Personalized Images": "Personalized Images",
+  "Layouts": "Layouts",
+  "Show layouts": "Show layouts",
+  "Hide layouts": "Hide layouts",
+  "layout has been changed": "layout has been changed",
+  'You changed the design of this layout. Transfer the changes to "{layoutName}"?': 'You changed the design of this layout. Transfer the changes to "{layoutName}"?',
+  "Transfer": "Transfer",
+  "Do not transfer": "Do not transfer",
+  "Cancel": "Cancel",
+  "Color": "Color",
+  "Close": "Close",
+  "More actions": "More actions",
+  "Manage Options": "Manage Options",
+  "Styles": "Styles",
+  "Data Storage": "Data Storage",
+  "Storage is not chosen": "Storage is not chosen",
+  "Let me show or hide the content elements of this widget.": "Let me show or hide the content elements of this widget.",
+  "Let me change the styles of this widget.": "Let me change the styles of this widget."
 };
 const es = {
   "Widgets": "Widgets",
@@ -16765,7 +17849,24 @@ const es = {
   "Forms": "Formularios",
   "Gamification": "Gamificación",
   "eCommerce": "Comercio electrónico",
-  "Personalized Images": "Imágenes personalizadas"
+  "Personalized Images": "Imágenes personalizadas",
+  "Layouts": "Diseños",
+  "Show layouts": "Mostrar diseños",
+  "Hide layouts": "Ocultar diseños",
+  "layout has been changed": "se ha cambiado el diseño",
+  'You changed the design of this layout. Transfer the changes to "{layoutName}"?': "Has cambiado el estilo de este diseño. ¿Transferir los cambios a «{layoutName}»?",
+  "Transfer": "Transferir",
+  "Do not transfer": "No transferir",
+  "Cancel": "Cancelar",
+  "Color": "Color",
+  "Close": "Cerrar",
+  "More actions": "Más acciones",
+  "Manage Options": "Gestionar opciones",
+  "Styles": "Estilos",
+  "Data Storage": "Almacenamiento de datos",
+  "Storage is not chosen": "No se ha elegido ningún almacenamiento",
+  "Let me show or hide the content elements of this widget.": "Permíteme mostrar u ocultar los elementos de contenido de este widget.",
+  "Let me change the styles of this widget.": "Permíteme cambiar los estilos de este widget."
 };
 const fr = {
   "Widgets": "Widgets",
@@ -16779,7 +17880,24 @@ const fr = {
   "Forms": "Formulaires",
   "Gamification": "Gamification",
   "eCommerce": "E-commerce",
-  "Personalized Images": "Images personnalisées"
+  "Personalized Images": "Images personnalisées",
+  "Layouts": "Mises en page",
+  "Show layouts": "Afficher les mises en page",
+  "Hide layouts": "Masquer les mises en page",
+  "layout has been changed": "la mise en page a été modifiée",
+  'You changed the design of this layout. Transfer the changes to "{layoutName}"?': "Vous avez modifié le style de cette mise en page. Transférer les modifications vers « {layoutName} » ?",
+  "Transfer": "Transférer",
+  "Do not transfer": "Ne pas transférer",
+  "Cancel": "Annuler",
+  "Color": "Couleur",
+  "Close": "Fermer",
+  "More actions": "Plus d'actions",
+  "Manage Options": "Gérer les options",
+  "Styles": "Styles",
+  "Data Storage": "Stockage des données",
+  "Storage is not chosen": "Aucun stockage choisi",
+  "Let me show or hide the content elements of this widget.": "Permets-moi d'afficher ou de masquer les éléments de contenu de ce widget.",
+  "Let me change the styles of this widget.": "Permets-moi de modifier les styles de ce widget."
 };
 const it = {
   "Widgets": "Widget",
@@ -16793,7 +17911,24 @@ const it = {
   "Forms": "Moduli",
   "Gamification": "Gamification",
   "eCommerce": "E-commerce",
-  "Personalized Images": "Immagini personalizzate"
+  "Personalized Images": "Immagini personalizzate",
+  "Layouts": "Layout",
+  "Show layouts": "Mostra layout",
+  "Hide layouts": "Nascondi layout",
+  "layout has been changed": "il layout è stato modificato",
+  'You changed the design of this layout. Transfer the changes to "{layoutName}"?': "Hai modificato lo stile di questo layout. Trasferire le modifiche a «{layoutName}»?",
+  "Transfer": "Trasferisci",
+  "Do not transfer": "Non trasferire",
+  "Cancel": "Annulla",
+  "Color": "Colore",
+  "Close": "Chiudi",
+  "More actions": "Altre azioni",
+  "Manage Options": "Gestisci opzioni",
+  "Styles": "Stili",
+  "Data Storage": "Archiviazione dati",
+  "Storage is not chosen": "Nessuna archiviazione scelta",
+  "Let me show or hide the content elements of this widget.": "Permettimi di mostrare o nascondere gli elementi di contenuto di questo widget.",
+  "Let me change the styles of this widget.": "Permettimi di modificare gli stili di questo widget."
 };
 const ptBr = {
   "Widgets": "Widgets",
@@ -16807,7 +17942,24 @@ const ptBr = {
   "Forms": "Formulários",
   "Gamification": "Gamificação",
   "eCommerce": "E-commerce",
-  "Personalized Images": "Imagens personalizadas"
+  "Personalized Images": "Imagens personalizadas",
+  "Layouts": "Layouts",
+  "Show layouts": "Mostrar layouts",
+  "Hide layouts": "Ocultar layouts",
+  "layout has been changed": "o layout foi alterado",
+  'You changed the design of this layout. Transfer the changes to "{layoutName}"?': 'Você alterou o estilo deste layout. Transferir as alterações para "{layoutName}"?',
+  "Transfer": "Transferir",
+  "Do not transfer": "Não transferir",
+  "Cancel": "Cancelar",
+  "Color": "Cor",
+  "Close": "Fechar",
+  "More actions": "Mais ações",
+  "Manage Options": "Gerenciar opções",
+  "Styles": "Estilos",
+  "Data Storage": "Armazenamento de dados",
+  "Storage is not chosen": "Nenhum armazenamento escolhido",
+  "Let me show or hide the content elements of this widget.": "Deixe-me mostrar ou ocultar os elementos de conteúdo deste widget.",
+  "Let me change the styles of this widget.": "Deixe-me alterar os estilos deste widget."
 };
 const ru = {
   "Widgets": "Виджеты",
@@ -16821,7 +17973,24 @@ const ru = {
   "Forms": "Формы",
   "Gamification": "Геймификация",
   "eCommerce": "Электронная коммерция",
-  "Personalized Images": "Персонализированные изображения"
+  "Personalized Images": "Персонализированные изображения",
+  "Layouts": "Макеты",
+  "Show layouts": "Показать макеты",
+  "Hide layouts": "Скрыть макеты",
+  "layout has been changed": "макет был изменён",
+  'You changed the design of this layout. Transfer the changes to "{layoutName}"?': "Вы меняли оформление этого макета. Перенести изменения на «{layoutName}»?",
+  "Transfer": "Перенести",
+  "Do not transfer": "Не переносить",
+  "Cancel": "Отмена",
+  "Color": "Цвет",
+  "Close": "Закрыть",
+  "More actions": "Больше действий",
+  "Manage Options": "Управлять опциями",
+  "Styles": "Стили",
+  "Data Storage": "Хранилище данных",
+  "Storage is not chosen": "Хранилище не выбрано",
+  "Let me show or hide the content elements of this widget.": "Дай мне возможность показать или скрыть элементы контента этого виджета.",
+  "Let me change the styles of this widget.": "Дай мне возможность изменить стили этого виджета."
 };
 const tr = {
   "Widgets": "Widget'lar",
@@ -16835,7 +18004,24 @@ const tr = {
   "Forms": "Formlar",
   "Gamification": "Oyunlaştırma",
   "eCommerce": "E-ticaret",
-  "Personalized Images": "Kişiselleştirilmiş görseller"
+  "Personalized Images": "Kişiselleştirilmiş görseller",
+  "Layouts": "Düzenler",
+  "Show layouts": "Düzenleri göster",
+  "Hide layouts": "Düzenleri gizle",
+  "layout has been changed": "düzen değiştirildi",
+  'You changed the design of this layout. Transfer the changes to "{layoutName}"?': 'Bu düzenin tasarımını değiştirdiniz. Değişiklikler "{layoutName}" düzenine aktarılsın mı?',
+  "Transfer": "Aktar",
+  "Do not transfer": "Aktarma",
+  "Cancel": "İptal",
+  "Color": "Renk",
+  "Close": "Kapat",
+  "More actions": "Diğer işlemler",
+  "Manage Options": "Seçenekleri yönet",
+  "Styles": "Stiller",
+  "Data Storage": "Veri depolama",
+  "Storage is not chosen": "Depolama seçilmedi",
+  "Let me show or hide the content elements of this widget.": "Bu widget'ın içerik öğelerini göstermeme veya gizlememe izin ver.",
+  "Let me change the styles of this widget.": "Bu widget'ın stillerini değiştirmeme izin ver."
 };
 const uk = {
   "Widgets": "Віджети",
@@ -16849,7 +18035,24 @@ const uk = {
   "Forms": "Форми",
   "Gamification": "Гейміфікація",
   "eCommerce": "Електронна комерція",
-  "Personalized Images": "Персоналізовані зображення"
+  "Personalized Images": "Персоналізовані зображення",
+  "Layouts": "Макети",
+  "Show layouts": "Показати макети",
+  "Hide layouts": "Сховати макети",
+  "layout has been changed": "макет було змінено",
+  'You changed the design of this layout. Transfer the changes to "{layoutName}"?': "Ви змінювали оформлення цього макета. Перенести зміни на «{layoutName}»?",
+  "Transfer": "Перенести",
+  "Do not transfer": "Не переносити",
+  "Cancel": "Скасувати",
+  "Color": "Колір",
+  "Close": "Закрити",
+  "More actions": "Більше дій",
+  "Manage Options": "Керувати опціями",
+  "Styles": "Стилі",
+  "Data Storage": "Сховище даних",
+  "Storage is not chosen": "Сховище не обрано",
+  "Let me show or hide the content elements of this widget.": "Дай мені змогу показати чи сховати елементи вмісту цього віджета.",
+  "Let me change the styles of this widget.": "Дай мені змогу змінити стилі цього віджета."
 };
 class LocalizationBuilder {
   static buildLocalization(widgetsConfig2) {
@@ -16881,9 +18084,9 @@ class LocalizationBuilder {
     return localizations;
   }
 }
-const ICON_DATA_URI$1 = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3C/svg%3E';
+const ICON_DATA_URI$2 = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3C/svg%3E';
 let widgetIndex = 0;
-const buildWidgetConfig = (name, category, translations2) => {
+const buildWidgetConfig$1 = (name, category, translations2) => {
   const id = `00000000-0000-0000-0000-${String(++widgetIndex).padStart(12, "0")}`;
   return {
     widgetId: id,
@@ -16891,8 +18094,8 @@ const buildWidgetConfig = (name, category, translations2) => {
     name,
     category,
     translations: translations2,
-    iconUrl: ICON_DATA_URI$1,
-    hoverIconUrl: ICON_DATA_URI$1,
+    iconUrl: ICON_DATA_URI$2,
+    hoverIconUrl: ICON_DATA_URI$2,
     allowInnerBlocksSelection: false,
     showAmpOnlyForBothMimeTypeView: false,
     hasDataService: false,
@@ -16900,17 +18103,2014 @@ const buildWidgetConfig = (name, category, translations2) => {
     initialTemplate: `<td align="left" data-widget="${id}"><p>${name}</p></td>`
   };
 };
-const widgetsConfig = [
-  ...["List", "Flip card", "Fortune cookie", "Countdown"].map((name) => buildWidgetConfig(name, "UTILITY_CONTENT")),
-  buildWidgetConfig("Poll", "FORMS", { uk: { Poll: "Опитування" } }),
-  ...["NPS survey", "Questionnaire"].map((name) => buildWidgetConfig(name, "FORMS")),
-  ...["Scratcher", "Find differences", "Magic ball"].map((name) => buildWidgetConfig(name, "GAMIFICATION")),
-  ...["Product carousel", "Cart reminder", "Price drop"].map((name) => buildWidgetConfig(name, "ECOMMERCE")),
-  ...["Name banner", "Birthday card", "Weather banner", "Map pin", "Avatar badge", "Location card"].map((name) => buildWidgetConfig(name, "PERSONALIZED_IMAGES")),
-  buildWidgetConfig("Personalized banner", "PERSONALIZED_IMAGES", { uk: { "Personalized banner": "Персоналізований банер" } })
+const widgetsConfig$1 = [
+  ...["List", "Flip card", "Fortune cookie", "Countdown"].map((name) => buildWidgetConfig$1(name, "UTILITY_CONTENT")),
+  buildWidgetConfig$1("Poll", "FORMS", { uk: { Poll: "Опитування" } }),
+  ...["NPS survey", "Questionnaire"].map((name) => buildWidgetConfig$1(name, "FORMS")),
+  ...["Scratcher", "Find differences", "Magic ball"].map((name) => buildWidgetConfig$1(name, "GAMIFICATION")),
+  ...["Product carousel", "Cart reminder", "Price drop"].map((name) => buildWidgetConfig$1(name, "ECOMMERCE")),
+  ...["Name banner", "Birthday card", "Weather banner", "Map pin", "Avatar badge", "Location card"].map((name) => buildWidgetConfig$1(name, "PERSONALIZED_IMAGES")),
+  buildWidgetConfig$1("Personalized banner", "PERSONALIZED_IMAGES", { uk: { "Personalized banner": "Персоналізований банер" } })
 ];
-const extensionBuilder = new ExtensionBuilder$1().addStyles(panelStyles).withLocalization(LocalizationBuilder.buildLocalization(widgetsConfig)).addModulesPanelTab(WidgetsPanelBuilder.buildWidgetsPanel(widgetsConfig)).addUiElement(HoveredIconUiElement).addUiElement(NavHeaderUiElement);
-widgetsConfig.forEach((widgetConfig2) => extensionBuilder.addBlock(WidgetsBlockBuilder.buildBlock(widgetConfig2)));
+const extensionBuilder$1 = new ExtensionBuilder$1().addStyles(panelStyles).withLocalization(LocalizationBuilder.buildLocalization(widgetsConfig$1)).addModulesPanelTab(WidgetsPanelBuilder.buildWidgetsPanel(widgetsConfig$1)).addUiElement(HoveredIconUiElement).addUiElement(NavHeaderUiElement);
+widgetsConfig$1.forEach((widgetConfig2) => extensionBuilder$1.addBlock(WidgetsBlockBuilder.buildBlock(widgetConfig2)));
+const extension$1 = extensionBuilder$1.build();
+Object.defineProperty(extension$1, "getId", { value: () => "widgets-panel" });
+const WIDGETS_PANEL_CONFIG_URL = "/widgets/registry/api/v1/widgets/ui-config";
+const WIDGETS_MARKUP_URL = "/widgets/registry/api/v1/widgets/markup";
+const CONVO_AUTH_URL = "/convo/auth/api/v1/auth/token";
+const CHATKIT_URL = "/convo/core/api/v1/chatkit";
+const CHATKIT_ATTACHMENTS_REGISTER_URL = "/convo/core/api/v1/attachments/register";
+class ChatKitAttachmentsManager {
+  composerAttachments = [];
+  /**
+   * Initializes attachment manager dependencies and endpoint URLs.
+   */
+  constructor({
+    attachmentsRegisterUrl,
+    makeRequest,
+    getChatKitElement
+  }) {
+    this.attachmentsRegisterUrl = attachmentsRegisterUrl;
+    this.makeRequest = makeRequest;
+    this.getChatKitElement = getChatKitElement;
+  }
+  /**
+   * Registers an image attachment and adds it to the ChatKit composer.
+   */
+  async attachImage(imageAttachment) {
+    if (!imageAttachment) {
+      return;
+    }
+    const chatKitElement = this.getChatKitElement();
+    if (typeof chatKitElement?.setComposerValue !== "function") {
+      return;
+    }
+    try {
+      const attachment = await this.#registerImageAttachment(imageAttachment);
+      this.#addComposerAttachment(attachment);
+      await chatKitElement.setComposerValue({
+        attachments: this.composerAttachments,
+        selectedToolId: null
+      });
+      chatKitElement.focusComposer?.();
+    } catch (e) {
+      console.error("[chatkit.attachImage.error]", e);
+    }
+  }
+  /**
+   * Clears tracked composer attachments and selected composer tool.
+   */
+  reset() {
+    this.composerAttachments = [];
+    Promise.resolve(this.getChatKitElement()?.setComposerValue({
+      attachments: [],
+      selectedToolId: null
+    })).catch((e) => console.error("[chatkit.cancelComposer.error]", e));
+  }
+  cancel() {
+    Promise.resolve(this.getChatKitElement()?.setComposerValue({
+      attachments: this.composerAttachments,
+      selectedToolId: null
+    })).catch((e) => console.error("[chatkit.cancelComposer.error]", e));
+  }
+  deleteAttachment(attachmentId) {
+    this.composerAttachments = this.composerAttachments.filter(({ id }) => id !== attachmentId);
+    Promise.resolve(this.getChatKitElement()?.setComposerValue({
+      attachments: this.composerAttachments,
+      selectedToolId: null
+    }));
+  }
+  /**
+   * Registers image metadata with the attachments endpoint and returns the created attachment.
+   */
+  async #registerImageAttachment(imageAttachment) {
+    const response = await this.makeRequest({
+      url: this.attachmentsRegisterUrl,
+      options: {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(this.#createImageAttachmentRegistrationPayload(imageAttachment))
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to register image attachment`);
+    }
+    const attachment = await response.json();
+    if (!this.#isValidAttachment(attachment)) {
+      throw new Error("Invalid image attachment registration response");
+    }
+    return attachment;
+  }
+  /**
+   * Builds the payload used to register an image attachment.
+   */
+  #createImageAttachmentRegistrationPayload(imageAttachment) {
+    return {
+      type: "image",
+      name: this.#getImageName(imageAttachment),
+      mime_type: "image/*",
+      preview_url: imageAttachment.url,
+      metadata: this.#createImageAttachmentMetadata(imageAttachment)
+    };
+  }
+  /**
+   * Creates optional metadata describing the original image attachment.
+   */
+  #createImageAttachmentMetadata(imageAttachment) {
+    return {
+      original_url: imageAttachment.url,
+      ...imageAttachment.originalName ? { original_name: imageAttachment.originalName } : {},
+      ...imageAttachment.width ? { width: imageAttachment.width } : {},
+      ...imageAttachment.height ? { height: imageAttachment.height } : {},
+      ...imageAttachment.sizeBytes ? { size_bytes: imageAttachment.sizeBytes } : {}
+    };
+  }
+  /**
+   * Checks that an attachment registration response contains a usable attachment id.
+   */
+  #isValidAttachment(attachment) {
+    return Boolean(attachment && typeof attachment === "object" && typeof attachment.id === "string" && attachment.id);
+  }
+  /**
+   * Adds or replaces an attachment in the tracked composer attachment list.
+   */
+  #addComposerAttachment(attachment) {
+    this.composerAttachments = [
+      ...this.composerAttachments.filter(({ id }) => id !== attachment.id),
+      attachment
+    ];
+  }
+  /**
+   * Resolves the display name for an image attachment.
+   */
+  #getImageName(imageAttachment) {
+    return imageAttachment.originalName || this.#getImageNameFromUrl(imageAttachment.url);
+  }
+  /**
+   * Extracts a readable image file name from a URL, falling back when parsing fails.
+   */
+  #getImageNameFromUrl(imageUrl) {
+    const fallbackName = "attached-image";
+    try {
+      const fileName = new URL(imageUrl).pathname.split("/").filter(Boolean).pop();
+      if (!fileName) {
+        return fallbackName;
+      }
+      try {
+        return decodeURIComponent(fileName);
+      } catch (_e) {
+        return fileName;
+      }
+    } catch (_e) {
+      return fallbackName;
+    }
+  }
+}
+const ATTACH_IMAGE_TOOL_ID = "attach_image";
+const PLUGIN_EDITOR_MODE = "plugin";
+const DEFAULT_CHATKIT_DOMAIN_KEY = "domain_pk_698f401a72f4819487598b2d409e5276015e1bb610e23585";
+class ChatKitSDK {
+  failedAiRequestsCount = 0;
+  chatKitUrl = CHATKIT_URL;
+  constructor({
+    domainName,
+    chatKitPanelContainer,
+    onClientTool,
+    onWidgetAction,
+    eventHandlers,
+    headerTitle,
+    startScreenGreeting,
+    quickStartPrompts,
+    composerPlaceholder,
+    locale,
+    theme,
+    attachImageToolLabel,
+    onAttachImage,
+    authTokenGetter,
+    domainModelRevisionGetter,
+    fetchFn,
+    editorMode,
+    chatkitDomainPublicKey
+  }) {
+    this.domainName = domainName;
+    this.editorMode = editorMode;
+    this.chatkitDomainPublicKey = chatkitDomainPublicKey || DEFAULT_CHATKIT_DOMAIN_KEY;
+    this.chatKitPanelContainer = chatKitPanelContainer;
+    this.onClientTool = onClientTool;
+    this.onWidgetAction = onWidgetAction;
+    this.eventHandlers = eventHandlers;
+    this.headerTitle = headerTitle;
+    this.startScreenGreeting = startScreenGreeting;
+    this.quickStartPrompts = quickStartPrompts || [];
+    this.composerPlaceholder = composerPlaceholder;
+    this.locale = locale;
+    this.theme = theme || this.#getDefaultTheme();
+    this.attachImageToolLabel = attachImageToolLabel || "Attach Image";
+    this.onAttachImage = onAttachImage;
+    this.authTokenGetter = authTokenGetter;
+    this.domainModelRevisionGetter = domainModelRevisionGetter;
+    this.fetchFn = fetchFn || fetch;
+    this.attachmentsManager = new ChatKitAttachmentsManager({
+      attachmentsRegisterUrl: CHATKIT_ATTACHMENTS_REGISTER_URL,
+      makeRequest: (params) => this.makeRequest({
+        ...params,
+        streaming: false,
+        includeDomainModelRevision: false
+      }),
+      getChatKitElement: () => this.chatKitElement
+    });
+  }
+  initPanel({ domainModelId, metadata, threadIdStorageKey }) {
+    if (this.chatKitElement) {
+      this.destroyPanel();
+    }
+    this.domainModelId = domainModelId;
+    this.metadata = metadata;
+    this.threadIdStorageKey = threadIdStorageKey;
+    this.#loadAiPanelScript(this.#initWebComponent.bind(this));
+  }
+  destroyPanel() {
+    if (this.chatKitElement) {
+      this.chatKitElement.remove();
+      this.chatKitElement = null;
+    }
+    this.attachmentsManager.reset();
+  }
+  #loadAiPanelScript(callback) {
+    if (document.getElementById("ui-editor-chatkit-script")) {
+      callback();
+      return;
+    }
+    const script = this.#createChatKitScript();
+    script.onload = () => {
+      if (window.customElements) {
+        customElements.whenDefined("openai-chatkit").then(callback);
+      } else {
+        document.addEventListener("DOMContentLoaded", function() {
+          setTimeout(callback, 1e3);
+        });
+      }
+    };
+    document.head.appendChild(script);
+  }
+  #createChatKitScript() {
+    const script = document.createElement("script");
+    script.src = "https://cdn.platform.openai.com/deployments/chatkit/chatkit.js";
+    script.id = "ui-editor-chatkit-script";
+    script.async = true;
+    return script;
+  }
+  #initWebComponent() {
+    const savedThreadId = this.getThreadId();
+    this.chatKitElement = document.createElement("openai-chatkit");
+    this.chatKitElement.setOptions(this.#createChatKitOptions({ initialThread: savedThreadId }));
+    this.chatKitElement.setAttribute("style", "height: 100%");
+    this.chatKitElement.addEventListener("chatkit.thread.change", (e) => {
+      this.attachmentsManager.reset();
+      if (e?.detail?.threadId) {
+        this.setThreadId(e.detail.threadId);
+      }
+    });
+    this.chatKitElement.addEventListener("chatkit.thread.created", (e) => {
+      this.attachmentsManager.reset();
+      if (e?.detail?.threadId) {
+        this.setThreadId(e.detail.threadId);
+      }
+    });
+    this.chatKitElement.addEventListener("chatkit.user_message.sent", () => {
+      this.attachmentsManager.reset();
+    });
+    this.chatKitElement.addEventListener("chatkit.tool.change", (e) => {
+      if (e?.detail?.toolId === ATTACH_IMAGE_TOOL_ID) {
+        this.#handleAttachImageTool();
+      }
+    });
+    if (this.eventHandlers) {
+      Object.keys(this.eventHandlers).forEach((type) => {
+        this.chatKitElement.addEventListener(type, this.eventHandlers[type]);
+      });
+    }
+    this.chatKitPanelContainer.appendChild(this.chatKitElement);
+    this.#restoreThreadAfterMount(savedThreadId);
+  }
+  /**
+   * Sends a message on behalf of the user to the current thread, as if typed in the composer.
+   */
+  sendUserMessage(text) {
+    if (typeof this.chatKitElement?.sendUserMessage !== "function") {
+      return;
+    }
+    Promise.resolve().then(() => this.chatKitElement.sendUserMessage({ text })).catch((e) => console.error("[chatkit.sendUserMessage.error]", e));
+  }
+  #restoreThreadAfterMount(threadId) {
+    if (!threadId || typeof this.chatKitElement?.setThreadId !== "function") {
+      return;
+    }
+    Promise.resolve().then(() => this.chatKitElement.setThreadId(threadId)).catch((e) => console.error("[chatkit.setThreadId.error]", e));
+  }
+  #createChatKitOptions({ initialThread = null } = {}) {
+    const baseOptions = {
+      api: {
+        url: this.chatKitUrl,
+        domainKey: this.chatkitDomainPublicKey,
+        fetch: (url, options) => this.makeRequest({ url, options })
+      },
+      theme: this.theme,
+      onClientTool: this.onClientTool?.bind(this),
+      // Widget actions with `handler: "client"`; the server does not run the model for them
+      ...this.onWidgetAction ? { widgets: { onAction: this.onWidgetAction } } : {},
+      ...this.locale ? { locale: this.locale } : {}
+    };
+    const composer = {
+      ...this.composerPlaceholder ? {
+        placeholder: this.composerPlaceholder
+      } : {},
+      ...this.onAttachImage ? {
+        tools: [
+          {
+            id: ATTACH_IMAGE_TOOL_ID,
+            icon: "images",
+            label: this.attachImageToolLabel,
+            shortLabel: this.attachImageToolLabel,
+            pinned: false
+          }
+        ]
+      } : {}
+    };
+    return {
+      ...baseOptions,
+      initialThread,
+      ...this.headerTitle ? {
+        header: {
+          title: {
+            text: this.headerTitle
+          }
+        }
+      } : {},
+      startScreen: {
+        greeting: this.startScreenGreeting,
+        prompts: this.quickStartPrompts.map((promptItem) => ({
+          icon: "circle-question",
+          label: promptItem.label,
+          prompt: promptItem.prompt
+        }))
+      },
+      ...Object.keys(composer).length ? { composer } : {}
+    };
+  }
+  /**
+   * Sends an action to the chat server, e.g. so it updates the widget a client-handled action came from.
+   */
+  sendCustomAction(action, itemId) {
+    if (typeof this.chatKitElement?.sendCustomAction !== "function") {
+      return Promise.resolve();
+    }
+    return Promise.resolve().then(() => this.chatKitElement.sendCustomAction(action, itemId)).catch((e) => console.error("[chatkit.sendCustomAction.error]", e));
+  }
+  #handleAttachImageTool() {
+    if (!this.onAttachImage) {
+      return;
+    }
+    Promise.resolve().then(() => this.onAttachImage({
+      onSelect: (image) => this.#attachImageUrl(image),
+      onCancel: () => this.attachmentsManager.cancel(),
+      onError: (error) => {
+        console.error("[chatkit.attachImage.error]", error);
+      }
+    })).catch((e) => console.error("[chatkit.attachImage.error]", e));
+  }
+  #attachImageUrl(imageAttachment) {
+    return this.attachmentsManager.attachImage(imageAttachment);
+  }
+  #getDefaultTheme() {
+    return {
+      colorScheme: "light",
+      radius: "round",
+      density: "compact",
+      color: {
+        accent: {
+          primary: "#32CB4A",
+          level: 1
+        },
+        surface: {
+          background: "#ffffff",
+          foreground: "#EDEDED"
+        }
+      },
+      typography: {
+        baseSize: 14
+      }
+    };
+  }
+  async makeRequest({
+    url,
+    options,
+    streaming = true,
+    includeDomainModelRevision = true
+  }) {
+    if (includeDomainModelRevision && this.domainModelRevisionGetter) {
+      try {
+        const body = JSON.parse(options.body);
+        body.domainModelRevision = this.domainModelRevisionGetter();
+        if (body.type === "attachments.delete") {
+          this.attachmentsManager.deleteAttachment(body.params?.attachment_id);
+        }
+        options.body = JSON.stringify(body);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    const headers = new Headers(options.headers || void 0);
+    Object.entries(this.metadata || {}).forEach(([key, value]) => {
+      headers.set(key, String(value));
+    });
+    if (this.editorMode !== PLUGIN_EDITOR_MODE) {
+      headers.set("AUTH-TOKEN", await this.getAuthToken());
+    }
+    headers.set("DOMAIN-MODEL-ID", String(this.domainModelId));
+    headers.set("DOMAIN-NAME", String(this.domainName));
+    headers.set("THREAD-ID", String(this.getThreadId()));
+    const response = await this.fetchFn(url, {
+      ...options,
+      streaming,
+      headers
+    });
+    if (response.status === 401 && this.editorMode !== PLUGIN_EDITOR_MODE) {
+      this.failedAiRequestsCount++;
+      if (this.failedAiRequestsCount > 2) {
+        throw new Error("Too many failed requests from AI Panel");
+      }
+      await this.getAuthToken(true);
+      return this.makeRequest({ url, options, streaming, includeDomainModelRevision });
+    }
+    this.failedAiRequestsCount = 0;
+    return response;
+  }
+  async getAuthToken(refreshToken = false) {
+    if (this.authToken && !refreshToken) {
+      return this.authToken;
+    }
+    this.authToken = await this.authTokenGetter();
+    return this.authToken;
+  }
+  getThreadId() {
+    return this.threadIdStorageKey ? window.sessionStorage.getItem(this.threadIdStorageKey) : null;
+  }
+  setThreadId(threadId) {
+    if (this.threadIdStorageKey) {
+      window.sessionStorage.setItem(this.threadIdStorageKey, threadId);
+    }
+  }
+}
+const BACKGROUND_COLOR = { prefix: "--ue-option-panel-background-color", h: "0", s: "0%", l: "100%", t: "1" };
+const PRIMARY_COLOR = { prefix: "--ue-primary-color", h: "129", s: "60%", l: "50%", t: "1" };
+const FONT_COLOR = { prefix: "--ue-font-color", h: "0", s: "0%" };
+const DEFAULT_FONT_FAMILY = '-apple-system, BlinkMacSystemFont, Aptos, "SF UI Text", Roboto, Arial, sans-serif';
+const DEFAULT_BORDER_RADIUS_PX = 15;
+const SOFT_RADIUS_MAX_PX = 12;
+const MAX_GRAYSCALE_TINT = 9;
+function createChatKitTheme(readVariable = () => void 0) {
+  const backgroundColor = readHslaColor(readVariable, BACKGROUND_COLOR);
+  const isDark = isDarkColor(backgroundColor);
+  const grayscale = getGrayscale(readVariable);
+  return {
+    colorScheme: isDark ? "dark" : "light",
+    radius: getRadius(readVariable("--ue-border-radius-base")),
+    density: "compact",
+    color: {
+      accent: {
+        primary: readHslaColor(readVariable, PRIMARY_COLOR),
+        level: 1
+      },
+      ...grayscale ? { grayscale } : {},
+      surface: {
+        background: backgroundColor,
+        foreground: isDark ? "#1B1B1B" : "#EDEDED"
+      }
+    },
+    typography: {
+      baseSize: 14,
+      fontFamily: readVariable("--ue-font-family") || DEFAULT_FONT_FAMILY
+    }
+  };
+}
+function createEditorThemeVariableReader(editorThemeVariables, element) {
+  const computedStyle = element ? getComputedStyle(element) : void 0;
+  return (name) => {
+    const value = editorThemeVariables?.[name] ?? computedStyle?.getPropertyValue(name);
+    const text = value === void 0 || value === null ? "" : String(value).trim();
+    return text || void 0;
+  };
+}
+function readHslaColor(readVariable, { prefix, h, s, l, t }) {
+  const part = (suffix, fallback) => readVariable(`${prefix}_${suffix}`) ?? fallback;
+  return `hsla(${part("h", h)}, ${part("s", s)}, ${part("l", l)}, ${part("t", t)})`;
+}
+function getRadius(baseRadius) {
+  const radius = parseFloat(baseRadius ?? `${DEFAULT_BORDER_RADIUS_PX}`);
+  if (!Number.isFinite(radius)) {
+    return "round";
+  }
+  if (radius <= 0) {
+    return "sharp";
+  }
+  return radius < SOFT_RADIUS_MAX_PX ? "soft" : "round";
+}
+function getGrayscale(readVariable) {
+  const hue = parseFloat(readVariable(`${FONT_COLOR.prefix}_h`) ?? FONT_COLOR.h);
+  const saturation = parseFloat(readVariable(`${FONT_COLOR.prefix}_s`) ?? FONT_COLOR.s);
+  if (!Number.isFinite(hue) || !Number.isFinite(saturation) || saturation <= 0) {
+    return void 0;
+  }
+  return { hue, tint: Math.min(MAX_GRAYSCALE_TINT, Math.max(1, Math.round(saturation / 10))) };
+}
+function isDarkColor(color) {
+  const rgb = parseColorToRgb(color);
+  if (!rgb) {
+    return false;
+  }
+  return getRelativeLuminance(rgb) < 0.5;
+}
+function parseColorToRgb(color) {
+  if (typeof color !== "string") {
+    return null;
+  }
+  const normalizedColor = color.trim().toLowerCase();
+  return parseHexColor(normalizedColor) || parseRgbColor(normalizedColor) || parseHslColor(normalizedColor);
+}
+function parseHexColor(color) {
+  const shortHexMatch = color.match(/^#([0-9a-f]{3})$/i);
+  if (shortHexMatch) {
+    return shortHexMatch[1].split("").map((value) => parseInt(`${value}${value}`, 16));
+  }
+  const longHexMatch = color.match(/^#([0-9a-f]{6})$/i);
+  if (!longHexMatch) {
+    return null;
+  }
+  return [
+    parseInt(longHexMatch[1].slice(0, 2), 16),
+    parseInt(longHexMatch[1].slice(2, 4), 16),
+    parseInt(longHexMatch[1].slice(4, 6), 16)
+  ];
+}
+function parseRgbColor(color) {
+  const match = color.match(/^rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)/);
+  if (!match) {
+    return null;
+  }
+  return [
+    clampRgb(Number(match[1])),
+    clampRgb(Number(match[2])),
+    clampRgb(Number(match[3]))
+  ];
+}
+function parseHslColor(color) {
+  const match = color.match(/^hsla?\(\s*([-\d.]+)\s*,\s*([\d.]+)%\s*,\s*([\d.]+)%/);
+  if (!match) {
+    return null;
+  }
+  return hslToRgb(Number(match[1]), Number(match[2]), Number(match[3]));
+}
+function hslToRgb(hue, saturation, lightness) {
+  const normalizedHue = (hue % 360 + 360) % 360 / 360;
+  const normalizedSaturation = clampPercent(saturation) / 100;
+  const normalizedLightness = clampPercent(lightness) / 100;
+  if (normalizedSaturation === 0) {
+    const grey = clampRgb(normalizedLightness * 255);
+    return [grey, grey, grey];
+  }
+  const q = normalizedLightness < 0.5 ? normalizedLightness * (1 + normalizedSaturation) : normalizedLightness + normalizedSaturation - normalizedLightness * normalizedSaturation;
+  const p = 2 * normalizedLightness - q;
+  return [
+    hueToRgb(p, q, normalizedHue + 1 / 3),
+    hueToRgb(p, q, normalizedHue),
+    hueToRgb(p, q, normalizedHue - 1 / 3)
+  ].map((value) => clampRgb(value * 255));
+}
+function hueToRgb(p, q, t) {
+  if (t < 0) {
+    t += 1;
+  }
+  if (t > 1) {
+    t -= 1;
+  }
+  if (t < 1 / 6) {
+    return p + (q - p) * 6 * t;
+  }
+  if (t < 1 / 2) {
+    return q;
+  }
+  if (t < 2 / 3) {
+    return p + (q - p) * (2 / 3 - t) * 6;
+  }
+  return p;
+}
+function getRelativeLuminance(rgb) {
+  const [r, g, b] = rgb.map((value) => {
+    const channel = value / 255;
+    return channel <= 0.03928 ? channel / 12.92 : Math.pow((channel + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+function clampRgb(value) {
+  if (!Number.isFinite(value)) {
+    return 0;
+  }
+  return Math.round(Math.min(255, Math.max(0, value)));
+}
+function clampPercent(value) {
+  if (!Number.isFinite(value)) {
+    return 0;
+  }
+  return Math.min(100, Math.max(0, value));
+}
+const cachedPlatformApisByExtensionId = {};
+function setFirstPartyBootstrapPlatformApi(extensionId, platformApi) {
+  if (platformApi) {
+    cachedPlatformApisByExtensionId[extensionId] = platformApi;
+    return platformApi;
+  }
+  delete cachedPlatformApisByExtensionId[extensionId];
+  return void 0;
+}
+function asFirstPartyBaseApi(api) {
+  if (!api?.platformApi) {
+    throw new Error("platformApi is not available for this first-party extension");
+  }
+  return (
+    /** @type {FirstPartyBaseApi} */
+    api
+  );
+}
+function captureFirstPartyPlatformApiFromWindow(extensionId) {
+  const platformApi = window.UiEditorFirstPartyExtensionsContext?.[extensionId]?.platformApi;
+  return setFirstPartyBootstrapPlatformApi(extensionId, platformApi);
+}
+function getFirstPartyBootstrapPlatformApi(extensionId) {
+  const platformApi = cachedPlatformApisByExtensionId[extensionId] || captureFirstPartyPlatformApiFromWindow(extensionId);
+  if (!platformApi) {
+    throw new Error(`[${extensionId}] platformApi is not available for ${extensionId}`);
+  }
+  return platformApi;
+}
+function getFirstPartyPlatformApi(extensionId, api) {
+  if (api?.platformApi) {
+    return asFirstPartyBaseApi(api).platformApi;
+  }
+  return getFirstPartyBootstrapPlatformApi(extensionId);
+}
+const WIDGETS_EXTENSION_ID = "widgets-panel";
+class WidgetsApi {
+  static async loadPanelConfig() {
+    const response = await WidgetsApi.fetch(`${WIDGETS_PANEL_CONFIG_URL}?useDrafts=${WidgetsApi.isDraftMode()}`, {
+      method: "GET"
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Failed to get widgets config: ${response.status} ${errorText}`);
+      throw new Error(`Failed to get widgets config: ${response.status}`);
+    }
+    return response.json();
+  }
+  static async loadWidgetTemplate({ widgetId, jsonConfig, api }) {
+    const response = await WidgetsApi.fetch(WIDGETS_MARKUP_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        widgetId,
+        jsonConfig,
+        useDraft: WidgetsApi.isDraftMode()
+      })
+    }, api);
+    if (!response.ok) {
+      const errorText = response.text();
+      console.error(`Failed to get widgets ${widgetId} config: ${response.status} ${errorText}`);
+      throw new Error(`Failed to get widgets ${widgetId} config: ${response.status}`);
+    }
+    return response.json();
+  }
+  static async getConvoAuthToken(api) {
+    return await WidgetsApi.fetch(CONVO_AUTH_URL, {
+      method: "GET"
+    }, api).then((response) => response.json()).then((data) => data.token);
+  }
+  static getPlatformApi(api) {
+    return getFirstPartyPlatformApi(WIDGETS_EXTENSION_ID, api);
+  }
+  static async fetch(url, init, api) {
+    return WidgetsApi.getPlatformApi(api).fetch(url, init);
+  }
+  static isDraftMode() {
+    return localStorage.getItem("stripoEditorWidgetsDraftMode") === "true";
+  }
+}
+const blockStates = createBlockSessionState({ storageBlockOpen: false });
+const promptSendersByBlock = /* @__PURE__ */ new Map();
+const WidgetMenuState = {
+  isStorageBlockOpen(blockUUID) {
+    return blockStates.get(blockUUID).storageBlockOpen;
+  },
+  setStorageBlockOpen(blockUUID, storageBlockOpen) {
+    blockStates.update(blockUUID, { storageBlockOpen });
+  },
+  subscribe: blockStates.subscribe,
+  /**
+   * @returns {function(): void} unsubscribe
+   */
+  setPromptSender(blockUUID, sendPrompt) {
+    promptSendersByBlock.set(blockUUID, sendPrompt);
+    return () => promptSendersByBlock.get(blockUUID) === sendPrompt && promptSendersByBlock.delete(blockUUID);
+  },
+  /**
+   * The prompt is answered in the chat, so the storage block closes and the layouts strip comes back.
+   */
+  sendPrompt(blockUUID, text) {
+    WidgetMenuState.setStorageBlockOpen(blockUUID, false);
+    promptSendersByBlock.get(blockUUID)?.(text);
+  }
+};
+const MIN_LAYOUTS_FOR_STRIP = 2;
+function getWidgetLayouts(widgetConfig2) {
+  return Array.isArray(widgetConfig2?.layouts) ? widgetConfig2.layouts.filter((layout) => layout?.id) : [];
+}
+function hasLayoutsStrip(layouts) {
+  return layouts.length >= MIN_LAYOUTS_FOR_STRIP;
+}
+function resolveSelectedLayoutId(layouts, jsonConfig) {
+  const currentLayout = jsonConfig?.layout;
+  const selected = layouts.find((layout) => layout.id === currentLayout) || layouts.find((layout) => Array.isArray(layout.aliases) && layout.aliases.includes(currentLayout)) || layouts[0];
+  return selected?.id;
+}
+function planLayoutSwitch({ layouts, jsonConfig, targetLayoutId, memory = {} }) {
+  const currentLayoutId = resolveSelectedLayoutId(layouts, jsonConfig);
+  const currentFields = getPresetFields(layouts, currentLayoutId);
+  const targetFields = getPresetFields(layouts, targetLayoutId);
+  const transferJsonConfig = { ...structuredClone(jsonConfig || {}), layout: targetLayoutId };
+  const resetJsonConfig = structuredClone(transferJsonConfig);
+  if (!currentFields || !targetFields || currentLayoutId === targetLayoutId) {
+    return { hasUserChanges: false, transferJsonConfig, resetJsonConfig, memory };
+  }
+  const targetMemory = new Map((memory[targetLayoutId] || []).map((field) => [getFieldKey(field.path), field.value]));
+  let hasUserChanges = false;
+  (/* @__PURE__ */ new Set([...currentFields.keys(), ...targetFields.keys()])).forEach((key) => {
+    const currentPreset = currentFields.get(key);
+    const targetPreset = targetFields.get(key);
+    if (!targetPreset) {
+      return;
+    }
+    const path = targetPreset.path;
+    const value = getValueAt(jsonConfig, path);
+    const targetValue = targetMemory.has(key) ? targetMemory.get(key) : targetPreset.value;
+    if (!currentPreset) {
+      value === void 0 && setValueAt(transferJsonConfig, resetJsonConfig, path, targetValue);
+      return;
+    }
+    if (isSameValue(currentPreset.value, targetPreset.value)) {
+      return;
+    }
+    const userChanged = value !== void 0 && !isSameValue(value, currentPreset.value) && !isSameValue(value, targetPreset.value);
+    if (userChanged) {
+      hasUserChanges = true;
+      setValueAt(resetJsonConfig, void 0, path, targetValue);
+    } else {
+      setValueAt(transferJsonConfig, resetJsonConfig, path, targetValue);
+    }
+  });
+  const updatedMemory = rememberLayoutValues(memory, currentLayoutId, currentFields, jsonConfig);
+  delete updatedMemory[targetLayoutId];
+  return { hasUserChanges, transferJsonConfig, resetJsonConfig, memory: updatedMemory };
+}
+function rememberLayoutSettings({ layouts, previousJsonConfig, jsonConfig, memory = {} }) {
+  const previousLayoutId = resolveSelectedLayoutId(layouts, previousJsonConfig);
+  const previousFields = getPresetFields(layouts, previousLayoutId);
+  if (!previousFields || previousLayoutId === resolveSelectedLayoutId(layouts, jsonConfig)) {
+    return memory;
+  }
+  return rememberLayoutValues(memory, previousLayoutId, previousFields, previousJsonConfig);
+}
+function rememberLayoutValues(memory, layoutId, presetFields, jsonConfig) {
+  const changedFields = [...presetFields.values()].map(({ path, value }) => ({ path, value: getValueAt(jsonConfig, path), presetValue: value })).filter(({ value, presetValue }) => value !== void 0 && !isSameValue(value, presetValue)).map(({ path, value }) => ({ path, value: structuredClone(value) }));
+  const updatedMemory = { ...memory };
+  if (changedFields.length) {
+    updatedMemory[layoutId] = changedFields;
+  } else {
+    delete updatedMemory[layoutId];
+  }
+  return updatedMemory;
+}
+function getPresetFields(layouts, layoutId) {
+  const preset = layouts.find((layout) => layout.id === layoutId)?.preset;
+  if (!isPlainObject$1(preset)) {
+    return void 0;
+  }
+  const fields = /* @__PURE__ */ new Map();
+  const collect = (value, path) => {
+    if (isPlainObject$1(value)) {
+      Object.keys(value).forEach((key) => collect(value[key], [...path, key]));
+    } else {
+      fields.set(getFieldKey(path), { path, value });
+    }
+  };
+  collect(preset, []);
+  return fields;
+}
+function getFieldKey(path) {
+  return JSON.stringify(path);
+}
+function getValueAt(jsonConfig, path) {
+  return path.reduce((value, key) => isPlainObject$1(value) ? value[key] : void 0, jsonConfig);
+}
+function setValueAt(jsonConfig, otherJsonConfig, path, value) {
+  [jsonConfig, otherJsonConfig].filter(Boolean).forEach((config) => {
+    const parent = path.slice(0, -1).reduce((object, key) => {
+      if (!isPlainObject$1(object[key])) {
+        object[key] = {};
+      }
+      return object[key];
+    }, config);
+    parent[path[path.length - 1]] = structuredClone(value);
+  });
+}
+function isSameValue(value, otherValue) {
+  return JSON.stringify(normalizeValue(value)) === JSON.stringify(normalizeValue(otherValue));
+}
+function normalizeValue(value) {
+  if (typeof value === "string" && /^#[0-9a-f]{3,8}$/i.test(value)) {
+    return value.toLowerCase();
+  }
+  return Array.isArray(value) ? value.map(normalizeValue) : value;
+}
+function isPlainObject$1(value) {
+  return !!value && typeof value === "object" && !Array.isArray(value);
+}
+const requestsByBlock = /* @__PURE__ */ new Map();
+const listenersByBlock = /* @__PURE__ */ new Map();
+function notify(blockUUID) {
+  (listenersByBlock.get(blockUUID) || []).forEach((listener) => listener());
+}
+const SettingsColorPickerState = {
+  /**
+   * @param {string} blockUUID
+   * @param {{path: string, value: string, onPick: function(string): void}} request
+   */
+  open(blockUUID, request) {
+    if (!blockUUID) {
+      return;
+    }
+    requestsByBlock.set(blockUUID, request);
+    notify(blockUUID);
+  },
+  close(blockUUID) {
+    if (requestsByBlock.delete(blockUUID)) {
+      notify(blockUUID);
+    }
+  },
+  getRequest(blockUUID) {
+    return requestsByBlock.get(blockUUID);
+  },
+  /**
+   * @returns {function(): void} unsubscribe
+   */
+  subscribe(blockUUID, listener) {
+    if (!listenersByBlock.has(blockUUID)) {
+      listenersByBlock.set(blockUUID, /* @__PURE__ */ new Set());
+    }
+    const listeners = listenersByBlock.get(blockUUID);
+    listeners.add(listener);
+    return () => {
+      listeners.delete(listener);
+      if (!listeners.size) {
+        listenersByBlock.delete(blockUUID);
+      }
+    };
+  }
+};
+const SETTINGS_CONTROLS_FEATURE = "widgetControls";
+const SETTINGS_CONTROL_CHANGE_ACTION = "settings_control_change";
+const SETTINGS_CONTROL_STEP_ACTION = "settings_control_step";
+const SETTINGS_COLOR_PICK_ACTION = "settings_color_pick";
+const SETTINGS_VALUE_UPDATED_ACTION = "settings_value_updated";
+const SETTINGS_VALUE_TYPE = Object.freeze({
+  BOOLEAN: "boolean",
+  NUMBER: "number",
+  LENGTH: "length",
+  STRING: "string",
+  COLOR: "color"
+});
+const SETTINGS_CHANGES_DEBOUNCE_MS = 500;
+const PATH_SEPARATOR = ".";
+const STEP_PRECISION = 10;
+const FORBIDDEN_SEGMENTS = /* @__PURE__ */ new Set(["__proto__", "prototype", "constructor"]);
+const LIST_INDEX_RE = /^(?:0|[1-9][0-9]*)$/;
+const CSS_LENGTH_RE = /^-?[0-9]+(?:\.[0-9]+)?(px|%|em|rem)?$/;
+const CSS_LENGTH_UNITS = /* @__PURE__ */ new Set(["", "px", "%", "em", "rem"]);
+const HEX_COLOR_RE = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
+function handleSettingsControlAction(action, itemId, { onChange, onStep, onColorPick }) {
+  const handler = {
+    [SETTINGS_CONTROL_CHANGE_ACTION]: onChange,
+    [SETTINGS_CONTROL_STEP_ACTION]: onStep,
+    [SETTINGS_COLOR_PICK_ACTION]: onColorPick
+  }[action?.type];
+  const change = handler && parseSettingsChange(action.payload, itemId);
+  if (!change || !fitsAction(action.type, change)) {
+    return false;
+  }
+  handler(change);
+  return true;
+}
+function fitsAction(actionType, change) {
+  if (actionType === SETTINGS_COLOR_PICK_ACTION) {
+    return change.valueType === SETTINGS_VALUE_TYPE.COLOR;
+  }
+  if (actionType === SETTINGS_CONTROL_STEP_ACTION) {
+    const isNumber = change.valueType === SETTINGS_VALUE_TYPE.NUMBER || change.valueType === SETTINGS_VALUE_TYPE.LENGTH;
+    return isNumber && isFiniteNumber(change.delta) && change.delta !== 0;
+  }
+  return true;
+}
+function parseSettingsChange(payload, itemId) {
+  if (!isPlainObject(payload) || typeof payload.path !== "string" || !payload.path.trim()) {
+    return void 0;
+  }
+  if (!Object.values(SETTINGS_VALUE_TYPE).includes(payload.valueType)) {
+    return void 0;
+  }
+  return {
+    path: payload.path.trim(),
+    valueType: payload.valueType,
+    value: payload.value,
+    unit: typeof payload.unit === "string" ? payload.unit : "",
+    ...payload.delta !== void 0 ? { delta: payload.delta } : {},
+    ...isFiniteNumber(payload.min) ? { min: payload.min } : {},
+    ...isFiniteNumber(payload.max) ? { max: payload.max } : {},
+    ...itemId ? { itemId } : {}
+  };
+}
+function applySettingsChanges(jsonConfig, changes) {
+  let updatedJsonConfig = jsonConfig;
+  const applied = [];
+  changes.forEach((change) => {
+    const target = resolveField(updatedJsonConfig, change.path);
+    if (!target) {
+      return;
+    }
+    const value = toFieldValue(change, target.value);
+    if (value === void 0) {
+      return;
+    }
+    applied.push({ ...change, value });
+    if (value === target.value) {
+      return;
+    }
+    if (updatedJsonConfig === jsonConfig) {
+      updatedJsonConfig = structuredClone(jsonConfig);
+    }
+    const { parent, key } = resolveField(updatedJsonConfig, change.path);
+    parent[key] = value;
+  });
+  return { jsonConfig: updatedJsonConfig, applied };
+}
+function resolveField(jsonConfig, path) {
+  const segments = path.split(PATH_SEPARATOR);
+  let parent = void 0;
+  let key = void 0;
+  let value = jsonConfig;
+  for (const segment of segments) {
+    if (FORBIDDEN_SEGMENTS.has(segment)) {
+      return void 0;
+    }
+    if (Array.isArray(value)) {
+      if (!LIST_INDEX_RE.test(segment) || Number(segment) >= value.length) {
+        return void 0;
+      }
+    } else if (!isPlainObject(value) || !Object.hasOwn(value, segment)) {
+      return void 0;
+    }
+    parent = value;
+    key = Array.isArray(value) ? Number(segment) : segment;
+    value = value[key];
+  }
+  return parent ? { parent, key, value } : void 0;
+}
+function getCardValueUpdates(applied) {
+  return applied.filter((change) => change.itemId).map(({ path, value, itemId }) => ({ action: { type: SETTINGS_VALUE_UPDATED_ACTION, payload: { path, value } }, itemId }));
+}
+function getSettingsFieldValue(jsonConfig, path) {
+  return resolveField(jsonConfig, path)?.value;
+}
+function stepSettingsValue(value, delta, { min = 0, max = Infinity } = {}) {
+  const number = typeof value === "string" && CSS_LENGTH_RE.test(value) ? parseFloat(value) : toNumber(value);
+  if (number === void 0) {
+    return void 0;
+  }
+  const stepped = Number((number + delta).toFixed(STEP_PRECISION));
+  return Math.min(max, Math.max(min, stepped));
+}
+function toFieldValue({ valueType, value, unit }, currentValue) {
+  switch (valueType) {
+    case SETTINGS_VALUE_TYPE.BOOLEAN:
+      return typeof currentValue === "boolean" ? toBoolean(value) : void 0;
+    case SETTINGS_VALUE_TYPE.NUMBER:
+      return isFiniteNumber(currentValue) ? toNumber(value) : void 0;
+    case SETTINGS_VALUE_TYPE.LENGTH: {
+      const number = toNumber(value);
+      const currentLength = typeof currentValue === "string" ? CSS_LENGTH_RE.exec(currentValue) : null;
+      const lengthUnit = unit || currentLength?.[1] || "";
+      return currentLength && number !== void 0 && CSS_LENGTH_UNITS.has(lengthUnit) ? `${number}${lengthUnit}` : void 0;
+    }
+    case SETTINGS_VALUE_TYPE.STRING:
+      return typeof currentValue === "string" && typeof value === "string" && value ? value : void 0;
+    case SETTINGS_VALUE_TYPE.COLOR:
+      return isHexColor(currentValue) && isHexColor(value) ? value : void 0;
+    default:
+      return void 0;
+  }
+}
+function toBoolean(value) {
+  if (typeof value === "boolean") {
+    return value;
+  }
+  return value === "true" ? true : value === "false" ? false : void 0;
+}
+function toNumber(value) {
+  if (isFiniteNumber(value)) {
+    return value;
+  }
+  if (typeof value !== "string" || !value.trim()) {
+    return void 0;
+  }
+  const number = Number(value);
+  return Number.isFinite(number) ? number : void 0;
+}
+function isFiniteNumber(value) {
+  return typeof value === "number" && Number.isFinite(value);
+}
+function isHexColor(value) {
+  return typeof value === "string" && HEX_COLOR_RE.test(value);
+}
+function isPlainObject(value) {
+  return !!value && typeof value === "object" && !Array.isArray(value);
+}
+class SettingsChangesQueue {
+  #changes = /* @__PURE__ */ new Map();
+  #timer = void 0;
+  #held = false;
+  /**
+   * @param {object} params
+   * @param {function(Array): void} params.onFlush - receives the collected changes in the order of their fields
+   * @param {number} [params.delayMs]
+   */
+  constructor({ onFlush, delayMs = SETTINGS_CHANGES_DEBOUNCE_MS }) {
+    this.onFlush = onFlush;
+    this.delayMs = delayMs;
+  }
+  /**
+   * The change of a field waiting to be handed over.
+   */
+  get(path) {
+    return this.#changes.get(path);
+  }
+  push(change) {
+    this.#changes.delete(change.path);
+    this.#changes.set(change.path, change);
+    this.#schedule();
+  }
+  hold() {
+    this.#held = true;
+    this.#cancelTimer();
+  }
+  release() {
+    this.#held = false;
+    this.flush();
+  }
+  flush() {
+    this.#cancelTimer();
+    if (this.#held || !this.#changes.size) {
+      return;
+    }
+    const changes = [...this.#changes.values()];
+    this.#changes.clear();
+    this.onFlush(changes);
+  }
+  /**
+   * Drops the waiting changes and the hold: the chat they come from is gone, so its answer end will not arrive.
+   */
+  clear() {
+    this.#cancelTimer();
+    this.#changes.clear();
+    this.#held = false;
+  }
+  #schedule() {
+    this.#cancelTimer();
+    if (!this.#held) {
+      this.#timer = setTimeout(() => this.flush(), this.delayMs);
+    }
+  }
+  #cancelTimer() {
+    clearTimeout(this.#timer);
+    this.#timer = void 0;
+  }
+}
+const AI_PANEL_UI_ELEMENT_ID = "widgets-ai-panel-ui-element";
+class AiPanelUiElementBuilder {
+  static buildUiElement(widgetConfig2) {
+    return class extends UIElement {
+      getId() {
+        return `${AI_PANEL_UI_ELEMENT_ID}_${widgetConfig2.widgetId}`;
+      }
+      getTemplate() {
+        return `
+                    <div class="widgets-ai-panel-layout">
+                        <div class="widgets-layouts-strip-container">
+                            <div class="widgets-layouts-strip" role="radiogroup" hidden></div>
+                        </div>
+                        <div id="ui-editor-widgets-ai-panel-container"></div>
+                    </div>
+                `;
+      }
+      onRender(_container) {
+        this.layouts = getWidgetLayouts(widgetConfig2);
+        this.layoutsStrip = _container.querySelector(".widgets-layouts-strip");
+        this.renderLayoutsStrip();
+        this.renderLayoutQuestion();
+        this.settingsChanges = new SettingsChangesQueue({ onFlush: (changes) => this.applySettingsChanges(changes) });
+        this.panelControl = _container.closest(".ui-editor-widgets-ai-panel-control");
+        this.panelControl?.addEventListener("keydown", this.onPanelKeydown);
+        this.panelControl?.addEventListener("focusout", this.onPanelFocusOut);
+        const editorConfig = this.api.getEditorConfig();
+        this.chatKitSdk = new ChatKitSDK({
+          domainName: "stripo_widget_assistant",
+          editorMode: editorConfig?.editorMode,
+          chatkitDomainPublicKey: editorConfig?.firstPartyExtensions?.chatkitDomainPublicKey,
+          authTokenGetter: () => WidgetsApi.getConvoAuthToken(this.api),
+          fetchFn: (url, init) => WidgetsApi.fetch(url, init, this.api),
+          chatKitPanelContainer: _container.querySelector("#ui-editor-widgets-ai-panel-container"),
+          eventHandlers: this.getChatKitEventHandlers(),
+          onWidgetAction: (action, widgetItem) => this.onWidgetAction(action, widgetItem),
+          headerTitle: this.api.translate("AI Assistant"),
+          startScreenGreeting: widgetConfig2.aiGreetingsText ? this.api.translate(widgetConfig2.aiGreetingsText) : null,
+          quickStartPrompts: (widgetConfig2.quickStartPrompts || []).map(
+            (promptItem) => {
+              return {
+                prompt: this.api.translate(promptItem.prompt),
+                label: this.api.translate(promptItem.label)
+              };
+            }
+          ),
+          composerPlaceholder: this.api.translate("Describe what you want to modify..."),
+          locale: editorConfig?.locale,
+          theme: this.getChatkitTheme(_container),
+          attachImageToolLabel: this.api.translate("Attach Image"),
+          onAttachImage: widgetConfig2.allowImageAttachments ? this.openAttachImageLibrary.bind(this) : null,
+          domainModelRevisionGetter: this.getDomainModelRevision.bind(this)
+        });
+      }
+      onDestroy() {
+        super.onDestroy();
+        this.chatKitSdk.destroyPanel();
+        this.resetSettingsControls(WidgetsBlockConfigUtils.getBlockUUID(this.getValue()));
+        this.closeLayoutQuestion();
+        this.unsubscribeLayoutsState?.();
+        this.unsubscribeMenuState?.();
+        WidgetMenuState.setStorageBlockOpen(WidgetsBlockConfigUtils.getBlockUUID(this.getValue()), false);
+        this.panelControl?.removeEventListener("keydown", this.onPanelKeydown);
+        this.panelControl?.removeEventListener("focusout", this.onPanelFocusOut);
+        LayoutsStripState.setAiResponding(WidgetsBlockConfigUtils.getBlockUUID(this.getValue()), false);
+      }
+      getValue() {
+        return this.nodeConfig;
+      }
+      setValue(widgetBlockNodeConfig) {
+        widgetBlockNodeConfig = typeof widgetBlockNodeConfig === "string" ? JSON.parse(widgetBlockNodeConfig) : widgetBlockNodeConfig;
+        const blockUUID = WidgetsBlockConfigUtils.getBlockUUID(widgetBlockNodeConfig);
+        if (!WidgetsBlockConfigUtils.isSameWidget({ currentConfig: this.getValue(), newConfig: widgetBlockNodeConfig })) {
+          this.closeLayoutQuestion();
+          this.resetSettingsControls(WidgetsBlockConfigUtils.getBlockUUID(this.getValue()));
+          this.subscribeToLayoutsState(WidgetsBlockConfigUtils.getBlockUUID(this.getValue()), blockUUID);
+          this.subscribeToMenuState(WidgetsBlockConfigUtils.getBlockUUID(this.getValue()), blockUUID);
+          this.chatKitSdk.initPanel({
+            domainModelId: blockUUID,
+            threadIdStorageKey: `widgets-thread-id-${blockUUID}`,
+            metadata: {
+              widgetId: WidgetsBlockConfigUtils.getWidgetId(widgetBlockNodeConfig),
+              useDraft: WidgetsApi.isDraftMode(),
+              [SETTINGS_CONTROLS_FEATURE]: true
+            }
+          });
+        }
+        this.nodeConfig = { ...widgetBlockNodeConfig };
+        this.updateLayoutsStrip();
+      }
+      subscribeToLayoutsState(previousBlockUUID, blockUUID) {
+        this.unsubscribeLayoutsState?.();
+        LayoutsStripState.setAiResponding(previousBlockUUID, false);
+        this.unsubscribeLayoutsState = this.hasLayoutsStrip() ? LayoutsStripState.subscribe(blockUUID, () => this.updateLayoutsStrip()) : void 0;
+      }
+      /**
+       * The panel menu sends its prompts to this chat and opens the data storage block over it.
+       */
+      subscribeToMenuState(previousBlockUUID, blockUUID) {
+        this.unsubscribeMenuState?.();
+        WidgetMenuState.setStorageBlockOpen(previousBlockUUID, false);
+        const unsubscribeState = WidgetMenuState.subscribe(blockUUID, () => this.updateStorageBlock());
+        const removePromptSender = WidgetMenuState.setPromptSender(blockUUID, (text) => this.chatKitSdk.sendUserMessage(text));
+        this.unsubscribeMenuState = () => {
+          unsubscribeState();
+          removePromptSender();
+        };
+        this.updateStorageBlock(blockUUID);
+      }
+      updateStorageBlock(blockUUID = WidgetsBlockConfigUtils.getBlockUUID(this.getValue())) {
+        const open = WidgetMenuState.isStorageBlockOpen(blockUUID);
+        const opened = open && !this.panelControl?.classList.contains("widgets-storage-block-open");
+        this.panelControl?.classList.toggle("widgets-storage-block-open", open);
+        open && SettingsColorPickerState.close(blockUUID);
+        opened && this.panelControl?.querySelector(".widgets-storage-block")?.focus();
+      }
+      onPanelKeydown = (event) => {
+        const blockUUID = WidgetsBlockConfigUtils.getBlockUUID(this.getValue());
+        if (!WidgetMenuState.isStorageBlockOpen(blockUUID)) {
+          return;
+        }
+        if (event.key === "Escape") {
+          event.stopPropagation();
+          WidgetMenuState.setStorageBlockOpen(blockUUID, false);
+        } else if (event.key === "Enter" && this.isFilledExternalStorageField(event.target)) {
+          WidgetMenuState.setStorageBlockOpen(blockUUID, false);
+        }
+      };
+      /**
+       * A storage of the list closes the block once chosen, see AiPanelControlBuilder; an external storage URL
+       * is typed, so it is chosen when the user leaves its field.
+       */
+      onPanelFocusOut = (event) => {
+        const blockUUID = WidgetsBlockConfigUtils.getBlockUUID(this.getValue());
+        const storageBlock = this.panelControl?.querySelector(".widgets-storage-block");
+        if (WidgetMenuState.isStorageBlockOpen(blockUUID) && this.isFilledExternalStorageField(event.target) && !storageBlock?.contains(event.relatedTarget)) {
+          WidgetMenuState.setStorageBlockOpen(blockUUID, false);
+        }
+      };
+      isFilledExternalStorageField(target) {
+        return target instanceof HTMLInputElement && !!target.value.trim() && !!target.closest(".widgets-storage-block") && !target.closest("ue-select");
+      }
+      hasLayoutsStrip() {
+        return !!this.layouts && hasLayoutsStrip(this.layouts);
+      }
+      renderLayoutsStrip() {
+        if (!this.hasLayoutsStrip()) {
+          return;
+        }
+        this.layoutsStrip.setAttribute("aria-label", this.api.translate("Layouts"));
+        this.layoutTiles = this.layouts.map((layout) => {
+          const tile = document.createElement("button");
+          tile.type = "button";
+          tile.className = "widgets-layout-tile";
+          tile.setAttribute("role", "radio");
+          tile.dataset.layoutId = layout.id;
+          const preview = document.createElement("span");
+          preview.className = "widgets-layout-tile__preview";
+          if (layout.thumbnailUrl) {
+            const image = document.createElement("img");
+            image.src = layout.thumbnailUrl;
+            image.alt = "";
+            image.loading = "lazy";
+            preview.appendChild(image);
+          }
+          const name = document.createElement("span");
+          name.className = "widgets-layout-tile__name";
+          name.textContent = this.api.translate(layout.name);
+          tile.append(preview, name);
+          tile.addEventListener("click", () => this.onLayoutTileClick(layout.id));
+          this.layoutsStrip.appendChild(tile);
+          return tile;
+        });
+      }
+      updateLayoutsStrip() {
+        if (!this.hasLayoutsStrip() || !this.layoutTiles) {
+          return;
+        }
+        const blockUUID = WidgetsBlockConfigUtils.getBlockUUID(this.getValue());
+        const selectedLayoutId = resolveSelectedLayoutId(this.layouts, WidgetsBlockConfigUtils.getJsonConfig(this.getValue()));
+        const busy = LayoutsStripState.isBusy(blockUUID);
+        this.layoutsStrip.hidden = !blockUUID || LayoutsStripState.isCollapsed(blockUUID);
+        this.layoutsStrip.setAttribute("aria-busy", `${busy}`);
+        this.layoutTiles.forEach((tile) => {
+          const selected = tile.dataset.layoutId === selectedLayoutId;
+          tile.setAttribute("aria-checked", `${selected}`);
+          tile.classList.toggle("widgets-layout-tile--selected", selected);
+          tile.disabled = busy;
+        });
+      }
+      renderLayoutQuestion() {
+        if (!this.hasLayoutsStrip()) {
+          return;
+        }
+        const question = document.createElement("div");
+        question.className = "widgets-layout-question";
+        question.setAttribute("role", "alertdialog");
+        question.hidden = true;
+        const text = document.createElement("p");
+        text.className = "widgets-layout-question__text";
+        const closeButton = this.createLayoutQuestionButton("widgets-layout-question__close", "×", () => this.closeLayoutQuestion({ restoreFocus: true }));
+        closeButton.setAttribute("aria-label", this.api.translate("Cancel"));
+        const actions = document.createElement("div");
+        actions.className = "widgets-layout-question__actions";
+        const transferButton = this.createLayoutQuestionButton(
+          "widgets-layout-question__button widgets-layout-question__button--primary",
+          this.api.translate("Transfer"),
+          () => this.answerLayoutQuestion(true)
+        );
+        actions.append(
+          transferButton,
+          this.createLayoutQuestionButton("widgets-layout-question__button", this.api.translate("Do not transfer"), () => this.answerLayoutQuestion(false))
+        );
+        question.append(closeButton, text, actions);
+        question.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            event.stopPropagation();
+            this.closeLayoutQuestion({ restoreFocus: true });
+          }
+        });
+        this.layoutsStrip.parentElement.after(question);
+        this.layoutQuestion = { element: question, text, transferButton };
+      }
+      createLayoutQuestionButton(className, label, onClick) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = className;
+        button.textContent = label;
+        button.addEventListener("click", onClick);
+        return button;
+      }
+      openLayoutQuestion(blockUUID, layoutId) {
+        const layout = this.layouts.find((item) => item.id === layoutId);
+        const message = this.api.translate('You changed the design of this layout. Transfer the changes to "{layoutName}"?', {
+          layoutName: this.api.translate(layout.name)
+        });
+        this.layoutQuestion.text.textContent = message;
+        this.layoutQuestion.element.setAttribute("aria-label", message);
+        this.layoutQuestion.element.hidden = false;
+        this.pendingLayoutQuestion = { blockUUID, layoutId };
+        LayoutsStripState.setLayoutQuestion(blockUUID, true);
+        this.layoutQuestion.transferButton.focus();
+      }
+      /**
+       * Closing the question without an answer keeps the current layout.
+       */
+      closeLayoutQuestion({ restoreFocus = false } = {}) {
+        const pending = this.pendingLayoutQuestion;
+        if (!pending) {
+          return void 0;
+        }
+        this.pendingLayoutQuestion = void 0;
+        this.layoutQuestion.element.hidden = true;
+        LayoutsStripState.setLayoutQuestion(pending.blockUUID, false);
+        restoreFocus && this.layoutTiles.find((tile) => tile.dataset.layoutId === pending.layoutId)?.focus();
+        return pending;
+      }
+      answerLayoutQuestion(transferUserChanges) {
+        const pending = this.closeLayoutQuestion();
+        const blockUUID = WidgetsBlockConfigUtils.getBlockUUID(this.getValue());
+        if (!pending || pending.blockUUID !== blockUUID || LayoutsStripState.isBusy(blockUUID)) {
+          return;
+        }
+        const plan = this.planLayoutSwitch(blockUUID, pending.layoutId);
+        plan && this.applyLayoutSwitch(blockUUID, transferUserChanges ? plan.transferJsonConfig : plan.resetJsonConfig, plan.memory);
+      }
+      onLayoutTileClick(layoutId) {
+        const blockUUID = WidgetsBlockConfigUtils.getBlockUUID(this.getValue());
+        if (!blockUUID || LayoutsStripState.isBusy(blockUUID)) {
+          return;
+        }
+        const plan = this.planLayoutSwitch(blockUUID, layoutId);
+        if (!plan) {
+          return;
+        }
+        if (plan.hasUserChanges) {
+          this.openLayoutQuestion(blockUUID, layoutId);
+        } else {
+          this.applyLayoutSwitch(blockUUID, plan.resetJsonConfig, plan.memory);
+        }
+      }
+      planLayoutSwitch(blockUUID, layoutId) {
+        const jsonConfig = WidgetsBlockConfigUtils.getJsonConfig(this.getValue());
+        if (resolveSelectedLayoutId(this.layouts, jsonConfig) === layoutId) {
+          return void 0;
+        }
+        return planLayoutSwitch({
+          layouts: this.layouts,
+          jsonConfig,
+          targetLayoutId: layoutId,
+          memory: LayoutsStripState.getLatestLayoutSettings(blockUUID)
+        });
+      }
+      applyLayoutSwitch(blockUUID, jsonConfig, layoutSettings) {
+        this.setValue(WidgetsBlockConfigUtils.updateConfigJsonConfig({
+          jsonConfig,
+          currentConfig: this.getValue()
+        }));
+        const layoutChange = JSON.stringify(this.getValue());
+        LayoutsStripState.startLayoutChange(blockUUID, layoutChange, layoutSettings);
+        this.api.triggerValueChange(layoutChange);
+      }
+      getChatKitEventHandlers() {
+        return {
+          "chatkit.response.start": () => {
+            LayoutsStripState.setAiResponding(WidgetsBlockConfigUtils.getBlockUUID(this.getValue()), true);
+            this.settingsChanges.hold();
+          },
+          "chatkit.response.end": () => {
+            LayoutsStripState.setAiResponding(WidgetsBlockConfigUtils.getBlockUUID(this.getValue()), false);
+            this.settingsChanges.release();
+          },
+          "chatkit.effect": (event) => {
+            const { name, data } = event.detail;
+            console.log("%conEffect", "background: yellow; color: black;", name, data);
+            if (name === "apply_domain_model") {
+              const domainModel = typeof data.domain_model === "string" ? JSON.parse(data.domain_model) : data.domain_model;
+              this.applyJsonConfig(domainModel);
+              this.api.sendEvent && this.api.sendEvent("widget_updated", {
+                name: widgetConfig2.name
+              });
+            }
+          }
+        };
+      }
+      /**
+       * Applies a widget JSON config of the AI or of the settings controls in the chat.
+       */
+      applyJsonConfig(jsonConfig) {
+        const layoutSettings = this.rememberLayoutSettings(jsonConfig);
+        this.setValue(WidgetsBlockConfigUtils.updateConfigJsonConfig({
+          jsonConfig,
+          currentConfig: this.getValue()
+        }));
+        const change = JSON.stringify(this.getValue());
+        LayoutsStripState.setPendingLayoutSettings(WidgetsBlockConfigUtils.getBlockUUID(this.getValue()), change, layoutSettings);
+        this.api.triggerValueChange(change);
+      }
+      /**
+       * Actions of the settings cards the assistant shows in the chat; the model is not run for them.
+       */
+      onWidgetAction(action, widgetItem) {
+        handleSettingsControlAction(action, widgetItem?.id, {
+          onChange: (change) => this.settingsChanges.push(change),
+          onStep: (change) => this.stepSettingsControl(change),
+          onColorPick: (change) => this.openSettingsColorPicker(change)
+        });
+      }
+      /**
+       * A −/+ click counts from the value the previous clicks have left, even if it is not applied yet.
+       */
+      stepSettingsControl({ delta, min, max, ...change }) {
+        const pendingChange = this.settingsChanges.get(change.path);
+        const value = pendingChange ? pendingChange.value : getSettingsFieldValue(WidgetsBlockConfigUtils.getJsonConfig(this.getValue()), change.path);
+        const steppedValue = stepSettingsValue(value, delta, { min, max });
+        steppedValue !== void 0 && this.settingsChanges.push({ ...change, value: steppedValue });
+      }
+      openSettingsColorPicker(change) {
+        const currentColor = getSettingsFieldValue(WidgetsBlockConfigUtils.getJsonConfig(this.getValue()), change.path);
+        SettingsColorPickerState.open(WidgetsBlockConfigUtils.getBlockUUID(this.getValue()), {
+          path: change.path,
+          value: isHexColor(currentColor) ? currentColor : change.value,
+          onPick: (color) => this.settingsChanges.push({ ...change, value: color })
+        });
+      }
+      applySettingsChanges(changes) {
+        const currentJsonConfig = WidgetsBlockConfigUtils.getJsonConfig(this.getValue());
+        const { jsonConfig, applied } = applySettingsChanges(currentJsonConfig, changes);
+        if (jsonConfig !== currentJsonConfig) {
+          this.applyJsonConfig(jsonConfig);
+        }
+        getCardValueUpdates(applied).forEach(({ action, itemId }) => this.chatKitSdk.sendCustomAction(action, itemId));
+      }
+      /**
+       * Changes of the controls not applied yet belong to the chat of the block that is left.
+       */
+      resetSettingsControls(blockUUID) {
+        this.settingsChanges.clear();
+        SettingsColorPickerState.close(blockUUID);
+      }
+      /**
+       * When the AI switches the layout, the panel remembers the design values the user left the previous one with.
+       */
+      rememberLayoutSettings(jsonConfig) {
+        const blockUUID = WidgetsBlockConfigUtils.getBlockUUID(this.getValue());
+        if (!this.hasLayoutsStrip() || !blockUUID) {
+          return void 0;
+        }
+        return rememberLayoutSettings({
+          layouts: this.layouts,
+          previousJsonConfig: WidgetsBlockConfigUtils.getJsonConfig(this.getValue()),
+          jsonConfig,
+          memory: LayoutsStripState.getLatestLayoutSettings(blockUUID)
+        });
+      }
+      getDomainModelRevision() {
+        return WidgetsBlockConfigUtils.getJsonConfig(this.getValue());
+      }
+      getChatkitTheme(container) {
+        const vars = this.api.getEditorConfig()?.editorThemeVariables;
+        return createChatKitTheme(createEditorThemeVariableReader(vars, container));
+      }
+      openAttachImageLibrary({ onSelect, onCancel, onError }) {
+        try {
+          window.StripoEditorApi.actionsApi.openImageLibrary(null, onSelect, onCancel);
+        } catch (e) {
+          onError(e);
+        }
+      }
+    };
+  }
+}
+class WidgetService {
+  /**
+   * @returns {Promise<boolean>} false when the loaded HTML is not applied because the modification is no longer actual
+   */
+  static async applyWidgetModification({ updatedNodeConfig, widgetConfig: widgetConfig2, documentModifier, node, versionHistoryMessage, api, isActual = () => true }) {
+    const payload = await WidgetsApi.loadWidgetTemplate({
+      widgetId: WidgetsBlockConfigUtils.getWidgetId(updatedNodeConfig),
+      jsonConfig: WidgetsBlockConfigUtils.getJsonConfig(updatedNodeConfig),
+      api
+    });
+    if (!isActual()) {
+      return false;
+    }
+    const widgetInnerHtml = WidgetsMarkupUtils.prepareExternalWidgetMarkup({
+      widgetMarkupString: payload.module,
+      showAmpOnlyForBothMimeTypeView: widgetConfig2.showAmpOnlyForBothMimeTypeView,
+      innerHtml: true
+    });
+    const widgetNodeConfig = WidgetsBlockConfigUtils.updateConfigJsonConfig({
+      jsonConfig: payload.config,
+      currentConfig: node.getNodeConfig()
+    });
+    documentModifier.modifyHtml(node).setHiddenElementState(WidgetsBlockConfigUtils.getHiddenWidgetState(widgetNodeConfig)).setNodeConfig(widgetNodeConfig).setInnerHtml(widgetInnerHtml).apply(new ModificationDescription2(versionHistoryMessage));
+    return true;
+  }
+  static async applyWidgetAmpServiceUrlModification({ ampServiceUrl, widgetConfig: widgetConfig2, documentModifier, node, versionHistoryMessage, api }) {
+    const updatedNodeConfig = WidgetsBlockConfigUtils.updateConfigAmpServiceUrl({
+      ampServiceUrl,
+      currentConfig: node.getNodeConfig()
+    });
+    return await WidgetService.applyWidgetModification({
+      updatedNodeConfig,
+      widgetConfig: widgetConfig2,
+      documentModifier,
+      node,
+      versionHistoryMessage,
+      api
+    });
+  }
+}
+const WidgetStorageState = Object.freeze({
+  // The widget does not collect data, so it needs no storage
+  NONE: "none",
+  MISSING: "missing",
+  CHOSEN: "chosen"
+});
+function resolveWidgetStorageStatus({ hasDataService, ampServiceUrl, ampFormServices }) {
+  if (!hasDataService) {
+    return { state: WidgetStorageState.NONE };
+  }
+  if (!ampServiceUrl) {
+    return { state: WidgetStorageState.MISSING };
+  }
+  const service = (ampFormServices || []).find((item) => item?.value === ampServiceUrl);
+  return { state: WidgetStorageState.CHOSEN, name: service?.label || ampServiceUrl };
+}
+function isListedStorage(ampServiceUrl, ampFormServices) {
+  return !!ampServiceUrl && (ampFormServices || []).some((item) => item?.value === ampServiceUrl);
+}
+const SETTINGS_COLOR_LAYER = "settingsColorLayer";
+const SETTINGS_COLOR = "settingsColor";
+const SETTINGS_COLOR_CLOSE = "settingsColorClose";
+const AI_PANEL_CONTROL_ID = "widgets-ai-panel-control";
+class AiPanelControlBuilder {
+  static buildControl(widgetConfig2) {
+    return class extends Control {
+      getId() {
+        return `${AI_PANEL_CONTROL_ID}_${widgetConfig2.widgetId}`;
+      }
+      getTemplate() {
+        const storageBlock = widgetConfig2.hasDataService ? `
+                        <div class="container widgets-storage-block" tabindex="-1">
+                            <${UIElementType.AMP_FORM_SERVICE_PICKER} ${UEAttr.AMP_FORM_SERVICE_PICKER.name}="dataService"></${UIElementType.AMP_FORM_SERVICE_PICKER}>
+                        </div>` : "";
+        return `
+                    <div class="ui-editor-widgets-ai-panel-control">
+                        <${AI_PANEL_UI_ELEMENT_ID}_${widgetConfig2.widgetId} name="widgetAiPanel"></${AI_PANEL_UI_ELEMENT_ID}_${widgetConfig2.widgetId}>${storageBlock}
+                        <div class="widgets-settings-color-layer" ${UEAttr.DEFAULT.name}="${SETTINGS_COLOR_LAYER}">
+                            <${UIElementType.LABEL} ${UEAttr.LABEL.text}="${this.api.translate("Color")}"></${UIElementType.LABEL}>
+                            <${UIElementType.COLOR} ${UEAttr.COLOR.name}="${SETTINGS_COLOR}"></${UIElementType.COLOR}>
+                            <${UIElementType.BUTTON} ${UEAttr.BUTTON.name}="${SETTINGS_COLOR_CLOSE}" ${UEAttr.BUTTON.caption}="${this.api.translate("Close")}"></${UIElementType.BUTTON}>
+                        </div>
+                    </div>
+                `;
+      }
+      onRender() {
+        this.node = void 0;
+        this.unsubscribeSettingsColorPicker?.();
+        this.unsubscribeSettingsColorPicker = void 0;
+        this.renderSettingsColorPicker();
+        this.api.onValueChanged(SETTINGS_COLOR, (color) => {
+          SettingsColorPickerState.getRequest(this.getBlockUUID())?.onPick(color);
+        });
+        this.api.onValueChanged(SETTINGS_COLOR_CLOSE, () => SettingsColorPickerState.close(this.getBlockUUID()));
+        this.api.onValueChanged("widgetAiPanel", async (updatedNodeConfigStr) => {
+          const updatedNodeConfig = JSON.parse(updatedNodeConfigStr);
+          const node = this.node;
+          const blockUUID = WidgetsBlockConfigUtils.getBlockUUID(updatedNodeConfig);
+          const isLayoutChange = LayoutsStripState.isLayoutChange(blockUUID, updatedNodeConfigStr);
+          const change = isLayoutChange ? "layout has been changed" : "widget has been updated";
+          let applied = false;
+          LayoutsStripState.startWidgetChange(blockUUID, updatedNodeConfigStr);
+          try {
+            applied = await WidgetService.applyWidgetModification({
+              updatedNodeConfig,
+              widgetConfig: widgetConfig2,
+              api: this.api,
+              documentModifier: this.api.getDocumentModifier(),
+              node,
+              versionHistoryMessage: `"${this.api.translate(widgetConfig2.name)}" ${this.api.translate(change)}`,
+              isActual: () => LayoutsStripState.isLatestWidgetChange(blockUUID, updatedNodeConfigStr)
+            });
+          } catch (e) {
+            if (!isLayoutChange) {
+              throw e;
+            }
+            console.error("Failed to apply widget layout:", e);
+            node === this.node && this.api.updateValues({ "widgetAiPanel": node.getNodeConfig() });
+          } finally {
+            LayoutsStripState.finishWidgetChange(blockUUID, updatedNodeConfigStr);
+            LayoutsStripState.settleLayoutSettings(blockUUID, updatedNodeConfigStr, applied);
+            isLayoutChange && LayoutsStripState.finishLayoutChange(blockUUID, updatedNodeConfigStr);
+          }
+        });
+        widgetConfig2.hasDataService && this.api.onValueChanged("dataService", async (ampServiceUrl, oldAmpServiceUrl) => {
+          if (!ampServiceUrl && !!oldAmpServiceUrl) {
+            return;
+          }
+          const node = this.node;
+          isListedStorage(ampServiceUrl, this.api.getEditorConfig()?.ampFormServices) && WidgetMenuState.setStorageBlockOpen(WidgetsBlockConfigUtils.getBlockUUID(node.getNodeConfig()), false);
+          await WidgetService.applyWidgetAmpServiceUrlModification({
+            ampServiceUrl,
+            widgetConfig: widgetConfig2,
+            api: this.api,
+            documentModifier: this.api.getDocumentModifier(),
+            node,
+            versionHistoryMessage: `"${this.api.translate(widgetConfig2.name)}" ${this.api.translate("widget has been updated")}`
+          });
+        });
+      }
+      onTemplateNodeUpdated(node) {
+        const previousBlockUUID = this.getBlockUUID();
+        this.node = node;
+        if (previousBlockUUID !== this.getBlockUUID()) {
+          this.unsubscribeSettingsColorPicker?.();
+          this.unsubscribeSettingsColorPicker = SettingsColorPickerState.subscribe(this.getBlockUUID(), () => this.renderSettingsColorPicker());
+          this.renderSettingsColorPicker();
+        }
+        const nodeConfig = node.getNodeConfig();
+        this.api.updateValues({
+          "widgetAiPanel": nodeConfig,
+          ...widgetConfig2.hasDataService ? { "dataService": WidgetsBlockConfigUtils.getAmpServiceUrl(nodeConfig) } : {}
+        });
+      }
+      onDestroy() {
+        this.unsubscribeSettingsColorPicker?.();
+      }
+      getBlockUUID() {
+        return WidgetsBlockConfigUtils.getBlockUUID(this.node?.getNodeConfig());
+      }
+      renderSettingsColorPicker() {
+        const request = SettingsColorPickerState.getRequest(this.getBlockUUID());
+        request && this.api.updateValues({ [SETTINGS_COLOR]: request.value });
+        this.api.setVisibility(SETTINGS_COLOR_LAYER, !!request);
+      }
+    };
+  }
+}
+const LAYOUTS_TOGGLE_UI_ELEMENT_ID = "widgets-layouts-toggle-ui-element";
+class LayoutsToggleUiElement extends UIElement {
+  getId() {
+    return LAYOUTS_TOGGLE_UI_ELEMENT_ID;
+  }
+  getTemplate() {
+    return `<div class="widgets-layouts-toggle-wrapper">
+            <button type="button" class="widgets-layouts-toggle">
+                <ue-icon src="stripe" class="icon-button"></ue-icon>
+            </button>
+            <ue-icon src="popup-pointer-light-bottom" class="widgets-header-ear"></ue-icon>
+        </div>`;
+  }
+  onRender(container) {
+    this.button = container.querySelector(".widgets-layouts-toggle");
+    this.button.addEventListener("click", () => this.onClick());
+    this.renderState();
+  }
+  onDestroy() {
+    super.onDestroy();
+    this.unsubscribe?.();
+  }
+  getValue() {
+    return this.blockUUID;
+  }
+  setValue(blockUUID) {
+    if (blockUUID === this.blockUUID) {
+      return;
+    }
+    this.unsubscribe?.();
+    this.blockUUID = blockUUID;
+    const unsubscribers = blockUUID ? [LayoutsStripState, WidgetMenuState].map((state) => state.subscribe(blockUUID, () => this.renderState())) : [];
+    this.unsubscribe = unsubscribers.length ? () => unsubscribers.forEach((unsubscribe) => unsubscribe()) : void 0;
+    this.renderState();
+  }
+  onClick() {
+    if (!this.blockUUID) {
+      return;
+    }
+    if (!WidgetMenuState.isStorageBlockOpen(this.blockUUID)) {
+      LayoutsStripState.toggleCollapsed(this.blockUUID);
+      return;
+    }
+    WidgetMenuState.setStorageBlockOpen(this.blockUUID, false);
+    LayoutsStripState.isCollapsed(this.blockUUID) && LayoutsStripState.toggleCollapsed(this.blockUUID);
+  }
+  renderState() {
+    if (!this.button) {
+      return;
+    }
+    const expanded = !LayoutsStripState.isCollapsed(this.blockUUID) && !WidgetMenuState.isStorageBlockOpen(this.blockUUID);
+    this.button.setAttribute("aria-pressed", `${expanded}`);
+    this.button.setAttribute("aria-label", this.api.translate("Layouts"));
+    this.button.title = this.api.translate(expanded ? "Hide layouts" : "Show layouts");
+  }
+}
+const LAYOUTS_TOGGLE_CONTROL_ID = "widgets-layouts-toggle";
+class LayoutsToggleControlBuilder {
+  static buildControl(widgetConfig2) {
+    return class extends Control {
+      getId() {
+        return `${LAYOUTS_TOGGLE_CONTROL_ID}_${widgetConfig2.widgetId}`;
+      }
+      getTemplate() {
+        return `<${LAYOUTS_TOGGLE_UI_ELEMENT_ID} name="layoutsToggle"></${LAYOUTS_TOGGLE_UI_ELEMENT_ID}>`;
+      }
+      onTemplateNodeUpdated(node) {
+        this.api.updateValues({
+          "layoutsToggle": WidgetsBlockConfigUtils.getBlockUUID(node.getNodeConfig())
+        });
+      }
+    };
+  }
+}
+const WIDGET_MENU_UI_ELEMENT_ID = "widgets-panel-menu-ui-element";
+const MANAGE_OPTIONS_PROMPT = "Let me show or hide the content elements of this widget.";
+const STYLES_PROMPT = "Let me change the styles of this widget.";
+class WidgetMenuUiElement extends UIElement {
+  getId() {
+    return WIDGET_MENU_UI_ELEMENT_ID;
+  }
+  getTemplate() {
+    return `
+            <div class="widgets-panel-menu">
+                <button type="button" class="widgets-panel-menu__toggle" aria-haspopup="menu" aria-expanded="false">
+                    <ue-icon src="more" class="icon-button"></ue-icon>
+                </button>
+                <ue-icon src="popup-pointer-light-bottom" class="widgets-header-ear"></ue-icon>
+                <div class="widgets-panel-menu__dropdown" hidden>
+                    <div class="menu" role="menu">
+                        <button type="button" class="menu-item" role="menuitem" data-action="options">
+                            <ue-icon src="eye" class="icon-text"></ue-icon>
+                            <span class="menu-item-text">${this.api.translate("Manage Options")}</span>
+                        </button>
+                        <button type="button" class="menu-item" role="menuitem" data-action="styles">
+                            <ue-icon src="appearance" class="icon-text"></ue-icon>
+                            <span class="menu-item-text">${this.api.translate("Styles")}</span>
+                        </button>
+                        <button type="button" class="menu-item widgets-panel-menu__storage" role="menuitem" data-action="storage">
+                            <ue-icon src="data" class="icon-text widgets-panel-menu__storage-icon"></ue-icon>
+                            <span class="menu-item-text">
+                                <span>${this.api.translate("Data Storage")}</span>
+                                <span class="widgets-panel-menu__storage-name"></span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+  }
+  onRender(container) {
+    this.root = container.querySelector(".widgets-panel-menu");
+    this.toggle = container.querySelector(".widgets-panel-menu__toggle");
+    this.dropdown = container.querySelector(".widgets-panel-menu__dropdown");
+    this.items = [...container.querySelectorAll('[role="menuitem"]')];
+    this.storageItem = container.querySelector('[data-action="storage"]');
+    this.storageName = container.querySelector(".widgets-panel-menu__storage-name");
+    this.toggle.setAttribute("aria-label", this.api.translate("More actions"));
+    this.toggle.title = this.api.translate("More actions");
+    this.toggle.addEventListener("click", () => this.isOpen() ? this.close() : this.open());
+    this.items.forEach((item) => item.addEventListener("click", () => this.onItemClick(item.dataset.action)));
+    this.dropdown.addEventListener("keydown", (event) => this.onDropdownKeydown(event));
+    this.onDocumentPointerDown = (event) => !event.composedPath().includes(this.root) && this.close();
+    this.onWindowResize = () => this.close();
+    this.renderState();
+  }
+  onDestroy() {
+    super.onDestroy();
+    this.close();
+    this.unsubscribe?.();
+  }
+  getValue() {
+    return this.value;
+  }
+  setValue(value) {
+    const blockUUID = value?.blockUUID;
+    if (blockUUID !== this.value?.blockUUID) {
+      this.close();
+      this.unsubscribe?.();
+      const unsubscribers = blockUUID ? [LayoutsStripState, WidgetMenuState].map((state) => state.subscribe(blockUUID, () => this.renderState())) : [];
+      this.unsubscribe = unsubscribers.length ? () => unsubscribers.forEach((unsubscribe) => unsubscribe()) : void 0;
+    }
+    this.value = value;
+    this.renderState();
+  }
+  renderState() {
+    if (!this.root) {
+      return;
+    }
+    const { state, name } = this.getStorageStatus();
+    this.root.dataset.storageState = state;
+    this.root.dataset.storageOpen = `${WidgetMenuState.isStorageBlockOpen(this.value?.blockUUID)}`;
+    this.storageItem.hidden = state === WidgetStorageState.NONE;
+    this.storageName.textContent = state === WidgetStorageState.CHOSEN ? name : this.api.translate("Storage is not chosen");
+    this.storageName.title = this.storageName.textContent;
+    const aiResponding = LayoutsStripState.isAiResponding(this.value?.blockUUID);
+    this.items.filter((item) => item.dataset.action !== "storage").forEach((item) => item.disabled = aiResponding);
+  }
+  getStorageStatus() {
+    return resolveWidgetStorageStatus({
+      hasDataService: this.value?.hasDataService,
+      ampServiceUrl: this.value?.ampServiceUrl,
+      ampFormServices: this.api.getEditorConfig()?.ampFormServices
+    });
+  }
+  isOpen() {
+    return !this.dropdown.hidden;
+  }
+  open() {
+    if (!this.value?.blockUUID) {
+      return;
+    }
+    this.renderState();
+    const toggleRect = this.toggle.getBoundingClientRect();
+    this.dropdown.style.top = `${toggleRect.bottom}px`;
+    this.dropdown.style.right = `${document.documentElement.clientWidth - toggleRect.right}px`;
+    this.dropdown.hidden = false;
+    this.toggle.setAttribute("aria-expanded", "true");
+    document.addEventListener("pointerdown", this.onDocumentPointerDown, true);
+    window.addEventListener("resize", this.onWindowResize);
+    this.items.find((item) => !item.hidden && !item.disabled)?.focus();
+  }
+  close({ restoreFocus = false } = {}) {
+    if (!this.dropdown || !this.isOpen()) {
+      return;
+    }
+    this.dropdown.hidden = true;
+    this.toggle.setAttribute("aria-expanded", "false");
+    document.removeEventListener("pointerdown", this.onDocumentPointerDown, true);
+    window.removeEventListener("resize", this.onWindowResize);
+    restoreFocus && this.toggle.focus();
+  }
+  onItemClick(action) {
+    const blockUUID = this.value?.blockUUID;
+    this.close();
+    if (!blockUUID) {
+      return;
+    }
+    switch (action) {
+      case "options":
+        WidgetMenuState.sendPrompt(blockUUID, this.api.translate(MANAGE_OPTIONS_PROMPT));
+        break;
+      case "styles":
+        WidgetMenuState.sendPrompt(blockUUID, this.api.translate(STYLES_PROMPT));
+        break;
+      case "storage":
+        WidgetMenuState.setStorageBlockOpen(blockUUID, true);
+        break;
+    }
+  }
+  onDropdownKeydown(event) {
+    if (event.key === "Escape") {
+      event.stopPropagation();
+      this.close({ restoreFocus: true });
+      return;
+    }
+    if (event.key !== "ArrowDown" && event.key !== "ArrowUp") {
+      return;
+    }
+    event.preventDefault();
+    const items = this.items.filter((item) => !item.hidden && !item.disabled);
+    const index = items.indexOf(this.root.getRootNode().activeElement);
+    const step = event.key === "ArrowDown" ? 1 : -1;
+    items[(index + step + items.length) % items.length]?.focus();
+  }
+}
+const WIDGET_MENU_CONTROL_ID = "widgets-panel-menu";
+class WidgetMenuControlBuilder {
+  static buildControl(widgetConfig2) {
+    return class extends Control {
+      getId() {
+        return `${WIDGET_MENU_CONTROL_ID}_${widgetConfig2.widgetId}`;
+      }
+      getTemplate() {
+        return `<${WIDGET_MENU_UI_ELEMENT_ID} name="widgetMenu"></${WIDGET_MENU_UI_ELEMENT_ID}>`;
+      }
+      onTemplateNodeUpdated(node) {
+        const nodeConfig = node.getNodeConfig();
+        this.api.updateValues({
+          "widgetMenu": {
+            blockUUID: WidgetsBlockConfigUtils.getBlockUUID(nodeConfig),
+            hasDataService: !!widgetConfig2.hasDataService,
+            ampServiceUrl: WidgetsBlockConfigUtils.getAmpServiceUrl(nodeConfig)
+          }
+        });
+      }
+    };
+  }
+}
+class WidgetsPanelRegistryBuilder {
+  static buildWidgetsSettingsPanel(widgetsConfig2) {
+    return class extends SettingsPanelRegistry {
+      registerBlockControls(controls2) {
+        widgetsConfig2.forEach((widgetConfig2) => {
+          const tabControls = [{ id: `${AI_PANEL_CONTROL_ID}_${widgetConfig2.widgetId}`, withFullHeight: true }];
+          controls2[widgetConfig2.widgetId] = [
+            new SettingsPanelTab(
+              "widgetsAi",
+              tabControls
+            ).withLabel("Stripo AI")
+          ];
+        });
+      }
+      registerBlockHeaderControls(headerControls) {
+        widgetsConfig2.forEach((widgetConfig2) => {
+          headerControls[widgetConfig2.widgetId] = [
+            ...hasLayoutsStrip(getWidgetLayouts(widgetConfig2)) ? [`${LAYOUTS_TOGGLE_CONTROL_ID}_${widgetConfig2.widgetId}`] : [],
+            `${WIDGET_MENU_CONTROL_ID}_${widgetConfig2.widgetId}`
+          ];
+        });
+      }
+    };
+  }
+}
+const ICON_DATA_URI$1 = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3C/svg%3E';
+const buildWidgetConfig = (widgetId, name, layouts, hasDataService, jsonConfig = {}) => ({
+  widgetId,
+  type: "BLOCK",
+  name,
+  category: "UTILITY_CONTENT",
+  iconUrl: ICON_DATA_URI$1,
+  hoverIconUrl: ICON_DATA_URI$1,
+  allowInnerBlocksSelection: false,
+  showAmpOnlyForBothMimeTypeView: false,
+  hasDataService,
+  layouts,
+  initialJsonConfig: { layout: layouts[0].id, ...jsonConfig },
+  initialTemplate: `<td align="left" data-widget="${widgetId}"><p class="e2e-widget-layout">${layouts[0].id}</p></td>`,
+  translations: { uk: { Simple: "Простий", Cards: "Картки", Matrix: "Матриця" } }
+});
+const buildPreset = (markerColor, borderWidth) => ({ styles: { marker_color: markerColor, item_border_width: borderWidth } });
+const widgetsConfig = [
+  buildWidgetConfig("00000000-0000-0000-0000-00000000a001", "List", [
+    { id: "list-simple", name: "Simple", thumbnailUrl: ICON_DATA_URI$1, preset: buildPreset("#111111", "1px") },
+    {
+      id: "lists-card",
+      name: "Cards",
+      thumbnailUrl: ICON_DATA_URI$1,
+      aliases: ["horizontal-marker-cards"],
+      preset: buildPreset("#222222", "2px")
+    },
+    { id: "matrix", name: "Matrix", thumbnailUrl: ICON_DATA_URI$1, preset: buildPreset("#333333", "3px") }
+  ], true),
+  buildWidgetConfig("00000000-0000-0000-0000-00000000a002", "Scratcher", [
+    { id: "scratcher", name: "Scratcher", thumbnailUrl: ICON_DATA_URI$1 }
+  ], false, { show_title: true, styles: { title_color: "#333333", title_size: "20px" } })
+];
+const extensionBuilder = new ExtensionBuilder$1().addStyles(panelStyles).withLocalization(LocalizationBuilder.buildLocalization(widgetsConfig)).withSettingsPanelRegistry(WidgetsPanelRegistryBuilder.buildWidgetsSettingsPanel(widgetsConfig)).addModulesPanelTab(WidgetsPanelBuilder.buildWidgetsPanel(widgetsConfig)).addUiElement(HoveredIconUiElement).addUiElement(NavHeaderUiElement).addUiElement(LayoutsToggleUiElement).addUiElement(WidgetMenuUiElement);
+widgetsConfig.forEach((widgetConfig2) => {
+  extensionBuilder.addBlock(WidgetsBlockBuilder.buildBlock(widgetConfig2));
+  extensionBuilder.addUiElement(AiPanelUiElementBuilder.buildUiElement(widgetConfig2));
+  extensionBuilder.addControl(AiPanelControlBuilder.buildControl(widgetConfig2));
+  hasLayoutsStrip(getWidgetLayouts(widgetConfig2)) && extensionBuilder.addControl(LayoutsToggleControlBuilder.buildControl(widgetConfig2));
+  extensionBuilder.addControl(WidgetMenuControlBuilder.buildControl(widgetConfig2));
+});
 const extension = extensionBuilder.build();
 Object.defineProperty(extension, "getId", { value: () => "widgets-panel" });
 const ICON_DATA_URI = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3C/svg%3E';
@@ -16962,7 +20162,7 @@ const extensionsMap = {
   unresolvedLinkRepro,
   textUiElementOverridden,
   demoUiElement,
-  dropdownProblem: extension$1,
+  dropdownProblem: extension$2,
   orderable,
   accountWidePanel,
   repeatable,
@@ -17067,7 +20267,8 @@ const extensionsMap = {
   extensionUIMessageElement,
   extensionUIPopupWithCustomControl,
   widgetsCategoriesPanel,
-  widgetsHintsPanel: extension,
+  widgetsHintsPanel: extension$1,
+  widgetsLayoutsPanel: extension,
   widgetsPermissionsPanel,
   firstPartyBlocksPanel,
   // new E2E lib type test extensions
@@ -17088,7 +20289,7 @@ const extensionsMap = {
   gitSample_10_built_in_controls,
   customProductButtons,
   esColumnsBlock,
-  getSample_externalImageGalleryTab: extension$2
+  getSample_externalImageGalleryTab: extension$3
 };
 export {
   extensionsMap as default

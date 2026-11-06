@@ -2796,5 +2796,10 @@
 	"history_val_message_area_header": "Nagłówek",
 	"history_val_message_area_info_area": "Obszar informacyjny",
 	"history_val_normal": "Normalny",
-	"history_val_undefined": "Niezdefiniowane"
+	"history_val_undefined": "Niezdefiniowane",
+	"Accessibility check failed. Please try again.": "Sprawdzanie dostępności nie powiodło się. Spróbuj ponownie.",
+	"Accessibility check timed out. Please try again.": "Przekroczono limit czasu sprawdzania dostępności. Spróbuj ponownie.",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "Sprawdzanie dostępności jest niepełne. Nie udało się wczytać niektórych zasobów. Uruchom sprawdzanie ponownie.",
+	"Document-level issue": "Problem na poziomie dokumentu",
+	"Manual review required": "Wymagana ręczna weryfikacja"
 }

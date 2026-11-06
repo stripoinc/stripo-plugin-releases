@@ -2796,5 +2796,10 @@
 	"history_val_message_area_header": "Header",
 	"history_val_message_area_info_area": "Info area",
 	"history_val_normal": "Normal",
-	"history_val_undefined": "Undefined"
+	"history_val_undefined": "Undefined",
+	"Accessibility check failed. Please try again.": "Tillgänglighetskontrollen misslyckades. Försök igen.",
+	"Accessibility check timed out. Please try again.": "Tidsgränsen för tillgänglighetskontrollen har överskridits. Försök igen.",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "Tillgänglighetskontrollen är ofullständig. Vissa resurser kunde inte läsas in. Kör kontrollen igen.",
+	"Document-level issue": "Problem på dokumentnivå",
+	"Manual review required": "Manuell granskning krävs"
 }

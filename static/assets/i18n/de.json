@@ -2796,5 +2796,10 @@
 	"history_val_message_area_header": "Kopfzeile",
 	"history_val_message_area_info_area": "Info-Bereich",
 	"history_val_normal": "Normal",
-	"history_val_undefined": "Undefiniert"
+	"history_val_undefined": "Undefiniert",
+	"Accessibility check failed. Please try again.": "Die Prüfung der Barrierefreiheit ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+	"Accessibility check timed out. Please try again.": "Die Zeit für die Prüfung der Barrierefreiheit ist abgelaufen. Bitte versuchen Sie es erneut.",
+	"Accessibility check is incomplete. Some resources could not be loaded. Please re-check.": "Die Prüfung der Barrierefreiheit ist unvollständig. Einige Ressourcen konnten nicht geladen werden. Bitte prüfen Sie erneut.",
+	"Document-level issue": "Problem auf Dokumentebene",
+	"Manual review required": "Manuelle Prüfung erforderlich"
 }
