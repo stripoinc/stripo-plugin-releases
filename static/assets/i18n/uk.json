@@ -8,6 +8,8 @@
 	"This action cannot be undone or redone because it conflicts with newer changes.": "Цю дію неможливо скасувати або повторити, оскільки вона конфліктує з новішими змінами.",
 	"Some unsaved changes could not be recovered. Export them before closing this editor.": "Не вдалося відновити деякі незбережені зміни. Експортуйте їх, перш ніж закрити редактор.",
 	"Export unsaved changes": "Експортувати незбережені зміни",
+	"Delete layer": "Видалити шар",
+	"Select a layer to delete it": "Виберіть шар, щоб видалити його",
 	"Block settings are turned off. You can still use the block’s context menu.": "Налаштування блоку вимкнено. Ви й далі можете користуватися контекстним меню блоку.",
 	"Restore": "Відновити",
 	"Restore as new": "Відновити як новий",

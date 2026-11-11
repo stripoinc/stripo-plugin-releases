@@ -8,6 +8,8 @@
 	"This action cannot be undone or redone because it conflicts with newer changes.": "Это действие нельзя отменить или повторить, поскольку оно конфликтует с более новыми изменениями.",
 	"Some unsaved changes could not be recovered. Export them before closing this editor.": "Не удалось восстановить некоторые несохранённые изменения. Экспортируйте их перед закрытием редактора.",
 	"Export unsaved changes": "Экспортировать несохранённые изменения",
+	"Delete layer": "Удалить слой",
+	"Select a layer to delete it": "Выберите слой, чтобы удалить его",
 	"Block settings are turned off. You can still use the block’s context menu.": "Настройки блока отключены. Вы по-прежнему можете пользоваться контекстным меню блока.",
 	"Restore": "Восстановить",
 	"Restore as new": "Восстановить как новый",

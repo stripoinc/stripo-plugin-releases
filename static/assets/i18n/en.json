@@ -8,6 +8,8 @@
 	"This action cannot be undone or redone because it conflicts with newer changes.": "This action cannot be undone or redone because it conflicts with newer changes.",
 	"Some unsaved changes could not be recovered. Export them before closing this editor.": "Some unsaved changes could not be recovered. Export them before closing this editor.",
 	"Export unsaved changes": "Export unsaved changes",
+	"Delete layer": "Delete layer",
+	"Select a layer to delete it": "Select a layer to delete it",
 	"Block settings are turned off. You can still use the block’s context menu.": "Block settings are turned off. You can still use the block’s context menu.",
 	"Restore": "Restore",
 	"Restore as new": "Restore as new",
