@@ -2000,7 +2000,7 @@ var _UIElementTagRegistry$1 = class _UIElementTagRegistry extends BaseValidatedC
 };
 _UIElementTagRegistry$1.REQUIRED_METHODS = ["registerUiElements"];
 var UIElementTagRegistry = _UIElementTagRegistry$1;
-const BLOCK_ID$r = "amp-data-service-widget-extension";
+const BLOCK_ID$s = "amp-data-service-widget-extension";
 const CONTROL_ID$h = "amp-data-service-widget-control";
 function getServiceUrl(nodeConfig) {
   return nodeConfig?.jsonConfig?.amp_service_url;
@@ -2036,7 +2036,7 @@ function getWidgetMarkup(serviceUrl = "") {
 }
 class AmpDataServiceWidgetPanelRegistry extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$r] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID$h])];
+    controls2[BLOCK_ID$s] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID$h])];
   }
 }
 class AmpDataServiceWidgetControl extends Control$1 {
@@ -2064,7 +2064,7 @@ class AmpDataServiceWidgetControl extends Control$1 {
 }
 class AmpDataServiceWidgetBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$r;
+    return BLOCK_ID$s;
   }
   getBlockCompositionType() {
     return BlockCompositionType.BLOCK;
@@ -2140,7 +2140,7 @@ class AtomicBlockTextAlias extends Block$1 {
   }
 }
 const atomicBlockAlias = new ExtensionBuilder$1().addBlock(AtomicBlockImageAlias).withSettingsPanelRegistry(PanelRegistry$Q).addBlock(AtomicBlockTextAlias).build();
-const BLOCK_ID$q = "structure-wth-ondocumentChange-hook";
+const BLOCK_ID$r = "structure-wth-ondocumentChange-hook";
 const CONTROL_ID$g = "structure-wth-ondocumentChange-hook-control";
 let StructureExtensionControl$1 = class StructureExtensionControl extends StructureMarginsBuiltInControl {
   getId() {
@@ -2154,7 +2154,7 @@ let StructureExtensionControl$1 = class StructureExtensionControl extends Struct
 };
 let StructureExtensionBlock$1 = class StructureExtensionBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$q;
+    return BLOCK_ID$r;
   }
   getIcon() {
     return "new-window";
@@ -2207,7 +2207,7 @@ let StructureExtensionBlock$1 = class StructureExtensionBlock extends Block$1 {
 };
 let PanelRegistry$P = class PanelRegistry2 extends SettingsPanelRegistry$1 {
   registerBlockControls(_blockControlsMap) {
-    _blockControlsMap[BLOCK_ID$q] = [
+    _blockControlsMap[BLOCK_ID$r] = [
       new SettingsPanelTab$1("Settings", [
         CONTROL_ID$g
       ]).withLabel("Settings")
@@ -2304,7 +2304,7 @@ class BlockExtensionButton extends Block$1 {
   }
 }
 const buttonExtensionBlock = new ExtensionBuilder$1().addBlock(BlockExtensionButton).build();
-const BLOCK_ID$p = "callbacks-block-extension";
+const BLOCK_ID$q = "callbacks-block-extension";
 const CALLBACK_COUNTER_KEY = "__extensionCallbackCounts";
 const getCallbackStore = () => {
   const root = typeof window === "undefined" ? globalThis : window;
@@ -2315,14 +2315,14 @@ const getCallbackStore = () => {
 };
 const getCallbackCounts = () => {
   const store = getCallbackStore();
-  if (!store[BLOCK_ID$p]) {
-    store[BLOCK_ID$p] = {
+  if (!store[BLOCK_ID$q]) {
+    store[BLOCK_ID$q] = {
       onCreated: 0,
       onCopy: 0,
       onDelete: 0
     };
   }
-  return store[BLOCK_ID$p];
+  return store[BLOCK_ID$q];
 };
 const incrementCount = (callbackName) => {
   const counts = getCallbackCounts();
@@ -2331,7 +2331,7 @@ const incrementCount = (callbackName) => {
 };
 class BlockExtensionCallbackLifecycle extends Block$1 {
   getId() {
-    return BLOCK_ID$p;
+    return BLOCK_ID$q;
   }
   getIcon() {
     return "new-window";
@@ -4879,10 +4879,10 @@ ${errors.map((e) => `  - ${e}`).join("\n")}`
   return cjs;
 }
 var cjsExports = /* @__PURE__ */ requireCjs();
-const BLOCK_ID$o = "e2e-cjs-block";
+const BLOCK_ID$p = "e2e-cjs-block";
 class E2eCjsBlock extends cjsExports.Block {
   getId() {
-    return BLOCK_ID$o;
+    return BLOCK_ID$p;
   }
   getIcon() {
     return "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
@@ -4897,7 +4897,7 @@ class E2eCjsBlock extends cjsExports.Block {
     return true;
   }
   getTemplate() {
-    return `<td class="esd-${BLOCK_ID$o}"><h1>E2E CJS</h1></td>`;
+    return `<td class="esd-${BLOCK_ID$p}"><h1>E2E CJS</h1></td>`;
   }
 }
 const cjsLib = new cjsExports.ExtensionBuilder().addBlock(E2eCjsBlock).build();
@@ -5105,11 +5105,11 @@ let ContainersColumn$1 = class ContainersColumn extends BaseBlockExtension$3 {
   }
 };
 const containerLayouts = new ExtensionBuilder$1().addBlock(SingleContainer$1).addBlock(ContainersRow$1).addBlock(ContainersRow2$1).addBlock(ContainersRow3).addBlock(ContainersColumn$1).build();
-const BLOCK_ID$n = "test-block-extension";
+const BLOCK_ID$o = "test-block-extension";
 const CONTROL_ID$f = "CONTROL_ID1";
 let PanelRegistry$O = class PanelRegistry3 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$n] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID$f])];
+    controls2[BLOCK_ID$o] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [CONTROL_ID$f])];
   }
 };
 class BlockControl extends Control$1 {
@@ -5136,7 +5136,7 @@ class BlockControl extends Control$1 {
 }
 class BlockExtensionCustomBlockBasic extends Block$1 {
   getId() {
-    return BLOCK_ID$n;
+    return BLOCK_ID$o;
   }
   getIcon() {
     return "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
@@ -5164,11 +5164,11 @@ class BlockExtensionCustomBlockBasic extends Block$1 {
   }
 }
 const customBlockBasic = new ExtensionBuilder$1().addControl(BlockControl).withSettingsPanelRegistry(PanelRegistry$O).addBlock(BlockExtensionCustomBlockBasic).build();
-const BLOCK_ID$m = "test-context-action-block-extension";
+const BLOCK_ID$n = "test-context-action-block-extension";
 const CONTEXT_ACTION_ID$1 = "test-block-context-action";
 class BlockExtensionCustomBlockWithCustomContextAction extends Block$1 {
   getId() {
-    return BLOCK_ID$m;
+    return BLOCK_ID$n;
   }
   getIcon() {
     return "new-window";
@@ -5209,10 +5209,10 @@ let TestBlockContextAction$1 = class TestBlockContextAction extends ContextActio
   }
 };
 const customBlockWithCustomContextAction = new ExtensionBuilder$1().addBlock(BlockExtensionCustomBlockWithCustomContextAction).addContextAction(TestBlockContextAction$1).build();
-const BLOCK_ID$l = "test-custom-renderer-block-extension";
+const BLOCK_ID$m = "test-custom-renderer-block-extension";
 class BlockExtensionCustomBlockWithCustomRenderer extends Block$1 {
   getId() {
-    return BLOCK_ID$l;
+    return BLOCK_ID$m;
   }
   getIcon() {
     return "new-window";
@@ -5345,10 +5345,10 @@ class CardOrientationControl extends Control$1 {
   }
 }
 const extensionCustomBlockMultiRowModifier = new ExtensionBuilder$1().withSettingsPanelRegistry(PanelRegistry$N).addBlock(CustomBlock$1).addControl(CardOrientationControl).build();
-const BLOCK_ID$k = "custom-nested-blocks-extension";
+const BLOCK_ID$l = "custom-nested-blocks-extension";
 class CustomNestedBlocksExtension extends Block$1 {
   getId() {
-    return BLOCK_ID$k;
+    return BLOCK_ID$l;
   }
   getIcon() {
     return "new-window";
@@ -5638,7 +5638,7 @@ let CustomRenderer$2 = class CustomRenderer3 extends BlockRenderer {
   }
 };
 const customRendererRestrictions = new ExtensionBuilder$1().addBlock(CustomRendererStructureExtension$1).addBlock(CustomRendererTextBlockExtension).build();
-const BLOCK_ID$j = "test-deprecated-custom-renderer-block-extension";
+const BLOCK_ID$k = "test-deprecated-custom-renderer-block-extension";
 class DeprecatedCustomRenderer extends BlockRenderer {
   getPreviewHtml(_node) {
     return "<td><h1>Deprecated custom content</h1></td>";
@@ -5646,7 +5646,7 @@ class DeprecatedCustomRenderer extends BlockRenderer {
 }
 class BlockExtensionWithDeprecatedCustomRenderer extends Block$1 {
   getId() {
-    return BLOCK_ID$j;
+    return BLOCK_ID$k;
   }
   getIcon() {
     return "new-window";
@@ -5838,10 +5838,10 @@ class ContainersColumn2 extends BaseBlockExtension$1 {
   }
 }
 const emptyContainerLayouts = new ExtensionBuilder$1().addBlock(SingleContainer2).addBlock(ContainersRow4).addBlock(ContainersRow22).addBlock(ContainersColumn2).build();
-const BLOCK_ID$i = "e2e-esm-block";
+const BLOCK_ID$j = "e2e-esm-block";
 class E2eEsmBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$i;
+    return BLOCK_ID$j;
   }
   getIcon() {
     return "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
@@ -5856,11 +5856,11 @@ class E2eEsmBlock extends Block$1 {
     return true;
   }
   getTemplate() {
-    return `<td class="esd-${BLOCK_ID$i}"><h1>E2E ESM</h1></td>`;
+    return `<td class="esd-${BLOCK_ID$j}"><h1>E2E ESM</h1></td>`;
   }
 }
 const esmLib = new ExtensionBuilder$1().addBlock(E2eEsmBlock).build();
-const BLOCK_ID$h = "structure-wth-ondocumentChange-hook";
+const BLOCK_ID$i = "structure-wth-ondocumentChange-hook";
 const CONTROL_ID$e = "structure-wth-ondocumentChange-hook-control";
 class StructureExtensionControl2 extends StructureMarginsBuiltInControl {
   getId() {
@@ -5874,7 +5874,7 @@ class StructureExtensionControl2 extends StructureMarginsBuiltInControl {
 }
 class StructureExtensionBlock2 extends Block$1 {
   getId() {
-    return BLOCK_ID$h;
+    return BLOCK_ID$i;
   }
   getIcon() {
     return "new-window";
@@ -5931,7 +5931,7 @@ class StructureExtensionBlock2 extends Block$1 {
 }
 let PanelRegistry$L = class PanelRegistry6 extends SettingsPanelRegistry$1 {
   registerBlockControls(_blockControlsMap) {
-    _blockControlsMap[BLOCK_ID$h] = [
+    _blockControlsMap[BLOCK_ID$i] = [
       new SettingsPanelTab$1("Settings", [
         CONTROL_ID$e
       ]).withLabel("Settings")
@@ -5946,7 +5946,7 @@ const blockWithHtmlSettingsPanelName = new ExtensionBuilder$1().addBlock(Structu
     "CUSTOM STRUCTURE": "DE CUSTOM STRUCTURE"
   }
 }).build();
-const BLOCK_ID$g = "get-editor-config-block";
+const BLOCK_ID$h = "get-editor-config-block";
 const EXTERNAL_CONFIG_KEY = "getEditorConfigExternalOnly";
 const INTERNAL_OVERRIDE_KEY = "name";
 const VARIABLE_KEY = "--getEditorConfigVariable";
@@ -5955,7 +5955,7 @@ const EMAIL_CONTENT_WIDTH = "--common__emailContentWidth";
 const ICON_URL = "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
 class GetEditorConfigBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$g;
+    return BLOCK_ID$h;
   }
   getIcon() {
     return ICON_URL;
@@ -6030,10 +6030,10 @@ class BlockExtensionImage extends Block$1 {
   }
 }
 const baseImageBlockExtension = new ExtensionBuilder$1().addBlock(BlockExtensionImage).build();
-const BLOCK_ID$f = "init-actions-block";
+const BLOCK_ID$g = "init-actions-block";
 class InitActionsBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$f;
+    return BLOCK_ID$g;
   }
   getIcon() {
     return "new-window";
@@ -6286,7 +6286,7 @@ let PanelRegistry$K = class PanelRegistry7 extends SettingsPanelRegistry$1 {
   }
 };
 const extensionMultirowModifierBlock = new ExtensionBuilder$1().addBlock(ProductBlock).addControl(SelectProductItemsControl).withSettingsPanelRegistry(PanelRegistry$K).build();
-const BLOCK_ID$e = "multi-row-root-attributes";
+const BLOCK_ID$f = "multi-row-root-attributes";
 const CONTROL_ID$d = "multi-row-root-attributes-layout";
 const ORIENTATION_FIELD = "multiRowRootAttributesOrientation";
 const productCard = (index) => `
@@ -6299,7 +6299,7 @@ const productCard = (index) => `
 `;
 class MultiRowRootAttributesBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$e;
+    return BLOCK_ID$f;
   }
   getIcon() {
     return "new-window";
@@ -6372,18 +6372,18 @@ class MultiRowRootAttributesControl extends Control$1 {
 }
 class MultiRowRootAttributesPanelRegistry extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$e] = [
+    controls2[BLOCK_ID$f] = [
       new SettingsPanelTab$1("Multi-row layout", [CONTROL_ID$d])
     ];
   }
 }
 const multiRowRootAttributes = new ExtensionBuilder$1().addBlock(MultiRowRootAttributesBlock).addControl(MultiRowRootAttributesControl).withSettingsPanelRegistry(MultiRowRootAttributesPanelRegistry).build();
-const BLOCK_ID$d = "block-extension";
+const BLOCK_ID$e = "block-extension";
 const CONTAINER_ID$2 = "container-extension";
 const STRUCTURE_ID$2 = "structure-extension";
 let BlockExtension$1 = class BlockExtension extends Block$1 {
   getId() {
-    return BLOCK_ID$d;
+    return BLOCK_ID$e;
   }
   getIcon() {
     return "new-window";
@@ -6693,12 +6693,12 @@ class RecommendationContainerExtension extends Block$1 {
   }
 }
 const recommendationContainerExtension = new ExtensionBuilder$1().addBlock(RecommendationContainerExtension).build();
-const BLOCK_ID$c = "responsive-width-widget-extension";
+const BLOCK_ID$d = "responsive-width-widget-extension";
 const WIDGET_CLASS = "w-pref-d68dc93b62c84c7d";
 const COOKIE_IMAGE_RESPONSIVE_WIDTH = "calc(33% - 30px)";
 class ResponsiveWidthWidgetExtension extends Block$1 {
   getId() {
-    return BLOCK_ID$c;
+    return BLOCK_ID$d;
   }
   getBlockCompositionType() {
     return BlockCompositionType.BLOCK;
@@ -6853,10 +6853,10 @@ class StripeExtension extends Block$1 {
   }
 }
 const customStripe = new ExtensionBuilder$1().addBlock(StripeExtension).build();
-const BLOCK_ID$b = "structure-extension";
+const BLOCK_ID$c = "structure-extension";
 let StructureExtension$1 = class StructureExtension2 extends Block$1 {
   getId() {
-    return BLOCK_ID$b;
+    return BLOCK_ID$c;
   }
   getIcon() {
     return "new-window";
@@ -6904,10 +6904,10 @@ let StructureExtension$1 = class StructureExtension2 extends Block$1 {
   }
 };
 const customStructure = new ExtensionBuilder$1().addBlock(StructureExtension$1).build();
-const BLOCK_ID$a = "sync-module-widget-extension";
+const BLOCK_ID$b = "sync-module-widget-extension";
 class SyncModuleWidgetExtension extends Block$1 {
   getId() {
-    return BLOCK_ID$a;
+    return BLOCK_ID$b;
   }
   getBlockCompositionType() {
     return BlockCompositionType.BLOCK;
@@ -6955,11 +6955,11 @@ class SyncModuleWidgetExtension extends Block$1 {
   }
 }
 const syncModuleWidget = new ExtensionBuilder$1().addBlock(SyncModuleWidgetExtension).build();
-const BLOCK_ID$9 = "block-name";
+const BLOCK_ID$a = "block-name";
 const CONTAINER_ID$1 = "container-id";
 class ExtendedBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$9;
+    return BLOCK_ID$a;
   }
   isEnabled() {
     return true;
@@ -7038,7 +7038,7 @@ class ExtensionControl extends Control$1 {
 }
 let PanelRegistry$J = class PanelRegistry8 extends SettingsPanelRegistry$1 {
   registerBlockControls(_blockControlsMap) {
-    _blockControlsMap[BLOCK_ID$9] = [
+    _blockControlsMap[BLOCK_ID$a] = [
       new SettingsPanelTab$1("Settings", [
         "control-id"
       ]).withLabel("Settings")
@@ -7310,10 +7310,10 @@ class InteractiveRadioReproBlock extends Block$1 {
   }
 }
 const interactiveRadioRepro = new ExtensionBuilder$1().addBlock(InteractiveRadioReproBlock).build();
-const BLOCK_ID$8 = "modifications-custom-css";
+const BLOCK_ID$9 = "modifications-custom-css";
 class BlockExtensionModificationsCustomCss extends Block$1 {
   getId() {
-    return BLOCK_ID$8;
+    return BLOCK_ID$9;
   }
   getIcon() {
     return "new-window";
@@ -8777,14 +8777,14 @@ class CustomTitle extends Control$1 {
   }
 }
 const customTitleWithPopover = new ExtensionBuilder$1().addControl(CustomTitle).addUiElement(CustomTitleElement).withSettingsPanelRegistry(CustomTitleWithPopoverPanelRegistry).build();
-const BLOCK_ID$7 = "element-lock-category-block";
+const BLOCK_ID$8 = "element-lock-category-block";
 const STYLE_CONTROL_ID = "elLockStyleControl";
 const CONTENT_CONTROL_ID = "elLockContentControl";
 const STYLE_SWITCHER_NAME = "styleSwitch";
 const CONTENT_SWITCHER_NAME = "contentSwitch";
 let PanelRegistry$w = class PanelRegistry21 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$7] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [STYLE_CONTROL_ID, CONTENT_CONTROL_ID])];
+    controls2[BLOCK_ID$8] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [STYLE_CONTROL_ID, CONTENT_CONTROL_ID])];
   }
 };
 class StyleControl extends Control$1 {
@@ -8804,7 +8804,7 @@ class StyleControl extends Control$1 {
   onRender() {
     const modifier = this.api.getDocumentModifier();
     this.api.onValueChanged(STYLE_SWITCHER_NAME, (newValue) => {
-      const block = this.api.getDocumentRootHtmlNode().querySelector(`.esd-${BLOCK_ID$7}`);
+      const block = this.api.getDocumentRootHtmlNode().querySelector(`.esd-${BLOCK_ID$8}`);
       if (!block) {
         return;
       }
@@ -8826,7 +8826,7 @@ class ContentControl extends Control$1 {
   onRender() {
     const modifier = this.api.getDocumentModifier();
     this.api.onValueChanged(CONTENT_SWITCHER_NAME, (newValue) => {
-      const block = this.api.getDocumentRootHtmlNode().querySelector(`.esd-${BLOCK_ID$7}`);
+      const block = this.api.getDocumentRootHtmlNode().querySelector(`.esd-${BLOCK_ID$8}`);
       if (!block) {
         return;
       }
@@ -8836,7 +8836,7 @@ class ContentControl extends Control$1 {
 }
 class ElementLockCategoryBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$7;
+    return BLOCK_ID$8;
   }
   getIcon() {
     return "https://localfiles.stripocdn.email/content/assets/img/social-icons/logo-colored/instagram-logo-colored.png";
@@ -9008,7 +9008,7 @@ let PanelRegistry$u = class PanelRegistry23 extends SettingsPanelRegistry$1 {
   }
 };
 const extensionFixedHeightControl = new ExtensionBuilder$1().addBlock(ProductStructureBlock$3).addControl(TextFixedHeightControl$1).withSettingsPanelRegistry(PanelRegistry$u).build();
-const BLOCK_ID$6 = "hidden-element-state-block-id";
+const BLOCK_ID$7 = "hidden-element-state-block-id";
 const BLOCK_CLASS = "esd-hidden-element-state-block-extension";
 const CONTROL_ID$c = "hidden-element-state-control-id";
 const TAB_ID = "hidden-element-state-tab-id";
@@ -9056,7 +9056,7 @@ class HiddenElementStateControl extends Control$1 {
 }
 class HiddenElementStateBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$6;
+    return BLOCK_ID$7;
   }
   getBlockCompositionType() {
     return BlockCompositionType.STRUCTURE;
@@ -9081,7 +9081,7 @@ class HiddenElementStateBlock extends Block$1 {
 }
 class HiddenElementStatePanelRegistry extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$6] = [
+    controls2[BLOCK_ID$7] = [
       new SettingsPanelTab$1(
         TAB_ID,
         [CONTROL_ID$c]
@@ -9091,7 +9091,7 @@ class HiddenElementStatePanelRegistry extends SettingsPanelRegistry$1 {
 }
 const hiddenElementStateBlock = new ExtensionBuilder$1().withSettingsPanelRegistry(HiddenElementStatePanelRegistry).addBlock(HiddenElementStateBlock).addControl(HiddenElementStateControl).build();
 const CONTROL_ID$b = "custom-control-id";
-const BLOCK_ID$5 = "custom-block-id";
+const BLOCK_ID$6 = "custom-block-id";
 let CustomControl$1 = class CustomControl extends Control$1 {
   #node;
   getId() {
@@ -9135,7 +9135,7 @@ let CustomControl$1 = class CustomControl extends Control$1 {
 };
 class CustomBlock2 extends Block$1 {
   getId() {
-    return BLOCK_ID$5;
+    return BLOCK_ID$6;
   }
   getBlockCompositionType() {
     return BlockCompositionType.STRUCTURE;
@@ -9160,7 +9160,7 @@ class CustomBlock2 extends Block$1 {
 }
 let PanelRegistry$t = class PanelRegistry24 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$5] = [
+    controls2[BLOCK_ID$6] = [
       new SettingsPanelTab$1(
         "Test tab",
         [CONTROL_ID$b]
@@ -9524,14 +9524,14 @@ class ReinitializedElement extends UIElement$1 {
   }
 }
 const reinitializedExtension = new ExtensionBuilder$1().addControl(ReinitializedControlExtension).addUiElement(ReinitializedElement).withSettingsPanelRegistry(PanelRegistry$q).build();
-const BLOCK_ID$4 = "test-block-id";
+const BLOCK_ID$5 = "test-block-id";
 const SELECT_CHANGE_FIRST_TAB_ID = "select-change-first-tab-id";
 const SELECT_CHANGE_SECOND_TAB_ID = "select-change-second-tab-id";
 const FIRST_TAB_ID = "first-tab-id";
 const SECOND_TAB_ID = "second-tab-id";
 class ExtensionBlock extends Block$1 {
   getId() {
-    return BLOCK_ID$4;
+    return BLOCK_ID$5;
   }
   allowInnerBlocksSelection() {
     return false;
@@ -9640,7 +9640,7 @@ class SelectChangeSecondPanel extends Control$1 {
 }
 let PanelRegistry$p = class PanelRegistry28 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
-    controls2[BLOCK_ID$4] = [
+    controls2[BLOCK_ID$5] = [
       new SettingsPanelTab$1(FIRST_TAB_ID, [SELECT_CHANGE_FIRST_TAB_ID, SELECT_CHANGE_SECOND_TAB_ID]).withLabel(this.api.translate("First tab")),
       new SettingsPanelTab$1(SECOND_TAB_ID, [SELECT_CHANGE_FIRST_TAB_ID, SELECT_CHANGE_SECOND_TAB_ID]).withLabel(this.api.translate("Second tab"))
     ];
@@ -9875,6 +9875,104 @@ class ExtendedImageSizeControl2 extends ImageSizeBuiltInControl {
   }
 }
 const imageSizeControlExtension = new ExtensionBuilder$1().addControl(ExtendedImageSizeControl2).withSettingsPanelRegistry(PanelRegistry$k).build();
+const CSS_MOBILE_MEDIA_SELECTOR = "@media only screen and (max-width: 600px)";
+const UNIQUE_CLASS_MIN = 1e3;
+const UNIQUE_CLASS_RANGE = 9e3;
+const generatedUniqueClasses = /* @__PURE__ */ new Set();
+function generateUniqClass(prefix, reservedClasses = /* @__PURE__ */ new Set()) {
+  const normalizedPrefix = prefix.endsWith("-") ? prefix : `${prefix}-`;
+  const start = Math.floor(Math.random() * UNIQUE_CLASS_RANGE);
+  for (let offset = 0; offset < UNIQUE_CLASS_RANGE; offset++) {
+    const className = `${normalizedPrefix}${UNIQUE_CLASS_MIN + (start + offset) % UNIQUE_CLASS_RANGE}`;
+    if (!generatedUniqueClasses.has(className) && !reservedClasses.has(className)) {
+      generatedUniqueClasses.add(className);
+      return className;
+    }
+  }
+  throw new Error(`No unique CSS class available for ${normalizedPrefix}`);
+}
+const BLOCK_ID$4 = "multi-target-image-size";
+const SIZE_CONTROL_ID = "multiTargetImageSize";
+const structureClass = `esd-${BLOCK_ID$4}`;
+const initialMobileWidths = [140, 150, 160];
+class ThreeImagesStructure extends Block$1 {
+  getId() {
+    return BLOCK_ID$4;
+  }
+  getIcon() {
+    return "new-window";
+  }
+  getName() {
+    return "Multi-target image size";
+  }
+  getDescription() {
+    return "Three containers with one image each and a shared size control";
+  }
+  getBlockCompositionType() {
+    return BlockCompositionType.STRUCTURE;
+  }
+  getTemplate() {
+    const { CONTAINER: CONTAINER2, BLOCK_IMAGE } = BlockType;
+    const { src, alt, width } = BlockAttr.BLOCK_IMAGE;
+    const containers = [33.33, 33.33, 33.34].map((widthPercent, index) => `
+      <${CONTAINER2} ${BlockAttr.CONTAINER.widthPercent}="${widthPercent}">
+        <${BLOCK_IMAGE}
+          ${src}="${window.location.origin}/assets/imageAi/image-ai-prompt-${index + 1}.jpg"
+          ${alt}="Multi-target image ${index + 1}"
+          ${width}="160">
+        </${BLOCK_IMAGE}>
+      </${CONTAINER2}>`);
+    return `<td>${containers.join("")}</td>`;
+  }
+  onCreated(structure) {
+    const images = structure.querySelectorAll(`${BlockSelector$2.IMAGE} img`);
+    if (images.length !== initialMobileWidths.length) {
+      return;
+    }
+    const cssRoot = this.api.getDocumentRootCssNode();
+    const mobileMedia = cssRoot.children().find(
+      (node) => node.getType() === "media" && node.asRule().getSelector() === CSS_MOBILE_MEDIA_SELECTOR
+    );
+    const reservedClasses = new Set(this.api.getDocumentRootHtmlNode().querySelectorAll("img").flatMap((image) => image.asElement().getClassList()));
+    const modifier = this.api.getDocumentModifier();
+    const rules = images.map((image, index) => {
+      const className = generateUniqClass("img", reservedClasses);
+      modifier.modifyHtml(image).removeClass("adapt-img").setClass(className);
+      return `.${className} { width: ${initialMobileWidths[index]}px !important; }`;
+    });
+    if (mobileMedia) {
+      const mediaModifier = modifier.modifyCss(mobileMedia);
+      rules.forEach((rule) => mediaModifier.appendRule(rule));
+    } else {
+      modifier.modifyCss(cssRoot).appendRule(`${CSS_MOBILE_MEDIA_SELECTOR} { ${rules.join(" ")} }`);
+    }
+    modifier.apply(new ModificationDescription$1("Set initial mobile image widths"));
+  }
+}
+class SharedImageSize extends ImageSizeBuiltInControl {
+  getId() {
+    return SIZE_CONTROL_ID;
+  }
+  getLabels() {
+    const mobile = this.api.getEditorState().previewDeviceMode === PreviewDeviceMode.MOBILE;
+    return { title: mobile ? "Shared Size on Mobile" : "Shared Size on Desktop" };
+  }
+  isVisible(root) {
+    return this.getTargetNodes(root).length > 0;
+  }
+  getTargetNodes(root) {
+    const structure = root.asElement().hasClass(structureClass) ? root : root.closest(`.${structureClass}`);
+    return structure?.querySelectorAll(BlockSelector$2.IMAGE) ?? [];
+  }
+}
+class ImageSettings extends SettingsPanelRegistry$1 {
+  registerBlockControls(controls2) {
+    controls2[BLOCK_ID$4] = [new SettingsPanelTab$1(SettingsTab.SETTINGS, [SIZE_CONTROL_ID])];
+    const settings = controls2[BlockType.BLOCK_IMAGE]?.find((tab) => tab.getTabId() === SettingsTab.SETTINGS);
+    settings?.addControl(SIZE_CONTROL_ID, 0);
+  }
+}
+const multiTargetImageSizeExtension = new ExtensionBuilder$1().addBlock(ThreeImagesStructure).addControl(SharedImageSize).withSettingsPanelRegistry(ImageSettings).build();
 const ID$q = "extendedImageVisibility";
 let ButtonPanelRegistry$4 = class ButtonPanelRegistry12 extends SettingsPanelRegistry$1 {
   registerBlockControls(controls2) {
@@ -16285,6 +16383,112 @@ class WidgetsMarkupUtils {
     return uniqueClass ? uniqueClass[0].substring(uniqueClassPrefix.length) : null;
   }
 }
+const WIDGETS_PANEL_CONFIG_URL = "/widgets/registry/api/v1/widgets/ui-config";
+const WIDGETS_MARKUP_URL = "/widgets/registry/api/v1/widgets/markup";
+const CONVO_AUTH_URL = "/convo/auth/api/v1/auth/token";
+const CHATKIT_URL = "/convo/core/api/v1/chatkit";
+const CHATKIT_ATTACHMENTS_REGISTER_URL = "/convo/core/api/v1/attachments/register";
+const DEMO_CHATKIT_URL = "/convo/demo/api/v1/chatkit";
+const DEMO_CHATKIT_ATTACHMENTS_REGISTER_URL = "/convo/demo/api/v1/attachments/register";
+const cachedPlatformApisByExtensionId = {};
+function setFirstPartyBootstrapPlatformApi(extensionId, platformApi) {
+  if (platformApi) {
+    cachedPlatformApisByExtensionId[extensionId] = platformApi;
+    return platformApi;
+  }
+  delete cachedPlatformApisByExtensionId[extensionId];
+  return void 0;
+}
+function asFirstPartyBaseApi(api) {
+  if (!api?.platformApi) {
+    throw new Error("platformApi is not available for this first-party extension");
+  }
+  return (
+    /** @type {FirstPartyBaseApi} */
+    api
+  );
+}
+function captureFirstPartyPlatformApiFromWindow(extensionId) {
+  const platformApi = window.UiEditorFirstPartyExtensionsContext?.[extensionId]?.platformApi;
+  return setFirstPartyBootstrapPlatformApi(extensionId, platformApi);
+}
+function getFirstPartyBootstrapPlatformApi(extensionId) {
+  const platformApi = cachedPlatformApisByExtensionId[extensionId] || captureFirstPartyPlatformApiFromWindow(extensionId);
+  if (!platformApi) {
+    throw new Error(`[${extensionId}] platformApi is not available for ${extensionId}`);
+  }
+  return platformApi;
+}
+function getFirstPartyPlatformApi(extensionId, api) {
+  if (api?.platformApi) {
+    return asFirstPartyBaseApi(api).platformApi;
+  }
+  return getFirstPartyBootstrapPlatformApi(extensionId);
+}
+const WIDGETS_EXTENSION_ID = "widgets-panel";
+class WidgetsApi {
+  static async loadPanelConfig() {
+    const response = await WidgetsApi.fetch(`${WIDGETS_PANEL_CONFIG_URL}?useDrafts=${WidgetsApi.isDraftMode()}`, {
+      method: "GET"
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Failed to get widgets config: ${response.status} ${errorText}`);
+      throw new Error(`Failed to get widgets config: ${response.status}`);
+    }
+    return response.json();
+  }
+  static async loadWidgetTemplate({ widgetId, jsonConfig, api }) {
+    const response = await WidgetsApi.fetch(WIDGETS_MARKUP_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        widgetId,
+        jsonConfig,
+        useDraft: WidgetsApi.isDraftMode()
+      })
+    }, api);
+    if (!response.ok) {
+      const errorText = response.text();
+      console.error(`Failed to get widgets ${widgetId} config: ${response.status} ${errorText}`);
+      throw new Error(`Failed to get widgets ${widgetId} config: ${response.status}`);
+    }
+    return response.json();
+  }
+  static async loadEditorLocation(locationUrl, iconUrl) {
+    const endpoint = new URL(locationUrl);
+    if (endpoint.protocol !== "https:" || endpoint.origin !== new URL(iconUrl).origin || endpoint.pathname !== "/editor/location" || endpoint.username || endpoint.password || endpoint.search || endpoint.hash) {
+      return "";
+    }
+    const response = await fetch(endpoint, {
+      credentials: "omit",
+      redirect: "error",
+      referrerPolicy: "no-referrer",
+      signal: AbortSignal.timeout(3e3)
+    });
+    if (!response.ok) {
+      return "";
+    }
+    const { center } = await response.json();
+    return typeof center === "string" && center.length <= 300 && !center.includes("|") ? center.trim() : "";
+  }
+  static async getConvoAuthToken(api) {
+    return await WidgetsApi.fetch(CONVO_AUTH_URL, {
+      method: "GET"
+    }, api).then((response) => response.json()).then((data) => data.token);
+  }
+  static getPlatformApi(api) {
+    return getFirstPartyPlatformApi(WIDGETS_EXTENSION_ID, api);
+  }
+  static async fetch(url, init, api) {
+    return WidgetsApi.getPlatformApi(api).fetch(url, init);
+  }
+  static isDraftMode() {
+    return localStorage.getItem("stripoEditorWidgetsDraftMode") === "true";
+  }
+}
 function createBlockSessionState(defaultState) {
   const statesByBlock = /* @__PURE__ */ new Map();
   const listenersByBlock2 = /* @__PURE__ */ new Map();
@@ -16424,6 +16628,95 @@ const LayoutsStripState = {
   },
   subscribe: blockStates$1.subscribe
 };
+class WidgetService {
+  static async initializeWidgetLocation({ editorLocationUrl, config, widgetConfig: widgetConfig2, api }) {
+    const { blockUUID, widgetId, jsonConfig } = config;
+    const change = /* @__PURE__ */ Symbol();
+    const initialConfig = JSON.stringify(jsonConfig);
+    const findUnchangedBlock = () => {
+      if (!LayoutsStripState.isLatestWidgetChange(blockUUID, change) || LayoutsStripState.isBusy(blockUUID)) {
+        return void 0;
+      }
+      return api.getDocumentRootHtmlNode().querySelectorAll("[esd-extension-block-id]").find((node) => {
+        const currentConfig = node.getNodeConfig();
+        return currentConfig?.widgetId === widgetId && currentConfig.blockUUID === blockUUID && JSON.stringify(currentConfig.jsonConfig) === initialConfig;
+      });
+    };
+    LayoutsStripState.startWidgetChange(blockUUID, change);
+    try {
+      const center = await WidgetsApi.loadEditorLocation(editorLocationUrl, widgetConfig2.iconUrl);
+      const node = center && findUnchangedBlock();
+      if (!node) {
+        return;
+      }
+      const updatedNodeConfig = WidgetsBlockConfigUtils.updateConfigJsonConfig({
+        currentConfig: config,
+        jsonConfig: { ...jsonConfig, options: { ...jsonConfig.options, center } }
+      });
+      await WidgetService.applyWidgetModification({
+        updatedNodeConfig,
+        widgetConfig: widgetConfig2,
+        documentModifier: api.getDocumentModifier(),
+        node,
+        api,
+        versionHistoryMessage: `"${api.translate(widgetConfig2.name)}" ${api.translate("widget has been updated")}`,
+        isBackgroundChange: true,
+        isActual: () => !!findUnchangedBlock()
+      });
+    } catch (error) {
+      console.warn("Could not initialize widget location:", error);
+    } finally {
+      LayoutsStripState.finishWidgetChange(blockUUID, change);
+    }
+  }
+  /**
+   * @returns {Promise<boolean>} false when the loaded HTML is not applied because the modification is no longer actual
+   */
+  static async applyWidgetModification({
+    updatedNodeConfig,
+    widgetConfig: widgetConfig2,
+    documentModifier,
+    node,
+    versionHistoryMessage,
+    api,
+    isBackgroundChange = false,
+    isActual = () => true
+  }) {
+    const payload = await WidgetsApi.loadWidgetTemplate({
+      widgetId: WidgetsBlockConfigUtils.getWidgetId(updatedNodeConfig),
+      jsonConfig: WidgetsBlockConfigUtils.getJsonConfig(updatedNodeConfig),
+      api
+    });
+    if (!isActual()) {
+      return false;
+    }
+    const widgetInnerHtml = WidgetsMarkupUtils.prepareExternalWidgetMarkup({
+      widgetMarkupString: payload.module,
+      showAmpOnlyForBothMimeTypeView: widgetConfig2.showAmpOnlyForBothMimeTypeView,
+      innerHtml: true
+    });
+    const widgetNodeConfig = WidgetsBlockConfigUtils.updateConfigJsonConfig({
+      jsonConfig: payload.config,
+      currentConfig: node.getNodeConfig()
+    });
+    documentModifier.modifyHtml(node).setHiddenElementState(WidgetsBlockConfigUtils.getHiddenWidgetState(widgetNodeConfig)).setNodeConfig(widgetNodeConfig).setInnerHtml(widgetInnerHtml).apply(new ModificationDescription2(versionHistoryMessage).asHidden(isBackgroundChange));
+    return true;
+  }
+  static async applyWidgetAmpServiceUrlModification({ ampServiceUrl, widgetConfig: widgetConfig2, documentModifier, node, versionHistoryMessage, api }) {
+    const updatedNodeConfig = WidgetsBlockConfigUtils.updateConfigAmpServiceUrl({
+      ampServiceUrl,
+      currentConfig: node.getNodeConfig()
+    });
+    return await WidgetService.applyWidgetModification({
+      updatedNodeConfig,
+      widgetConfig: widgetConfig2,
+      documentModifier,
+      node,
+      versionHistoryMessage,
+      api
+    });
+  }
+}
 class WidgetsBlockBuilder {
   static buildBlock(widgetConfig2) {
     return class extends Block {
@@ -16451,13 +16744,17 @@ class WidgetsBlockBuilder {
       }
       onCreated(node) {
         const currentConfig = node.getNodeConfig();
+        const { editor_location_url: editorLocationUrl, ...initialJsonConfig } = widgetConfig2.initialJsonConfig ?? {};
         const config = WidgetsBlockConfigUtils.buildConfig({
           widgetId: widgetConfig2.widgetId,
-          initialJsonConfig: widgetConfig2.initialJsonConfig,
+          initialJsonConfig,
           currentConfig
         });
         LayoutsStripState.copyLayoutSettings(WidgetsBlockConfigUtils.getBlockUUID(currentConfig), config.blockUUID);
         this.api.getDocumentModifier().modifyHtml(node).setNodeConfig(config);
+        if (editorLocationUrl && !currentConfig?.jsonConfig && !config.jsonConfig.options?.center && !config.jsonConfig.options?.locations?.length) {
+          void WidgetService.initializeWidgetLocation({ editorLocationUrl, config, widgetConfig: widgetConfig2, api: this.api });
+        }
         this.api.sendEvent && this.api.sendEvent("widget_created", {
           name: widgetConfig2.name
         });
@@ -18116,11 +18413,6 @@ const extensionBuilder$1 = new ExtensionBuilder$1().addStyles(panelStyles).withL
 widgetsConfig$1.forEach((widgetConfig2) => extensionBuilder$1.addBlock(WidgetsBlockBuilder.buildBlock(widgetConfig2)));
 const extension$1 = extensionBuilder$1.build();
 Object.defineProperty(extension$1, "getId", { value: () => "widgets-panel" });
-const WIDGETS_PANEL_CONFIG_URL = "/widgets/registry/api/v1/widgets/ui-config";
-const WIDGETS_MARKUP_URL = "/widgets/registry/api/v1/widgets/markup";
-const CONVO_AUTH_URL = "/convo/auth/api/v1/auth/token";
-const CHATKIT_URL = "/convo/core/api/v1/chatkit";
-const CHATKIT_ATTACHMENTS_REGISTER_URL = "/convo/core/api/v1/attachments/register";
 class ChatKitAttachmentsManager {
   composerAttachments = [];
   /**
@@ -18269,12 +18561,26 @@ class ChatKitAttachmentsManager {
     }
   }
 }
-const ATTACH_IMAGE_TOOL_ID = "attach_image";
 const PLUGIN_EDITOR_MODE = "plugin";
+const DEMO_EDITOR_MODE = "demo";
+function resolveChatKitTransport(editorMode) {
+  const isDemo = editorMode === DEMO_EDITOR_MODE;
+  const threadIdStoragePrefix = isDemo ? "widgets-demo-thread-id" : "widgets-thread-id";
+  return {
+    chatKitUrl: isDemo ? DEMO_CHATKIT_URL : CHATKIT_URL,
+    attachmentsRegisterUrl: isDemo ? DEMO_CHATKIT_ATTACHMENTS_REGISTER_URL : CHATKIT_ATTACHMENTS_REGISTER_URL,
+    // Plugin and demo have no convo-auth token to mint: the headers the platform transport adds authenticate them
+    usesConvoAuthToken: editorMode !== PLUGIN_EDITOR_MODE && !isDemo,
+    // After sign-up the account must not try to open a thread the demo gateway created
+    getThreadIdStorageKey: (blockUUID) => `${threadIdStoragePrefix}-${blockUUID}`,
+    // Metadata becomes request headers, which do not accept characters outside Latin-1
+    getWidgetMetadata: (widgetName) => isDemo ? { widgetName: encodeURIComponent(widgetName) } : {}
+  };
+}
+const ATTACH_IMAGE_TOOL_ID = "attach_image";
 const DEFAULT_CHATKIT_DOMAIN_KEY = "domain_pk_698f401a72f4819487598b2d409e5276015e1bb610e23585";
 class ChatKitSDK {
   failedAiRequestsCount = 0;
-  chatKitUrl = CHATKIT_URL;
   constructor({
     domainName,
     chatKitPanelContainer,
@@ -18296,7 +18602,7 @@ class ChatKitSDK {
     chatkitDomainPublicKey
   }) {
     this.domainName = domainName;
-    this.editorMode = editorMode;
+    this.transport = resolveChatKitTransport(editorMode);
     this.chatkitDomainPublicKey = chatkitDomainPublicKey || DEFAULT_CHATKIT_DOMAIN_KEY;
     this.chatKitPanelContainer = chatKitPanelContainer;
     this.onClientTool = onClientTool;
@@ -18314,7 +18620,7 @@ class ChatKitSDK {
     this.domainModelRevisionGetter = domainModelRevisionGetter;
     this.fetchFn = fetchFn || fetch;
     this.attachmentsManager = new ChatKitAttachmentsManager({
-      attachmentsRegisterUrl: CHATKIT_ATTACHMENTS_REGISTER_URL,
+      attachmentsRegisterUrl: this.transport.attachmentsRegisterUrl,
       makeRequest: (params) => this.makeRequest({
         ...params,
         streaming: false,
@@ -18414,7 +18720,7 @@ class ChatKitSDK {
   #createChatKitOptions({ initialThread = null } = {}) {
     const baseOptions = {
       api: {
-        url: this.chatKitUrl,
+        url: this.transport.chatKitUrl,
         domainKey: this.chatkitDomainPublicKey,
         fetch: (url, options) => this.makeRequest({ url, options })
       },
@@ -18527,7 +18833,7 @@ class ChatKitSDK {
     Object.entries(this.metadata || {}).forEach(([key, value]) => {
       headers.set(key, String(value));
     });
-    if (this.editorMode !== PLUGIN_EDITOR_MODE) {
+    if (this.transport.usesConvoAuthToken) {
       headers.set("AUTH-TOKEN", await this.getAuthToken());
     }
     headers.set("DOMAIN-MODEL-ID", String(this.domainModelId));
@@ -18538,7 +18844,7 @@ class ChatKitSDK {
       streaming,
       headers
     });
-    if (response.status === 401 && this.editorMode !== PLUGIN_EDITOR_MODE) {
+    if (response.status === 401 && this.transport.usesConvoAuthToken) {
       this.failedAiRequestsCount++;
       if (this.failedAiRequestsCount > 2) {
         throw new Error("Too many failed requests from AI Panel");
@@ -18726,88 +19032,6 @@ function clampPercent(value) {
     return 0;
   }
   return Math.min(100, Math.max(0, value));
-}
-const cachedPlatformApisByExtensionId = {};
-function setFirstPartyBootstrapPlatformApi(extensionId, platformApi) {
-  if (platformApi) {
-    cachedPlatformApisByExtensionId[extensionId] = platformApi;
-    return platformApi;
-  }
-  delete cachedPlatformApisByExtensionId[extensionId];
-  return void 0;
-}
-function asFirstPartyBaseApi(api) {
-  if (!api?.platformApi) {
-    throw new Error("platformApi is not available for this first-party extension");
-  }
-  return (
-    /** @type {FirstPartyBaseApi} */
-    api
-  );
-}
-function captureFirstPartyPlatformApiFromWindow(extensionId) {
-  const platformApi = window.UiEditorFirstPartyExtensionsContext?.[extensionId]?.platformApi;
-  return setFirstPartyBootstrapPlatformApi(extensionId, platformApi);
-}
-function getFirstPartyBootstrapPlatformApi(extensionId) {
-  const platformApi = cachedPlatformApisByExtensionId[extensionId] || captureFirstPartyPlatformApiFromWindow(extensionId);
-  if (!platformApi) {
-    throw new Error(`[${extensionId}] platformApi is not available for ${extensionId}`);
-  }
-  return platformApi;
-}
-function getFirstPartyPlatformApi(extensionId, api) {
-  if (api?.platformApi) {
-    return asFirstPartyBaseApi(api).platformApi;
-  }
-  return getFirstPartyBootstrapPlatformApi(extensionId);
-}
-const WIDGETS_EXTENSION_ID = "widgets-panel";
-class WidgetsApi {
-  static async loadPanelConfig() {
-    const response = await WidgetsApi.fetch(`${WIDGETS_PANEL_CONFIG_URL}?useDrafts=${WidgetsApi.isDraftMode()}`, {
-      method: "GET"
-    });
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`Failed to get widgets config: ${response.status} ${errorText}`);
-      throw new Error(`Failed to get widgets config: ${response.status}`);
-    }
-    return response.json();
-  }
-  static async loadWidgetTemplate({ widgetId, jsonConfig, api }) {
-    const response = await WidgetsApi.fetch(WIDGETS_MARKUP_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        widgetId,
-        jsonConfig,
-        useDraft: WidgetsApi.isDraftMode()
-      })
-    }, api);
-    if (!response.ok) {
-      const errorText = response.text();
-      console.error(`Failed to get widgets ${widgetId} config: ${response.status} ${errorText}`);
-      throw new Error(`Failed to get widgets ${widgetId} config: ${response.status}`);
-    }
-    return response.json();
-  }
-  static async getConvoAuthToken(api) {
-    return await WidgetsApi.fetch(CONVO_AUTH_URL, {
-      method: "GET"
-    }, api).then((response) => response.json()).then((data) => data.token);
-  }
-  static getPlatformApi(api) {
-    return getFirstPartyPlatformApi(WIDGETS_EXTENSION_ID, api);
-  }
-  static async fetch(url, init, api) {
-    return WidgetsApi.getPlatformApi(api).fetch(url, init);
-  }
-  static isDraftMode() {
-    return localStorage.getItem("stripoEditorWidgetsDraftMode") === "true";
-  }
 }
 const blockStates = createBlockSessionState({ storageBlockOpen: false });
 const promptSendersByBlock = /* @__PURE__ */ new Map();
@@ -19295,11 +19519,12 @@ class AiPanelUiElementBuilder {
           this.subscribeToMenuState(WidgetsBlockConfigUtils.getBlockUUID(this.getValue()), blockUUID);
           this.chatKitSdk.initPanel({
             domainModelId: blockUUID,
-            threadIdStorageKey: `widgets-thread-id-${blockUUID}`,
+            threadIdStorageKey: this.chatKitSdk.transport.getThreadIdStorageKey(blockUUID),
             metadata: {
               widgetId: WidgetsBlockConfigUtils.getWidgetId(widgetBlockNodeConfig),
               useDraft: WidgetsApi.isDraftMode(),
-              [SETTINGS_CONTROLS_FEATURE]: true
+              [SETTINGS_CONTROLS_FEATURE]: true,
+              ...this.chatKitSdk.transport.getWidgetMetadata(widgetConfig2.name)
             }
           });
         }
@@ -19626,46 +19851,6 @@ class AiPanelUiElementBuilder {
         }
       }
     };
-  }
-}
-class WidgetService {
-  /**
-   * @returns {Promise<boolean>} false when the loaded HTML is not applied because the modification is no longer actual
-   */
-  static async applyWidgetModification({ updatedNodeConfig, widgetConfig: widgetConfig2, documentModifier, node, versionHistoryMessage, api, isActual = () => true }) {
-    const payload = await WidgetsApi.loadWidgetTemplate({
-      widgetId: WidgetsBlockConfigUtils.getWidgetId(updatedNodeConfig),
-      jsonConfig: WidgetsBlockConfigUtils.getJsonConfig(updatedNodeConfig),
-      api
-    });
-    if (!isActual()) {
-      return false;
-    }
-    const widgetInnerHtml = WidgetsMarkupUtils.prepareExternalWidgetMarkup({
-      widgetMarkupString: payload.module,
-      showAmpOnlyForBothMimeTypeView: widgetConfig2.showAmpOnlyForBothMimeTypeView,
-      innerHtml: true
-    });
-    const widgetNodeConfig = WidgetsBlockConfigUtils.updateConfigJsonConfig({
-      jsonConfig: payload.config,
-      currentConfig: node.getNodeConfig()
-    });
-    documentModifier.modifyHtml(node).setHiddenElementState(WidgetsBlockConfigUtils.getHiddenWidgetState(widgetNodeConfig)).setNodeConfig(widgetNodeConfig).setInnerHtml(widgetInnerHtml).apply(new ModificationDescription2(versionHistoryMessage));
-    return true;
-  }
-  static async applyWidgetAmpServiceUrlModification({ ampServiceUrl, widgetConfig: widgetConfig2, documentModifier, node, versionHistoryMessage, api }) {
-    const updatedNodeConfig = WidgetsBlockConfigUtils.updateConfigAmpServiceUrl({
-      ampServiceUrl,
-      currentConfig: node.getNodeConfig()
-    });
-    return await WidgetService.applyWidgetModification({
-      updatedNodeConfig,
-      widgetConfig: widgetConfig2,
-      documentModifier,
-      node,
-      versionHistoryMessage,
-      api
-    });
   }
 }
 const WidgetStorageState = Object.freeze({
@@ -20221,6 +20406,7 @@ const extensionsMap = {
   extensionTextAlignControl,
   extensionStructureAdaptControl,
   imageSizeControlExtension,
+  multiTargetImageSizeExtension,
   customTitleWithPopover,
   extensionMultiplePaddings,
   multipleTextAlignExtension,
