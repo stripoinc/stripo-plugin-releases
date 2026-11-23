@@ -1,4 +1,4 @@
-import{Xd as S,qc as A}from"./chunk-OOEQMFVO.js";import{Il as s,Pk as n,hl as _}from"./chunk-BAJICSZF.js";import{k as t}from"./chunk-L4VYPQQP.js";function E(e){let I=e;for(;I;){let r=getComputedStyle(I).backgroundColor;if(r&&!n(r))return I;I=I.parentElement}return e}var u=/\sue-id="([^"]+)"/g;function p(e){return e.replace(u,"")}function N(e){return S(e.hasClass("esd-hidden-preheader"),e.getAttribute("itemtype")?.toString())}var g=`
+import{Xd as S,qc as A}from"./chunk-CBRA4UZV.js";import{Il as s,Pk as n,hl as _}from"./chunk-BAJICSZF.js";import{k as t}from"./chunk-L4VYPQQP.js";function E(e){let I=e;for(;I;){let r=getComputedStyle(I).backgroundColor;if(r&&!n(r))return I;I=I.parentElement}return e}var u=/\sue-id="([^"]+)"/g;function p(e){return e.replace(u,"")}function N(e){return S(e.hasClass("esd-hidden-preheader"),e.getAttribute("itemtype")?.toString())}var g=`
 Your role is accessibility compliance checker for html email templates.
 
 I'm implementing accessibility testing for my product \u2013 web HTML editor for Email templates.
